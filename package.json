@@ -41,6 +41,7 @@
       "@pretty-cozy/eslint-config/react"
     ],
     "rules": {
+      "react/prop-types": "off",
       "import/no-unresolved": [
         "error",
         {

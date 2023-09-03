@@ -1,8 +1,7 @@
-import "./App.css"
-import { Button } from "~/components/ui/button"
+import { Page } from "./page/Page"
 
 const App = () => {
-  return <Button>Button!</Button>
+  return <Page />
 }
 
 export default App
