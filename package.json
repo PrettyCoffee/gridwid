@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint ./src --ext ts,tsx --max-warnings 0",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "prepare": "cozy-git-hooks install --quiet"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@pretty-cozy/eslint-config": "^0.2.0",
+    "@pretty-cozy/git-hooks": "^0.2.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
@@ -31,8 +33,20 @@
     "rules": {
       "import/no-unresolved": [
         "error",
-        { "ignore": ["^\\/.*\\.(?:png|svg|json)$"] }
+        {
+          "ignore": [
+            "^\\/.*\\.(?:png|svg|json)$"
+          ]
+        }
       ]
     }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "npm run lint:fix"
+    ],
+    "*.{json,md,html}": [
+      "prettier --write"
+    ]
   }
 }

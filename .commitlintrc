@@ -1,0 +1,17 @@
+{
+  "extends": ["@commitlint/config-conventional"],
+  "rules": {
+    "subject-case": [2, "always", "sentence-case"],
+    "scope-case": [1, "always", ["pascal-case", "lower-case"]],
+    "type-enum": [2, "always", [
+      "feat",
+      "fix",
+      "docs",
+      "refactor",
+      "revert",
+      "perf",
+      "chore"
+      ]
+    ]
+  }
+}
