@@ -12,12 +12,19 @@
     "prepare": "cozy-git-hooks install --quiet"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "lucide-react": "^0.274.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@pretty-cozy/eslint-config": "^0.2.0",
     "@pretty-cozy/git-hooks": "^0.2.0",
+    "@types/node": "^20.5.9",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
@@ -38,7 +45,8 @@
         "error",
         {
           "ignore": [
-            "^\\/.*\\.(?:png|svg|json)$"
+            "^\\/.*\\.(?:png|svg|json)$",
+            "~\\/.*"
           ]
         }
       ]
