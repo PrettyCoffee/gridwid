@@ -1,3 +1,5 @@
+import { forwardRef } from "react"
+
 import { LucideIcon } from "lucide-react"
 
 import { Button } from "~/components/ui/button"
@@ -24,17 +26,17 @@ export interface IconButtonProps extends ClassNameProp {
   onClick?: () => void
 }
 
-export const IconButton = ({
-  icon: Icon,
-  className,
-  ...delegated
-}: IconButtonProps) => (
-  <Button
-    variant="ghost"
-    size="icon"
-    className={cn("relative", pressEffect, className)}
-    {...delegated}
-  >
-    <Icon absoluteStrokeWidth className="h-5" />
-  </Button>
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+  ({ icon: Icon, className, ...delegated }, ref) => (
+    <Button
+      ref={ref}
+      variant="ghost"
+      size="icon"
+      className={cn("relative", pressEffect, className)}
+      {...delegated}
+    >
+      <Icon absoluteStrokeWidth className="h-5" />
+    </Button>
+  )
 )
+IconButton.displayName = "IconButton"

@@ -1,12 +1,17 @@
-import { PropsWithChildren } from "react"
+import { PropsWithChildren, forwardRef } from "react"
 
-const Section = ({ children }: PropsWithChildren) => {
-  return (
-    <div className="flex-1 flex items-center justify-center first-of-type:justify-start last-of-type:justify-end">
-      {children}
-    </div>
-  )
-}
+const Section = forwardRef<HTMLDivElement, PropsWithChildren>(
+  ({ children }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className="flex-1 flex items-center justify-center first-of-type:justify-start last-of-type:justify-end"
+      >
+        {children}
+      </div>
+    )
+  }
+)
 
 const Root = ({ children }: PropsWithChildren) => {
   return (

@@ -1,21 +1,10 @@
 import { useEffect, useRef, useState } from "react"
 
-import {
-  Circle,
-  Plus,
-  MoreVertical,
-  Banana,
-  Bird,
-  Bell,
-  Sticker,
-  Flame,
-  Ghost,
-} from "lucide-react"
+import { Circle, Plus, Bell } from "lucide-react"
 
 import { Grid, GridSize } from "~/components/Grid"
 import { IconButton } from "~/components/IconButton"
 import { TaskBar } from "~/components/TaskBar"
-import { ThemeToggle } from "~/components/ThemeToggle"
 import { Button } from "~/components/ui/button"
 import {
   Card,
@@ -25,7 +14,8 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card"
-import { Separator } from "~/components/ui/separator"
+
+import { Menu } from "./Menu"
 
 const Clock = () => {
   const [date, setDate] = useState(new Date())
@@ -109,16 +99,7 @@ export const Page = () => (
           <Plus absoluteStrokeWidth className="text-muted-foreground h-5" />
         </Button>
       </TaskBar.Section>
-      <TaskBar.Section>
-        <IconButton icon={MoreVertical} />
-        <ThemeToggle />
-        <Separator orientation="vertical" className="h-5 mx-1" />
-        <IconButton icon={Bird} />
-        <IconButton icon={Banana} />
-        <IconButton icon={Sticker} />
-        <IconButton icon={Flame} />
-        <IconButton icon={Ghost} />
-      </TaskBar.Section>
+      <Menu />
       <TaskBar.Section>
         <Clock />
         <IconButton icon={Bell} />
