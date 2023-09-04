@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react"
 
 import { cn } from "~/lib/utils"
 
-import { ClassNameProp } from "../base/BaseProps"
+import { ClassNameProp } from "./base/BaseProps"
 
 export interface GridSize {
   columns?: number

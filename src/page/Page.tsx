@@ -1,5 +1,20 @@
-import { Grid } from "~/components/grid"
-import { GridSize } from "~/components/grid/Grid"
+import { useEffect, useRef, useState } from "react"
+
+import {
+  Circle,
+  Plus,
+  MoreVertical,
+  Banana,
+  Bird,
+  Bell,
+  Sticker,
+  Flame,
+  Ghost,
+} from "lucide-react"
+
+import { Grid, GridSize } from "~/components/Grid"
+import { IconButton } from "~/components/IconButton"
+import { TaskBar } from "~/components/TaskBar"
 import { Button } from "~/components/ui/button"
 import {
   Card,
@@ -9,6 +24,35 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card"
+import { Separator } from "~/components/ui/separator"
+
+const Clock = () => {
+  const [date, setDate] = useState(new Date())
+  const interval = useRef<NodeJS.Timeout>()
+
+  useEffect(() => {
+    const clear = () => clearInterval(interval.current)
+    if (interval.current) {
+      clear()
+    }
+
+    interval.current = setInterval(() => {
+      setDate(new Date())
+    }, 1000)
+
+    return clear
+  }, [])
+
+  const time = date.toISOString().slice(11, 16)
+  const day = date.toISOString().slice(0, 10)
+
+  return (
+    <div className="mr-2">
+      <div className="text-sm text-end">{time}</div>
+      <div className="text-muted-foreground text-xs text-end">{day}</div>
+    </div>
+  )
+}
 
 const ItemContent = () => (
   <div className="h-full flex flex-col bg-slate-50 dark:bg-slate-950">
@@ -32,17 +76,51 @@ const items: (GridSize & { id: number })[] = [
   { id: 4, columns: 3, rows: 2 },
   { id: 5, columns: 1, rows: 1 },
   { id: 6, columns: 2, rows: 2 },
-  { id: 7, columns: 3, rows: 1 },
+  { id: 7, columns: 3, rows: 2 },
 ]
 
 export const Page = () => (
-  <Grid.Root className="p-2">
-    {items.map(({ id, ...size }) => (
-      <Grid.Item key={id} {...size}>
-        <Card className="w-full h-full overflow-hidden">
-          <ItemContent />
-        </Card>
-      </Grid.Item>
-    ))}
-  </Grid.Root>
+  <div className="flex flex-col h-full">
+    <Grid.Root className="p-2 flex-1 overflow-y-auto">
+      {items.map(({ id, ...size }) => (
+        <Grid.Item key={id} {...size}>
+          <Card className="w-full h-full overflow-hidden">
+            <ItemContent />
+          </Card>
+        </Grid.Item>
+      ))}
+    </Grid.Root>
+    <TaskBar.Root>
+      <TaskBar.Section>
+        <Button variant="ghost" size="icon">
+          <Circle
+            absoluteStrokeWidth
+            className="fill-green-100 text-green-100 h-5"
+          />
+        </Button>
+        <Button variant="ghost" size="icon">
+          <Circle absoluteStrokeWidth className="text-muted-foreground h-5 " />
+        </Button>
+        <Button variant="ghost" size="icon">
+          <Circle absoluteStrokeWidth className="text-muted-foreground h-5 " />
+        </Button>
+        <Button variant="ghost" size="icon">
+          <Plus absoluteStrokeWidth className="text-muted-foreground h-5" />
+        </Button>
+      </TaskBar.Section>
+      <TaskBar.Section>
+        <IconButton icon={MoreVertical} />
+        <Separator orientation="vertical" className="h-5 mx-1" />
+        <IconButton icon={Bird} />
+        <IconButton icon={Banana} />
+        <IconButton icon={Sticker} />
+        <IconButton icon={Flame} />
+        <IconButton icon={Ghost} />
+      </TaskBar.Section>
+      <TaskBar.Section>
+        <Clock />
+        <IconButton icon={Bell} />
+      </TaskBar.Section>
+    </TaskBar.Root>
+  </div>
 )
