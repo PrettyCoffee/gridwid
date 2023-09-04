@@ -1,6 +1,15 @@
 import { useEffect, useRef, useState } from "react"
 
-import { Circle, Plus, Bell } from "lucide-react"
+import {
+  Circle,
+  Plus,
+  Bell,
+  Bird,
+  Sticker,
+  Flame,
+  Banana,
+  Ghost,
+} from "lucide-react"
 
 import { Grid, GridSize } from "~/components/Grid"
 import { IconButton } from "~/components/IconButton"
@@ -14,6 +23,11 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover"
 
 import { Menu } from "./Menu"
 
@@ -38,12 +52,39 @@ const Clock = () => {
   const day = date.toISOString().slice(0, 10)
 
   return (
-    <div className="mr-2">
+    <div>
       <div className="text-sm text-end">{time}</div>
       <div className="text-muted-foreground text-xs text-end">{day}</div>
     </div>
   )
 }
+
+const Notifications = () => (
+  <Popover>
+    <PopoverTrigger asChild>
+      <Button variant="ghost" className="px-2">
+        <Clock />
+        <Bell className="ml-2 h-4 w-4" />
+      </Button>
+    </PopoverTrigger>
+    <PopoverContent
+      align="end"
+      className="w-max flex flex-col gap-1 p-0 -translate-y-1 bg-transparent border-none overflow-auto max-h-[calc(100vh-theme(height.12)-theme(height.2))]"
+    >
+      <Card className="flex gap-2 justify-between p-2">
+        <Button variant="outline">Some</Button>
+        <Button variant="destructive">Content</Button>
+      </Card>
+      <Card className="p-2">
+        <IconButton icon={Bird} />
+        <IconButton icon={Banana} />
+        <IconButton icon={Sticker} />
+        <IconButton icon={Flame} />
+        <IconButton icon={Ghost} />
+      </Card>
+    </PopoverContent>
+  </Popover>
+)
 
 const ItemContent = () => (
   <div className="h-full flex flex-col bg-slate-50 dark:bg-slate-950">
@@ -101,8 +142,7 @@ export const Page = () => (
       </TaskBar.Section>
       <Menu />
       <TaskBar.Section>
-        <Clock />
-        <IconButton icon={Bell} />
+        <Notifications />
       </TaskBar.Section>
     </TaskBar.Root>
   </div>

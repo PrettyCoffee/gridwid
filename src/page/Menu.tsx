@@ -26,7 +26,7 @@ export const Menu = () => (
         <IconButton icon={Ghost} />
       </TaskBar.Section>
     </PopoverAnchor>
-    <PopoverContent className="w-max max-w-xl -translate-y-2">
+    <PopoverContent className="w-max max-w-xl -translate-y-1">
       <ThemeToggle />
     </PopoverContent>
   </Popover>
