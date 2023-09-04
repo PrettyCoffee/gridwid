@@ -3,6 +3,8 @@ import { LucideIcon } from "lucide-react"
 import { Button } from "~/components/ui/button"
 import { cn } from "~/lib/utils"
 
+import { ClassNameProp } from "./base/BaseProps"
+
 const pressEffect = cn(
   "after:block",
   "after:absolute",
@@ -16,18 +18,22 @@ const pressEffect = cn(
   "active:after:opacity-100"
 )
 
-export interface IconButtonProps {
+export interface IconButtonProps extends ClassNameProp {
   icon: LucideIcon
   title?: string
   onClick?: () => void
 }
 
-export const IconButton = ({ icon: Icon, title }: IconButtonProps) => (
+export const IconButton = ({
+  icon: Icon,
+  className,
+  ...delegated
+}: IconButtonProps) => (
   <Button
-    title={title}
     variant="ghost"
     size="icon"
-    className={cn("relative", pressEffect)}
+    className={cn("relative", pressEffect, className)}
+    {...delegated}
   >
     <Icon absoluteStrokeWidth className="h-5" />
   </Button>

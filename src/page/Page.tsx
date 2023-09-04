@@ -15,6 +15,7 @@ import {
 import { Grid, GridSize } from "~/components/Grid"
 import { IconButton } from "~/components/IconButton"
 import { TaskBar } from "~/components/TaskBar"
+import { ThemeToggle } from "~/components/ThemeToggle"
 import { Button } from "~/components/ui/button"
 import {
   Card,
@@ -110,6 +111,7 @@ export const Page = () => (
       </TaskBar.Section>
       <TaskBar.Section>
         <IconButton icon={MoreVertical} />
+        <ThemeToggle />
         <Separator orientation="vertical" className="h-5 mx-1" />
         <IconButton icon={Bird} />
         <IconButton icon={Banana} />
