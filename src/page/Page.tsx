@@ -1,15 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 
-import {
-  Bell,
-  Bird,
-  Sticker,
-  Flame,
-  Banana,
-  Ghost,
-  Circle,
-  Plus,
-} from "lucide-react"
+import { Bell, Bird, Sticker, Flame, Banana, Ghost } from "lucide-react"
 
 import { Grid, GridSize } from "~/components/Grid"
 import { IconButton } from "~/components/IconButton"
@@ -30,6 +21,7 @@ import {
 } from "~/components/ui/popover"
 
 import { Menu } from "./Menu"
+import { Workspaces } from "./Workspaces"
 
 const Clock = () => {
   const [date, setDate] = useState(new Date())
@@ -124,21 +116,7 @@ export const Page = () => (
     </Grid.Root>
     <TaskBar.Root>
       <TaskBar.Section>
-        <Button variant="ghost" size="icon">
-          <Circle
-            absoluteStrokeWidth
-            className="fill-green-100 text-green-100 h-5"
-          />
-        </Button>
-        <Button variant="ghost" size="icon">
-          <Circle absoluteStrokeWidth className="text-muted-foreground h-5 " />
-        </Button>
-        <Button variant="ghost" size="icon">
-          <Circle absoluteStrokeWidth className="text-muted-foreground h-5 " />
-        </Button>
-        <Button variant="ghost" size="icon">
-          <Plus absoluteStrokeWidth className="text-muted-foreground h-5" />
-        </Button>
+        <Workspaces />
       </TaskBar.Section>
       <TaskBar.Section>
         <Menu />
