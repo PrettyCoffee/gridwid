@@ -12,9 +12,10 @@ export const Workspaces = () => (
   >
     <IconButton
       icon={Circle}
+      title="Productivity"
       className="text-highlight-foreground [&>svg]:fill-highlight-foreground"
     />
-    <IconButton icon={Circle} />
-    <IconButton icon={Circle} />
+    <IconButton icon={Circle} title="Work" />
+    <IconButton icon={Circle} title="Homework" />
   </div>
 )

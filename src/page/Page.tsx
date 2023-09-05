@@ -76,11 +76,11 @@ const Notifications = () => (
         <Button variant="destructive">Content</Button>
       </Card>
       <Card className="p-2">
-        <IconButton icon={Bird} />
-        <IconButton icon={Banana} />
-        <IconButton icon={Sticker} />
-        <IconButton icon={Flame} />
-        <IconButton icon={Ghost} />
+        <IconButton icon={Bird} title="Birb" />
+        <IconButton icon={Banana} title="BANANA" />
+        <IconButton icon={Sticker} title="Sticker" />
+        <IconButton icon={Flame} title="Flame" />
+        <IconButton icon={Ghost} title="*BOOOH*" />
       </Card>
       <Card className="p-2">
         <Calendar />
