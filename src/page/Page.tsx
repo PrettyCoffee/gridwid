@@ -40,12 +40,19 @@ const Clock = () => {
     return clear
   }, [])
 
-  const time = date.toISOString().slice(11, 16)
-  const day = date.toISOString().slice(0, 10)
+  const time = date.toLocaleTimeString(undefined, {
+    hour: "2-digit",
+    minute: "2-digit",
+  })
+  const day = date.toLocaleDateString(undefined, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  })
 
   return (
     <div>
-      <div className="text-sm text-end">{time}</div>
+      <div className="text-xs text-end">{time}</div>
       <div className="text-muted-foreground text-xs text-end">{day}</div>
     </div>
   )
