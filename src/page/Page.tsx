@@ -6,6 +6,7 @@ import { Grid, GridSize } from "~/components/Grid"
 import { IconButton } from "~/components/IconButton"
 import { TaskBar } from "~/components/TaskBar"
 import { Button } from "~/components/ui/button"
+import { Calendar } from "~/components/ui/calendar"
 import {
   Card,
   CardContent,
@@ -80,6 +81,9 @@ const Notifications = () => (
         <IconButton icon={Sticker} />
         <IconButton icon={Flame} />
         <IconButton icon={Ghost} />
+      </Card>
+      <Card className="p-2">
+        <Calendar />
       </Card>
     </PopoverContent>
   </Popover>
