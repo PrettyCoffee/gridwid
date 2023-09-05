@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react"
 
 import {
-  Circle,
-  Plus,
   Bell,
   Bird,
   Sticker,
   Flame,
   Banana,
   Ghost,
+  Circle,
+  Plus,
 } from "lucide-react"
 
 import { Grid, GridSize } from "~/components/Grid"
@@ -140,7 +140,9 @@ export const Page = () => (
           <Plus absoluteStrokeWidth className="text-muted-foreground h-5" />
         </Button>
       </TaskBar.Section>
-      <Menu />
+      <TaskBar.Section>
+        <Menu />
+      </TaskBar.Section>
       <TaskBar.Section>
         <Notifications />
       </TaskBar.Section>
