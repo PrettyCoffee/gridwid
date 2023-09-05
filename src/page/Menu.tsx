@@ -1,5 +1,14 @@
 import { PopoverAnchor } from "@radix-ui/react-popover"
-import { MoreVertical, Banana, Bird, Sticker, Flame, Ghost } from "lucide-react"
+import {
+  Bot,
+  Github,
+  LayoutDashboard,
+  MoreVertical,
+  Pilcrow,
+  Sticker,
+  UserCircle2,
+  Users2,
+} from "lucide-react"
 
 import { IconButton } from "~/components/IconButton"
 import { TaskBar } from "~/components/TaskBar"
@@ -19,11 +28,13 @@ export const Menu = () => (
           <IconButton icon={MoreVertical} />
         </PopoverTrigger>
         <Separator orientation="vertical" className="h-5 mx-1" />
-        <IconButton icon={Bird} />
-        <IconButton icon={Banana} />
+        <IconButton icon={UserCircle2} title="User profile" />
+        <IconButton icon={Users2} title="Socials" />
+        <IconButton icon={Pilcrow} title="Markdown notes" />
+        <IconButton icon={Bot} title="ChatGPT" />
+        <IconButton icon={LayoutDashboard} />
+        <IconButton icon={Github} />
         <IconButton icon={Sticker} />
-        <IconButton icon={Flame} />
-        <IconButton icon={Ghost} />
       </TaskBar.Section>
     </PopoverAnchor>
     <PopoverContent className="w-max max-w-xl -translate-y-1">
