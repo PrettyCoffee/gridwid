@@ -20,16 +20,8 @@ import {
 } from "~/components/ui/popover"
 import { GithubUser, GithubRepository, github } from "~/lib/apis/github"
 import { createRange } from "~/lib/createRange"
+import { tomorrow } from "~/lib/datetime"
 import { yaaslSetup } from "~/lib/yaaslSetup"
-
-const tomorrow = () => {
-  const date = new Date()
-  date.setDate(date.getDate() + 1)
-  date.setHours(0)
-  date.setMinutes(0)
-  date.setSeconds(0)
-  return date
-}
 
 yaaslSetup()
 
