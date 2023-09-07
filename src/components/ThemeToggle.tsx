@@ -1,9 +1,8 @@
 import { useEffect } from "react"
 
-import { Sun, MoonStar, SunMoon } from "lucide-react"
-import { atom, derive } from "yaasl/core"
-import { localStorage } from "yaasl/middleware"
-import { useSetAtom, useDerivedValue, useAtomValue } from "yaasl/react"
+import { Sun, MoonStar, SunMoon, LucideIcon } from "lucide-react"
+import { atom, derive, localStorage } from "yaasl"
+import { useAtom, useDerivedValue } from "yaasl/react"
 
 import { IconButton } from "./IconButton"
 
@@ -23,9 +22,6 @@ const displayedMode = derive(({ get }) => {
   return mode === "system" ? getSystemMode() : mode
 })
 
-const useThemeMode = () =>
-  [useDerivedValue(displayedMode), useSetAtom(modeAtom)] as const
-
 export const useApplyThemeMode = () => {
   const mode = useDerivedValue(displayedMode)
 
@@ -42,9 +38,14 @@ const nextMode: Record<ThemeMode, ThemeMode> = {
   light: "system",
 }
 
+const modeIcon: Record<ThemeMode, LucideIcon> = {
+  system: SunMoon,
+  dark: MoonStar,
+  light: Sun,
+}
+
 export const ThemeToggle = () => {
-  const rawMode = useAtomValue(modeAtom)
-  const [mode, setMode] = useThemeMode()
+  const [mode, setMode] = useAtom(modeAtom)
   const next = nextMode[mode]
 
   const toggleMode = () => {
@@ -53,7 +54,7 @@ export const ThemeToggle = () => {
 
   return (
     <IconButton
-      icon={rawMode === "light" ? Sun : rawMode === "dark" ? MoonStar : SunMoon}
+      icon={modeIcon[mode]}
       title={`Set theme to ${next}`}
       onClick={toggleMode}
     />
