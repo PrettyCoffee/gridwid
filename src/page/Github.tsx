@@ -5,18 +5,21 @@ import { atom, localStorage } from "yaasl"
 import { useAtomValue } from "yaasl/react"
 
 import { IconButton } from "~/components/IconButton"
+import { ListItem } from "~/components/ListItem"
 import { Section } from "~/components/Section"
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
-import { buttonVariants } from "~/components/ui/button"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  AvatarSkeleton,
+} from "~/components/ui/avatar"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover"
-import { Skeleton } from "~/components/ui/skeleton"
 import { GithubUser, GithubRepository, github } from "~/lib/apis/github"
-import { noOverflow } from "~/lib/styles"
-import { cn } from "~/lib/utils"
+import { createRange } from "~/lib/createRange"
 import { yaaslSetup } from "~/lib/yaaslSetup"
 
 const tomorrow = () => {
@@ -73,54 +76,29 @@ const useGithubUserRepos = () => {
   return { repos, loadRepos: load }
 }
 
-const EntrySkeleton = () => (
-  <div className="flex flex-col gap-2 px-2 h-12 items-start justify-center">
-    <Skeleton className="w-24 h-4" />
-    <Skeleton className="w-40 h-3" />
-  </div>
-)
-
-interface EntryProps {
-  title: string
-  subtitle: string
-  href: string
-}
-const Entry = ({ title, subtitle, href }: EntryProps) => (
-  <a
-    href={href}
-    className={cn(
-      buttonVariants({ variant: "ghost" }),
-      "flex-col py-0 px-2 h-12 items-start rounded hover:bg-accent"
-    )}
-  >
-    <span className={cn(noOverflow, "text-sm")}>{title}</span>
-    <span className={cn(noOverflow, "text-muted-foreground text-xs")}>
-      {subtitle}
-    </span>
-  </a>
-)
-
+const MAX_DISPLAYED_REPOS = 4
 const RepoList = ({ repos }: { repos: GithubRepository[] | null }) => {
-  if (!repos)
-    return (
-      <>
-        <EntrySkeleton />
-        <EntrySkeleton />
-        <EntrySkeleton />
-        <EntrySkeleton />
-      </>
-    )
+  if (repos == null) {
+    return createRange(MAX_DISPLAYED_REPOS).map(i => (
+      <ListItem.Root key={i}>
+        <ListItem.CaptionSkeleton size="sm" subtitle />
+      </ListItem.Root>
+    ))
+  }
 
   return (
     <>
-      {repos.slice(0, 4).map(({ full_name, description, html_url }) => (
-        <Entry
-          key={full_name}
-          title={full_name}
-          subtitle={description}
-          href={html_url}
-        />
-      ))}
+      {repos
+        .slice(0, MAX_DISPLAYED_REPOS)
+        .map(({ full_name, description, html_url }) => (
+          <ListItem.Root key={full_name} href={html_url}>
+            <ListItem.Caption
+              title={full_name}
+              subtitle={description}
+              size="sm"
+            />
+          </ListItem.Root>
+        ))}
     </>
   )
 }
@@ -128,34 +106,23 @@ const RepoList = ({ repos }: { repos: GithubRepository[] | null }) => {
 const UserInfo = ({ user }: { user: GithubUser | null }) => {
   if (user == null) {
     return (
-      <div className="flex gap-4 p-2">
-        <Skeleton className="rounded-full h-12 w-12" />
-        <div className="flex flex-col justify-center gap-2">
-          <Skeleton className="w-24 h-4" />
-          <Skeleton className="w-40 h-3" />
-        </div>
-      </div>
+      <ListItem.Root>
+        <AvatarSkeleton />
+        <ListItem.CaptionSkeleton size="md" subtitle />
+      </ListItem.Root>
     )
   }
 
   return (
-    <a
-      href={user.html_url}
-      className="flex items-center gap-3 px-2 py-1 hover:bg-accent rounded"
-    >
+    <ListItem.Root href={user.html_url}>
       <Avatar>
         <AvatarImage src={user.avatar_url} alt="github profile avatar" />
         <AvatarFallback>
           <span className="text-xs">{user.name[0] ?? "NA"}</span>
         </AvatarFallback>
       </Avatar>
-      <div className={cn(noOverflow, "flex flex-col justify-center")}>
-        <div className={noOverflow}>{user.name}</div>
-        <div className={cn(noOverflow, "text-muted-foreground text-sm")}>
-          {user.bio}
-        </div>
-      </div>
-    </a>
+      <ListItem.Caption title={user.name} subtitle={user.bio} />
+    </ListItem.Root>
   )
 }
 
