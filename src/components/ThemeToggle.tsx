@@ -4,12 +4,16 @@ import { Sun, MoonStar, SunMoon, LucideIcon } from "lucide-react"
 import { atom, derive, localStorage } from "yaasl"
 import { useAtom, useDerivedValue } from "yaasl/react"
 
+import { yaaslSetup } from "~/lib/yaaslSetup"
+
 import { IconButton } from "./IconButton"
 
 const getSystemMode = () =>
   window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 
 type ThemeMode = "dark" | "light" | "system"
+
+yaaslSetup()
 
 const modeAtom = atom<ThemeMode>({
   name: "theme-mode",
