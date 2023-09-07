@@ -33,13 +33,13 @@ const tomorrow = () => {
 
 yaaslSetup()
 
-const githubProfile = atom<GithubUser | null>({
+export const githubProfile = atom<GithubUser | null>({
   defaultValue: null,
   name: "github-profile",
   middleware: [localStorage({ expiresAt: tomorrow() })],
 })
 
-const githubUserRepos = atom<GithubRepository[] | null>({
+export const githubUserRepos = atom<GithubRepository[] | null>({
   defaultValue: null,
   name: "github-user-repos",
   middleware: [localStorage({ expiresAt: tomorrow() })],

@@ -7,6 +7,7 @@ import {
   Users2,
   Bot,
   LayoutDashboard,
+  RefreshCw,
 } from "lucide-react"
 
 import { IconButton } from "~/components/IconButton"
@@ -18,7 +19,7 @@ import {
 } from "~/components/ui/popover"
 import { Separator } from "~/components/ui/separator"
 
-import { GithubOverview } from "./Github"
+import { GithubOverview, githubProfile, githubUserRepos } from "./Github"
 
 export const Menu = () => (
   <Popover>
@@ -39,6 +40,14 @@ export const Menu = () => (
     </PopoverAnchor>
     <PopoverContent className="w-max max-w-xl mb-1">
       <ThemeToggle />
+      <IconButton
+        icon={RefreshCw}
+        title="Refresh fetched data"
+        onClick={() => {
+          githubProfile.set(null)
+          githubUserRepos.set(null)
+        }}
+      />
     </PopoverContent>
   </Popover>
 )
