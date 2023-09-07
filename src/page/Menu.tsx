@@ -43,6 +43,7 @@ export const Menu = () => (
       <IconButton
         icon={RefreshCw}
         title="Refresh fetched data"
+        clickAnimation="animate-spin-once"
         onClick={() => {
           githubProfile.set(null)
           githubUserRepos.set(null)
