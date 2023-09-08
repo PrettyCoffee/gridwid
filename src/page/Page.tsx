@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { Bell, Bird, Sticker, Flame, Banana, Ghost } from "lucide-react"
 
 import { Grid, GridSize } from "~/components/Grid"
+import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
 import { TaskBar } from "~/components/TaskBar"
 import { Button } from "~/components/ui/button"
@@ -62,9 +63,9 @@ const Clock = () => {
 const Notifications = () => (
   <Popover>
     <PopoverTrigger asChild>
-      <Button variant="ghost" className="px-2">
+      <Button variant="ghost" className="px-2 gap-2">
         <Clock />
-        <Bell className="ml-2 h-4 w-4" />
+        <Icon icon={Bell} size="sm" />
       </Button>
     </PopoverTrigger>
     <PopoverContent
