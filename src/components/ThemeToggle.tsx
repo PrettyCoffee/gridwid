@@ -1,8 +1,13 @@
 import { useEffect } from "react"
 
 import { Sun, MoonStar, SunMoon, LucideIcon } from "lucide-react"
-import { atom, derive, localStorage } from "yaasl"
-import { useAtom, useDerivedValue } from "yaasl/react"
+import {
+  atom,
+  derive,
+  localStorage,
+  useAtom,
+  useDerivedValue,
+} from "yaasl/react"
 
 import { yaaslSetup } from "~/lib/yaaslSetup"
 
