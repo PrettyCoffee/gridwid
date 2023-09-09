@@ -4,6 +4,8 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "~/lib/utils"
 
+import { TitleTooltip } from "./tooltip"
+
 const badgeVariants = cva(
   "inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {
@@ -26,11 +28,15 @@ const badgeVariants = cva(
 
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {}
+    VariantProps<typeof badgeVariants> {
+  title?: string
+}
 
-const Badge = ({ className, variant, ...props }: BadgeProps) => {
+const Badge = ({ className, variant, title, ...props }: BadgeProps) => {
   return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+    <TitleTooltip asChild title={title}>
+      <div className={cn(badgeVariants({ variant }), className)} {...props} />
+    </TitleTooltip>
   )
 }
 
