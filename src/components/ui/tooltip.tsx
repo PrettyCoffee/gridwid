@@ -4,6 +4,8 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "~/lib/utils"
 
+import { TitleProp } from "../base/BaseProps"
+
 const TooltipProvider = TooltipPrimitive.Provider
 
 const TooltipPortal = TooltipPrimitive.Portal
@@ -28,10 +30,28 @@ const TooltipContent = React.forwardRef<
 ))
 TooltipContent.displayName = TooltipPrimitive.Content.displayName
 
+type AsChildProp = Pick<TooltipPrimitive.TooltipTriggerProps, "asChild">
+const TitleTooltip = ({
+  title,
+  asChild,
+  children,
+}: React.PropsWithChildren<TitleProp & AsChildProp>) =>
+  !title ? (
+    children
+  ) : (
+    <Tooltip>
+      <TooltipTrigger asChild={asChild}>{children}</TooltipTrigger>
+      <TooltipPortal>
+        <TooltipContent>{title}</TooltipContent>
+      </TooltipPortal>
+    </Tooltip>
+  )
+
 export {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
   TooltipPortal,
   TooltipProvider,
+  TitleTooltip,
 }
