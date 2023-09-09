@@ -5,10 +5,11 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { focusRing, hover, noOverflow, press } from "~/lib/styles"
 import { cn } from "~/lib/utils"
 
+import { ClassNameProp } from "./base/BaseProps"
 import { Polymorphic, PolymorphicProps } from "./Polymorphic"
 import { Skeleton } from "./ui/skeleton"
 
-interface ListItemRootProps {
+interface ListItemRootProps extends ClassNameProp {
   href?: string
   onClick?: () => void
 }
@@ -28,15 +29,25 @@ const listRoot = cva(
 const splitElementProps = ({
   href,
   onClick,
+  className,
 }: ListItemRootProps):
   | PolymorphicProps<"a">
   | PolymorphicProps<"button">
   | PolymorphicProps<"div"> =>
   href
-    ? { as: "a", href, onClick, className: listRoot({ clickable: true }) }
+    ? {
+        as: "a",
+        href,
+        onClick,
+        className: listRoot({ clickable: true, className }),
+      }
     : onClick
-    ? { as: "button", onClick, className: listRoot({ clickable: true }) }
-    : { as: "div", className: listRoot({ clickable: false }) }
+    ? {
+        as: "button",
+        onClick,
+        className: listRoot({ clickable: true, className }),
+      }
+    : { as: "div", className: listRoot({ clickable: false, className }) }
 
 export const ListItemRoot = ({
   children,
