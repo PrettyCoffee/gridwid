@@ -99,11 +99,11 @@ const listCaptionSkeleton = cva(
       size: {
         sm: [
           listCaption({ size: "sm" }),
-          "h-9 gap-2 [&>:first-of-type]:h-3 [&>:last-of-type]:h-2",
+          "gap-2 [&>:first-of-type]:h-3 [&>:last-of-type]:h-2",
         ],
         md: [
           listCaption({ size: "md" }),
-          "h-11 gap-2 [&>:first-of-type]:h-4 [&>:last-of-type]:h-3",
+          "gap-2 [&>:first-of-type]:h-4 [&>:last-of-type]:h-3",
         ],
       },
     },

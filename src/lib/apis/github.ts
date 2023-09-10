@@ -13,13 +13,25 @@ export interface GithubRepository {
   name: string
   full_name: string
   description: string
-  // owner: GithubUser
+  owner: {
+    login: string
+    avatar_url: string
+    html_url: string
+  }
   fork: boolean
   html_url: string
   topics: string[]
   updated_at: string
   pushed_at: string
   homepage: string
+  license: {
+    name: string
+  }
+  language: string
+  forks_count: number
+  watchers_count: number
+  stargazers_count: number
+  open_issues_count: number
 }
 
 const handleResponse = (response: Response) => {

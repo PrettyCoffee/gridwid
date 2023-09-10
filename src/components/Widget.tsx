@@ -20,7 +20,7 @@ const Root = ({ children, className }: PropsWithChildren<ClassNameProp>) => (
 )
 
 interface WidgetHeaderProps extends ClassNameProp {
-  title: string
+  title?: string
 }
 const Header = ({
   title,
@@ -28,9 +28,11 @@ const Header = ({
   className,
 }: PropsWithChildren<WidgetHeaderProps>) => (
   <div className="sticky top-0 h-12 pl-4 pr-1 flex justify-between items-center gap-2 bg-card">
-    <span className={cn(noOverflow, "text-lg font-semibold", className)}>
-      {title}
-    </span>
+    {title && (
+      <span className={cn(noOverflow, "text-lg font-semibold", className)}>
+        {title}
+      </span>
+    )}
     {children}
   </div>
 )

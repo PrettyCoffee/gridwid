@@ -15,6 +15,7 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover"
 import { Widget } from "~/components/Widget"
+import { RepoWidget } from "~/widgets/RepoWidget"
 
 import { Menu } from "./Menu"
 import { Workspaces } from "./Workspaces"
@@ -113,11 +114,15 @@ const items: (GridSize & { id: number })[] = [
 export const Page = () => (
   <div className="flex flex-col h-full">
     <Grid.Root className="p-2 flex-1 overflow-y-auto">
+      <Grid.Item columns={4} rows={5}>
+        <RepoWidget owner="prettycoffee" name="yet-another-generic-startpage" />
+      </Grid.Item>
+      <Grid.Item columns={4} rows={5}>
+        <RepoWidget owner="shadcn" name="ui" />
+      </Grid.Item>
       {items.map(({ id, ...size }) => (
         <Grid.Item key={id} {...size}>
-          <Card className="w-full h-full overflow-hidden">
-            <ItemContent />
-          </Card>
+          <ItemContent />
         </Grid.Item>
       ))}
     </Grid.Root>
