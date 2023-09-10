@@ -4,7 +4,7 @@ import { Button } from "~/components/ui/button"
 
 import { ClassNameProp } from "./base/BaseProps"
 import { Icon, IconProp } from "./Icon"
-import { TitleTooltip } from "./ui/tooltip"
+import { TitleTooltip, TitleTooltipProps } from "./ui/tooltip"
 
 type ButtonClick = MouseEventHandler<HTMLButtonElement>
 
@@ -12,10 +12,11 @@ export interface IconButtonProps extends ClassNameProp, IconProp {
   title: string
   onClick?: ButtonClick
   clickAnimation?: string
+  titleSide?: TitleTooltipProps["side"]
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ icon, className, title, onClick, clickAnimation, ...delegated }, ref) => {
+  ({ icon, title, onClick, clickAnimation, titleSide, ...delegated }, ref) => {
     const [animate, setAnimate] = useState(false)
 
     const handleClick: ButtonClick = (...args) => {
@@ -24,12 +25,11 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     }
 
     return (
-      <TitleTooltip title={title} asChild>
+      <TitleTooltip title={title} side={titleSide} asChild>
         <Button
           ref={ref}
           variant="ghost"
           size="icon"
-          className={className}
           onAnimationEnd={() => setAnimate(false)}
           onClick={handleClick}
           {...delegated}

@@ -30,19 +30,23 @@ const TooltipContent = React.forwardRef<
 ))
 TooltipContent.displayName = TooltipPrimitive.Content.displayName
 
-type AsChildProp = Pick<TooltipPrimitive.TooltipTriggerProps, "asChild">
+export interface TitleTooltipProps extends TitleProp {
+  asChild?: boolean
+  side?: TooltipPrimitive.TooltipContentProps["side"]
+}
 const TitleTooltip = ({
   title,
   asChild,
+  side,
   children,
-}: React.PropsWithChildren<TitleProp & AsChildProp>) =>
+}: React.PropsWithChildren<TitleTooltipProps>) =>
   !title ? (
     children
   ) : (
     <Tooltip>
       <TooltipTrigger asChild={asChild}>{children}</TooltipTrigger>
       <TooltipPortal>
-        <TooltipContent>{title}</TooltipContent>
+        <TooltipContent side={side}>{title}</TooltipContent>
       </TooltipPortal>
     </Tooltip>
   )
