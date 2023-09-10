@@ -5,6 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "~/lib/utils"
 
+import { Skeleton } from "./skeleton"
 import { TitleTooltip } from "./tooltip"
 import { ClassNameProp, TitleProp } from "../base/BaseProps"
 import { Icon, IconProp } from "../Icon"
@@ -53,4 +54,8 @@ const IconBadge = ({
   </Badge>
 )
 
-export { Badge, IconBadge, badgeVariants }
+const BadgeSkeleton = ({ className }: ClassNameProp) => (
+  <Skeleton className={cn("inline-flex rounded-full w-20 h-6", className)} />
+)
+
+export { Badge, IconBadge, BadgeSkeleton, badgeVariants }
