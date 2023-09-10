@@ -1,10 +1,13 @@
 import * as React from "react"
+import { PropsWithChildren } from "react"
 
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "~/lib/utils"
 
 import { TitleTooltip } from "./tooltip"
+import { ClassNameProp, TitleProp } from "../base/BaseProps"
+import { Icon, IconProp } from "../Icon"
 
 const badgeVariants = cva(
   "inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
@@ -26,11 +29,9 @@ const badgeVariants = cva(
   }
 )
 
-export interface BadgeProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {
-  title?: string
-}
+export type BadgeProps = React.HTMLAttributes<HTMLDivElement> &
+  VariantProps<typeof badgeVariants> &
+  TitleProp
 
 const Badge = ({ className, variant, title, ...props }: BadgeProps) => {
   return (
@@ -40,4 +41,16 @@ const Badge = ({ className, variant, title, ...props }: BadgeProps) => {
   )
 }
 
-export { Badge, badgeVariants }
+export type IconBageProps = IconProp & TitleProp & ClassNameProp
+const IconBadge = ({
+  icon,
+  children,
+  ...delegated
+}: PropsWithChildren<IconBageProps>) => (
+  <Badge variant="secondary" {...delegated}>
+    <Icon icon={icon} size="sm" color="muted" />
+    {children}
+  </Badge>
+)
+
+export { Badge, IconBadge, badgeVariants }
