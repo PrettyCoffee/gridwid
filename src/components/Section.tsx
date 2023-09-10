@@ -1,5 +1,7 @@
 import { PropsWithChildren } from "react"
 
+import { cn } from "~/lib/utils"
+
 import { ClassNameProp } from "./base/BaseProps"
 import { Separator } from "./ui/separator"
 
@@ -12,7 +14,7 @@ export const Section = ({
   children,
   className,
 }: PropsWithChildren<SectionProps>) => (
-  <div className={className}>
+  <div className={cn("[&:not(:last-of-type)]:mb-1", className)}>
     <span className="text-muted-foreground text-sm">{title}</span>
     <Separator className="mb-1" />
     {children}
