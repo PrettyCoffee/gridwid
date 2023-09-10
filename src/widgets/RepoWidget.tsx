@@ -154,21 +154,26 @@ const RepoStats = ({
   open_issues_count,
   pushed_at,
 }: GithubRepository) => (
-  <div className="flex flex-wrap gap-1">
-    <IconBadge icon={Eye} title="Watchers">
-      {watchers_count}
-    </IconBadge>
-    <IconBadge icon={GitFork} title="Forks">
-      {forks_count}
-    </IconBadge>
-    <IconBadge icon={Star} title="Stars">
-      {stargazers_count}
-    </IconBadge>
-    <IconBadge icon={BadgeAlert} title="Open issues">
-      {open_issues_count}
-    </IconBadge>
-    <Badge variant="secondary">Last push: {timeSince(pushed_at)}</Badge>
-  </div>
+  <>
+    <div className="flex flex-wrap gap-1">
+      <IconBadge icon={Eye} title="Watchers">
+        {watchers_count}
+      </IconBadge>
+      <IconBadge icon={GitFork} title="Forks">
+        {forks_count}
+      </IconBadge>
+      <IconBadge icon={Star} title="Stars">
+        {stargazers_count}
+      </IconBadge>
+      <IconBadge icon={BadgeAlert} title="Open issues">
+        {open_issues_count}
+      </IconBadge>
+    </div>
+    <div className="my-1 flex gap-2 items-center">
+      <span className="text-sm text-muted-foreground">Last push:</span>
+      <Badge variant="secondary">{timeSince(pushed_at)}</Badge>
+    </div>
+  </>
 )
 
 const Topics = ({ topics }: GithubRepository) =>
