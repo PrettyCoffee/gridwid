@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 
-import { Bell, Bird, Sticker, Flame, Banana, Ghost } from "lucide-react"
+import { Bell, Bird, Sticker, Flame, Banana, Ghost, X } from "lucide-react"
 
 import { Grid, GridSize } from "~/components/Grid"
 import { Icon } from "~/components/Icon"
@@ -8,19 +8,13 @@ import { IconButton } from "~/components/IconButton"
 import { TaskBar } from "~/components/TaskBar"
 import { Button } from "~/components/ui/button"
 import { Calendar } from "~/components/ui/calendar"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card"
+import { Card } from "~/components/ui/card"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover"
+import { Widget } from "~/components/Widget"
 
 import { Menu } from "./Menu"
 import { Workspaces } from "./Workspaces"
@@ -91,18 +85,19 @@ const Notifications = () => (
 )
 
 const ItemContent = () => (
-  <div className="h-full flex flex-col bg-slate-50 dark:bg-slate-950">
-    <CardHeader>
-      <CardTitle>Create project</CardTitle>
-      <CardDescription>Deploy your new project in one-click.</CardDescription>
-    </CardHeader>
-    <CardContent>Bli bla blub</CardContent>
-    <div className="flex-1" />
-    <CardFooter className="flex justify-between">
+  <Widget.Root>
+    <Widget.Header title="Create project">
+      <IconButton icon={X} title="Close" />
+    </Widget.Header>
+    <Widget.Content className="text-muted-foreground">
+      Deploy your new project in one-click.
+    </Widget.Content>
+    <Widget.Content expand>Bli bla blub</Widget.Content>
+    <Widget.Content className="flex justify-between">
       <Button variant="outline">Cancel</Button>
       <Button>Deploy</Button>
-    </CardFooter>
-  </div>
+    </Widget.Content>
+  </Widget.Root>
 )
 
 const items: (GridSize & { id: number })[] = [
