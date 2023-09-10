@@ -1,7 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 
 import { AvatarFallback } from "@radix-ui/react-avatar"
-import { RefreshCw, GitFork, Eye, Star, BadgeAlert } from "lucide-react"
+import {
+  RefreshCw,
+  GitFork,
+  Eye,
+  Star,
+  BadgeAlert,
+  MoreVertical,
+} from "lucide-react"
 import {
   LocalStorageParser,
   atom,
@@ -9,12 +16,19 @@ import {
   useAtomValue,
 } from "yaasl/react"
 
+import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
 import { Section } from "~/components/Section"
 import { Avatar, AvatarImage, AvatarSkeleton } from "~/components/ui/avatar"
 import { Badge, BadgeSkeleton, IconBadge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu"
 import { Skeleton } from "~/components/ui/skeleton"
 import { Widget } from "~/components/Widget"
 import { GithubRepository, github } from "~/lib/apis/github"
@@ -96,7 +110,7 @@ const RepoWidgetSkeleton = () => (
     <Widget.Header>
       <Skeleton className="w-40 h-4" />
       <IconButton
-        icon={RefreshCw}
+        icon={MoreVertical}
         title="Refresh repository widget"
         clickAnimation="animate-spin-once"
       />
@@ -199,6 +213,24 @@ const Info = ({ owner, description, html_url, homepage }: GithubRepository) => (
   </>
 )
 
+const WidgetSettings = ({ name, owner }: RepoWidgetProps) => (
+  <DropdownMenu>
+    <DropdownMenuTrigger asChild>
+      <IconButton
+        icon={MoreVertical}
+        title="Widget settings"
+        titleSide="left"
+      />
+    </DropdownMenuTrigger>
+    <DropdownMenuContent align="end">
+      <DropdownMenuItem onClick={() => removeRepo(owner, name)}>
+        <Icon icon={RefreshCw} size="sm" className="mr-2" />
+        Refresh
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+)
+
 interface RepoWidgetProps {
   owner: string
   name: string
@@ -227,12 +259,7 @@ export const RepoWidget = ({ owner, name }: RepoWidgetProps) => {
   return (
     <Widget.Root>
       <Widget.Header title={repo.full_name}>
-        <IconButton
-          icon={RefreshCw}
-          title="Refresh repository widget"
-          clickAnimation="animate-spin-once"
-          onClick={() => removeRepo(owner, name)}
-        />
+        <WidgetSettings owner={owner} name={name} />
       </Widget.Header>
       <Widget.Content>
         <Section title="Info">
