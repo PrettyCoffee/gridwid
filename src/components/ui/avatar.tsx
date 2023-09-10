@@ -5,6 +5,7 @@ import * as AvatarPrimitive from "@radix-ui/react-avatar"
 import { cn } from "~/lib/utils"
 
 import { Skeleton } from "./skeleton"
+import { ClassNameProp } from "../base/BaseProps"
 
 const avatarCircle = cn(
   "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full"
@@ -48,6 +49,8 @@ const AvatarFallback = React.forwardRef<
 ))
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
-const AvatarSkeleton = () => <Skeleton className={avatarCircle} />
+const AvatarSkeleton = ({ className }: ClassNameProp) => (
+  <Skeleton className={cn(avatarCircle, className)} />
+)
 
 export { Avatar, AvatarImage, AvatarFallback, AvatarSkeleton }
