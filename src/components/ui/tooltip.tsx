@@ -4,7 +4,7 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "~/lib/utils"
 
-import { TitleProp } from "../base/BaseProps"
+import { AsChildProp, TitleProp } from "../base/BaseProps"
 
 const TooltipProvider = TooltipPrimitive.Provider
 
@@ -30,8 +30,7 @@ const TooltipContent = React.forwardRef<
 ))
 TooltipContent.displayName = TooltipPrimitive.Content.displayName
 
-export interface TitleTooltipProps extends TitleProp {
-  asChild?: boolean
+export interface TitleTooltipProps extends TitleProp, AsChildProp {
   side?: TooltipPrimitive.TooltipContentProps["side"]
 }
 const TitleTooltip = ({

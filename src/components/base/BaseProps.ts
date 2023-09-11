@@ -5,3 +5,7 @@ export interface ClassNameProp {
 export interface TitleProp {
   title?: string
 }
+
+export interface AsChildProp {
+  asChild?: boolean
+}
