@@ -18,7 +18,7 @@ const icon = cva("", {
       accent: "text-accent-foreground",
       muted: "text-muted-foreground",
       highlight: "text-highlight-foreground",
-      destructive: "text-destructive",
+      destructive: "text-destructive-foreground",
     },
   },
   defaultVariants: {
