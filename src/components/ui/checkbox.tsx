@@ -5,7 +5,7 @@ import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 import { cva, VariantProps } from "class-variance-authority"
 import { Check } from "lucide-react"
 
-import { press } from "~/lib/styles"
+import { noOverflow, press } from "~/lib/styles"
 import { cn } from "~/lib/utils"
 
 import { ClassNameProp } from "../base/BaseProps"
@@ -57,6 +57,7 @@ export interface CheckboxWithLabelProps
   label: string
   checked: boolean
   onChange: Dispatch<boolean>
+  noWrap?: boolean
 }
 const CheckboxWithLabel = ({
   checked,
@@ -64,11 +65,13 @@ const CheckboxWithLabel = ({
   onChange,
   className,
   size,
+  noWrap,
 }: CheckboxWithLabelProps) => (
   <label
     className={cn(
-      "flex items-center cursor-pointer rounded hover:bg-accent",
+      "pr-1 flex cursor-pointer rounded hover:bg-accent",
       press,
+      noWrap && noOverflow,
       className
     )}
   >
@@ -77,7 +80,12 @@ const CheckboxWithLabel = ({
       checked={checked}
       onCheckedChange={() => onChange(!checked)}
     />
-    <Text size={size === "compact" ? "sm" : "md"} color="current">
+    <Text
+      className="pt-2 pb-1 break-words"
+      size={size === "compact" ? "sm" : "md"}
+      color="current"
+      noOverflow={noWrap}
+    >
       {label}
     </Text>
   </label>
