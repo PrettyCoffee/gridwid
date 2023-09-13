@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 
-import { Bell, Bird, Sticker, Flame, Banana, Ghost, X } from "lucide-react"
+import { Bell, Bird, Sticker, Flame, Banana, Ghost } from "lucide-react"
 
-import { Grid, GridSize } from "~/components/Grid"
+import { Grid } from "~/components/Grid"
 import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
 import { TaskBar } from "~/components/TaskBar"
@@ -14,7 +14,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover"
-import { Widget } from "~/components/Widget"
 import { RepoWidget } from "~/widgets/RepoWidget"
 import { TaskListWidget } from "~/widgets/TaskListWidget"
 
@@ -86,32 +85,6 @@ const Notifications = () => (
   </Popover>
 )
 
-const ItemContent = () => (
-  <Widget.Root>
-    <Widget.Header title="Create project">
-      <IconButton icon={X} title="Close" />
-    </Widget.Header>
-    <Widget.Content className="text-muted-foreground">
-      Deploy your new project in one-click.
-    </Widget.Content>
-    <Widget.Content expand>Bli bla blub</Widget.Content>
-    <Widget.Content className="flex justify-between">
-      <Button variant="outline">Cancel</Button>
-      <Button>Deploy</Button>
-    </Widget.Content>
-  </Widget.Root>
-)
-
-const items: (GridSize & { id: number })[] = [
-  { id: 1, columns: 3, rows: 3 },
-  { id: 2, columns: 3, rows: 4 },
-  { id: 3, columns: 1, rows: 1 },
-  { id: 4, columns: 3, rows: 2 },
-  { id: 5, columns: 1, rows: 1 },
-  { id: 6, columns: 2, rows: 2 },
-  { id: 7, columns: 3, rows: 2 },
-]
-
 export const Page = () => (
   <div className="flex flex-col h-full">
     <Grid.Root className="p-2 flex-1 overflow-y-auto">
@@ -124,11 +97,6 @@ export const Page = () => (
       <Grid.Item columns={4} rows={5}>
         <RepoWidget owner="shadcn" name="ui" />
       </Grid.Item>
-      {items.map(({ id, ...size }) => (
-        <Grid.Item key={id} {...size}>
-          <ItemContent />
-        </Grid.Item>
-      ))}
     </Grid.Root>
     <TaskBar.Root>
       <TaskBar.Section>
