@@ -1,6 +1,13 @@
 import { Dispatch, useCallback, useState } from "react"
 
-import { CheckCheck, MoreVertical, Plus, Trash } from "lucide-react"
+import {
+  CheckCheck,
+  CopyCheck,
+  CopyMinus,
+  MoreVertical,
+  Plus,
+  Trash,
+} from "lucide-react"
 import { atom, localStorage, useAtomValue } from "yaasl/react"
 
 import { Icon } from "~/components/Icon"
@@ -126,6 +133,25 @@ const AddItem = ({ onAdd }: AddItemProps) => {
   )
 }
 
+const checkAll = (id: string, checked: boolean) => {
+  tasksAtom.set(allTasks => {
+    const tasks = allTasks[id]
+    if (!tasks) return allTasks
+    return {
+      ...allTasks,
+      [id]: tasks.map(task => ({ ...task, checked })),
+    }
+  })
+}
+
+const removeAll = (id: string) => {
+  tasksAtom.set(allTasks => {
+    const tasks = allTasks[id]
+    if (!tasks) return allTasks
+    return removeKeyFromObject(allTasks, id)
+  })
+}
+
 const removeAllChecked = (id: string) => {
   tasksAtom.set(allTasks => {
     const tasks = allTasks[id]
@@ -146,10 +172,10 @@ const removeAllChecked = (id: string) => {
 
 /** TODO: Settings
   Actions
-    - Check all
-    - Uncheck all
-    - Delete all
-    - Delete all checked
+    x Check all
+    x Uncheck all
+    x Delete all
+    X Delete all checked
   Behavior
     - [ ] hide checked
     - [ ] delete when checked
@@ -171,7 +197,23 @@ const TaskListSettings = ({ id }: { id: string }) => (
     titleSide="left"
     items={[
       {
-        label: "Delete all checked",
+        label: "Select all",
+        icon: CopyCheck,
+        onClick: () => checkAll(id, true),
+      },
+      {
+        label: "Unselect all",
+        icon: CopyMinus,
+        onClick: () => checkAll(id, false),
+      },
+      {
+        label: "Delete all",
+        icon: Trash,
+        iconColor: "destructive",
+        onClick: () => removeAll(id),
+      },
+      {
+        label: "Delete all selected",
         icon: Trash,
         iconColor: "destructive",
         onClick: () => removeAllChecked(id),
@@ -213,11 +255,7 @@ const TaskItem = ({
 const NoTasks = () => (
   <div className="h-full w-full flex flex-col gap-4 items-center justify-center">
     <Icon icon={CheckCheck} color="muted" className="h-20 w-20" />
-    <Text color="muted">
-      There are no tasks right now.
-      <br />
-      Add some!
-    </Text>
+    <Text color="muted">There is nothing to do!</Text>
   </div>
 )
 
