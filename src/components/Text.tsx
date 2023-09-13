@@ -18,6 +18,7 @@ const text = cva("p-0 m-0", {
     size: {
       xs: "text-xs",
       sm: "text-sm",
+      md: "text-md",
       lg: "text-lg",
       xl: "text-xl",
     },
@@ -30,6 +31,7 @@ const text = cva("p-0 m-0", {
       true: noOverflow,
     },
     color: {
+      current: "text-current",
       default: "text-foreground",
       primary: "text-primary-foreground",
       muted: "text-muted-foreground",

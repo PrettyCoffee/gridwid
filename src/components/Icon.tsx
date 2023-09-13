@@ -16,6 +16,7 @@ const icon = cva("", {
       default: "text-foreground",
       current: "text-current",
       accent: "text-accent-foreground",
+      primary: "text-primary-foreground",
       muted: "text-muted-foreground",
       highlight: "text-highlight-foreground",
       destructive: "text-destructive-foreground",
