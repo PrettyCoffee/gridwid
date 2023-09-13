@@ -16,19 +16,13 @@ import {
   useAtomValue,
 } from "yaasl/react"
 
-import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
+import { MenuButton } from "~/components/MenuButton"
 import { Section } from "~/components/Section"
 import { Avatar, AvatarImage, AvatarSkeleton } from "~/components/ui/avatar"
 import { Badge, BadgeSkeleton, IconBadge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu"
 import { Skeleton } from "~/components/ui/skeleton"
 import { Widget } from "~/components/Widget"
 import { GithubRepository, github } from "~/lib/apis/github"
@@ -55,7 +49,7 @@ type RepoList = Map<string, GithubRepository>
 yaaslSetup()
 const repoWidgetRepos = atom<RepoList>({
   defaultValue: new Map(),
-  name: "repo-widget-repos",
+  name: "repo-widget",
   middleware: [localStorage({ expiresAt: tomorrow(), parser: mapParser })],
 })
 
@@ -219,21 +213,18 @@ const Info = ({ owner, description, html_url, homepage }: GithubRepository) => (
 )
 
 const WidgetSettings = ({ name, owner }: RepoWidgetProps) => (
-  <DropdownMenu>
-    <DropdownMenuTrigger asChild>
-      <IconButton
-        icon={MoreVertical}
-        title="Widget settings"
-        titleSide="left"
-      />
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="end">
-      <DropdownMenuItem onClick={() => removeRepo(owner, name)}>
-        <Icon icon={RefreshCw} size="sm" className="mr-2" />
-        Refresh
-      </DropdownMenuItem>
-    </DropdownMenuContent>
-  </DropdownMenu>
+  <MenuButton
+    icon={MoreVertical}
+    title="Widget settings"
+    titleSide="left"
+    items={[
+      {
+        label: "Refresh",
+        icon: RefreshCw,
+        onClick: () => removeRepo(owner, name),
+      },
+    ]}
+  />
 )
 
 interface RepoWidgetProps {
