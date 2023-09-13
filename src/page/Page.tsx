@@ -16,6 +16,7 @@ import {
 } from "~/components/ui/popover"
 import { Widget } from "~/components/Widget"
 import { RepoWidget } from "~/widgets/RepoWidget"
+import { TaskListWidget } from "~/widgets/TaskListWidget"
 
 import { Menu } from "./Menu"
 import { Workspaces } from "./Workspaces"
@@ -114,6 +115,9 @@ const items: (GridSize & { id: number })[] = [
 export const Page = () => (
   <div className="flex flex-col h-full">
     <Grid.Root className="p-2 flex-1 overflow-y-auto">
+      <Grid.Item columns={4} rows={5}>
+        <TaskListWidget id="123456" title="Gridwid Tasks" />
+      </Grid.Item>
       <Grid.Item columns={4} rows={5}>
         <RepoWidget owner="prettycoffee" name="yet-another-generic-startpage" />
       </Grid.Item>
