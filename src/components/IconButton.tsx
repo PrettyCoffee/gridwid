@@ -13,10 +13,14 @@ export interface IconButtonProps extends ClassNameProp, IconProp {
   onClick?: ButtonClick
   clickAnimation?: string
   titleSide?: TitleTooltipProps["side"]
+  compact?: boolean
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ icon, title, onClick, clickAnimation, titleSide, ...delegated }, ref) => {
+  (
+    { icon, title, onClick, clickAnimation, titleSide, compact, ...delegated },
+    ref
+  ) => {
     const [animate, setAnimate] = useState(false)
 
     const handleClick: ButtonClick = (...args) => {
@@ -29,14 +33,14 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         <Button
           ref={ref}
           variant="ghost"
-          size="icon"
+          size={compact ? "compactIcon" : "icon"}
           onAnimationEnd={() => setAnimate(false)}
           onClick={handleClick}
           {...delegated}
         >
           <Icon
             icon={icon}
-            size="md"
+            size={compact ? "sm" : "md"}
             color="current"
             className={animate ? clickAnimation : ""}
           />
