@@ -1,5 +1,5 @@
 import { VariantProps, cva } from "class-variance-authority"
-import { LucideIcon } from "lucide-react"
+import { LucideIcon, LucideProps } from "lucide-react"
 
 import { cn } from "~/lib/utils"
 
@@ -32,8 +32,20 @@ export interface IconProp {
   icon: LucideIcon
 }
 
-export type IconProps = IconProp & ClassNameProp & VariantProps<typeof icon>
+export type IconProps = IconProp &
+  ClassNameProp &
+  VariantProps<typeof icon> &
+  Pick<LucideProps, "strokeWidth">
 
-export const Icon = ({ icon: Icon, className, ...styles }: IconProps) => (
-  <Icon className={cn(icon(styles), className)} absoluteStrokeWidth />
+export const Icon = ({
+  icon: Icon,
+  className,
+  strokeWidth,
+  ...styles
+}: IconProps) => (
+  <Icon
+    className={cn(icon(styles), className)}
+    absoluteStrokeWidth={strokeWidth == null}
+    strokeWidth={strokeWidth}
+  />
 )
