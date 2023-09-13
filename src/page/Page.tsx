@@ -88,8 +88,11 @@ const Notifications = () => (
 export const Page = () => (
   <div className="flex flex-col h-full">
     <Grid.Root className="p-2 flex-1 overflow-y-auto">
-      <Grid.Item columns={4} rows={5}>
-        <TaskListWidget id="123456" title="Gridwid Tasks" />
+      <Grid.Item columns={4} rows={4}>
+        <TaskListWidget id="1" title="Task list test" />
+      </Grid.Item>
+      <Grid.Item columns={5} rows={6}>
+        <TaskListWidget id="2" title="Gridwid Tasks" />
       </Grid.Item>
       <Grid.Item columns={4} rows={5}>
         <RepoWidget owner="prettycoffee" name="yet-another-generic-startpage" />
