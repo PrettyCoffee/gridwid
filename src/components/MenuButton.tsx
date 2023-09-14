@@ -13,7 +13,8 @@ import {
 interface MenuItem extends Partial<IconProp> {
   label: string
   iconColor?: IconProps["color"]
-  onClick?: React.MouseEventHandler<HTMLDivElement>
+  keepOpen?: boolean
+  onClick?: () => void
 }
 
 interface MenuItemGroup {
@@ -29,8 +30,20 @@ interface MenuButtonProps
 const isItemGroup = (item: MenuItem | MenuItemGroup): item is MenuItemGroup =>
   "items" in item
 
-const MenuButtonItem = ({ icon, iconColor, label, onClick }: MenuItem) => (
-  <DropdownMenuItem onClick={onClick} className="flex gap-2">
+const MenuButtonItem = ({
+  icon,
+  iconColor,
+  label,
+  onClick,
+  keepOpen,
+}: MenuItem) => (
+  <DropdownMenuItem
+    className="flex gap-2"
+    onClick={e => {
+      if (keepOpen) e.preventDefault()
+      onClick?.()
+    }}
+  >
     {icon && <Icon icon={icon} color={iconColor} size="sm" />}
     {label}
   </DropdownMenuItem>

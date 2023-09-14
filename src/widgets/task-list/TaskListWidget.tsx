@@ -133,6 +133,12 @@ const removeAllChecked = (id: string) =>
     - [ ] force one line when checked
  */
 
+const sortIcons = {
+  label: { asc: ArrowDownAZ, desc: ArrowUpAZ },
+  checked: { asc: ArrowDown01, desc: ArrowUp01 },
+  createdAt: { asc: ArrowDown01, desc: ArrowUp01 },
+}
+
 const TaskListMenu = ({
   id,
   settings,
@@ -146,6 +152,8 @@ const TaskListMenu = ({
     const order = sort?.key === key && sort.order === "asc" ? "desc" : "asc"
     taskListSettings.setOption(id, "sort", { key: key, order })
   }
+  const getKey = (key: keyof typeof sortIcons) =>
+    sort?.key !== key ? undefined : sortIcons[key][sort.order]
 
   return (
     <MenuButton
@@ -184,43 +192,22 @@ const TaskListMenu = ({
           label: "Sort",
           items: [
             {
-              label: "Alphabetically",
-              icon:
-                sort?.key !== "label"
-                  ? undefined
-                  : sort.order === "desc"
-                  ? ArrowUpAZ
-                  : ArrowDownAZ,
-              onClick: e => {
-                e.preventDefault()
-                changeSort("label")
-              },
+              label: "Checked",
+              icon: getKey("checked"),
+              keepOpen: true,
+              onClick: () => changeSort("checked"),
             },
             {
-              label: "Checked",
-              icon:
-                sort?.key !== "checked"
-                  ? undefined
-                  : sort.order === "desc"
-                  ? ArrowUp01
-                  : ArrowDown01,
-              onClick: e => {
-                e.preventDefault()
-                changeSort("checked")
-              },
+              label: "Alphabetically",
+              icon: getKey("label"),
+              keepOpen: true,
+              onClick: () => changeSort("label"),
             },
             {
               label: "Created at",
-              icon:
-                sort?.key !== "createdAt"
-                  ? undefined
-                  : sort.order === "desc"
-                  ? ArrowUp01
-                  : ArrowDown01,
-              onClick: e => {
-                e.preventDefault()
-                changeSort("createdAt")
-              },
+              icon: getKey("createdAt"),
+              keepOpen: true,
+              onClick: () => changeSort("createdAt"),
             },
           ],
         },
