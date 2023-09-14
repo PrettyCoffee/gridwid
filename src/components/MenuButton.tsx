@@ -1,3 +1,5 @@
+import { Dispatch, MouseEventHandler } from "react"
+
 import { cn } from "~/lib/utils"
 
 import { Icon, IconProp } from "./Icon"
@@ -10,6 +12,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
 } from "./ui/dropdown-menu"
 
 interface MenuItem extends Partial<IconProp> {
@@ -17,6 +20,10 @@ interface MenuItem extends Partial<IconProp> {
   destructive?: boolean
   keepOpen?: boolean
   onClick?: () => void
+  selectable?: {
+    checked?: boolean
+    onChange?: Dispatch<boolean>
+  }
 }
 
 interface MenuItemGroup {
@@ -38,25 +45,46 @@ const MenuButtonItem = ({
   label,
   onClick,
   keepOpen,
-}: MenuItem) => (
-  <DropdownMenuItem
-    // focus is hover here as well
-    className={cn("flex gap-2", destructive && "focus:bg-destructive/20")}
-    onClick={e => {
-      if (keepOpen) e.preventDefault()
-      onClick?.()
-    }}
-  >
-    {icon && (
-      <Icon
-        icon={icon}
-        color={destructive ? "destructive" : "default"}
-        size="sm"
-      />
-    )}
-    {label}
-  </DropdownMenuItem>
-)
+  selectable,
+}: MenuItem) => {
+  // focus is hover here as well
+  const className = cn("flex gap-2", destructive && "focus:bg-destructive/20")
+  const handleClick: MouseEventHandler<HTMLDivElement> = e => {
+    if (keepOpen) e.preventDefault()
+    onClick?.()
+  }
+  if (selectable) {
+    return (
+      <DropdownMenuCheckboxItem
+        // focus is hover here as well
+        className={className}
+        checked={selectable.checked}
+        onClick={e => {
+          handleClick(e)
+          selectable.onChange?.(!selectable.checked)
+        }}
+      >
+        {label}
+      </DropdownMenuCheckboxItem>
+    )
+  }
+  return (
+    <DropdownMenuItem
+      // focus is hover here as well
+      className={className}
+      onClick={handleClick}
+    >
+      {icon && (
+        <Icon
+          icon={icon}
+          color={destructive ? "destructive" : "default"}
+          size="sm"
+        />
+      )}
+      {label}
+    </DropdownMenuItem>
+  )
+}
 
 const MenuButtonGroup = ({
   label,
@@ -65,7 +93,9 @@ const MenuButtonGroup = ({
 }: MenuItemGroup & { addSeparator: boolean }) => (
   <>
     {addSeparator && <DropdownMenuSeparator />}
-    <DropdownMenuLabel>{label}</DropdownMenuLabel>
+    <DropdownMenuLabel className="text-xs text-muted-foreground">
+      {label}
+    </DropdownMenuLabel>
     <DropdownMenuGroup>
       {items.map(item => (
         <MenuButtonItem key={item.label} {...item} />
