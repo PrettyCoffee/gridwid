@@ -1,6 +1,10 @@
-import { Dispatch, useCallback, useState } from "react"
+import { Dispatch, useCallback, useMemo, useState } from "react"
 
 import {
+  ArrowDown01,
+  ArrowDownAZ,
+  ArrowUp01,
+  ArrowUpAZ,
   CheckCheck,
   CopyCheck,
   CopyMinus,
@@ -17,16 +21,43 @@ import { Text } from "~/components/Text"
 import { CheckboxWithLabel } from "~/components/ui/checkbox"
 import { Input } from "~/components/ui/input"
 import { Widget } from "~/components/Widget"
-import { autoSort, createObjectSort } from "~/lib/autoSort"
+import { booleanSort, numberSort, stringSort } from "~/lib/sort"
 import { cn } from "~/lib/utils"
 
 import { Task, taskList } from "./data"
+import {
+  taskListSettings,
+  TaskListSettings,
+  useTaskListSettings,
+} from "./settings"
 
-const useTasks = (id: string) => {
+const sortByAttribute = {
+  checked: booleanSort,
+  checkedAt: numberSort,
+  createdAt: numberSort,
+  label: stringSort,
+}
+
+const useTasks = (
+  id: string,
+  sortBy: NonNullable<TaskListSettings["sort"]>
+) => {
   const tasks = useAtomValue(taskList.atom)[id]
 
+  const sortedTasks = useMemo(
+    () =>
+      tasks
+        ?.sort((a, b) => numberSort("asc")(a.createdAt, b.createdAt))
+        .sort((a, b) => {
+          const key = sortBy.key
+          // @ts-expect-error 2345
+          return sortByAttribute[key](sortBy.order)(a[key], b[key])
+        }),
+    [tasks, sortBy.key, sortBy.order]
+  )
+
   const addTask = useCallback(
-    (task: string) => taskList.addTask(id, task),
+    (label: string) => taskList.addTask(id, label),
     [id]
   )
 
@@ -40,7 +71,7 @@ const useTasks = (id: string) => {
     [id]
   )
 
-  return { tasks, addTask, updateTask, removeTask }
+  return { tasks: sortedTasks, addTask, updateTask, removeTask }
 }
 
 interface AddItemProps {
@@ -93,47 +124,110 @@ const removeAllChecked = (id: string) =>
     - [ ] hide checked
     - [ ] delete when checked
   Sort by
-    - (↑↓ ) alphabetically
-    - (↑↓ ) checked
-    - (↑↓ ) last created
-    - (↑↓ ) last checked
+    x (↑↓ ) alphabetically
+    x (↑↓ ) checked
+    x (↑↓ ) last created
   Design
     - [ ] compact
     - [ ] force one line
     - [ ] force one line when checked
  */
 
-const TaskListSettings = ({ id }: { id: string }) => (
-  <MenuButton
-    icon={MoreVertical}
-    title="Widget settings"
-    titleSide="left"
-    items={[
-      {
-        label: "Select all",
-        icon: CopyCheck,
-        onClick: () => checkAll(id, true),
-      },
-      {
-        label: "Unselect all",
-        icon: CopyMinus,
-        onClick: () => checkAll(id, false),
-      },
-      {
-        label: "Delete all",
-        icon: Trash,
-        iconColor: "destructive",
-        onClick: () => removeAll(id),
-      },
-      {
-        label: "Delete all selected",
-        icon: Trash,
-        iconColor: "destructive",
-        onClick: () => removeAllChecked(id),
-      },
-    ]}
-  />
-)
+const TaskListMenu = ({
+  id,
+  settings,
+}: {
+  id: string
+  settings: TaskListSettings
+}) => {
+  const { sort } = settings
+
+  const changeSort = (key: keyof Task) => {
+    const order = sort?.key === key && sort.order === "asc" ? "desc" : "asc"
+    taskListSettings.setOption(id, "sort", { key: key, order })
+  }
+
+  return (
+    <MenuButton
+      icon={MoreVertical}
+      title="Widget settings"
+      titleSide="left"
+      items={[
+        {
+          label: "Actions",
+          items: [
+            {
+              label: "Select all",
+              icon: CopyCheck,
+              onClick: () => checkAll(id, true),
+            },
+            {
+              label: "Unselect all",
+              icon: CopyMinus,
+              onClick: () => checkAll(id, false),
+            },
+            {
+              label: "Delete all",
+              icon: Trash,
+              iconColor: "destructive",
+              onClick: () => removeAll(id),
+            },
+            {
+              label: "Delete all selected",
+              icon: Trash,
+              iconColor: "destructive",
+              onClick: () => removeAllChecked(id),
+            },
+          ],
+        },
+        {
+          label: "Sort",
+          items: [
+            {
+              label: "Alphabetically",
+              icon:
+                sort?.key !== "label"
+                  ? undefined
+                  : sort.order === "desc"
+                  ? ArrowUpAZ
+                  : ArrowDownAZ,
+              onClick: e => {
+                e.preventDefault()
+                changeSort("label")
+              },
+            },
+            {
+              label: "Checked",
+              icon:
+                sort?.key !== "checked"
+                  ? undefined
+                  : sort.order === "desc"
+                  ? ArrowUp01
+                  : ArrowDown01,
+              onClick: e => {
+                e.preventDefault()
+                changeSort("checked")
+              },
+            },
+            {
+              label: "Created at",
+              icon:
+                sort?.key !== "createdAt"
+                  ? undefined
+                  : sort.order === "desc"
+                  ? ArrowUp01
+                  : ArrowDown01,
+              onClick: e => {
+                e.preventDefault()
+                changeSort("createdAt")
+              },
+            },
+          ],
+        },
+      ]}
+    />
+  )
+}
 
 interface TaskItemProps extends Task {
   onChange: Dispatch<boolean>
@@ -172,18 +266,13 @@ const NoTasks = () => (
   </div>
 )
 
-const createdAtSort = createObjectSort<Task>("createdAt", "number", "desc")
-const sortTasks = (tasks: Task[]) => {
-  const presorted = tasks.sort(createdAtSort)
-  return autoSort(presorted, "checked", "desc")
-}
-
 interface TaskListWidgetProps {
   id: string
   title: string
 }
 export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
-  const { tasks, addTask, updateTask, removeTask } = useTasks(id)
+  const settings = useTaskListSettings(id)
+  const { tasks, addTask, updateTask, removeTask } = useTasks(id, settings.sort)
 
   const changeTask = (task: Task, checked: boolean) =>
     updateTask({
@@ -195,7 +284,7 @@ export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
   return (
     <Widget.Root>
       <Widget.Header title={title}>
-        <TaskListSettings id={id} />
+        <TaskListMenu id={id} settings={settings} />
       </Widget.Header>
       <Widget.Content className="py-4 sticky top-9 bg-card z-10">
         <AddItem onAdd={addTask} />
@@ -204,7 +293,7 @@ export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
         <NoTasks />
       ) : (
         <Widget.Content>
-          {sortTasks(tasks).map(task => (
+          {tasks.map(task => (
             <TaskItem
               key={task.label}
               {...task}

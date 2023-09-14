@@ -13,7 +13,7 @@ import {
 interface MenuItem extends Partial<IconProp> {
   label: string
   iconColor?: IconProps["color"]
-  onClick?: () => void
+  onClick?: React.MouseEventHandler<HTMLDivElement>
 }
 
 interface MenuItemGroup {

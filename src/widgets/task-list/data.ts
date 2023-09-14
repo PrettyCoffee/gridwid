@@ -69,17 +69,8 @@ const setAll = (listId: string, set: (task: Task) => Task) =>
 const removeAllWhere = (listId: string, condition: (task: Task) => boolean) =>
   setList(listId, list => list.filter(task => !condition(task)))
 
-type SortRule = (a: Task, b: Task) => number
-const sortList = (listId: string, rules: SortRule | SortRule[]) => {
-  const ruleArray = Array.isArray(rules) ? rules : [rules]
-  setList(listId, tasks =>
-    ruleArray.reduce<Task[]>((result, rule) => result.sort(rule), tasks)
-  )
-}
-
 export const taskList = {
   atom: taskListAtom,
-  sortList,
   addTask,
   updateTask,
   removeTask,
