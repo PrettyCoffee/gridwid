@@ -113,25 +113,6 @@ const removeAll = (id: string) => taskList.removeAllWhere(id, () => true)
 const removeAllChecked = (id: string) =>
   taskList.removeAllWhere(id, task => task.checked)
 
-/** TODO: Settings
-  Actions
-    x Check all
-    x Uncheck all
-    x Delete all
-    X Delete all checked
-  Behavior
-    x [ ] hide checked
-    x [ ] delete when checked
-  Sort by
-    x (↑↓ ) alphabetically
-    x (↑↓ ) checked
-    x (↑↓ ) last created
-  Design
-    - [ ] compact
-    - [ ] force one line
-    - [ ] force one line when checked
- */
-
 const sortIcons = {
   label: { asc: ArrowDownAZ, desc: ArrowUpAZ },
   checked: { asc: ArrowDown01, desc: ArrowUp01 },
@@ -208,6 +189,33 @@ const TaskListMenu = ({
                   taskListSettings.setOption(id, "hideChecked", checked),
               },
             },
+            {
+              label: "Compact list",
+              keepOpen: true,
+              selectable: {
+                checked: settings.compactList,
+                onChange: checked =>
+                  taskListSettings.setOption(id, "compactList", checked),
+              },
+            },
+            {
+              label: "No line wrap",
+              keepOpen: true,
+              selectable: {
+                checked: settings.noWrap,
+                onChange: checked =>
+                  taskListSettings.setOption(id, "noWrap", checked),
+              },
+            },
+            {
+              label: "No line wrap when checked",
+              keepOpen: true,
+              selectable: {
+                checked: settings.checkedNoWrap,
+                onChange: checked =>
+                  taskListSettings.setOption(id, "checkedNoWrap", checked),
+              },
+            },
           ],
         },
         {
@@ -242,6 +250,7 @@ interface TaskItemProps extends Task {
   onChange: Dispatch<boolean>
   onDelete: () => void
   compact?: boolean
+  noWrap?: boolean
 }
 const TaskItem = ({
   checked,
@@ -254,7 +263,6 @@ const TaskItem = ({
       size={compact ? "compact" : "default"}
       className={cn("flex-1", checked && "text-muted-foreground line-through")}
       checked={checked}
-      noWrap={checked}
       {...delegated}
     />
     <IconButton
@@ -312,6 +320,10 @@ export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
               {...task}
               onChange={checked => changeTask(task, checked)}
               onDelete={() => removeTask(task)}
+              compact={settings.compactList}
+              noWrap={
+                settings.noWrap || (settings.checkedNoWrap && task.checked)
+              }
             />
           ))}
         </Widget.Content>

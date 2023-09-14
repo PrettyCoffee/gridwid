@@ -14,6 +14,9 @@ export interface TaskListSettings {
     key: keyof Task
     order: SortOrder
   }
+  compactList?: boolean
+  noWrap?: boolean
+  checkedNoWrap?: boolean
 }
 
 yaaslSetup()
@@ -30,6 +33,9 @@ const defaultSettings: Required<TaskListSettings> = {
     key: "checked",
     order: "asc",
   },
+  compactList: false,
+  noWrap: false,
+  checkedNoWrap: true,
 }
 
 const removeKeyFromObject = <T extends Record<string, unknown>>(

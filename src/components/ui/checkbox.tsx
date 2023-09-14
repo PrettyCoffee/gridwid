@@ -76,7 +76,7 @@ const CheckboxWithLabel = ({
       onCheckedChange={() => onChange(!checked)}
     />
     <Text
-      className="pt-2 pb-1 break-words"
+      className={cn("pt-2 pb-1 break-words", size === "compact" && "pt-1.5")}
       size={size === "compact" ? "sm" : "md"}
       color="current"
       noOverflow={noWrap}
