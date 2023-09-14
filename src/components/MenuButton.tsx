@@ -1,4 +1,6 @@
-import { Icon, IconProp, IconProps } from "./Icon"
+import { cn } from "~/lib/utils"
+
+import { Icon, IconProp } from "./Icon"
 import { IconButton, IconButtonProps } from "./IconButton"
 import {
   DropdownMenuSeparator,
@@ -12,7 +14,7 @@ import {
 
 interface MenuItem extends Partial<IconProp> {
   label: string
-  iconColor?: IconProps["color"]
+  destructive?: boolean
   keepOpen?: boolean
   onClick?: () => void
 }
@@ -32,19 +34,26 @@ const isItemGroup = (item: MenuItem | MenuItemGroup): item is MenuItemGroup =>
 
 const MenuButtonItem = ({
   icon,
-  iconColor,
+  destructive,
   label,
   onClick,
   keepOpen,
 }: MenuItem) => (
   <DropdownMenuItem
-    className="flex gap-2"
+    // focus is hover here as well
+    className={cn("flex gap-2", destructive && "focus:bg-destructive/20")}
     onClick={e => {
       if (keepOpen) e.preventDefault()
       onClick?.()
     }}
   >
-    {icon && <Icon icon={icon} color={iconColor} size="sm" />}
+    {icon && (
+      <Icon
+        icon={icon}
+        color={destructive ? "destructive" : "default"}
+        size="sm"
+      />
+    )}
     {label}
   </DropdownMenuItem>
 )

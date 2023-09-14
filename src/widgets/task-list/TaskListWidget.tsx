@@ -177,13 +177,13 @@ const TaskListMenu = ({
             {
               label: "Delete all",
               icon: Trash,
-              iconColor: "destructive",
+              destructive: true,
               onClick: () => removeAll(id),
             },
             {
               label: "Delete all selected",
               icon: Trash,
-              iconColor: "destructive",
+              destructive: true,
               onClick: () => removeAllChecked(id),
             },
           ],
