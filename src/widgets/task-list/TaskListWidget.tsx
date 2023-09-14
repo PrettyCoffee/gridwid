@@ -40,21 +40,20 @@ const sortByAttribute = {
 
 const useTasks = (
   id: string,
-  sortBy: NonNullable<TaskListSettings["sort"]>
+  { sort, hideChecked }: Required<TaskListSettings>
 ) => {
-  const tasks = useAtomValue(taskList.atom)[id]
+  const rawTasks = useAtomValue(taskList.atom)[id]
 
-  const sortedTasks = useMemo(
-    () =>
-      tasks
-        ?.sort((a, b) => numberSort("asc")(a.createdAt, b.createdAt))
-        .sort((a, b) => {
-          const key = sortBy.key
-          // @ts-expect-error 2345
-          return sortByAttribute[key](sortBy.order)(a[key], b[key])
-        }),
-    [tasks, sortBy.key, sortBy.order]
-  )
+  const tasks = useMemo(() => {
+    const sorted = rawTasks
+      ?.sort((a, b) => numberSort("asc")(a.createdAt, b.createdAt))
+      .sort((a, b) => {
+        const key = sort.key
+        // @ts-expect-error 2345
+        return sortByAttribute[key](sort.order)(a[key], b[key])
+      })
+    return !hideChecked ? sorted : sorted?.filter(({ checked }) => !checked)
+  }, [rawTasks, sort.key, sort.order, hideChecked])
 
   const addTask = useCallback(
     (label: string) => taskList.addTask(id, label),
@@ -71,7 +70,7 @@ const useTasks = (
     [id]
   )
 
-  return { tasks: sortedTasks, addTask, updateTask, removeTask }
+  return { tasks, addTask, updateTask, removeTask }
 }
 
 interface AddItemProps {
@@ -121,8 +120,8 @@ const removeAllChecked = (id: string) =>
     x Delete all
     X Delete all checked
   Behavior
-    - [ ] hide checked
-    - [ ] delete when checked
+    x [ ] hide checked
+    x [ ] delete when checked
   Sort by
     x (↑↓ ) alphabetically
     x (↑↓ ) checked
@@ -181,10 +180,33 @@ const TaskListMenu = ({
               onClick: () => removeAll(id),
             },
             {
-              label: "Delete all selected",
+              label: "Delete selected",
               icon: Trash,
               destructive: true,
               onClick: () => removeAllChecked(id),
+            },
+          ],
+        },
+        {
+          label: "Behavior",
+          items: [
+            {
+              label: "Delete on select",
+              keepOpen: true,
+              selectable: {
+                checked: settings.deleteChecked,
+                onChange: checked =>
+                  taskListSettings.setOption(id, "deleteChecked", checked),
+              },
+            },
+            {
+              label: "Hide checked",
+              keepOpen: true,
+              selectable: {
+                checked: settings.hideChecked,
+                onChange: checked =>
+                  taskListSettings.setOption(id, "hideChecked", checked),
+              },
             },
           ],
         },
@@ -259,14 +281,18 @@ interface TaskListWidgetProps {
 }
 export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
   const settings = useTaskListSettings(id)
-  const { tasks, addTask, updateTask, removeTask } = useTasks(id, settings.sort)
+  const { tasks, addTask, updateTask, removeTask } = useTasks(id, settings)
 
-  const changeTask = (task: Task, checked: boolean) =>
+  const changeTask = (task: Task, checked: boolean) => {
     updateTask({
       ...task,
       checked,
       checkedAt: checked ? Date.now() : undefined,
     })
+    if (settings.deleteChecked && checked) {
+      setTimeout(() => removeTask(task), 250)
+    }
+  }
 
   return (
     <Widget.Root>
@@ -282,7 +308,7 @@ export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
         <Widget.Content>
           {tasks.map(task => (
             <TaskItem
-              key={task.label}
+              key={task.createdAt}
               {...task}
               onChange={checked => changeTask(task, checked)}
               onDelete={() => removeTask(task)}

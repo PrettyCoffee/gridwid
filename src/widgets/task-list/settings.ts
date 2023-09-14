@@ -8,6 +8,8 @@ import { yaaslSetup } from "~/lib/yaaslSetup"
 import { Task } from "./data"
 
 export interface TaskListSettings {
+  hideChecked?: boolean
+  deleteChecked?: boolean
   sort?: {
     key: keyof Task
     order: SortOrder
@@ -22,6 +24,8 @@ const settingsAtom = atom<Record<string, TaskListSettings>>({
 })
 
 const defaultSettings: Required<TaskListSettings> = {
+  hideChecked: false,
+  deleteChecked: false,
   sort: {
     key: "checked",
     order: "asc",
@@ -46,9 +50,11 @@ const setSettings = (listId: string, next: SetStateAction<TaskListSettings>) =>
     return { ...allSettings, [listId]: nextSettings }
   })
 
-const isDefault = (settings: TaskListSettings) =>
-  settings.sort?.key === defaultSettings.sort.key &&
-  settings.sort.order === defaultSettings.sort.order
+const isDefault = (settings: TaskListSettings, key: keyof TaskListSettings) =>
+  key === "sort"
+    ? settings.sort?.key === defaultSettings.sort.key &&
+      settings.sort.order === defaultSettings.sort.order
+    : settings[key] === defaultSettings[key]
 
 const setOption = <K extends keyof TaskListSettings>(
   listId: string,
@@ -57,7 +63,7 @@ const setOption = <K extends keyof TaskListSettings>(
 ) =>
   setSettings(listId, settings => {
     const nextSettings = { ...settings, [key]: value }
-    if (isDefault(nextSettings)) {
+    if (isDefault(nextSettings, key)) {
       return removeKeyFromObject(nextSettings, key)
     }
     return nextSettings
