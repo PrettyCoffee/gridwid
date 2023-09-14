@@ -172,30 +172,21 @@ const TaskListMenu = ({
           label: "Behavior",
           items: [
             {
-              label: "Delete on select",
-              keepOpen: true,
-              selectable: {
-                checked: settings.deleteChecked,
-                onChange: checked =>
-                  taskListSettings.setOption(id, "deleteChecked", checked),
-              },
-            },
-            {
-              label: "Hide checked",
-              keepOpen: true,
-              selectable: {
-                checked: settings.hideChecked,
-                onChange: checked =>
-                  taskListSettings.setOption(id, "hideChecked", checked),
-              },
-            },
-            {
               label: "Compact list",
               keepOpen: true,
               selectable: {
                 checked: settings.compactList,
                 onChange: checked =>
                   taskListSettings.setOption(id, "compactList", checked),
+              },
+            },
+            {
+              label: "Hide selected",
+              keepOpen: true,
+              selectable: {
+                checked: settings.hideChecked,
+                onChange: checked =>
+                  taskListSettings.setOption(id, "hideChecked", checked),
               },
             },
             {
@@ -208,7 +199,7 @@ const TaskListMenu = ({
               },
             },
             {
-              label: "No line wrap when checked",
+              label: "No line wrap (checked)",
               keepOpen: true,
               selectable: {
                 checked: settings.checkedNoWrap,
@@ -291,16 +282,12 @@ export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
   const settings = useTaskListSettings(id)
   const { tasks, addTask, updateTask, removeTask } = useTasks(id, settings)
 
-  const changeTask = (task: Task, checked: boolean) => {
+  const changeTask = (task: Task, checked: boolean) =>
     updateTask({
       ...task,
       checked,
       checkedAt: checked ? Date.now() : undefined,
     })
-    if (settings.deleteChecked && checked) {
-      setTimeout(() => removeTask(task), 250)
-    }
-  }
 
   return (
     <Widget.Root>

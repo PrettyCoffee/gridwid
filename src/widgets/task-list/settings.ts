@@ -9,14 +9,13 @@ import { Task } from "./data"
 
 export interface TaskListSettings {
   hideChecked?: boolean
-  deleteChecked?: boolean
+  compactList?: boolean
+  noWrap?: boolean
+  checkedNoWrap?: boolean
   sort?: {
     key: keyof Task
     order: SortOrder
   }
-  compactList?: boolean
-  noWrap?: boolean
-  checkedNoWrap?: boolean
 }
 
 yaaslSetup()
@@ -28,14 +27,13 @@ const settingsAtom = atom<Record<string, TaskListSettings>>({
 
 const defaultSettings: Required<TaskListSettings> = {
   hideChecked: false,
-  deleteChecked: false,
+  compactList: false,
+  noWrap: false,
+  checkedNoWrap: true,
   sort: {
     key: "checked",
     order: "asc",
   },
-  compactList: false,
-  noWrap: false,
-  checkedNoWrap: true,
 }
 
 const removeKeyFromObject = <T extends Record<string, unknown>>(
