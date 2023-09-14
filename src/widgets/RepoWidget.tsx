@@ -50,7 +50,7 @@ yaaslSetup()
 const repoWidgetRepos = atom<RepoList>({
   defaultValue: new Map(),
   name: "repo-widget",
-  middleware: [localStorage({ expiresAt: tomorrow(), parser: mapParser })],
+  middleware: [localStorage({ expiresAt: tomorrow, parser: mapParser })],
 })
 
 const getRepoName = (owner: string, name: string) => `${owner}/${name}`
