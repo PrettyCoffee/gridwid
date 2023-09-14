@@ -15,7 +15,7 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover"
 import { RepoWidget } from "~/widgets/RepoWidget"
-import { TaskListWidget } from "~/widgets/TaskListWidget"
+import { TaskListWidget } from "~/widgets/task-list/TaskListWidget"
 
 import { Menu } from "./Menu"
 import { Workspaces } from "./Workspaces"

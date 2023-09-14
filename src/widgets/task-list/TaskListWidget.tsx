@@ -8,7 +8,7 @@ import {
   Plus,
   Trash,
 } from "lucide-react"
-import { atom, localStorage, useAtomValue } from "yaasl/react"
+import { useAtomValue } from "yaasl/react"
 
 import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
@@ -20,96 +20,38 @@ import { Widget } from "~/components/Widget"
 import { autoSort, createObjectSort } from "~/lib/autoSort"
 import { cn } from "~/lib/utils"
 
-interface Task {
-  createdAt: number
-  label: string
-  checked: boolean
-  checkedAt?: number
-}
-
-const tasksAtom = atom<Record<string, Task[]>>({
-  name: "task-list-widget",
-  defaultValue: {},
-  middleware: [localStorage()],
-})
-
-const removeKeyFromObject = <T extends Record<string, unknown>>(
-  obj: T,
-  key: string
-) =>
-  Object.fromEntries(
-    Object.entries(obj).filter(([currentKey]) => currentKey !== key)
-  ) as T
+import { Task, taskList } from "./data"
 
 const useTasks = (id: string) => {
-  const tasks = useAtomValue(tasksAtom)[id]
+  const tasks = useAtomValue(taskList.atom)[id]
 
   const addTask = useCallback(
-    (task: Task) => {
-      tasksAtom.set(allTasks => {
-        const tasks = allTasks[id] ?? []
-        return { ...allTasks, [id]: [...tasks, task] }
-      })
-    },
+    (task: string) => taskList.addTask(id, task),
     [id]
   )
 
   const updateTask = useCallback(
-    (task: Task) => {
-      tasksAtom.set(allTasks => {
-        const tasks = allTasks[id] ?? []
-        const existing = tasks.findIndex(
-          ({ createdAt }) => createdAt === task.createdAt
-        )
-        const newTasks = [...tasks]
-        newTasks[existing] = task
-        return { ...allTasks, [id]: newTasks }
-      })
-    },
+    (task: Task) => taskList.updateTask(id, task),
     [id]
   )
 
   const removeTask = useCallback(
-    (task: Task) => {
-      tasksAtom.set(allTasks => {
-        const tasks = allTasks[id]
-        if (!tasks) return allTasks
-
-        const newTasks = tasks.filter(
-          ({ createdAt }) => createdAt !== task.createdAt
-        )
-
-        if (newTasks.length > 0) {
-          return {
-            ...allTasks,
-            [id]: newTasks,
-          }
-        }
-
-        return removeKeyFromObject(allTasks, id)
-      })
-    },
+    (task: Task) => taskList.removeTask(id, task),
     [id]
   )
 
   return { tasks, addTask, updateTask, removeTask }
 }
 
-const createTask = (label: string): Task => ({
-  label,
-  checked: false,
-  createdAt: Date.now(),
-})
-
 interface AddItemProps {
-  onAdd: Dispatch<Task>
+  onAdd: Dispatch<string>
 }
 const AddItem = ({ onAdd }: AddItemProps) => {
   const [value, setValue] = useState("")
 
   const addTask = () => {
     if (!value) return
-    onAdd(createTask(value))
+    onAdd(value)
     setValue("")
   }
 
@@ -133,42 +75,13 @@ const AddItem = ({ onAdd }: AddItemProps) => {
   )
 }
 
-const checkAll = (id: string, checked: boolean) => {
-  tasksAtom.set(allTasks => {
-    const tasks = allTasks[id]
-    if (!tasks) return allTasks
-    return {
-      ...allTasks,
-      [id]: tasks.map(task => ({ ...task, checked })),
-    }
-  })
-}
+const checkAll = (id: string, checked: boolean) =>
+  taskList.setAll(id, task => ({ ...task, checked }))
 
-const removeAll = (id: string) => {
-  tasksAtom.set(allTasks => {
-    const tasks = allTasks[id]
-    if (!tasks) return allTasks
-    return removeKeyFromObject(allTasks, id)
-  })
-}
+const removeAll = (id: string) => taskList.removeAllWhere(id, () => true)
 
-const removeAllChecked = (id: string) => {
-  tasksAtom.set(allTasks => {
-    const tasks = allTasks[id]
-    if (!tasks) return allTasks
-
-    const newTasks = tasks.filter(({ checked }) => !checked)
-
-    if (newTasks.length > 0) {
-      return {
-        ...allTasks,
-        [id]: newTasks,
-      }
-    }
-
-    return removeKeyFromObject(allTasks, id)
-  })
-}
+const removeAllChecked = (id: string) =>
+  taskList.removeAllWhere(id, task => task.checked)
 
 /** TODO: Settings
   Actions

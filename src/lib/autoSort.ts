@@ -1,4 +1,4 @@
-type Order = "asc" | "desc"
+export type SortOrder = "asc" | "desc"
 const typeImportance = [
   "function",
   "object",
@@ -13,7 +13,7 @@ const getImportance = (value: unknown) => typeImportance.indexOf(typeof value)
 
 type Sorts = "type" | "boolean" | "number" | "string" | "nullish" | "keepOrder"
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const sortBy: Record<Sorts, Record<Order, (a: any, b: any) => 1 | -1>> = {
+const sortBy: Record<Sorts, Record<SortOrder, (a: any, b: any) => 1 | -1>> = {
   type: {
     asc: (a: unknown, b: unknown) =>
       sortBy.number.asc(getImportance(a), getImportance(b)),
@@ -63,13 +63,15 @@ const getSortType = (a: unknown, b: unknown): Sorts => {
   return "keepOrder"
 }
 
-export const createSort = (type: keyof typeof sortBy, order: Order = "asc") =>
-  sortBy[type][order]
+export const createSort = (
+  type: keyof typeof sortBy,
+  order: SortOrder = "asc"
+) => sortBy[type][order]
 
 export const createObjectSort = <T>(
   key: keyof T,
   type: keyof typeof sortBy,
-  order: Order
+  order: SortOrder
 ) => {
   const sortFn = createSort(type, order)
   return (a: T, b: T) => sortFn(a[key], b[key])
@@ -78,7 +80,7 @@ export const createObjectSort = <T>(
 export const autoSort = <T extends object>(
   values: T[],
   key: keyof T,
-  order: Order
+  order: SortOrder
 ) =>
   values.sort((valA, valB) => {
     const a = valA[key]
