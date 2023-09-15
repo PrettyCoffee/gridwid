@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo } from "react"
 
 import { AvatarFallback } from "@radix-ui/react-avatar"
 import {
@@ -24,6 +24,7 @@ import { GithubRepository, github } from "~/lib/apis/github"
 import { createRange } from "~/lib/createRange"
 import { timeSince, tomorrow } from "~/lib/datetime"
 import { mapParser } from "~/lib/mapParser"
+import { usePromise } from "~/lib/usePromise"
 import { yaaslSetup } from "~/lib/yaaslSetup"
 
 type RepoList = Map<string, GithubRepository>
@@ -70,15 +71,20 @@ const removeRepo = (owner: string, name: string) => {
 }
 
 const useGithubRepo = (owner: string, name: string) => {
+  const { status, error, reload } = usePromise(() => addRepo(owner, name))
+
+  const repoName = getRepoName(owner, name)
   const repos = useAtomValue(repoWidgetRepos)
-  const repo = useMemo(
-    () => repos.get(getRepoName(owner, name)) ?? null,
-    [name, owner, repos]
-  )
+  const repo = useMemo(() => repos.get(repoName) ?? null, [repoName, repos])
 
-  const load = useCallback(() => addRepo(owner, name), [name, owner])
+  useEffect(() => {
+    if (status === "initial" || repo) {
+      return
+    }
+    reload()
+  }, [reload, repo, status])
 
-  return { repo, loadRepo: load }
+  return { repo, status, error }
 }
 
 const RepoWidgetSkeleton = () => (
@@ -214,23 +220,14 @@ interface RepoWidgetProps {
   name: string
 }
 export const RepoWidget = ({ owner, name }: RepoWidgetProps) => {
-  const { repo, loadRepo } = useGithubRepo(owner, name)
-  const [didFail, setDidFail] = useState(false)
-
+  const { repo, status } = useGithubRepo(owner, name)
   const repoName = getRepoName(owner, name)
-  useEffect(() => {
-    if (repo || didFail) {
-      return
-    }
 
-    loadRepo().catch(() => setDidFail(true))
-  }, [didFail, loadRepo, repo])
-
-  if (didFail) {
+  if (status === "rejected") {
     return <>Repo info of &quot;{repoName}&quot; could not be fetched.</>
   }
 
-  if (!repo) {
+  if (!repo || status === "pending") {
     return <RepoWidgetSkeleton />
   }
 
