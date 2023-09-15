@@ -9,7 +9,7 @@ import {
   BadgeAlert,
   MoreVertical,
 } from "lucide-react"
-import { atom, localStorage, useAtomValue } from "yaasl/react"
+import { useAtomValue } from "yaasl/react"
 
 import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
@@ -20,61 +20,20 @@ import { Badge, BadgeSkeleton, IconBadge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button"
 import { Skeleton } from "~/components/ui/skeleton"
 import { Widget } from "~/components/Widget"
-import { GithubRepository, github } from "~/lib/apis/github"
+import { GithubRepository } from "~/lib/apis/github"
 import { createRange } from "~/lib/createRange"
-import { timeSince, tomorrow } from "~/lib/datetime"
-import { mapParser } from "~/lib/mapParser"
+import { timeSince } from "~/lib/datetime"
 import { usePromise } from "~/lib/usePromise"
-import { yaaslSetup } from "~/lib/yaaslSetup"
 
-type RepoList = Map<string, GithubRepository>
-
-yaaslSetup()
-const repoWidgetRepos = atom<RepoList>({
-  defaultValue: new Map(),
-  name: "repo-widget",
-  middleware: [localStorage({ expiresAt: tomorrow, parser: mapParser })],
-})
-
-const getRepoName = (owner: string, name: string) => `${owner}/${name}`
-
-const addRepo = (owner: string, name: string) => {
-  const repoName = getRepoName(owner, name)
-  const repos = repoWidgetRepos.get()
-
-  const existing = repos.get(repoName)
-  if (existing) {
-    return Promise.resolve(existing)
-  }
-
-  return github.repository(owner, name).then(repo => {
-    repoWidgetRepos.set(repos =>
-      repos.get(repoName)
-        ? repos
-        : new Map([...repos.entries(), [repoName, repo]])
-    )
-    return repo
-  })
-}
-
-const removeRepo = (owner: string, name: string) => {
-  const repoName = getRepoName(owner, name)
-  const repos = repoWidgetRepos.get()
-  const existing = repos.get(repoName)
-  if (!existing) return
-
-  repoWidgetRepos.set(repos => {
-    const next = new Map(repos)
-    next.delete(repoName)
-    return next
-  })
-}
+import { repoData } from "./data"
 
 const useGithubRepo = (owner: string, name: string) => {
-  const { status, error, reload } = usePromise(() => addRepo(owner, name))
+  const { status, error, reload } = usePromise(() =>
+    repoData.loadRepo(owner, name)
+  )
 
-  const repoName = getRepoName(owner, name)
-  const repos = useAtomValue(repoWidgetRepos)
+  const repoName = repoData.getName(owner, name)
+  const repos = useAtomValue(repoData.atom)
   const repo = useMemo(() => repos.get(repoName) ?? null, [repoName, repos])
 
   useEffect(() => {
@@ -200,6 +159,14 @@ const Info = ({ owner, description, html_url, homepage }: GithubRepository) => (
   </>
 )
 
+/** TODO: Settings
+  Actions
+    - Refresh
+  Design
+    - [ ] display stats
+    - [ ] display topics
+    - [ ] display name in title
+ */
 const WidgetSettings = ({ name, owner }: RepoWidgetProps) => (
   <MenuButton
     icon={MoreVertical}
@@ -209,7 +176,7 @@ const WidgetSettings = ({ name, owner }: RepoWidgetProps) => (
       {
         label: "Refresh",
         icon: RefreshCw,
-        onClick: () => removeRepo(owner, name),
+        onClick: () => repoData.removeRepo(owner, name),
       },
     ]}
   />
@@ -221,7 +188,7 @@ interface RepoWidgetProps {
 }
 export const RepoWidget = ({ owner, name }: RepoWidgetProps) => {
   const { repo, status } = useGithubRepo(owner, name)
-  const repoName = getRepoName(owner, name)
+  const repoName = repoData.getName(owner, name)
 
   if (status === "rejected") {
     return <>Repo info of &quot;{repoName}&quot; could not be fetched.</>
