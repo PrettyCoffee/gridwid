@@ -2,6 +2,7 @@ import { SetStateAction } from "react"
 
 import { atom, localStorage } from "yaasl/react"
 
+import { removeKeyFromObject } from "~/lib/removeKeyFromObject"
 import { yaaslSetup } from "~/lib/yaaslSetup"
 
 export interface Task {
@@ -17,14 +18,6 @@ const taskListAtom = atom<Record<string, Task[]>>({
   defaultValue: {},
   middleware: [localStorage()],
 })
-
-const removeKeyFromObject = <T extends Record<string, unknown>>(
-  obj: T,
-  key: string
-) =>
-  Object.fromEntries(
-    Object.entries(obj).filter(([currentKey]) => currentKey !== key)
-  ) as T
 
 const setList = (listId: string, next: SetStateAction<Task[]>) =>
   taskListAtom.set(allLists => {

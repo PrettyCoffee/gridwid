@@ -34,7 +34,7 @@ const useGithubRepo = (owner: string, name: string) => {
 
   const repoName = repoData.getName(owner, name)
   const repos = useAtomValue(repoData.atom)
-  const repo = useMemo(() => repos.get(repoName) ?? null, [repoName, repos])
+  const repo = useMemo(() => repos[repoName] ?? null, [repoName, repos])
 
   useEffect(() => {
     if (status === "initial" || repo) {
