@@ -9,12 +9,7 @@ import {
   BadgeAlert,
   MoreVertical,
 } from "lucide-react"
-import {
-  LocalStorageParser,
-  atom,
-  localStorage,
-  useAtomValue,
-} from "yaasl/react"
+import { atom, localStorage, useAtomValue } from "yaasl/react"
 
 import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
@@ -28,21 +23,8 @@ import { Widget } from "~/components/Widget"
 import { GithubRepository, github } from "~/lib/apis/github"
 import { createRange } from "~/lib/createRange"
 import { timeSince, tomorrow } from "~/lib/datetime"
+import { mapParser } from "~/lib/mapParser"
 import { yaaslSetup } from "~/lib/yaaslSetup"
-
-const isMapEntry = (value: unknown): value is [unknown, unknown] =>
-  Array.isArray(value) && value.length === 2
-
-const mapParser: LocalStorageParser<Map<unknown, unknown>> = {
-  parse: text => {
-    const value: unknown = JSON.parse(text)
-    if (!Array.isArray(value) || !value.every(isMapEntry))
-      throw new Error("LocalStorage value is not a valid Map object")
-
-    return new Map(value)
-  },
-  stringify: value => JSON.stringify(Array.from(value.entries())),
-}
 
 type RepoList = Map<string, GithubRepository>
 
