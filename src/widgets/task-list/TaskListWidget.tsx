@@ -1,10 +1,6 @@
 import { Dispatch, useCallback, useMemo, useState } from "react"
 
 import {
-  ArrowDown01,
-  ArrowDownAZ,
-  ArrowUp01,
-  ArrowUpAZ,
   CheckCheck,
   CopyCheck,
   CopyMinus,
@@ -26,7 +22,7 @@ import { cn } from "~/lib/utils"
 
 import { Task, taskList } from "./data"
 import {
-  taskListSettings,
+  getMenuSettings,
   TaskListSettings,
   useTaskListSettings,
 } from "./settings"
@@ -113,129 +109,49 @@ const removeAll = (id: string) => taskList.removeAllWhere(id, () => true)
 const removeAllChecked = (id: string) =>
   taskList.removeAllWhere(id, task => task.checked)
 
-const sortIcons = {
-  label: { asc: ArrowDownAZ, desc: ArrowUpAZ },
-  checked: { asc: ArrowDown01, desc: ArrowUp01 },
-  createdAt: { asc: ArrowDown01, desc: ArrowUp01 },
-}
-
 const TaskListMenu = ({
   id,
   settings,
 }: {
   id: string
   settings: TaskListSettings
-}) => {
-  const { sort } = settings
-
-  const changeSort = (key: keyof Task) => {
-    const order = sort?.key === key && sort.order === "asc" ? "desc" : "asc"
-    taskListSettings.setOption(id, "sort", { key: key, order })
-  }
-  const getKey = (key: keyof typeof sortIcons) =>
-    sort?.key !== key ? undefined : sortIcons[key][sort.order]
-
-  return (
-    <MenuButton
-      icon={MoreVertical}
-      title="Widget settings"
-      titleSide="left"
-      items={[
-        {
-          label: "Actions",
-          items: [
-            {
-              label: "Select all",
-              icon: CopyCheck,
-              onClick: () => checkAll(id, true),
-            },
-            {
-              label: "Unselect all",
-              icon: CopyMinus,
-              onClick: () => checkAll(id, false),
-            },
-            {
-              label: "Delete all",
-              icon: Trash,
-              destructive: true,
-              onClick: () => removeAll(id),
-            },
-            {
-              label: "Delete selected",
-              icon: Trash,
-              destructive: true,
-              onClick: () => removeAllChecked(id),
-            },
-          ],
-        },
-        {
-          label: "Behavior",
-          items: [
-            {
-              label: "Compact list",
-              keepOpen: true,
-              selectable: {
-                checked: settings.compactList,
-                onChange: checked =>
-                  taskListSettings.setOption(id, "compactList", checked),
-              },
-            },
-            {
-              label: "Hide selected",
-              keepOpen: true,
-              selectable: {
-                checked: settings.hideChecked,
-                onChange: checked =>
-                  taskListSettings.setOption(id, "hideChecked", checked),
-              },
-            },
-            {
-              label: "No line wrap",
-              keepOpen: true,
-              selectable: {
-                checked: settings.noWrap,
-                onChange: checked =>
-                  taskListSettings.setOption(id, "noWrap", checked),
-              },
-            },
-            {
-              label: "No line wrap (checked)",
-              keepOpen: true,
-              selectable: {
-                checked: settings.checkedNoWrap,
-                onChange: checked =>
-                  taskListSettings.setOption(id, "checkedNoWrap", checked),
-              },
-            },
-          ],
-        },
-        {
-          label: "Sort",
-          items: [
-            {
-              label: "Checked",
-              icon: getKey("checked"),
-              keepOpen: true,
-              onClick: () => changeSort("checked"),
-            },
-            {
-              label: "Alphabetically",
-              icon: getKey("label"),
-              keepOpen: true,
-              onClick: () => changeSort("label"),
-            },
-            {
-              label: "Created at",
-              icon: getKey("createdAt"),
-              keepOpen: true,
-              onClick: () => changeSort("createdAt"),
-            },
-          ],
-        },
-      ]}
-    />
-  )
-}
+}) => (
+  <MenuButton
+    icon={MoreVertical}
+    title="Widget settings"
+    titleSide="left"
+    items={[
+      {
+        label: "Actions",
+        items: [
+          {
+            label: "Select all",
+            icon: CopyCheck,
+            onClick: () => checkAll(id, true),
+          },
+          {
+            label: "Unselect all",
+            icon: CopyMinus,
+            onClick: () => checkAll(id, false),
+          },
+          {
+            label: "Delete all",
+            icon: Trash,
+            destructive: true,
+            onClick: () => removeAll(id),
+          },
+          {
+            label: "Delete selected",
+            icon: Trash,
+            destructive: true,
+            onClick: () => removeAllChecked(id),
+          },
+        ],
+      },
+      ...getMenuSettings(id, settings),
+    ]}
+  />
+)
 
 interface TaskItemProps extends Task {
   onChange: Dispatch<boolean>

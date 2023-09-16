@@ -26,7 +26,7 @@ import { timeSince } from "~/lib/datetime"
 import { usePromise } from "~/lib/usePromise"
 
 import { repoData } from "./data"
-import { getMenuItmes, useRepoSettings } from "./settings"
+import { getMenuSettings, useRepoSettings } from "./settings"
 
 const useGithubRepo = (owner: string, name: string) => {
   const { status, error, reload } = usePromise(() =>
@@ -187,7 +187,7 @@ const WidgetSettings = ({ name, owner }: RepoWidgetProps) => {
             },
           ],
         },
-        ...getMenuItmes(id, settings),
+        ...getMenuSettings(id, settings),
       ]}
     />
   )

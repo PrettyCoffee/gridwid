@@ -21,7 +21,7 @@ export const repoSettings = createSettingsAtom<RepoSettings>(
 
 export const useRepoSettings = repoSettings.useSettings
 
-export const getMenuItmes = (
+export const getMenuSettings = (
   id: string,
   settings: RepoSettings
 ): MenuItemGroup[] => [
