@@ -1,9 +1,4 @@
-import { SetStateAction } from "react"
-
-import { atom, localStorage } from "yaasl/react"
-
-import { removeKeyFromObject } from "~/lib/removeKeyFromObject"
-import { yaaslSetup } from "~/lib/yaaslSetup"
+import { createDataAtom } from "../createDataAtom"
 
 export interface Task {
   createdAt: number
@@ -12,22 +7,7 @@ export interface Task {
   checkedAt?: number
 }
 
-yaaslSetup()
-const taskListAtom = atom<Record<string, Task[]>>({
-  name: "task-list-widget",
-  defaultValue: {},
-  middleware: [localStorage()],
-})
-
-const setList = (listId: string, next: SetStateAction<Task[]>) =>
-  taskListAtom.set(allLists => {
-    const list = allLists[listId] ?? []
-    const nextList = next instanceof Function ? next(list) : next
-    if (nextList.length < 1) {
-      return removeKeyFromObject(allLists, listId)
-    }
-    return nextList === list ? allLists : { ...allLists, [listId]: nextList }
-  })
+const data = createDataAtom<Task[]>("task-list-widget", [])
 
 const createTask = (label: string): Task => ({
   label,
@@ -35,11 +15,11 @@ const createTask = (label: string): Task => ({
   createdAt: Date.now(),
 })
 const addTask = (listId: string, task: string) => {
-  setList(listId, list => [...list, createTask(task)])
+  data.setData(listId, list => [...list, createTask(task)])
 }
 
 const updateTask = (listId: string, task: Task) => {
-  setList(listId, list => {
+  data.setData(listId, list => {
     const nextList = [...list]
     const index = nextList.findIndex(
       ({ createdAt }) => createdAt === task.createdAt
@@ -51,19 +31,21 @@ const updateTask = (listId: string, task: Task) => {
 }
 
 const removeTask = (listId: string, task: Task) => {
-  setList(listId, list =>
+  data.setData(listId, list =>
     list.filter(({ createdAt }) => createdAt !== task.createdAt)
   )
 }
 
 const setAll = (listId: string, set: (task: Task) => Task) =>
-  setList(listId, list => list.map(set))
+  data.setData(listId, list => list.map(set))
 
 const removeAllWhere = (listId: string, condition: (task: Task) => boolean) =>
-  setList(listId, list => list.filter(task => !condition(task)))
+  data.setData(listId, list => list.filter(task => !condition(task)))
+
+export const useTaskListData = data.useData
 
 export const taskList = {
-  atom: taskListAtom,
+  atom: data.atom,
   addTask,
   updateTask,
   removeTask,
