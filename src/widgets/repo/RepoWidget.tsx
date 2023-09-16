@@ -26,6 +26,7 @@ import { timeSince } from "~/lib/datetime"
 import { usePromise } from "~/lib/usePromise"
 
 import { repoData } from "./data"
+import { getMenuItmes, useRepoSettings } from "./settings"
 
 const useGithubRepo = (owner: string, name: string) => {
   const { status, error, reload } = usePromise(() =>
@@ -167,20 +168,30 @@ const Info = ({ owner, description, html_url, homepage }: GithubRepository) => (
     - [ ] display topics
     - [ ] display name in title
  */
-const WidgetSettings = ({ name, owner }: RepoWidgetProps) => (
-  <MenuButton
-    icon={MoreVertical}
-    title="Widget settings"
-    titleSide="left"
-    items={[
-      {
-        label: "Refresh",
-        icon: RefreshCw,
-        onClick: () => repoData.removeRepo(owner, name),
-      },
-    ]}
-  />
-)
+const WidgetSettings = ({ name, owner }: RepoWidgetProps) => {
+  const id = repoData.getName(owner, name)
+  const settings = useRepoSettings(id)
+  return (
+    <MenuButton
+      icon={MoreVertical}
+      title="Widget settings"
+      titleSide="left"
+      items={[
+        {
+          label: "Actions",
+          items: [
+            {
+              label: "Refresh",
+              icon: RefreshCw,
+              onClick: () => repoData.removeRepo(owner, name),
+            },
+          ],
+        },
+        ...getMenuItmes(id, settings),
+      ]}
+    />
+  )
+}
 
 interface RepoWidgetProps {
   owner: string
@@ -189,6 +200,7 @@ interface RepoWidgetProps {
 export const RepoWidget = ({ owner, name }: RepoWidgetProps) => {
   const { repo, status } = useGithubRepo(owner, name)
   const repoName = repoData.getName(owner, name)
+  const settings = useRepoSettings(repoName)
 
   if (status === "rejected") {
     return <>Repo info of &quot;{repoName}&quot; could not be fetched.</>
@@ -200,7 +212,9 @@ export const RepoWidget = ({ owner, name }: RepoWidgetProps) => {
 
   return (
     <Widget.Root>
-      <Widget.Header title={repo.full_name}>
+      <Widget.Header
+        title={settings.hideOwnerInTitle ? repo.name : repo.full_name}
+      >
         <WidgetSettings owner={owner} name={name} />
       </Widget.Header>
       <Widget.Content>
@@ -208,13 +222,17 @@ export const RepoWidget = ({ owner, name }: RepoWidgetProps) => {
           <Info {...repo} />
         </Section>
 
-        <Section title="Stats">
-          <RepoStats {...repo} />
-        </Section>
+        {settings.hideStats ? null : (
+          <Section title="Stats">
+            <RepoStats {...repo} />
+          </Section>
+        )}
 
-        <Section title="Topics">
-          <Topics {...repo} />
-        </Section>
+        {settings.hideTopics ? null : (
+          <Section title="Topics">
+            <Topics {...repo} />
+          </Section>
+        )}
       </Widget.Content>
     </Widget.Root>
   )

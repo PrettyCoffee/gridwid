@@ -15,7 +15,7 @@ import {
   DropdownMenuCheckboxItem,
 } from "./ui/dropdown-menu"
 
-interface MenuItem extends Partial<IconProp> {
+export interface MenuItem extends Partial<IconProp> {
   label: string
   destructive?: boolean
   keepOpen?: boolean
@@ -26,7 +26,7 @@ interface MenuItem extends Partial<IconProp> {
   }
 }
 
-interface MenuItemGroup {
+export interface MenuItemGroup {
   label: string
   items: MenuItem[]
 }
