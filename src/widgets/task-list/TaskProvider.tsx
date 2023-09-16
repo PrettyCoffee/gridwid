@@ -1,6 +1,7 @@
 import {
   Dispatch,
   PropsWithChildren,
+  SetStateAction,
   useCallback,
   useMemo,
   useState,
@@ -19,8 +20,10 @@ interface ContextState {
   addTask: Dispatch<string>
   updateTask: Dispatch<Task>
   removeTask: Dispatch<Task>
-  setInputValue: Dispatch<string>
+  filter: boolean
+  setFilter: Dispatch<SetStateAction<boolean>>
   inputValue: string
+  setInputValue: Dispatch<string>
 }
 
 const { Provider, useRequiredContext } =
@@ -53,20 +56,22 @@ const useSortedTasks = (
 
 interface FilterOptions {
   hideChecked: boolean
+  filter: boolean
+  inputValue: string
 }
 const useFilteredTasks = (
   tasks: Task[] | undefined,
-  { hideChecked }: FilterOptions
+  { hideChecked, filter, inputValue }: FilterOptions
 ) =>
   useMemo(() => {
     if (!tasks) return
-    console.log(tasks)
-    return tasks.filter(({ checked }) => {
-      // eslint-disable-next-line sonarjs/prefer-single-boolean-return -- has worse readability
+    return tasks.filter(({ label, checked }) => {
       if (hideChecked && checked) return false
+      // eslint-disable-next-line sonarjs/prefer-single-boolean-return -- has worse readability
+      if (filter && !label.includes(inputValue)) return false
       return true
     })
-  }, [tasks, hideChecked])
+  }, [tasks, hideChecked, filter, inputValue])
 
 interface TaskListProviderProps {
   id: string
@@ -77,11 +82,14 @@ export const TaskListProvider = ({
 }: PropsWithChildren<TaskListProviderProps>) => {
   const rawTasks = useAtomValue(taskList.atom)[id]
   const [inputValue, setInputValue] = useState("")
+  const [filter, setFilter] = useState(false)
   const { sort, hideChecked } = useTaskListSettings(id)
 
   const sortedTasks = useSortedTasks(rawTasks, sort)
   const filteredTasks = useFilteredTasks(sortedTasks, {
     hideChecked,
+    filter,
+    inputValue,
   })
 
   const addTask = useCallback(
@@ -106,8 +114,10 @@ export const TaskListProvider = ({
         addTask,
         updateTask,
         removeTask,
-        setInputValue,
+        filter,
+        setFilter,
         inputValue,
+        setInputValue,
       }}
     >
       {children}

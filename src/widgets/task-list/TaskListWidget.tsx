@@ -4,6 +4,7 @@ import {
   CheckCheck,
   CopyCheck,
   CopyMinus,
+  Filter,
   MoreVertical,
   Plus,
   Trash,
@@ -27,7 +28,8 @@ import {
 import { TaskListProvider, useTaskList } from "./TaskProvider"
 
 const AddItem = () => {
-  const { inputValue, setInputValue, addTask } = useTaskList()
+  const { inputValue, setInputValue, filter, setFilter, addTask } =
+    useTaskList()
 
   const handleAdd = () => {
     if (!inputValue) return
@@ -37,8 +39,18 @@ const AddItem = () => {
 
   return (
     <div className="relative flex gap-2">
+      <IconButton
+        className={cn(
+          "absolute top-0 bottom-0 left-0",
+          filter && "[&>svg]:fill-accent-foreground"
+        )}
+        icon={Filter}
+        title="Enable filter"
+        onClick={() => setFilter(v => !v)}
+        titleSide="left"
+      />
       <Input
-        className="pr-12"
+        className="px-12"
         placeholder="Task label"
         value={inputValue}
         onChange={({ target }) => setInputValue(target.value)}
