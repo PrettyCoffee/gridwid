@@ -160,14 +160,6 @@ const Info = ({ owner, description, html_url, homepage }: GithubRepository) => (
   </>
 )
 
-/** TODO: Settings
-  Actions
-    - Refresh
-  Design
-    - [ ] display stats
-    - [ ] display topics
-    - [ ] display name in title
- */
 const WidgetSettings = ({ name, owner }: RepoWidgetProps) => {
   const id = repoData.getName(owner, name)
   const settings = useRepoSettings(id)

@@ -11,7 +11,7 @@ import { Card } from "./ui/card"
 const Root = ({ children, className }: PropsWithChildren<ClassNameProp>) => (
   <Card
     className={cn(
-      "w-full h-full flex flex-col overflow-y-auto overflow-x-hidden",
+      "relative w-full h-full flex flex-col overflow-y-auto overflow-x-hidden",
       className
     )}
   >
