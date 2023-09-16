@@ -1,4 +1,4 @@
-import { Dispatch, useCallback, useMemo, useState } from "react"
+import { Dispatch } from "react"
 
 import {
   CheckCheck,
@@ -8,7 +8,6 @@ import {
   Plus,
   Trash,
 } from "lucide-react"
-import { useAtomValue } from "yaasl/react"
 
 import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
@@ -17,7 +16,6 @@ import { Text } from "~/components/Text"
 import { CheckboxWithLabel } from "~/components/ui/checkbox"
 import { Input } from "~/components/ui/input"
 import { Widget } from "~/components/Widget"
-import { booleanSort, numberSort, stringSort } from "~/lib/sort"
 import { cn } from "~/lib/utils"
 
 import { Task, taskList } from "./data"
@@ -26,59 +24,15 @@ import {
   TaskListSettings,
   useTaskListSettings,
 } from "./settings"
+import { TaskListProvider, useTaskList } from "./TaskProvider"
 
-const sortByAttribute = {
-  checked: booleanSort,
-  checkedAt: numberSort,
-  createdAt: numberSort,
-  label: stringSort,
-}
+const AddItem = () => {
+  const { inputValue, setInputValue, addTask } = useTaskList()
 
-const useTasks = (
-  id: string,
-  { sort, hideChecked }: Required<TaskListSettings>
-) => {
-  const rawTasks = useAtomValue(taskList.atom)[id]
-
-  const tasks = useMemo(() => {
-    const sorted = rawTasks
-      ?.sort((a, b) => numberSort("asc")(a.createdAt, b.createdAt))
-      .sort((a, b) => {
-        const key = sort.key
-        // @ts-expect-error 2345
-        return sortByAttribute[key](sort.order)(a[key], b[key])
-      })
-    return !hideChecked ? sorted : sorted?.filter(({ checked }) => !checked)
-  }, [rawTasks, sort.key, sort.order, hideChecked])
-
-  const addTask = useCallback(
-    (label: string) => taskList.addTask(id, label),
-    [id]
-  )
-
-  const updateTask = useCallback(
-    (task: Task) => taskList.updateTask(id, task),
-    [id]
-  )
-
-  const removeTask = useCallback(
-    (task: Task) => taskList.removeTask(id, task),
-    [id]
-  )
-
-  return { tasks, addTask, updateTask, removeTask }
-}
-
-interface AddItemProps {
-  onAdd: Dispatch<string>
-}
-const AddItem = ({ onAdd }: AddItemProps) => {
-  const [value, setValue] = useState("")
-
-  const addTask = () => {
-    if (!value) return
-    onAdd(value)
-    setValue("")
+  const handleAdd = () => {
+    if (!inputValue) return
+    addTask(inputValue)
+    setInputValue("")
   }
 
   return (
@@ -86,15 +40,15 @@ const AddItem = ({ onAdd }: AddItemProps) => {
       <Input
         className="pr-12"
         placeholder="Task label"
-        value={value}
-        onChange={({ target }) => setValue(target.value)}
-        onKeyDown={({ key }) => key === "Enter" && addTask()}
+        value={inputValue}
+        onChange={({ target }) => setInputValue(target.value)}
+        onKeyDown={({ key }) => key === "Enter" && handleAdd()}
       />
       <IconButton
         className="absolute top-0 bottom-0 right-0"
         icon={Plus}
         title="Add task"
-        onClick={addTask}
+        onClick={handleAdd}
         titleSide="right"
       />
     </div>
@@ -190,15 +144,15 @@ const NoTasks = () => (
   </div>
 )
 
-interface TaskListWidgetProps {
-  id: string
-  title: string
+interface TaskListProps {
+  settings: TaskListSettings
 }
-export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
-  const settings = useTaskListSettings(id)
-  const { tasks, addTask, updateTask, removeTask } = useTasks(id, settings)
+const TaskList = ({ settings }: TaskListProps) => {
+  const { tasks, updateTask, removeTask } = useTaskList()
 
-  const changeTask = (task: Task, checked: boolean) =>
+  if (!tasks) return <NoTasks />
+
+  const changeChecked = (task: Task, checked: boolean) =>
     updateTask({
       ...task,
       checked,
@@ -206,31 +160,39 @@ export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
     })
 
   return (
+    <Widget.Content>
+      {tasks.map(task => (
+        <TaskItem
+          key={task.createdAt}
+          {...task}
+          onChange={checked => changeChecked(task, checked)}
+          onDelete={() => removeTask(task)}
+          compact={settings.compactList}
+          noWrap={settings.noWrap || (settings.checkedNoWrap && task.checked)}
+        />
+      ))}
+    </Widget.Content>
+  )
+}
+
+interface TaskListWidgetProps {
+  id: string
+  title: string
+}
+export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
+  const settings = useTaskListSettings(id)
+
+  return (
     <Widget.Root>
       <Widget.Header title={title}>
         <TaskListMenu id={id} settings={settings} />
       </Widget.Header>
-      <Widget.Content className="py-4 sticky top-9 bg-card z-10">
-        <AddItem onAdd={addTask} />
-      </Widget.Content>
-      {!tasks ? (
-        <NoTasks />
-      ) : (
-        <Widget.Content>
-          {tasks.map(task => (
-            <TaskItem
-              key={task.createdAt}
-              {...task}
-              onChange={checked => changeTask(task, checked)}
-              onDelete={() => removeTask(task)}
-              compact={settings.compactList}
-              noWrap={
-                settings.noWrap || (settings.checkedNoWrap && task.checked)
-              }
-            />
-          ))}
+      <TaskListProvider id={id}>
+        <Widget.Content className="py-4 sticky top-9 bg-card z-10">
+          <AddItem />
         </Widget.Content>
-      )}
+        <TaskList settings={settings} />
+      </TaskListProvider>
     </Widget.Root>
   )
 }
