@@ -15,6 +15,7 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover"
 import { ImageWidget } from "~/widgets/image/ImageWidget"
+import { LinkTreeWidget } from "~/widgets/link-tree/LinkTreeWidget"
 import { RepoWidget } from "~/widgets/repo/RepoWidget"
 import { TaskListWidget } from "~/widgets/task-list/TaskListWidget"
 
@@ -89,6 +90,9 @@ const Notifications = () => (
 export const Page = () => (
   <div className="flex flex-col h-full">
     <Grid.Root className="p-2 flex-1 overflow-y-auto">
+      <Grid.Item columns={3} rows={4}>
+        <LinkTreeWidget id="5" />
+      </Grid.Item>
       <Grid.Item columns={3} rows={2}>
         <ImageWidget
           id="3"
