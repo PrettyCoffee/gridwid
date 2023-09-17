@@ -1,11 +1,9 @@
 import { Dispatch, useState } from "react"
 
-import { ArrowLeft, Bookmark, Folder } from "lucide-react"
+import { Bookmark, ChevronLeft, ChevronRight, Folder } from "lucide-react"
 
 import { Icon } from "~/components/Icon"
-import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
-import { Text } from "~/components/Text"
 import { Input } from "~/components/ui/input"
 import { Widget } from "~/components/Widget"
 import { cn } from "~/lib/utils"
@@ -41,10 +39,41 @@ const LinkGroup = ({
   >
     <Icon icon={Folder} size="sm" color="highlight" />
     <ListItem.Caption title={label} size="sm" />
+    <Icon
+      icon={ChevronRight}
+      size="sm"
+      color="muted"
+      className="ml-auto [:not(:hover)>&]:hidden"
+    />
   </ListItem.Root>
 )
 
-const Node = (node: TreeNode & { navigate: Dispatch<string> }) =>
+interface CurrentGroupProps {
+  label: string
+  onClick: () => void
+}
+
+const CurrentGroup = ({ label, onClick }: CurrentGroupProps) =>
+  label === "root" ? (
+    <ListItem.Root className="min-h-[theme(height.8)]">
+      <ListItem.Caption
+        title={label}
+        size="sm"
+        className="text-muted-foreground"
+      />
+    </ListItem.Root>
+  ) : (
+    <ListItem.Root onClick={onClick} className="min-h-[theme(height.8)]">
+      <Icon icon={ChevronLeft} size="sm" color="muted" />
+      <ListItem.Caption
+        title={label}
+        size="sm"
+        className="text-muted-foreground"
+      />
+    </ListItem.Root>
+  )
+
+const LinkNode = (node: TreeNode & { navigate: Dispatch<string> }) =>
   "items" in node ? <LinkGroup {...node} /> : <LinkItem {...node} />
 
 const getAllLinks = (tree: TreeNode[]): TreeLink[] =>
@@ -66,8 +95,6 @@ const LinkTree = ({ tree }: { tree: TreeNode[] }) => {
     { label: "root", items: tree },
   ])
   const [filter, setFilter] = useState("")
-  const parent = path[path.length - 2]
-
   const group = !filter ? path[path.length - 1] : searchTree(tree, filter)
 
   const navigate = (label: string) => {
@@ -78,26 +105,13 @@ const LinkTree = ({ tree }: { tree: TreeNode[] }) => {
       return [...path, target]
     })
   }
+
   const back = () => {
     setPath(path => path.slice(0, -1))
   }
 
   return (
     <>
-      <div className="pl-2 h-8 flex justify-between items-center">
-        <Text color="muted" size="sm">
-          {group?.label === "root" ? "~" : group?.label}
-        </Text>
-        {parent && (
-          <IconButton
-            title={`Back to ${parent.label}`}
-            icon={ArrowLeft}
-            onClick={back}
-            titleSide="left"
-            compact
-          />
-        )}
-      </div>
       <div className="flex gap-1 py-1">
         <Input
           value={filter}
@@ -106,9 +120,10 @@ const LinkTree = ({ tree }: { tree: TreeNode[] }) => {
           className=""
         />
       </div>
-      <div className="flex-1 flex flex-col overflow-y-auto -mr-4 pr-4">
+      <CurrentGroup onClick={back} label={group?.label ?? "root"} />
+      <div className="pl-0 flex-1 flex flex-col overflow-y-auto -mr-4 pr-4">
         {group?.items.map(node => (
-          <Node key={node.label} navigate={navigate} {...node} />
+          <LinkNode key={node.label} navigate={navigate} {...node} />
         ))}
       </div>
     </>
