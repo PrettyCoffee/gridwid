@@ -47,7 +47,7 @@ const AddItem = () => {
         icon={Filter}
         title="Enable filter"
         onClick={() => setFilter(v => !v)}
-        titleSide="left"
+        titleSide="top"
       />
       <Input
         className="px-12"
@@ -61,7 +61,7 @@ const AddItem = () => {
         icon={Plus}
         title="Add task"
         onClick={handleAdd}
-        titleSide="right"
+        titleSide="top"
       />
     </div>
   )
