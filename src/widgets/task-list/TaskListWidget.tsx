@@ -139,7 +139,7 @@ const TaskItem = ({
       {...delegated}
     />
     <IconButton
-      className="hidden [:hover>&]:flex text-destructive-foreground hover:text-destructive-foreground"
+      className="flex text-destructive-foreground hover:text-destructive-foreground [:not(:hover)>&]:opacity-0 [:not(:hover)>&]:w-0 [:not(:hover)>&]:min-w-0"
       icon={Trash}
       title="Delete task"
       onClick={onDelete}
