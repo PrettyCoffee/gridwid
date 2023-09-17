@@ -1,9 +1,16 @@
 import { Dispatch, useState } from "react"
 
-import { Bookmark, ChevronLeft, ChevronRight, Folder } from "lucide-react"
+import {
+  Bookmark,
+  ChevronLeft,
+  ChevronRight,
+  Folder,
+  Unlink,
+} from "lucide-react"
 
 import { Icon } from "~/components/Icon"
 import { ListItem } from "~/components/ListItem"
+import { NoData } from "~/components/NoData"
 import { Input } from "~/components/ui/input"
 import { Widget } from "~/components/Widget"
 import { cn } from "~/lib/utils"
@@ -90,6 +97,8 @@ const searchTree = (tree: TreeNode[], filter: string): TreeGroup => {
   }
 }
 
+const NoLinks = () => <NoData icon={Unlink} message="No links found." />
+
 const LinkTree = ({ tree }: { tree: TreeNode[] }) => {
   const [path, setPath] = useState<TreeGroup[]>([
     { label: "root", items: tree },
@@ -120,12 +129,18 @@ const LinkTree = ({ tree }: { tree: TreeNode[] }) => {
           className=""
         />
       </div>
-      <CurrentGroup onClick={back} label={group?.label ?? "root"} />
-      <div className="pl-0 flex-1 flex flex-col overflow-y-auto -mr-4 pr-4">
-        {group?.items.map(node => (
-          <LinkNode key={node.label} navigate={navigate} {...node} />
-        ))}
-      </div>
+      {group?.items.length === 0 ? (
+        <NoLinks />
+      ) : (
+        <>
+          <CurrentGroup onClick={back} label={group?.label ?? "root"} />
+          <div className="pl-0 flex-1 flex flex-col overflow-y-auto -mr-4 pr-4">
+            {group?.items.map(node => (
+              <LinkNode key={node.label} navigate={navigate} {...node} />
+            ))}
+          </div>
+        </>
+      )}
     </>
   )
 }
@@ -139,7 +154,11 @@ export const LinkTreeWidget = ({ title }: LinkTreeWidgetProps) => {
   return (
     <Widget.Root>
       {title && <Widget.Header title={title} />}
-      <Widget.Content className={cn("flex flex-col", !title && "pt-4")} scroll>
+      <Widget.Content
+        className={cn("flex flex-col", !title && "pt-4")}
+        scroll
+        expand
+      >
         <LinkTree tree={demoData} />
       </Widget.Content>
     </Widget.Root>

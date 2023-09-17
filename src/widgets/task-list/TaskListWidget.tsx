@@ -5,15 +5,15 @@ import {
   CopyCheck,
   CopyMinus,
   Filter,
+  FilterX,
   MoreVertical,
   Plus,
   Trash,
 } from "lucide-react"
 
-import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
 import { MenuButton } from "~/components/MenuButton"
-import { Text } from "~/components/Text"
+import { NoData } from "~/components/NoData"
 import { CheckboxWithLabel } from "~/components/ui/checkbox"
 import { Input } from "~/components/ui/input"
 import { Widget } from "~/components/Widget"
@@ -149,20 +149,17 @@ const TaskItem = ({
   </div>
 )
 
-const NoTasks = () => (
-  <div className="h-full w-full flex flex-col gap-4 items-center justify-center">
-    <Icon icon={CheckCheck} color="muted" className="h-20 w-20" />
-    <Text color="muted">There is nothing to do!</Text>
-  </div>
-)
-
 interface TaskListProps {
   settings: TaskListSettings
 }
 const TaskList = ({ settings }: TaskListProps) => {
   const { tasks, updateTask, removeTask } = useTaskList()
 
-  if (!tasks) return <NoTasks />
+  if (!tasks)
+    return <NoData icon={CheckCheck} message="There is nothing to do!" />
+
+  if (tasks.length === 0)
+    return <NoData icon={FilterX} message="No task found." />
 
   const changeChecked = (task: Task, checked: boolean) =>
     updateTask({

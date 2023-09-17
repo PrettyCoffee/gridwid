@@ -2,9 +2,8 @@ import { useState } from "react"
 
 import { ImageOff, MoreVertical } from "lucide-react"
 
-import { Icon } from "~/components/Icon"
 import { MenuButton } from "~/components/MenuButton"
-import { Text } from "~/components/Text"
+import { NoData } from "~/components/NoData"
 import { Widget } from "~/components/Widget"
 import { cn } from "~/lib/utils"
 
@@ -73,13 +72,8 @@ export const ImageWidget = ({ id, src }: ImageWidgetProps) => {
 
   if (error) {
     return (
-      <Widget.Root className="flex items-center justify-center flex-col gap-2">
-        <Icon
-          icon={ImageOff}
-          color="muted"
-          className="h-20 w-20 max-w-full max-h-full"
-        />
-        <Text color="muted">Image not available</Text>
+      <Widget.Root>
+        <NoData icon={ImageOff} />
       </Widget.Root>
     )
   }
