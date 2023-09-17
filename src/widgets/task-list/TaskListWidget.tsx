@@ -203,7 +203,7 @@ export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
         <Widget.Content className="my-2">
           <AddItem />
         </Widget.Content>
-        <Widget.Content scroll>
+        <Widget.Content scroll expand>
           <TaskList settings={settings} />
         </Widget.Content>
       </TaskListProvider>
