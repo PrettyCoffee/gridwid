@@ -31,6 +31,7 @@
   }
 
   :root {
+    --page: var(--neutral-50);
     --background: var(--neutral-white);
     --foreground: var(--neutral-black);
 
@@ -65,6 +66,7 @@
 }
 
 .dark {
+  --page: var(--neutral-900);
   --background: var(--neutral-black);
   --foreground: var(--neutral-50);
   
@@ -105,7 +107,7 @@
     @apply h-full
   }
   body {
-    @apply bg-zinc-50 dark:bg-zinc-900;
-    @apply text-zinc-950 dark:text-zinc-50;
+    @apply bg-page;
+    @apply text-foreground;
   }
 }
