@@ -8,6 +8,7 @@ import { ListItem } from "~/components/ListItem"
 import { Text } from "~/components/Text"
 import { Input } from "~/components/ui/input"
 import { Widget } from "~/components/Widget"
+import { cn } from "~/lib/utils"
 
 import { demoData } from "./demoData"
 
@@ -123,7 +124,7 @@ export const LinkTreeWidget = ({ title }: LinkTreeWidgetProps) => {
   return (
     <Widget.Root>
       {title && <Widget.Header title={title} />}
-      <Widget.Content className="flex flex-col" scroll>
+      <Widget.Content className={cn("flex flex-col", !title && "pt-4")} scroll>
         <LinkTree tree={demoData} />
       </Widget.Content>
     </Widget.Root>
