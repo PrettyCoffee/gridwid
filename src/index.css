@@ -29,24 +29,24 @@
     
     --radius: 0.5rem;
   }
-
-  :root {
+  
+  .light {
     --page: var(--neutral-50);
     --background: var(--neutral-white);
     --foreground: var(--neutral-black);
-
+    
     --card: var(--neutral-white);
     --card-foreground: var(--neutral-black);
- 
+    
     --popover: var(--neutral-white);
     --popover-foreground: var(--neutral-black);
- 
+    
     --primary: var(--neutral-900);
     --primary-foreground: var(--neutral-50);
- 
+    
     --secondary: var(--neutral-100);
     --secondary-foreground: var(--neutral-900);
-
+    
     --highlight: var(--blue-500);
     --highlight-foreground: var(--blue-700);
     
@@ -63,40 +63,74 @@
     --input: var(--neutral-200);
     --ring: var(--neutral-black);
   }
-}
-
-.dark {
-  --page: var(--neutral-900);
-  --background: var(--neutral-black);
-  --foreground: var(--neutral-50);
   
-  --card: var(--neutral-black);
-  --card-foreground: var(--neutral-50);
+  .dark {
+    --page: var(--neutral-900);
+    --background: var(--neutral-black);
+    --foreground: var(--neutral-50);
+    
+    --card: var(--neutral-black);
+    --card-foreground: var(--neutral-50);
+    
+    --popover: var(--neutral-black);
+    --popover-foreground: var(--neutral-50);
+    
+    --primary: var(--neutral-50);
+    --primary-foreground: var(--neutral-900);
+    
+    --secondary: var(--neutral-800);
+    --secondary-foreground: var(--neutral-50);
+    
+    --highlight: var(--blue-500);
+    --highlight-foreground:  var(--blue-300);
+    
+    --muted: var(--neutral-800);
+    --muted-foreground: var(--neutral-400);
   
-  --popover: var(--neutral-black);
-  --popover-foreground: var(--neutral-50);
+    --accent: var(--neutral-800);
+    --accent-foreground: var(--neutral-50);
   
-  --primary: var(--neutral-50);
-  --primary-foreground: var(--neutral-900);
+    --destructive: var(--red-500);
+    --destructive-foreground: var(--red-300);
   
-  --secondary: var(--neutral-800);
-  --secondary-foreground: var(--neutral-50);
+    --border: var(--neutral-800);
+    --input: var(--neutral-800);
+    --ring: var(--neutral-300);
+  }
   
-  --highlight: var(--blue-500);
-  --highlight-foreground:  var(--blue-300);
+  .mocha {
+    --page: 240 21% 12%;
+    --background: 240 23% 9%;
+    --foreground: 226 64% 88%;
+    
+    --card: 240 23% 9%;
+    --card-foreground: 226 64% 88%;
+    
+    --popover: 240 23% 9%;
+    --popover-foreground: 226 64% 88%;
+    
+    --primary: 226 64% 88%;
+    --primary-foreground: 240 21% 12%;
+    
+    --secondary: 240 21% 15%;
+    --secondary-foreground: 226 64% 88%;
+    
+    --highlight: 217 92% 76%;
+    --highlight-foreground:  217 92% 76%;
+    
+    --muted: 240 21% 15%;
+    --muted-foreground: 230 13% 55%;
   
-  --muted: var(--neutral-800);
-  --muted-foreground: var(--neutral-400);
-
-  --accent: var(--neutral-800);
-  --accent-foreground: var(--neutral-50);
-
-  --destructive: var(--red-500);
-  --destructive-foreground: var(--red-300);
-
-  --border: var(--neutral-800);
-  --input: var(--neutral-800);
-  --ring: var(--neutral-300);
+    --accent: 240 21% 15%;
+    --accent-foreground: 226 64% 88%;
+  
+    --destructive: 343 81% 75%;
+    --destructive-foreground: 343 81% 75%;
+  
+    --border: 240 21% 15%;
+    --input: 240 21% 15%;
+    --ring: 228 17% 64%;
+  }
 }
 
 @layer base {

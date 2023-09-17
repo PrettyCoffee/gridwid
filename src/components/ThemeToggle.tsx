@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 
-import { Sun, MoonStar, SunMoon, LucideIcon } from "lucide-react"
+import { Sun, MoonStar, SunMoon, LucideIcon, Cat } from "lucide-react"
 import {
   atom,
   derive,
@@ -16,7 +16,7 @@ import { IconButton } from "./IconButton"
 const getSystemMode = () =>
   window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 
-type ThemeMode = "dark" | "light" | "system"
+type ThemeMode = "dark" | "light" | "system" | "mocha"
 
 yaaslSetup()
 
@@ -36,7 +36,7 @@ export const useApplyThemeMode = () => {
 
   useEffect(() => {
     const root = window.document.documentElement
-    root.classList.remove("light", "dark")
+    root.classList.remove("light", "dark", "mocha")
     root.classList.add(mode)
   }, [mode])
 }
@@ -44,13 +44,15 @@ export const useApplyThemeMode = () => {
 const nextMode: Record<ThemeMode, ThemeMode> = {
   system: "dark",
   dark: "light",
-  light: "system",
+  light: "mocha",
+  mocha: "system",
 }
 
 const modeIcon: Record<ThemeMode, LucideIcon> = {
   system: SunMoon,
   dark: MoonStar,
   light: Sun,
+  mocha: Cat,
 }
 
 export const ThemeToggle = () => {
