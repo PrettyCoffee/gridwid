@@ -73,24 +73,23 @@ const listCaption = cva(
     },
   }
 )
-export interface ListItemCaptionProps extends VariantProps<typeof listCaption> {
+export interface ListItemCaptionProps
+  extends VariantProps<typeof listCaption>,
+    ClassNameProp {
   title: string
   subtitle?: string
 }
 const ListItemCaption = ({
   title,
   subtitle,
-  ...delegated
-}: ListItemCaptionProps) => {
-  const className = listCaption(delegated)
-
-  return (
-    <div className={className}>
-      <span className={noOverflow}>{title}</span>
-      <span className={noOverflow}>{subtitle}</span>
-    </div>
-  )
-}
+  className,
+  ...styles
+}: ListItemCaptionProps) => (
+  <div className={cn(listCaption(styles), className)}>
+    <span className={noOverflow}>{title}</span>
+    <span className={noOverflow}>{subtitle}</span>
+  </div>
+)
 
 const listCaptionSkeleton = cva(
   "justify-center [&>*]:max-w-full [&>:first-of-type]:w-24 [&>:last-of-type]:w-40",
