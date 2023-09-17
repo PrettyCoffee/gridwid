@@ -11,7 +11,7 @@ import { Card } from "./ui/card"
 const Root = ({ children, className }: PropsWithChildren<ClassNameProp>) => (
   <Card
     className={cn(
-      "relative w-full h-full flex flex-col overflow-y-auto overflow-x-hidden",
+      "relative w-full h-full max-h-full flex flex-col overflow-y-auto overflow-x-hidden",
       className
     )}
   >
@@ -27,7 +27,7 @@ const Header = ({
   children,
   className,
 }: PropsWithChildren<WidgetHeaderProps>) => (
-  <div className="sticky top-0 z-10 h-12 pl-6 pt-2 pr-2 flex justify-between items-center gap-2 bg-card">
+  <div className="sticky h-12 pl-6 pt-2 pr-2 flex justify-between items-center gap-2 bg-card">
     {title && (
       <span className={cn(noOverflow, "text-lg font-semibold", className)}>
         {title}
@@ -37,14 +37,18 @@ const Header = ({
   </div>
 )
 
-const content = cva("px-6 pb-6", {
+const content = cva("px-4 mb-4", {
   variants: {
     expand: {
       true: "flex-1",
     },
+    scroll: {
+      true: "overflow-y-auto overflow-x-hidden",
+    },
   },
   defaultVariants: {
     expand: false,
+    scroll: false,
   },
 })
 type WidgetContentProps = VariantProps<typeof content> & ClassNameProp

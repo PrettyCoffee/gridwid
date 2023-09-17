@@ -123,7 +123,7 @@ export const LinkTreeWidget = ({ title }: LinkTreeWidgetProps) => {
   return (
     <Widget.Root>
       {title && <Widget.Header title={title} />}
-      <Widget.Content className="p-4 max-h-full flex flex-col">
+      <Widget.Content className="flex flex-col" scroll>
         <LinkTree tree={demoData} />
       </Widget.Content>
     </Widget.Root>

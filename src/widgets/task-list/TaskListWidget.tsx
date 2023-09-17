@@ -172,7 +172,7 @@ const TaskList = ({ settings }: TaskListProps) => {
     })
 
   return (
-    <Widget.Content>
+    <>
       {tasks.map(task => (
         <TaskItem
           key={task.createdAt}
@@ -183,7 +183,7 @@ const TaskList = ({ settings }: TaskListProps) => {
           noWrap={settings.noWrap || (settings.checkedNoWrap && task.checked)}
         />
       ))}
-    </Widget.Content>
+    </>
   )
 }
 
@@ -200,10 +200,12 @@ export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
         <TaskListMenu id={id} settings={settings} />
       </Widget.Header>
       <TaskListProvider id={id}>
-        <Widget.Content className="py-4 sticky top-9 bg-card z-10">
+        <Widget.Content className="my-2">
           <AddItem />
         </Widget.Content>
-        <TaskList settings={settings} />
+        <Widget.Content scroll>
+          <TaskList settings={settings} />
+        </Widget.Content>
       </TaskListProvider>
     </Widget.Root>
   )
