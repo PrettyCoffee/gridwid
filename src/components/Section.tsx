@@ -15,8 +15,10 @@ export const Section = ({
   className,
 }: PropsWithChildren<SectionProps>) => (
   <div className={cn("[&:not(:last-of-type)]:mb-1", className)}>
-    <span className="text-muted-foreground text-sm">{title}</span>
-    <Separator className="mb-1" />
+    <div className="sticky top-0 bg-card z-10">
+      <span className="text-muted-foreground text-sm">{title}</span>
+      <Separator className="mb-1" />
+    </div>
     {children}
   </div>
 )
