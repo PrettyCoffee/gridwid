@@ -133,7 +133,7 @@ const TaskItem = ({
 }: TaskItemProps) => (
   <div className="flex max-w-full">
     <CheckboxWithLabel
-      size={compact ? "compact" : "default"}
+      compact={compact}
       className={cn("flex-1", checked && "text-muted-foreground line-through")}
       checked={checked}
       {...delegated}
