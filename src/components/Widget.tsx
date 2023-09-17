@@ -27,7 +27,7 @@ const Header = ({
   children,
   className,
 }: PropsWithChildren<WidgetHeaderProps>) => (
-  <div className="sticky h-10 shrink-0 mt-1 pr-1 pl-4 flex justify-between items-center gap-2 bg-card">
+  <div className="h-10 shrink-0 mt-1 pr-1 pl-4 flex justify-between items-center gap-2 bg-card">
     {title && (
       <span className={cn(noOverflow, "text-lg font-semibold", className)}>
         {title}

@@ -57,7 +57,7 @@ const RepoWidgetSkeleton = () => (
         clickAnimation="animate-spin-once"
       />
     </Widget.Header>
-    <Widget.Content>
+    <Widget.Content scroll>
       <Section title="Info">
         <ListItem.Root className="-mx-2">
           <AvatarSkeleton className="h-6 w-6" />
@@ -209,7 +209,7 @@ export const RepoWidget = ({ owner, name }: RepoWidgetProps) => {
       >
         <WidgetSettings owner={owner} name={name} />
       </Widget.Header>
-      <Widget.Content>
+      <Widget.Content scroll>
         <Section title="Info">
           <Info {...repo} />
         </Section>
