@@ -72,7 +72,8 @@ const CheckboxWithLabel = ({
 }: CheckboxWithLabelProps) => (
   <label
     className={cn(
-      "pr-1 flex cursor-pointer rounded hover:bg-accent",
+      "pr-1 flex cursor-pointer hover:bg-accent",
+      compact ? "rounded-sm" : "rounded-md",
       press,
       noWrap && noOverflow,
       className

@@ -22,16 +22,15 @@ const Calendar = ({ className, classNames, ...props }: CalendarProps) => {
         caption_label: "text-sm font-medium",
         nav: "flex gap-1 items-center",
         nav_button: cn(
-          buttonVariants({ variant: "outline" }),
-          "h-9 w-9 bg-transparent p-0 opacity-50 hover:opacity-100"
+          buttonVariants({ variant: "outline", size: "compactIcon" })
         ),
         table: "w-full border-collapse space-y-1",
         head_row: "flex space-x-1",
         head_cell:
-          "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+          "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
         row: "flex w-full space-x-1 [&:not(:last-of-type)]:mb-1",
         cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
-        day: "flex items-center rounded justify-center h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+        day: "flex items-center rounded justify-center h-8 w-8 p-0 font-normal aria-selected:opacity-100",
         day_selected: "text-highlight-foreground",
         day_today: "bg-accent text-highlight-foreground",
         day_outside: "text-muted-foreground opacity-50",
