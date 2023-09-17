@@ -5,12 +5,13 @@ import { cn } from "~/lib/utils"
 
 import { ClassNameProp } from "./base/BaseProps"
 
-const icon = cva("", {
+const icon = cva("shrink-0", {
   variants: {
     size: {
-      sm: "h-4 w-4 min-h-[theme(height.4)] min-w-[theme(width.4)]",
-      md: "h-5 w-5 min-h-[theme(height.5)] min-w-[theme(width.5)]",
-      lg: "h-8 w-8 min-h-[theme(height.8)] min-w-[theme(width.8)]",
+      xs: "h-3 w-3",
+      sm: "h-4 w-4",
+      md: "h-5 w-5",
+      lg: "h-8 w-8",
     },
     color: {
       default: "text-foreground",
@@ -46,6 +47,6 @@ export const Icon = ({
   <Icon
     className={cn(icon(styles), className)}
     absoluteStrokeWidth={strokeWidth == null}
-    strokeWidth={strokeWidth}
+    strokeWidth={strokeWidth ?? styles.size === "xs" ? 3 : undefined}
   />
 )
