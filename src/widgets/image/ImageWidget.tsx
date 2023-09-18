@@ -98,8 +98,8 @@ export const ImageWidget = ({ id, src }: ImageWidgetProps) => {
       <MenuButton
         className="absolute top-2 right-2 opacity-50"
         icon={MoreVertical}
-        title="Widget settings"
-        titleSide="left"
+        title="Image widget settings"
+        hideTitle
         items={getMenuSettings(id, settings)}
       />
     </Widget.Root>

@@ -32,7 +32,10 @@ export interface MenuItemGroup {
 }
 
 interface MenuButtonProps
-  extends Pick<IconButtonProps, "icon" | "title" | "titleSide" | "className"> {
+  extends Pick<
+    IconButtonProps,
+    "icon" | "title" | "titleSide" | "hideTitle" | "className"
+  > {
   items: MenuItem[] | MenuItemGroup[]
 }
 

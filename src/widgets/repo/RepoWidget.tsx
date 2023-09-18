@@ -51,11 +51,7 @@ const RepoWidgetSkeleton = () => (
   <Widget.Root>
     <Widget.Header>
       <Skeleton className="w-40 h-4" />
-      <IconButton
-        icon={MoreVertical}
-        title="Refresh repository widget"
-        clickAnimation="animate-spin-once"
-      />
+      <IconButton icon={MoreVertical} title="" />
     </Widget.Header>
     <Widget.Content scroll>
       <Section title="Info">
@@ -166,8 +162,8 @@ const WidgetSettings = ({ name, owner }: RepoWidgetProps) => {
   return (
     <MenuButton
       icon={MoreVertical}
-      title="Widget settings"
-      titleSide="left"
+      title="Repository widget settings"
+      hideTitle
       items={[
         {
           label: "Actions",

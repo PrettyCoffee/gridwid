@@ -45,9 +45,9 @@ const AddItem = () => {
           filter && "[&>svg]:fill-accent-foreground"
         )}
         icon={Filter}
-        title="Enable filter"
+        title={`${filter ? "Disable" : "Enable"} filtering`}
         onClick={() => setFilter(v => !v)}
-        titleSide="top"
+        hideTitle
       />
       <Input
         className="px-12"
@@ -59,9 +59,9 @@ const AddItem = () => {
       <IconButton
         className="absolute top-0 bottom-0 right-0"
         icon={Plus}
-        title="Add task"
+        title="Add task to list"
+        hideTitle
         onClick={handleAdd}
-        titleSide="top"
       />
     </div>
   )
@@ -84,8 +84,8 @@ const TaskListMenu = ({
 }) => (
   <MenuButton
     icon={MoreVertical}
-    title="Widget settings"
-    titleSide="left"
+    title="Tasklist widget settings"
+    hideTitle
     items={[
       {
         label: "Actions",
@@ -142,8 +142,8 @@ const TaskItem = ({
       className="flex text-destructive-foreground hover:text-destructive-foreground [:not(:hover)>&]:opacity-0 [:not(:hover)>&]:w-0 [:not(:hover)>&]:min-w-0"
       icon={Trash}
       title="Delete task"
+      hideTitle
       onClick={onDelete}
-      titleSide="right"
       compact={compact}
     />
   </div>
