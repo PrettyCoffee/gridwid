@@ -5,6 +5,7 @@ import { Bell, Bird, Sticker, Flame, Banana, Ghost } from "lucide-react"
 import { Grid } from "~/components/Grid"
 import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
+import { StatusIndicator } from "~/components/StatusIndicator"
 import { TaskBar } from "~/components/TaskBar"
 import { Button } from "~/components/ui/button"
 import { Calendar } from "~/components/ui/calendar"
@@ -63,6 +64,7 @@ const Notifications = () => (
       <Button variant="ghost" className="px-2 gap-2">
         <Clock />
         <Icon icon={Bell} size="sm" />
+        <StatusIndicator kind="info" />
       </Button>
     </PopoverTrigger>
     <PopoverContent
