@@ -11,10 +11,6 @@
     --blue-700: 224 76% 48%;
     --blue-500: 217 91% 60%;
     --blue-300: 212 96% 78%;
-  
-    --green-700: 142 72% 29%;
-    --green-500: 142 71% 45%;
-    --green-300: 142 77% 73%;
 
     --neutral-white: 0 0% 100%;
     --neutral-50: 0 0% 98%;
@@ -62,6 +58,11 @@
     --border: var(--neutral-200);
     --input: var(--neutral-200);
     --ring: var(--neutral-black);
+
+    --success: 142 71% 45%;
+    --warning: 45 93% 47%;
+    --error: 0 84% 60%;
+    --info: 217 91% 60%;
   }
   
   .dark {
@@ -96,6 +97,11 @@
     --border: var(--neutral-800);
     --input: var(--neutral-800);
     --ring: var(--neutral-300);
+
+    --success: 142 71% 45%;
+    --warning: 45 93% 47%;
+    --error: 0 84% 60%;
+    --info: 217 91% 60%;
   }
   
   .mocha {
@@ -130,6 +136,11 @@
     --border: 240 21% 15%;
     --input: 240 21% 15%;
     --ring: 228 17% 64%;
+
+    --success: 115 54% 76%;
+    --warning: 41 86% 83%;
+    --error: 343 81% 75%;
+    --info: 217 92% 76%;
   }
 }
 
