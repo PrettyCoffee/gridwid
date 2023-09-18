@@ -13,12 +13,22 @@ export interface IconButtonProps extends ClassNameProp, IconProp {
   onClick?: ButtonClick
   clickAnimation?: string
   titleSide?: TitleTooltipProps["side"]
+  hideTitle?: boolean
   compact?: boolean
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (
-    { icon, title, onClick, clickAnimation, titleSide, compact, ...delegated },
+    {
+      icon,
+      title,
+      onClick,
+      clickAnimation,
+      titleSide,
+      compact,
+      hideTitle,
+      ...delegated
+    },
     ref
   ) => {
     const [animate, setAnimate] = useState(false)
@@ -29,7 +39,11 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     }
 
     return (
-      <TitleTooltip title={title} side={titleSide} asChild>
+      <TitleTooltip
+        title={hideTitle ? undefined : title}
+        side={titleSide}
+        asChild
+      >
         <Button
           ref={ref}
           variant="ghost"
@@ -44,6 +58,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             color="current"
             className={animate ? clickAnimation : ""}
           />
+          {hideTitle && <span className="sr-only">{title}</span>}
         </Button>
       </TitleTooltip>
     )
