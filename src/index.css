@@ -7,6 +7,14 @@
     --red-700: 0 74% 42%;
     --red-500: 0 84% 60%;
     --red-300: 0 94% 82%;
+    
+    --yellow-700: 35 92% 33%;
+    --yellow-500: 45 93% 47%;
+    --yellow-300: 50 98% 64%;
+      
+    --green-700: 142 72% 29%;
+    --green-500: 142 71% 45%;
+    --green-300: 142 77% 73%;
   
     --blue-700: 224 76% 48%;
     --blue-500: 217 91% 60%;
@@ -59,10 +67,10 @@
     --input: var(--neutral-200);
     --ring: var(--neutral-black);
 
-    --success: 142 71% 45%;
-    --warning: 45 93% 47%;
-    --error: 0 84% 60%;
-    --info: 217 91% 60%;
+    --success: var(--green-700);
+    --warning: var(--yellow-700);
+    --error: var(--red-700);
+    --info: var(--blue-700);
   }
   
   .dark {
@@ -98,10 +106,10 @@
     --input: var(--neutral-800);
     --ring: var(--neutral-300);
 
-    --success: 142 71% 45%;
-    --warning: 45 93% 47%;
-    --error: 0 84% 60%;
-    --info: 217 91% 60%;
+    --success: var(--green-300);
+    --warning: var(--yellow-300);
+    --error: var(--red-300);
+    --info: var(--blue-300);
   }
   
   .mocha {
