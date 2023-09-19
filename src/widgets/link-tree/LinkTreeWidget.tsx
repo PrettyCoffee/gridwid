@@ -16,13 +16,16 @@ import { Widget } from "~/components/Widget"
 import { cn } from "~/lib/utils"
 
 import { demoData } from "./demoData"
+import { useCascadingMenu } from "./useCascadingMenu"
 
 interface TreeLink {
+  id: string
   label: string
   href: string
 }
 
 interface TreeGroup {
+  id: string
   label: string
   items: TreeNode[]
 }
@@ -37,11 +40,12 @@ const LinkItem = ({ label, href }: TreeLink) => (
 )
 
 const LinkGroup = ({
+  id,
   label,
   navigate,
 }: TreeGroup & { navigate: Dispatch<string> }) => (
   <ListItem.Root
-    onClick={() => navigate(label)}
+    onClick={() => navigate(id)}
     className="min-h-[theme(height.8)]"
   >
     <Icon icon={Folder} size="sm" color="highlight" />
@@ -57,11 +61,11 @@ const LinkGroup = ({
 
 interface CurrentGroupProps {
   label: string
-  onClick: () => void
+  onClick?: () => void
 }
 
 const CurrentGroup = ({ label, onClick }: CurrentGroupProps) =>
-  label === "root" ? (
+  !onClick ? (
     <ListItem.Root className="min-h-[theme(height.8)]">
       <ListItem.Caption
         title={label}
@@ -89,56 +93,47 @@ const getAllLinks = (tree: TreeNode[]): TreeLink[] =>
     return node
   })
 
-const searchTree = (tree: TreeNode[], filter: string): TreeGroup => {
+const searchTree = (tree: TreeNode[], filter: string) => {
   const links = getAllLinks(tree)
-  return {
-    label: "Search results",
-    items: links.filter(link => link.label.includes(filter)),
-  }
+  if (!filter) return null
+  return links.filter(link => link.label.includes(filter))
 }
 
 const NoLinks = () => <NoData icon={Unlink} message="No links found." />
 
 const LinkTree = ({ tree }: { tree: TreeNode[] }) => {
-  const [path, setPath] = useState<TreeGroup[]>([
-    { label: "root", items: tree },
-  ])
+  const { group, items, back, navigate, reset } = useCascadingMenu<
+    TreeGroup,
+    TreeLink
+  >(tree)
   const [filter, setFilter] = useState("")
-  const group = !filter ? path[path.length - 1] : searchTree(tree, filter)
 
-  const navigate = (label: string) => {
-    setPath(path => {
-      const current = path[path.length - 1]
-      const target = current?.items.find(item => item.label === label)
-      if (!target || !("items" in target)) return path
-      return [...path, target]
-    })
+  const filteredItems = searchTree(tree, filter)
+  const handleFilter = (filter: string) => {
+    setFilter(filter)
+    if (group) reset()
   }
 
-  const back = () => {
-    setPath(path => path.slice(0, -1))
-  }
+  const groupLabel = filteredItems ? "Search results" : group?.label ?? "root"
+  const groupClick = !group ? undefined : back
 
   return (
     <>
       <div className="flex gap-1 py-1">
         <Input
           value={filter}
-          onChange={({ target }) => setFilter(target.value)}
+          onChange={({ target }) => handleFilter(target.value)}
           placeholder="Search"
-          className=""
         />
       </div>
-      {group?.items.length === 0 ? (
+      {filteredItems?.length === 0 || items.length === 0 ? (
         <NoLinks />
       ) : (
         <>
-          <CurrentGroup onClick={back} label={group?.label ?? "root"} />
-          <div className="pl-0 flex-1 flex flex-col overflow-y-auto -mr-4 pr-4">
-            {group?.items.map(node => (
-              <LinkNode key={node.label} navigate={navigate} {...node} />
-            ))}
-          </div>
+          <CurrentGroup label={groupLabel} onClick={groupClick} />
+          {(filteredItems ?? items).map(node => (
+            <LinkNode key={node.id} navigate={navigate} {...node} />
+          ))}
         </>
       )}
     </>
