@@ -16,7 +16,7 @@ import { Widget } from "~/components/Widget"
 import { cn } from "~/lib/utils"
 
 import { demoData } from "./demoData"
-import { useCascadingMenu } from "./useCascadingMenu"
+import { isGroup, useCascadingMenu } from "./useCascadingMenu"
 
 interface TreeLink {
   id: string
@@ -85,36 +85,27 @@ const CurrentGroup = ({ label, onClick }: CurrentGroupProps) =>
   )
 
 const LinkNode = (node: TreeNode & { navigate: Dispatch<string> }) =>
-  "items" in node ? <LinkGroup {...node} /> : <LinkItem {...node} />
-
-const getAllLinks = (tree: TreeNode[]): TreeLink[] =>
-  tree.flatMap(node => {
-    if ("items" in node) return getAllLinks(node.items)
-    return node
-  })
-
-const searchTree = (tree: TreeNode[], filter: string) => {
-  const links = getAllLinks(tree)
-  if (!filter) return null
-  return links.filter(link => link.label.includes(filter))
-}
+  isGroup<TreeGroup, TreeLink>(node) ? (
+    <LinkGroup {...node} />
+  ) : (
+    <LinkItem {...node} />
+  )
 
 const NoLinks = () => <NoData icon={Unlink} message="No links found." />
 
 const LinkTree = ({ tree }: { tree: TreeNode[] }) => {
+  const [filter, setFilter] = useState("")
   const { group, items, back, navigate, reset } = useCascadingMenu<
     TreeGroup,
     TreeLink
-  >(tree)
-  const [filter, setFilter] = useState("")
+  >(tree, filter)
 
-  const filteredItems = searchTree(tree, filter)
   const handleFilter = (filter: string) => {
     setFilter(filter)
     if (group) reset()
   }
 
-  const groupLabel = filteredItems ? "Search results" : group?.label ?? "root"
+  const groupLabel = filter ? "Search results" : group?.label ?? "root"
   const groupClick = !group ? undefined : back
 
   return (
@@ -126,12 +117,12 @@ const LinkTree = ({ tree }: { tree: TreeNode[] }) => {
           placeholder="Search"
         />
       </div>
-      {filteredItems?.length === 0 || items.length === 0 ? (
+      {items.length === 0 ? (
         <NoLinks />
       ) : (
         <div className="pl-0 flex-1 flex flex-col overflow-y-auto -mr-4 pr-4">
           <CurrentGroup label={groupLabel} onClick={groupClick} />
-          {(filteredItems ?? items).map(node => (
+          {items.map(node => (
             <LinkNode key={node.id} navigate={navigate} {...node} />
           ))}
         </div>

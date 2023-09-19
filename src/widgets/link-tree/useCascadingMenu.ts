@@ -20,7 +20,26 @@ export const isGroup = <
   node: GroupType | ItemType
 ): node is GroupType => "items" in node
 
-const sortGroupsFirst = <
+const getAllLinks = <
+  GroupType extends MenuGroup<GroupType, ItemType>,
+  ItemType extends MenuItem
+>(
+  tree: (GroupType | ItemType)[]
+): ItemType[] =>
+  tree.flatMap(node => (isGroup(node) ? getAllLinks(node.items) : node))
+
+const searchTree = <
+  GroupType extends MenuGroup<GroupType, ItemType>,
+  ItemType extends MenuItem
+>(
+  tree: (GroupType | ItemType)[],
+  filter: string
+) => {
+  const links = getAllLinks(tree)
+  return !filter ? null : links.filter(link => link.label.includes(filter))
+}
+
+const sortMenuItems = <
   GroupType extends MenuGroup<GroupType, ItemType>,
   ItemType extends MenuItem
 >(
@@ -36,7 +55,8 @@ export const useCascadingMenu = <
   GroupType extends MenuGroup<GroupType, ItemType>,
   ItemType extends MenuItem
 >(
-  nodes: (GroupType | ItemType)[]
+  nodes: (GroupType | ItemType)[],
+  filter?: string
 ) => {
   const [path, setPath] = useState<string[]>([])
 
@@ -51,13 +71,13 @@ export const useCascadingMenu = <
     [path, nodes]
   )
 
-  const items = useMemo(
-    () =>
-      !group?.items
-        ? sortGroupsFirst<GroupType, ItemType>(nodes)
-        : sortGroupsFirst<GroupType, ItemType>(group.items),
-    [group?.items, nodes]
-  )
+  const items = useMemo(() => {
+    const items = filter
+      ? searchTree<GroupType, ItemType>(nodes, filter) ?? []
+      : group?.items ?? nodes
+
+    return sortMenuItems<GroupType, ItemType>(items)
+  }, [group?.items, nodes, filter])
 
   const reset = useCallback(() => setPath([]), [])
   const back = useCallback(() => setPath(path => path.slice(0, -1)), [])
