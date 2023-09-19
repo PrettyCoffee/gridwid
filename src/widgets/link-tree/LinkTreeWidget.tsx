@@ -129,12 +129,12 @@ const LinkTree = ({ tree }: { tree: TreeNode[] }) => {
       {filteredItems?.length === 0 || items.length === 0 ? (
         <NoLinks />
       ) : (
-        <>
+        <div className="pl-0 flex-1 flex flex-col overflow-y-auto -mr-4 pr-4">
           <CurrentGroup label={groupLabel} onClick={groupClick} />
           {(filteredItems ?? items).map(node => (
             <LinkNode key={node.id} navigate={navigate} {...node} />
           ))}
-        </>
+        </div>
       )}
     </>
   )
