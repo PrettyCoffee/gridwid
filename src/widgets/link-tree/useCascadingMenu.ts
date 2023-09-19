@@ -1,27 +1,36 @@
 import { useCallback, useMemo, useState } from "react"
 
-interface MenuItem {
+export interface MenuItem {
   id: string
+  label: string
 }
-interface MenuGroup<
+export interface MenuGroup<
   GroupType extends MenuGroup<GroupType, ItemType>,
   ItemType extends MenuItem
 > {
   id: string
+  label: string
   items: (GroupType | ItemType)[]
 }
+
+export const isGroup = <
+  GroupType extends MenuGroup<GroupType, ItemType>,
+  ItemType extends MenuItem
+>(
+  node: GroupType | ItemType
+): node is GroupType => "items" in node
 
 const sortGroupsFirst = <
   GroupType extends MenuGroup<GroupType, ItemType>,
   ItemType extends MenuItem
 >(
   tree: (GroupType | ItemType)[]
-) => {
-  const groups = tree.filter(node => "items" in node) as GroupType[]
-  const items = tree.filter(node => !("items" in node)) as ItemType[]
-
-  return [...groups, ...items]
-}
+): (GroupType | ItemType)[] =>
+  [...tree].sort((a, b) => {
+    if (isGroup(a) && !isGroup(b)) return -1
+    if (isGroup(b) && !isGroup(a)) return 1
+    return a.label.localeCompare(b.label)
+  })
 
 export const useCascadingMenu = <
   GroupType extends MenuGroup<GroupType, ItemType>,
@@ -36,7 +45,7 @@ export const useCascadingMenu = <
       path.reduce<GroupType | null>((current, id) => {
         const items = current ? current.items : nodes
         const node = items.find(node => node.id === id)
-        if (!node || !("items" in node)) return current
+        if (!node || !isGroup(node)) return current
         return node
       }, null),
     [path, nodes]
@@ -45,8 +54,8 @@ export const useCascadingMenu = <
   const items = useMemo(
     () =>
       !group?.items
-        ? nodes
-        : (sortGroupsFirst(group.items) as (GroupType | ItemType)[]),
+        ? sortGroupsFirst<GroupType, ItemType>(nodes)
+        : sortGroupsFirst<GroupType, ItemType>(group.items),
     [group?.items, nodes]
   )
 
