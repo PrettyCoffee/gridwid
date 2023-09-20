@@ -47,6 +47,13 @@ const useGithubRepo = (owner: string, name: string) => {
   return { repo, status, error }
 }
 
+const RepoAvatarSkeleton = () => (
+  <ListItem.Root noHover className="flex gap-2 py-2 hover:bg-transparent">
+    <AvatarSkeleton className="h-6 w-6" />
+    <ListItem.CaptionSkeleton />
+  </ListItem.Root>
+)
+
 const RepoWidgetSkeleton = () => (
   <Widget.Root>
     <Widget.Header>
@@ -55,10 +62,7 @@ const RepoWidgetSkeleton = () => (
     </Widget.Header>
     <Widget.Content scroll>
       <Section title="Info">
-        <ListItem.Root className="-mx-2">
-          <AvatarSkeleton className="h-6 w-6" />
-          <ListItem.CaptionSkeleton />
-        </ListItem.Root>
+        <RepoAvatarSkeleton />
         <div className="pb-0.5 pt-1">
           <Skeleton className="w-40 h-3" />
         </div>
@@ -128,12 +132,14 @@ const Topics = ({ topics }: GithubRepository) =>
   )
 
 const Owner = ({ html_url, avatar_url, login }: GithubRepository["owner"]) => (
-  <ListItem.Root href={html_url} className="-mx-2">
-    <Avatar className="h-6 w-6">
-      <AvatarImage src={avatar_url} />
-      <AvatarFallback>{login[0]}</AvatarFallback>
-    </Avatar>
-    <ListItem.Caption title={login} />
+  <ListItem.Root className="-mx-2">
+    <ListItem.Clickable href={html_url}>
+      <Avatar className="h-6 w-6">
+        <AvatarImage src={avatar_url} />
+        <AvatarFallback>{login[0]}</AvatarFallback>
+      </Avatar>
+      <ListItem.Caption title={login} />
+    </ListItem.Clickable>
   </ListItem.Root>
 )
 

@@ -16,9 +16,11 @@ import { TreeLink, TreeGroup, TreeNode } from "./LinkTreeWidget"
 import { isGroup, useCascadingMenu } from "./useCascadingMenu"
 
 const LinkItem = ({ label, href }: TreeLink) => (
-  <ListItem.Root href={href} className="min-h-[theme(height.8)]">
-    <Icon icon={Bookmark} size="sm" />
-    <ListItem.Caption title={label} size="sm" />
+  <ListItem.Root>
+    <ListItem.Clickable href={href} compact className="flex-1">
+      <Icon icon={Bookmark} size="sm" />
+      <ListItem.Caption title={label} size="sm" />
+    </ListItem.Clickable>
   </ListItem.Root>
 )
 
@@ -27,18 +29,17 @@ const LinkGroup = ({
   label,
   navigate,
 }: TreeGroup & { navigate: Dispatch<string> }) => (
-  <ListItem.Root
-    onClick={() => navigate(id)}
-    className="min-h-[theme(height.8)]"
-  >
-    <Icon icon={Folder} size="sm" color="highlight" />
-    <ListItem.Caption title={label} size="sm" />
-    <Icon
-      icon={ChevronRight}
-      size="sm"
-      color="muted"
-      className="ml-auto [:not(:hover)>&]:hidden"
-    />
+  <ListItem.Root>
+    <ListItem.Clickable onClick={() => navigate(id)} compact>
+      <Icon icon={Folder} size="sm" color="highlight" />
+      <ListItem.Caption title={label} size="sm" />
+      <Icon
+        icon={ChevronRight}
+        size="sm"
+        color="muted"
+        className="ml-auto [:not(:hover)>&]:hidden"
+      />
+    </ListItem.Clickable>
   </ListItem.Root>
 )
 
@@ -48,7 +49,7 @@ interface HeaderProps {
 }
 
 const StaticHeader = ({ label }: Pick<HeaderProps, "label">) => (
-  <ListItem.Root className="min-h-[theme(height.8)]">
+  <ListItem.Root noHover className="px-2 py-2 min-h-[theme(height.8)]">
     <ListItem.Caption
       title={label}
       size="sm"
@@ -58,13 +59,15 @@ const StaticHeader = ({ label }: Pick<HeaderProps, "label">) => (
 )
 
 const ClickableHeader = ({ label, onClick }: HeaderProps) => (
-  <ListItem.Root onClick={onClick} className="min-h-[theme(height.8)]">
-    <Icon icon={ChevronLeft} size="sm" color="muted" />
-    <ListItem.Caption
-      title={label}
-      size="sm"
-      className="text-muted-foreground"
-    />
+  <ListItem.Root className="min-h-[theme(height.8)]">
+    <ListItem.Clickable onClick={onClick} compact>
+      <Icon icon={ChevronLeft} size="sm" color="muted" />
+      <ListItem.Caption
+        title={label}
+        size="sm"
+        className="text-muted-foreground"
+      />
+    </ListItem.Clickable>
   </ListItem.Root>
 )
 

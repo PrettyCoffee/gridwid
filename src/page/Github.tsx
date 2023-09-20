@@ -71,7 +71,11 @@ const MAX_DISPLAYED_REPOS = 4
 const RepoList = ({ repos }: { repos: GithubRepository[] | null }) => {
   if (repos == null) {
     return createRange(MAX_DISPLAYED_REPOS).map(i => (
-      <ListItem.Root key={i}>
+      <ListItem.Root
+        key={i}
+        noHover
+        className="flex px-2 py-1 hover:bg-transparent"
+      >
         <ListItem.CaptionSkeleton size="sm" subtitle />
       </ListItem.Root>
     ))
@@ -82,12 +86,14 @@ const RepoList = ({ repos }: { repos: GithubRepository[] | null }) => {
       {repos
         .slice(0, MAX_DISPLAYED_REPOS)
         .map(({ full_name, description, html_url }) => (
-          <ListItem.Root key={full_name} href={html_url}>
-            <ListItem.Caption
-              title={full_name}
-              subtitle={description}
-              size="sm"
-            />
+          <ListItem.Root key={full_name}>
+            <ListItem.Clickable href={html_url}>
+              <ListItem.Caption
+                title={full_name}
+                subtitle={description}
+                size="sm"
+              />
+            </ListItem.Clickable>
           </ListItem.Root>
         ))}
     </>
@@ -97,7 +103,10 @@ const RepoList = ({ repos }: { repos: GithubRepository[] | null }) => {
 const UserInfo = ({ user }: { user: GithubUser | null }) => {
   if (user == null) {
     return (
-      <ListItem.Root>
+      <ListItem.Root
+        noHover
+        className="flex gap-2 px-2 py-1 hover:bg-transparent"
+      >
         <AvatarSkeleton />
         <ListItem.CaptionSkeleton size="md" subtitle />
       </ListItem.Root>
@@ -105,14 +114,16 @@ const UserInfo = ({ user }: { user: GithubUser | null }) => {
   }
 
   return (
-    <ListItem.Root href={user.html_url}>
-      <Avatar>
-        <AvatarImage src={user.avatar_url} alt="github profile avatar" />
-        <AvatarFallback>
-          <span className="text-xs">{user.name[0] ?? "NA"}</span>
-        </AvatarFallback>
-      </Avatar>
-      <ListItem.Caption title={user.name} subtitle={user.bio} />
+    <ListItem.Root>
+      <ListItem.Clickable href={user.html_url}>
+        <Avatar>
+          <AvatarImage src={user.avatar_url} alt="github profile avatar" />
+          <AvatarFallback>
+            <span className="text-xs">{user.name[0] ?? "NA"}</span>
+          </AvatarFallback>
+        </Avatar>
+        <ListItem.Caption title={user.name} subtitle={user.bio} />
+      </ListItem.Clickable>
     </ListItem.Root>
   )
 }
