@@ -6,14 +6,15 @@ import { focusRing, hover, noOverflow, press } from "~/lib/styles"
 import { cn } from "~/lib/utils"
 
 import { ClassNameProp } from "./base/BaseProps"
+import { IconButton, IconButtonProps } from "./IconButton"
 import { Polymorphic } from "./Polymorphic"
 import { Skeleton } from "./ui/skeleton"
 
-interface ListItemRootProps extends ClassNameProp {
+export interface ListItemRootProps extends ClassNameProp {
   noHover?: boolean
 }
 
-export const ListItemRoot = ({
+const ListItemRoot = ({
   children,
   className,
   noHover,
@@ -29,14 +30,14 @@ export const ListItemRoot = ({
   </div>
 )
 
-interface ListItemClickableProps extends ClassNameProp {
+export interface ListItemClickableProps extends ClassNameProp {
   href?: string
   onClick?: () => void
   compact?: boolean
   target?: "_blank" | "_self" | "_parent" | "_top"
 }
 
-export const ListItemClickable = ({
+const ListItemClickable = ({
   children,
   className,
   href,
@@ -76,13 +77,13 @@ export const ListItemClickable = ({
 const listCaption = cva(
   cn(
     noOverflow,
-    "flex flex-col text-foreground [&>*:last-of-type]:text-muted-foreground"
+    "flex flex-col text-foreground [&>*:nth-of-type(2)]:text-muted-foreground"
   ),
   {
     variants: {
       size: {
-        sm: "text-sm [&>*:last-of-type]:text-xs",
-        md: "text-md [&>*:last-of-type]:text-sm",
+        sm: "text-sm [&>*:nth-of-type(2)]:text-xs",
+        md: "text-md [&>*:nth-of-type(2)]:text-sm",
       },
     },
     defaultVariants: {
@@ -104,12 +105,12 @@ const ListItemCaption = ({
 }: ListItemCaptionProps) => (
   <div className={cn(listCaption(styles), className)}>
     <span className={noOverflow}>{title}</span>
-    <span className={noOverflow}>{subtitle}</span>
+    {subtitle && <span className={noOverflow}>{subtitle}</span>}
   </div>
 )
 
 const listCaptionSkeleton = cva(
-  "justify-center [&>*]:max-w-full [&>:first-of-type]:w-24 [&>:last-of-type]:w-40",
+  "justify-center [&>*]:max-w-full [&>:first-of-type]:w-24 [&>:nth-of-type(2)]:w-40",
   {
     variants: {
       size: {
@@ -143,9 +144,20 @@ const ListItemCaptionSkeleton = ({
   </div>
 )
 
+type ListItemActionProps = ClassNameProp &
+  Pick<IconButtonProps, "icon" | "compact" | "onClick" | "title">
+
+const ListItemAction = ({ className, ...props }: ListItemActionProps) => (
+  <IconButton
+    className={cn("[:not(:hover)>&]:opacity-0", className)}
+    {...props}
+  />
+)
+
 export const ListItem = {
   Root: ListItemRoot,
   Clickable: ListItemClickable,
+  Action: ListItemAction,
   Caption: ListItemCaption,
   CaptionSkeleton: ListItemCaptionSkeleton,
 }
