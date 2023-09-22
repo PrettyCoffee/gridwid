@@ -6,8 +6,9 @@ import { cn } from "~/lib/utils"
 
 import { TreeNode, useLinkTreeData } from "./data"
 import { LinkTree } from "./LinkTree"
+import { LinkTreeEditor } from "./LinkTreeEditor"
 
-const Content = ({ tree }: { tree: TreeNode[] }) => {
+const Content = ({ id, tree }: { id: string; tree: TreeNode[] }) => {
   const [filter, setFilter] = useState("")
 
   return (
@@ -18,6 +19,7 @@ const Content = ({ tree }: { tree: TreeNode[] }) => {
           onChange={({ target }) => setFilter(target.value)}
           placeholder="Search"
         />
+        <LinkTreeEditor id={id} />
       </div>
       <LinkTree tree={tree} filter={filter} />
     </>
@@ -41,7 +43,7 @@ export const LinkTreeWidget = ({ id, title }: LinkTreeWidgetProps) => {
         scroll
         expand
       >
-        <Content tree={data} />
+        <Content id={id} tree={data} />
       </Widget.Content>
     </Widget.Root>
   )

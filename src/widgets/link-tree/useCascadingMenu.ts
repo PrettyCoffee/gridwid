@@ -86,5 +86,5 @@ export const useCascadingMenu = <
     []
   )
 
-  return { group, items, reset, back, navigate }
+  return { group, path, items, reset, back, navigate }
 }
