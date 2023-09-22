@@ -14,7 +14,7 @@ import {
   X,
 } from "lucide-react"
 
-import { Stack } from "~/components/base/Stack"
+import { HStack, VStack } from "~/components/base/Stack"
 import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
@@ -92,7 +92,7 @@ const LinkEditor = ({
   }, [label, isEditing, item])
 
   const mainItem = isEditing ? (
-    <Stack gap="1" className="w-full">
+    <VStack gap="1" className="w-full">
       <Input
         value={label}
         onChange={({ target }) => setLabel(target.value)}
@@ -102,7 +102,7 @@ const LinkEditor = ({
       {!isGroup(item) && (
         <Input value={href} onChange={({ target }) => setHref(target.value)} />
       )}
-    </Stack>
+    </VStack>
   ) : (
     <ListItem.Clickable
       key={item.id}
@@ -177,7 +177,7 @@ const TreeEditor = ({ id, data }: TreeEditorProps) => {
 
   return (
     <>
-      <Stack direction="horizontal">
+      <HStack>
         <ListItem.Root className="w-full p-1">
           {!group ? (
             <StaticHeader label="root" />
@@ -207,9 +207,9 @@ const TreeEditor = ({ id, data }: TreeEditorProps) => {
             }
           />
         </ListItem.Root>
-      </Stack>
+      </HStack>
 
-      <Stack className="overflow-y-auto">
+      <VStack className="overflow-y-auto">
         {items.map(item => (
           <LinkEditor
             key={item.id}
@@ -222,7 +222,7 @@ const TreeEditor = ({ id, data }: TreeEditorProps) => {
             onEndEditing={() => setEditing(null)}
           />
         ))}
-      </Stack>
+      </VStack>
     </>
   )
 }

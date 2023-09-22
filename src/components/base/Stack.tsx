@@ -9,10 +9,6 @@ import { AsChildProp, ClassNameProp } from "./BaseProps"
 
 const stack = cva("flex", {
   variants: {
-    direction: {
-      horizontal: "flex-row",
-      vertical: "flex-col",
-    },
     items: {
       start: "items-start",
       center: "items-center",
@@ -37,19 +33,36 @@ const stack = cva("flex", {
       true: "flex-wrap",
     },
   },
-  defaultVariants: {
-    direction: "vertical",
-  },
 })
 
-type StackProps = VariantProps<typeof stack> & AsChildProp & ClassNameProp
+export type StackProps = VariantProps<typeof stack> &
+  AsChildProp &
+  ClassNameProp
 
-export const Stack = ({
+export const HStack = ({
   children,
   asChild,
   className,
   ...styles
 }: PropsWithChildren<StackProps>) => {
   const Element = asChild ? Slot : "div"
-  return <Element className={cn(stack(styles), className)}>{children}</Element>
+  return (
+    <Element className={cn("flex-row", stack(styles), className)}>
+      {children}
+    </Element>
+  )
+}
+
+export const VStack = ({
+  children,
+  asChild,
+  className,
+  ...styles
+}: PropsWithChildren<StackProps>) => {
+  const Element = asChild ? Slot : "div"
+  return (
+    <Element className={cn("flex-col", stack(styles), className)}>
+      {children}
+    </Element>
+  )
 }

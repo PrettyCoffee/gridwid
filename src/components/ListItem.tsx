@@ -6,7 +6,7 @@ import { focusRing, hover, noOverflow, press } from "~/lib/styles"
 import { cn } from "~/lib/utils"
 
 import { ClassNameProp } from "./base/BaseProps"
-import { Stack } from "./base/Stack"
+import { HStack } from "./base/Stack"
 import { IconButton, IconButtonProps } from "./IconButton"
 import { Polymorphic } from "./Polymorphic"
 import { Skeleton } from "./ui/skeleton"
@@ -20,14 +20,13 @@ const ListItemRoot = ({
   className,
   noHover,
 }: PropsWithChildren<ListItemRootProps>) => (
-  <Stack
-    direction="horizontal"
+  <HStack
     items="center"
     justify="start"
     className={cn("rounded-md", !noHover && "hover:bg-accent/50", className)}
   >
     {children}
-  </Stack>
+  </HStack>
 )
 
 export interface ListItemClickableProps extends ClassNameProp {

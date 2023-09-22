@@ -11,7 +11,7 @@ import {
 } from "lucide-react"
 import { useAtomValue } from "yaasl/react"
 
-import { Stack } from "~/components/base/Stack"
+import { HStack } from "~/components/base/Stack"
 import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
 import { MenuButton } from "~/components/MenuButton"
@@ -123,13 +123,13 @@ const Topics = ({ topics }: GithubRepository) =>
   topics.length === 0 ? (
     <span className="text-muted-foreground text-sm ">No topics available</span>
   ) : (
-    <Stack direction="horizontal" gap="1" wrap>
+    <HStack gap="1" wrap>
       {topics.map(topic => (
         <Badge key={topic} variant="secondary">
           {topic}
         </Badge>
       ))}
-    </Stack>
+    </HStack>
   )
 
 const Owner = ({ html_url, avatar_url, login }: GithubRepository["owner"]) => (
@@ -150,7 +150,7 @@ const Info = ({ owner, description, html_url, homepage }: GithubRepository) => (
     <div className="text-sm text-muted-foreground">
       {description || "No description"}
     </div>
-    <Stack direction="horizontal">
+    <HStack>
       <Button asChild variant="link" size="sm">
         <a href={html_url}>repo</a>
       </Button>
@@ -159,7 +159,7 @@ const Info = ({ owner, description, html_url, homepage }: GithubRepository) => (
           <a href={homepage}>homepage</a>
         </Button>
       )}
-    </Stack>
+    </HStack>
   </>
 )
 
