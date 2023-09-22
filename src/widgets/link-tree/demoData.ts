@@ -1,4 +1,4 @@
-import { TreeNode } from "./LinkTreeWidget"
+import { TreeNode } from "./data"
 
 export const demoData: TreeNode[] = [
   {
@@ -238,7 +238,7 @@ export const demoData: TreeNode[] = [
     href: "https://github.com/aynp/dracula-wallpapers",
   },
   {
-    id: "9",
+    id: "8",
     label: "ChatGPT",
     href: "https://chat.openai.com",
   },

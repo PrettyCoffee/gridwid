@@ -12,7 +12,7 @@ import { Icon } from "~/components/Icon"
 import { ListItem } from "~/components/ListItem"
 import { NoData } from "~/components/NoData"
 
-import { TreeLink, TreeGroup, TreeNode } from "./LinkTreeWidget"
+import { TreeLink, TreeGroup, TreeNode } from "./data"
 import { isGroup, useCascadingMenu } from "./useCascadingMenu"
 
 const LinkItem = ({ label, href }: TreeLink) => (

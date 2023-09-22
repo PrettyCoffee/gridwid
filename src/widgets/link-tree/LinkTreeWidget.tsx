@@ -4,22 +4,8 @@ import { Input } from "~/components/ui/input"
 import { Widget } from "~/components/Widget"
 import { cn } from "~/lib/utils"
 
-import { demoData } from "./demoData"
+import { TreeNode, useLinkTreeData } from "./data"
 import { LinkTree } from "./LinkTree"
-
-export interface TreeLink {
-  id: string
-  label: string
-  href: string
-}
-
-export interface TreeGroup {
-  id: string
-  label: string
-  items: TreeNode[]
-}
-
-export type TreeNode = TreeLink | TreeGroup
 
 const Content = ({ tree }: { tree: TreeNode[] }) => {
   const [filter, setFilter] = useState("")
@@ -43,7 +29,9 @@ interface LinkTreeWidgetProps {
   title?: string
 }
 
-export const LinkTreeWidget = ({ title }: LinkTreeWidgetProps) => {
+export const LinkTreeWidget = ({ id, title }: LinkTreeWidgetProps) => {
+  const data = useLinkTreeData(id)
+
   return (
     <Widget.Root>
       {title && <Widget.Header title={title} />}
@@ -53,7 +41,7 @@ export const LinkTreeWidget = ({ title }: LinkTreeWidgetProps) => {
         scroll
         expand
       >
-        <Content tree={demoData} />
+        <Content tree={data} />
       </Widget.Content>
     </Widget.Root>
   )
