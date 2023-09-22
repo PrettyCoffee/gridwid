@@ -110,7 +110,7 @@ const ListItemCaption = ({
 )
 
 const listCaptionSkeleton = cva(
-  "justify-center [&>*]:max-w-full [&>:first-of-type]:w-24 [&>:nth-of-type(2)]:w-40",
+  "flex justify-center [&>*]:max-w-full [&>:first-of-type]:w-24 [&>:nth-of-type(2)]:w-40",
   {
     variants: {
       size: {
@@ -138,7 +138,7 @@ const ListItemCaptionSkeleton = ({
   size,
   subtitle,
 }: ListItemCaptionSkeletonProps) => (
-  <div className={listCaptionSkeleton({ size })}>
+  <div className={listCaptionSkeleton({ size, subtitle: !!subtitle })}>
     <Skeleton />
     {subtitle && <Skeleton />}
   </div>
