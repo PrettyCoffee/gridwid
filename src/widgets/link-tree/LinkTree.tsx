@@ -8,6 +8,7 @@ import {
   Unlink,
 } from "lucide-react"
 
+import { Stack } from "~/components/base/Stack"
 import { Icon } from "~/components/Icon"
 import { ListItem } from "~/components/ListItem"
 import { NoData } from "~/components/NoData"
@@ -105,7 +106,7 @@ export const LinkTree = ({ tree, filter }: LinkTreeProps) => {
   )
 
   return (
-    <div className="pl-0 flex-1 flex flex-col overflow-y-auto -mr-4 pr-4">
+    <Stack className="flex-1 pl-0 overflow-y-auto -mr-4 pr-4">
       {header}
       {items.length === 0 ? (
         <NoLinks />
@@ -114,6 +115,6 @@ export const LinkTree = ({ tree, filter }: LinkTreeProps) => {
           <LinkNode key={node.id} navigate={navigate} {...node} />
         ))
       )}
-    </div>
+    </Stack>
   )
 }

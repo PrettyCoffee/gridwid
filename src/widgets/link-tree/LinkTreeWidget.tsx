@@ -1,5 +1,6 @@
 import { useState } from "react"
 
+import { Stack } from "~/components/base/Stack"
 import { Input } from "~/components/ui/input"
 import { Widget } from "~/components/Widget"
 import { cn } from "~/lib/utils"
@@ -13,14 +14,14 @@ const Content = ({ id, tree }: { id: string; tree: TreeNode[] }) => {
 
   return (
     <>
-      <div className="flex gap-1 py-1">
+      <Stack direction="horizontal" gap="1" className="py-1">
         <Input
           value={filter}
           onChange={({ target }) => setFilter(target.value)}
           placeholder="Search"
         />
         <LinkTreeEditor id={id} />
-      </div>
+      </Stack>
       <LinkTree tree={tree} filter={filter} />
     </>
   )

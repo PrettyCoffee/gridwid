@@ -1,25 +1,27 @@
-import { PropsWithChildren, forwardRef } from "react"
+import { PropsWithChildren } from "react"
 
-const Section = forwardRef<HTMLDivElement, PropsWithChildren>(
-  ({ children }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className="flex-1 flex items-center justify-center first-of-type:justify-start last-of-type:justify-end whitespace-nowrap"
-      >
-        {children}
-      </div>
-    )
-  }
+import { Stack } from "./base/Stack"
+
+const Section = ({ children }: PropsWithChildren) => (
+  <Stack
+    direction="horizontal"
+    justify="center"
+    items="center"
+    className="flex-1 first-of-type:justify-start last-of-type:justify-end whitespace-nowrap"
+  >
+    {children}
+  </Stack>
 )
 
-const Root = ({ children }: PropsWithChildren) => {
-  return (
-    <div className="flex items-center w-full min-w-max px-1 h-12 bg-background border-t mt-1">
-      {children}
-    </div>
-  )
-}
+const Root = ({ children }: PropsWithChildren) => (
+  <Stack
+    direction="horizontal"
+    items="center"
+    className="w-full min-w-max px-1 h-12 bg-background border-t mt-1"
+  >
+    {children}
+  </Stack>
+)
 
 Root.displayName = "TaskBar.Root"
 Section.displayName = "TaskBar.Section"
