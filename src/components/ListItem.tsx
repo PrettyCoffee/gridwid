@@ -144,7 +144,7 @@ const ListItemCaptionSkeleton = ({
 )
 
 type ListItemActionProps = ClassNameProp &
-  Pick<IconButtonProps, "icon" | "compact" | "onClick" | "title">
+  Pick<IconButtonProps, "icon" | "compact" | "onClick" | "title" | "hideTitle">
 
 const ListItemAction = ({ className, ...props }: ListItemActionProps) => (
   <IconButton

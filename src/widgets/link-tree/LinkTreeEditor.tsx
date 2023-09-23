@@ -4,20 +4,19 @@ import {
   Bookmark,
   BookmarkPlus,
   ChevronLeft,
+  ChevronRight,
   Folder,
-  FolderOpen,
   FolderPlus,
   GripHorizontal,
-  Save,
-  Settings,
+  PenLine,
   Trash,
-  X,
 } from "lucide-react"
 
 import { HStack, VStack } from "~/components/base/Stack"
 import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
+import { Button } from "~/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -26,7 +25,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog"
-import { Input } from "~/components/ui/input"
+import { Input, InputLabel } from "~/components/ui/input"
 
 import {
   TreeGroup,
@@ -38,7 +37,26 @@ import {
 import { demoData } from "./demoData"
 import { isGroup, useCascadingMenu } from "./useCascadingMenu"
 
-const createId = () => Math.random().toString(36).slice(2, 10).toUpperCase()
+const createId = () => {
+  const bytes = new Uint8Array(4)
+  window.crypto.getRandomValues(bytes)
+  return Array.from(bytes)
+    .map(byte => byte.toString(16).padStart(2, "0"))
+    .join("")
+    .toUpperCase()
+}
+
+const createTask = () => ({
+  id: createId(),
+  label: "New task",
+  href: "https://example.com",
+})
+
+const createGroup = () => ({
+  id: createId(),
+  label: "New group",
+  items: [],
+})
 
 interface HeaderProps {
   label: string
@@ -64,92 +82,95 @@ const ClickableHeader = ({ label, onClick }: HeaderProps) => (
   </ListItem.Clickable>
 )
 
-interface ItemProps {
+interface ItemEditorProps {
   item: TreeGroup | TreeLink
-  navigate: Dispatch<string>
-  isEditing?: boolean
-  onStartEditing: Dispatch<string>
   onSave: Dispatch<TreeNode>
-  onDelete: () => void
-  onEndEditing: () => void
+  onCancel: () => void
 }
 
-const LinkEditor = ({
-  item,
-  navigate,
-  isEditing,
-  onStartEditing,
-  onSave,
-  onEndEditing,
-  onDelete,
-}: ItemProps) => {
-  const [label, setLabel] = useState(item.label)
-  const [href, setHref] = useState(isGroup(item) ? "" : item.href)
+const ItemEditor = ({ item, onSave, onCancel }: ItemEditorProps) => {
+  const [localItem, setLocalItem] = useState(item)
+  const label = localItem.label
+  const href = isGroup(localItem) ? null : localItem.href
 
-  useEffect(() => {
-    if (isEditing && item.label !== label) return
-    setLabel(item.label)
-  }, [label, isEditing, item])
+  return (
+    <>
+      <VStack gap="2" className="py-2">
+        <InputLabel
+          label={isGroup(localItem) ? "Group label" : "Bookmark label"}
+        >
+          <Input
+            placeholder={
+              isGroup(localItem) ? "e.g. reddit" : " e.g. r/startpages (rip)"
+            }
+            value={label}
+            onChange={({ target }) =>
+              setLocalItem(item => ({ ...item, label: target.value }))
+            }
+          />
+        </InputLabel>
+        {href != null && (
+          <InputLabel label="Bookmark link">
+            <Input
+              placeholder="e.g. https://www.reddit.com/r/startpages/"
+              value={href}
+              onChange={({ target }) =>
+                setLocalItem(item => ({ ...item, href: target.value }))
+              }
+            />
+          </InputLabel>
+        )}
+      </VStack>
+      <HStack gap="2" className="justify-end">
+        <Button
+          variant="outline"
+          onClick={() => {
+            setLocalItem(item)
+            onCancel()
+          }}
+        >
+          Cancel
+        </Button>
+        <Button variant="default" onClick={() => onSave(localItem)}>
+          Save
+        </Button>
+      </HStack>
+    </>
+  )
+}
 
-  const mainItem = isEditing ? (
-    <VStack gap="1" className="w-full">
-      <Input
-        value={label}
-        onChange={({ target }) => setLabel(target.value)}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus
-      />
-      {!isGroup(item) && (
-        <Input value={href} onChange={({ target }) => setHref(target.value)} />
-      )}
-    </VStack>
-  ) : (
+interface LinkEditorProps {
+  item: TreeGroup | TreeLink
+  navigate: Dispatch<string>
+  onDelete: () => void
+  onEdit: () => void
+}
+
+const LinkEditor = ({ item, navigate, onDelete, onEdit }: LinkEditorProps) => {
+  const mainItem = isGroup(item) ? (
     <ListItem.Clickable
       key={item.id}
-      onClick={() => onStartEditing(item.id)}
+      onClick={() => navigate(item.id)}
       className="flex-1 overflow-hidden"
     >
       <Icon
         icon={isGroup(item) ? Folder : Bookmark}
         color={isGroup(item) ? "highlight" : "muted"}
         size="sm"
-        strokeWidth={5}
       />
-      <ListItem.Caption title={item.label} />
+      <ListItem.Caption title={item.label} className="flex-1" />
+      <Icon
+        icon={ChevronRight}
+        color="muted"
+        size="md"
+        className="[:not(:hover)>&]:opacity-0"
+      />
     </ListItem.Clickable>
-  )
-
-  const actions = isEditing ? (
-    <>
-      <ListItem.Action
-        icon={Save}
-        title={`Save changes`}
-        onClick={() => {
-          onSave({ ...item, label, href })
-          onEndEditing()
-        }}
-      />
-      <ListItem.Action
-        icon={X}
-        title={`Stop editing`}
-        onClick={() => {
-          setLabel(item.label)
-          setHref(isGroup(item) ? "" : item.href)
-          onEndEditing()
-        }}
-      />
-    </>
   ) : (
-    <>
-      {isGroup(item) && (
-        <ListItem.Action
-          icon={FolderOpen}
-          title={`Open`}
-          onClick={() => navigate(item.id)}
-        />
-      )}
-      <ListItem.Action icon={Trash} title={`Delete`} onClick={onDelete} />
-    </>
+    <div className="flex-1 flex px-2 gap-2 items-center overflow-hidden">
+      <Icon icon={Bookmark} color="muted" size="sm" />
+      <ListItem.Caption title={item.label} />
+    </div>
   )
 
   return (
@@ -158,8 +179,22 @@ const LinkEditor = ({
       className="p-1 flex max-w-full rounded-md hover:bg-accent/50"
     >
       <IconButton icon={GripHorizontal} title={`Open`} hideTitle />
+
       {mainItem}
-      {actions}
+
+      <ListItem.Action
+        icon={PenLine}
+        title={`Edit`}
+        onClick={onEdit}
+        hideTitle
+      />
+      <ListItem.Action
+        icon={Trash}
+        title={`Delete`}
+        onClick={onDelete}
+        hideTitle
+        className="[&>svg]:text-destructive-foreground"
+      />
     </ListItem.Root>
   )
 }
@@ -169,57 +204,63 @@ interface TreeEditorProps {
   data: TreeNode[]
 }
 const TreeEditor = ({ id, data }: TreeEditorProps) => {
-  const [editing, setEditing] = useState<string | null>(null)
   const { group, path, items, back, navigate } = useCascadingMenu<
     TreeGroup,
     TreeLink
   >(data)
 
+  const [editItem, setEditItem] = useState<TreeNode | null>(null)
+
+  const header = (
+    <ListItem.Root className="w-full p-1">
+      {!group ? (
+        <StaticHeader label="root" />
+      ) : (
+        <ClickableHeader label={group.label} onClick={back} />
+      )}
+      <IconButton
+        icon={FolderPlus}
+        title="Add group"
+        onClick={() => linkTree.addNode(id, path, createGroup())}
+      />
+      <IconButton
+        icon={BookmarkPlus}
+        title="Add bookmark"
+        onClick={() => linkTree.addNode(id, path, createTask())}
+      />
+    </ListItem.Root>
+  )
+
+  if (editItem) {
+    return (
+      <>
+        {header}
+        <div className="pl-4">
+          <ItemEditor
+            item={editItem}
+            onSave={node => {
+              linkTree.editNode(id, [...path, node.id], node)
+              setEditItem(null)
+            }}
+            onCancel={() => setEditItem(null)}
+          />
+        </div>
+      </>
+    )
+  }
+
   return (
     <>
-      <HStack>
-        <ListItem.Root className="w-full p-1">
-          {!group ? (
-            <StaticHeader label="root" />
-          ) : (
-            <ClickableHeader label={group.label} onClick={back} />
-          )}
-          <IconButton
-            icon={FolderPlus}
-            title="Add group"
-            onClick={() =>
-              linkTree.addNode(id, path, {
-                id: createId(),
-                label: "New group",
-                items: [],
-              })
-            }
-          />
-          <IconButton
-            icon={BookmarkPlus}
-            title="Add bookmark"
-            onClick={() =>
-              linkTree.addNode(id, path, {
-                id: createId(),
-                label: "New bookmark",
-                href: "https://example.com",
-              })
-            }
-          />
-        </ListItem.Root>
-      </HStack>
+      {header}
 
-      <VStack className="overflow-y-auto">
+      <VStack className="overflow-y-auto -mx-6 px-6">
         {items.map(item => (
           <LinkEditor
             key={item.id}
             item={item}
             navigate={navigate}
-            isEditing={editing === item.id}
             onDelete={() => linkTree.removeNode(id, [...path, item.id])}
-            onSave={node => linkTree.editNode(id, [...path, node.id], node)}
-            onStartEditing={setEditing}
-            onEndEditing={() => setEditing(null)}
+            onEdit={() => setEditItem(item)}
           />
         ))}
       </VStack>
@@ -245,19 +286,19 @@ export const LinkTreeEditor = ({ id }: LinkTreeEditorProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <IconButton icon={Settings} title="Editor" />
+        <IconButton icon={PenLine} title="Open link editor" />
       </DialogTrigger>
       <DialogContent
         size="md"
         className="flex flex-col h-[calc(theme(height.60)*2)]"
       >
         <DialogHeader>
-          <DialogTitle>Link tree editor</DialogTitle>
+          <DialogTitle>Link editor</DialogTitle>
           <DialogDescription>
-            Hover on bookmarks or groups for more actions and click on their
-            name to edit them.
+            Hover on bookmarks or groups to see their actions.
           </DialogDescription>
         </DialogHeader>
+
         <div className="pb-2" />
         <TreeEditor id={id} data={data} />
       </DialogContent>
