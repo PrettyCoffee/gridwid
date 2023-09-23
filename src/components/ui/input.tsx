@@ -1,6 +1,10 @@
 import * as React from "react"
+import { PropsWithChildren } from "react"
 
 import { cn } from "~/lib/utils"
+
+import { VStack } from "../base/Stack"
+import { Text } from "../Text"
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>
 
@@ -24,4 +28,21 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 )
 Input.displayName = "Input"
 
-export { Input }
+interface InputLabelProps {
+  label: string
+}
+const InputLabel = ({
+  label,
+  children,
+}: PropsWithChildren<InputLabelProps>) => (
+  <VStack asChild gap="2">
+    <label>
+      <Text color="muted" noOverflow style="small">
+        {label}
+      </Text>
+      {children}
+    </label>
+  </VStack>
+)
+
+export { Input, InputLabel }
