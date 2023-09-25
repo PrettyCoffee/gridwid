@@ -1,5 +1,6 @@
 import { Dispatch, useEffect, useState } from "react"
 
+import { DialogProps } from "@radix-ui/react-dialog"
 import {
   Bookmark,
   BookmarkPlus,
@@ -23,7 +24,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "~/components/ui/dialog"
 import { Input, InputLabel } from "~/components/ui/input"
 
@@ -275,19 +275,17 @@ const useSetDemoData = (id: string, apply = false) => {
   }, [apply, id])
 }
 
-interface LinkTreeEditorProps {
+interface LinkTreeEditorProps
+  extends Pick<DialogProps, "open" | "onOpenChange"> {
   id: string
 }
 
-export const LinkTreeEditor = ({ id }: LinkTreeEditorProps) => {
+export const LinkTreeEditor = ({ id, ...dialogProps }: LinkTreeEditorProps) => {
   const data = useLinkTreeData(id)
   useSetDemoData(id)
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <IconButton icon={PenLine} title="Open link editor" />
-      </DialogTrigger>
+    <Dialog {...dialogProps}>
       <DialogContent
         size="md"
         className="flex flex-col h-[calc(theme(height.60)*2)]"
