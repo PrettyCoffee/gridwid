@@ -8,7 +8,6 @@ import {
   ChevronRight,
   Folder,
   FolderPlus,
-  GripHorizontal,
   PenLine,
   Trash,
 } from "lucide-react"
@@ -178,8 +177,6 @@ const LinkEditor = ({ item, navigate, onDelete, onEdit }: LinkEditorProps) => {
       key={item.id}
       className="p-1 flex max-w-full rounded-md hover:bg-accent/50"
     >
-      <IconButton icon={GripHorizontal} title={`Open`} hideTitle />
-
       {mainItem}
 
       <ListItem.Action
