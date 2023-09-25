@@ -84,6 +84,9 @@ const listCaption = cva(
         sm: "text-sm [&>*:nth-of-type(2)]:text-xs",
         md: "text-md [&>*:nth-of-type(2)]:text-sm",
       },
+      active: {
+        true: "[&>*:nth-of-type(1)]:text-highlight-foreground",
+      },
     },
     defaultVariants: {
       size: "md",
