@@ -11,6 +11,7 @@ import {
   Trash,
 } from "lucide-react"
 
+import { HStack } from "~/components/base/Stack"
 import { IconButton } from "~/components/IconButton"
 import { MenuButton } from "~/components/MenuButton"
 import { NoData } from "~/components/NoData"
@@ -186,20 +187,31 @@ const TaskList = ({ settings }: TaskListProps) => {
 
 interface TaskListWidgetProps {
   id: string
-  title: string
+  title?: string
 }
 export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
   const settings = useTaskListSettings(id)
 
   return (
     <Widget.Root>
-      <Widget.Header title={title}>
-        <TaskListMenu id={id} settings={settings} />
-      </Widget.Header>
+      {title && (
+        <Widget.Header title={title}>
+          <TaskListMenu id={id} settings={settings} />
+        </Widget.Header>
+      )}
       <TaskListProvider id={id}>
-        <Widget.Content className="my-2">
-          <AddItem />
-        </Widget.Content>
+        {title ? (
+          <Widget.Content className="my-2">
+            <AddItem />
+          </Widget.Content>
+        ) : (
+          <HStack asChild gap="2">
+            <Widget.Content className="mb-2 mt-4">
+              <AddItem />
+              <TaskListMenu id={id} settings={settings} />
+            </Widget.Content>
+          </HStack>
+        )}
         <Widget.Content scroll expand>
           <TaskList settings={settings} />
         </Widget.Content>

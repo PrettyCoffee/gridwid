@@ -102,7 +102,7 @@ export const Page = () => (
         />
       </Grid.Item>
       <Grid.Item columns={4} rows={4}>
-        <TaskListWidget id="1" title="Task list test" />
+        <TaskListWidget id="1" />
       </Grid.Item>
       <Grid.Item columns={5} rows={6}>
         <TaskListWidget id="2" title="Gridwid Tasks" />
