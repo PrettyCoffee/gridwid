@@ -39,7 +39,7 @@ const AddItem = () => {
   }
 
   return (
-    <div className="relative flex gap-2">
+    <div className="flex-1 relative flex gap-2">
       <IconButton
         className={cn(
           "absolute top-0 bottom-0 left-0",
@@ -200,18 +200,12 @@ export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
         </Widget.Header>
       )}
       <TaskListProvider id={id}>
-        {title ? (
-          <Widget.Content className="my-2">
+        <HStack asChild gap="1">
+          <Widget.Content className={cn("my-2", !title && "mt-4")}>
             <AddItem />
+            {!title && <TaskListMenu id={id} settings={settings} />}
           </Widget.Content>
-        ) : (
-          <HStack asChild gap="2">
-            <Widget.Content className="mb-2 mt-4">
-              <AddItem />
-              <TaskListMenu id={id} settings={settings} />
-            </Widget.Content>
-          </HStack>
-        )}
+        </HStack>
         <Widget.Content scroll expand>
           <TaskList settings={settings} />
         </Widget.Content>

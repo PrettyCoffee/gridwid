@@ -93,7 +93,7 @@ export const Page = () => (
   <div className="flex flex-col h-full">
     <Grid.Root className="p-2 flex-1 overflow-y-auto">
       <Grid.Item columns={3} rows={4}>
-        <LinkTreeWidget id="5" />
+        <LinkTreeWidget id="5" title="Bookmarks" />
       </Grid.Item>
       <Grid.Item columns={3} rows={2}>
         <ImageWidget
