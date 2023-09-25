@@ -12,6 +12,7 @@ import {
 } from "lucide-react"
 
 import { IconButton } from "~/components/IconButton"
+import { Section } from "~/components/Section"
 import { ThemeToggle } from "~/components/ThemeToggle"
 import {
   Popover,
@@ -53,7 +54,6 @@ export const Menu = () => (
       />
     </PopoverAnchor>
     <PopoverContent className="w-max max-w-xl mb-1">
-      <ThemeToggle />
       <IconButton
         icon={RefreshCw}
         title="Refresh fetched data"
@@ -63,6 +63,9 @@ export const Menu = () => (
           githubUserRepos.set(null)
         }}
       />
+      <Section title="Themes" className="min-w-[theme(width.48)]">
+        <ThemeToggle />
+      </Section>
     </PopoverContent>
   </Popover>
 )

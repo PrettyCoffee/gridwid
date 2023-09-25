@@ -9,14 +9,18 @@ import {
   useDerivedValue,
 } from "yaasl/react"
 
+import { cn } from "~/lib/utils"
 import { yaaslSetup } from "~/lib/yaaslSetup"
 
-import { IconButton } from "./IconButton"
+import { HStack } from "./base/Stack"
+import { Icon } from "./Icon"
+import { ListItem } from "./ListItem"
 
 const getSystemMode = () =>
   window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 
 type ThemeMode = "dark" | "light" | "system" | "mocha"
+const modes: ThemeMode[] = ["system", "dark", "light", "mocha"]
 
 yaaslSetup()
 
@@ -41,13 +45,6 @@ export const useApplyThemeMode = () => {
   }, [mode])
 }
 
-const nextMode: Record<ThemeMode, ThemeMode> = {
-  system: "dark",
-  dark: "light",
-  light: "mocha",
-  mocha: "system",
-}
-
 const modeIcon: Record<ThemeMode, LucideIcon> = {
   system: SunMoon,
   dark: MoonStar,
@@ -55,19 +52,34 @@ const modeIcon: Record<ThemeMode, LucideIcon> = {
   mocha: Cat,
 }
 
-export const ThemeToggle = () => {
-  const [mode, setMode] = useAtom(modeAtom)
-  const next = nextMode[mode]
+const modeCircle = "w-4 h-4 rounded-full border border-accent-foreground"
 
-  const toggleMode = () => {
-    setMode(mode => nextMode[mode])
-  }
-
+const ModePreview = ({ mode }: { mode: ThemeMode }) => {
   return (
-    <IconButton
-      icon={modeIcon[mode]}
-      title={`Set theme to ${next}`}
-      onClick={toggleMode}
-    />
+    <HStack className={cn(mode, "-space-x-1.5")}>
+      <div className={cn(modeCircle, "bg-background")} />
+      <div className={cn(modeCircle, "bg-foreground")} />
+      <div className={cn(modeCircle, "bg-highlight")} />
+    </HStack>
   )
+}
+
+export const ThemeToggle = () => {
+  const [currentMode, setCurrentMode] = useAtom(modeAtom)
+
+  return modes.map(mode => (
+    <ListItem.Root key={mode}>
+      <HStack asChild items="center">
+        <ListItem.Clickable compact onClick={() => setCurrentMode(mode)}>
+          <Icon icon={modeIcon[mode]} size="sm" />
+          <ListItem.Caption
+            active={currentMode === mode}
+            title={mode}
+            className="flex-1"
+          />
+          {mode !== "system" && <ModePreview mode={mode} />}
+        </ListItem.Clickable>
+      </HStack>
+    </ListItem.Root>
+  ))
 }
