@@ -62,7 +62,7 @@ const RepoWidgetSkeleton = () => (
       <IconButton icon={MoreVertical} title="" />
     </Widget.Header>
     <Widget.Content scroll>
-      <Section title="Info">
+      <Section title="Info" stickyTitle>
         <RepoAvatarSkeleton />
         <div className="pb-0.5 pt-1">
           <Skeleton className="w-40 h-3" />
@@ -72,14 +72,14 @@ const RepoWidgetSkeleton = () => (
         </div>
         <Button variant="link">repo</Button>
       </Section>
-      <Section title="Stats">
+      <Section title="Stats" stickyTitle>
         <div className="flex flex-wrap gap-1">
           {createRange(3).map(key => (
             <BadgeSkeleton key={key} />
           ))}
         </div>
       </Section>
-      <Section title="Topics">
+      <Section title="Topics" stickyTitle>
         <div className="flex flex-wrap gap-1">
           {createRange(3).map(key => (
             <BadgeSkeleton key={key} />
@@ -213,18 +213,18 @@ export const RepoWidget = ({ owner, name }: RepoWidgetProps) => {
         <WidgetSettings owner={owner} name={name} />
       </Widget.Header>
       <Widget.Content scroll>
-        <Section title="Info">
+        <Section title="Info" stickyTitle>
           <Info {...repo} />
         </Section>
 
         {settings.hideStats ? null : (
-          <Section title="Stats">
+          <Section title="Stats" stickyTitle>
             <RepoStats {...repo} />
           </Section>
         )}
 
         {settings.hideTopics ? null : (
-          <Section title="Topics">
+          <Section title="Topics" stickyTitle>
             <Topics {...repo} />
           </Section>
         )}
