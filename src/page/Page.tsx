@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react"
+import { PropsWithChildren, useEffect, useRef, useState } from "react"
 
 import { Bell, Bird, Sticker, Flame, Banana, Ghost } from "lucide-react"
 
 import { Grid } from "~/components/Grid"
 import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
+import { Section } from "~/components/Section"
 import { StatusIndicator } from "~/components/StatusIndicator"
 import { TaskBar } from "~/components/TaskBar"
 import { Button } from "~/components/ui/button"
@@ -89,43 +90,66 @@ const Notifications = () => (
   </Popover>
 )
 
+const ScrollArea = ({ children }: PropsWithChildren) => (
+  <div className="flex-1 overflow-auto p-2">{children}</div>
+)
+
+const RepoWidgets = () => (
+  <Grid.Root>
+    <Grid.Item columns={4} rows={4}>
+      <RepoWidget owner="prettycoffee" name="yet-another-generic-startpage" />
+    </Grid.Item>
+    <Grid.Item columns={4} rows={4}>
+      <RepoWidget owner="prettycoffee" name="gridwid" />
+    </Grid.Item>
+    <Grid.Item columns={3} rows={3}>
+      <RepoWidget owner="shadcn" name="ui" />
+    </Grid.Item>
+    <Grid.Item columns={3} rows={2}>
+      <ImageWidget
+        id="3"
+        src="https://i.pinimg.com/originals/fc/35/f2/fc35f21075cc1500fababbbbf501c2e1.gif"
+      />
+    </Grid.Item>
+    <Grid.Item columns={3} rows={2}>
+      <ImageWidget
+        id="7"
+        src="https://media.tenor.com/GjegbNUod5gAAAAC/duck-cute.gif"
+      />
+    </Grid.Item>
+  </Grid.Root>
+)
+
 export const Page = () => (
   <div className="flex flex-col h-full">
-    <Grid.Root className="p-2 flex-1 overflow-y-auto">
-      <Grid.Item columns={3} rows={4}>
-        <LinkTreeWidget id="5" title="Bookmarks" />
-      </Grid.Item>
-      <Grid.Item columns={3} rows={2}>
-        <ImageWidget
-          id="3"
-          src="https://i.pinimg.com/originals/fc/35/f2/fc35f21075cc1500fababbbbf501c2e1.gif"
-        />
-      </Grid.Item>
-      <Grid.Item columns={4} rows={4}>
-        <TaskListWidget id="1" />
-      </Grid.Item>
-      <Grid.Item columns={5} rows={6}>
-        <TaskListWidget id="2" title="Gridwid Tasks" />
-      </Grid.Item>
-      <Grid.Item columns={4} rows={4}>
-        <RepoWidget owner="prettycoffee" name="yet-another-generic-startpage" />
-      </Grid.Item>
-      <Grid.Item columns={4} rows={3}>
-        <RepoWidget owner="shadcn" name="ui" />
-      </Grid.Item>
-      <Grid.Item columns={3} rows={2}>
-        <ImageWidget
-          id="4"
-          src="https://i.pinimg.com/originals/10/e6/ef/10e6ef76794e3c11425387a2ee140f2c.gif"
-        />
-      </Grid.Item>
-      <Grid.Item columns={3} rows={2}>
-        <ImageWidget
-          id="5"
-          src="https://64.media.tumblr.com/54a945edd2641e20859d6f6537cd7423/tumblr_pwa4bogz4N1qze3hdo2_r1_500.gifv"
-        />
-      </Grid.Item>
-    </Grid.Root>
+    <ScrollArea>
+      <Grid.Root>
+        <Grid.Item columns={3} rows={4}>
+          <LinkTreeWidget id="5" title="Bookmarks" />
+        </Grid.Item>
+        <Grid.Item columns={3} rows={4}>
+          <TaskListWidget id="1" />
+        </Grid.Item>
+        <Grid.Item columns={5} rows={6}>
+          <TaskListWidget id="2" title="Gridwid Tasks" />
+        </Grid.Item>
+        <Grid.Item columns={3} rows={2}>
+          <ImageWidget
+            id="4"
+            src="https://i.pinimg.com/originals/10/e6/ef/10e6ef76794e3c11425387a2ee140f2c.gif"
+          />
+        </Grid.Item>
+        <Grid.Item columns={3} rows={2}>
+          <ImageWidget
+            id="6"
+            src="https://64.media.tumblr.com/54a945edd2641e20859d6f6537cd7423/tumblr_pwa4bogz4N1qze3hdo2_r1_500.gifv"
+          />
+        </Grid.Item>
+      </Grid.Root>
+      <Section title="Repositories" className="mt-4 [&>:first-of-type]:px-2">
+        <RepoWidgets />
+      </Section>
+    </ScrollArea>
     <TaskBar.Root>
       <TaskBar.Section>
         <Workspaces />
