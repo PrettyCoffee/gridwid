@@ -1,38 +1,48 @@
 import { PropsWithChildren } from "react"
 
+import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
+import { createContext } from "~/lib/createContext"
 import { focusRing, hover, noOverflow, press } from "~/lib/styles"
 import { cn } from "~/lib/utils"
 
-import { ClassNameProp } from "./base/BaseProps"
+import { AsChildProp, ClassNameProp } from "./base/BaseProps"
 import { HStack } from "./base/Stack"
 import { IconButton, IconButtonProps } from "./IconButton"
-import { Polymorphic } from "./Polymorphic"
 import { Skeleton } from "./ui/skeleton"
+
+interface ListItemContext {
+  compact?: boolean
+}
+const { Provider, useRequiredContext } =
+  createContext<ListItemContext>("ListItem")
 
 export interface ListItemRootProps extends ClassNameProp {
   noHover?: boolean
+  compact?: boolean
 }
 
 const ListItemRoot = ({
   children,
   className,
   noHover,
+  compact,
 }: PropsWithChildren<ListItemRootProps>) => (
-  <HStack
-    items="center"
-    justify="start"
-    className={cn("rounded-md", !noHover && "hover:bg-accent/50", className)}
-  >
-    {children}
-  </HStack>
+  <Provider value={{ compact }}>
+    <HStack
+      items="center"
+      justify="start"
+      className={cn("rounded-md", !noHover && "hover:bg-accent/50", className)}
+    >
+      {children}
+    </HStack>
+  </Provider>
 )
 
-export interface ListItemClickableProps extends ClassNameProp {
+export interface ListItemClickableProps extends ClassNameProp, AsChildProp {
   href?: string
   onClick?: () => void
-  compact?: boolean
   target?: "_blank" | "_self" | "_parent" | "_top"
 }
 
@@ -42,22 +52,21 @@ const ListItemClickable = ({
   href,
   target,
   onClick,
-  compact,
+  asChild,
 }: PropsWithChildren<ListItemClickableProps>) => {
+  const { compact } = useRequiredContext()
   const props = href
     ? {
-        as: "a" as const,
         onClick,
         href,
         target,
       }
-    : {
-        as: "button" as const,
-        onClick,
-      }
+    : { onClick }
+
+  const Element = asChild ? Slot : href ? "a" : "button"
 
   return (
-    <Polymorphic
+    <Element
       {...props}
       className={cn(
         "py-1 px-2 h-full flex-1 flex text-start items-center justify-start gap-2 rounded-md overflow-hidden",
@@ -69,7 +78,7 @@ const ListItemClickable = ({
       )}
     >
       {children}
-    </Polymorphic>
+    </Element>
   )
 }
 
@@ -80,21 +89,21 @@ const listCaption = cva(
   ),
   {
     variants: {
-      size: {
-        sm: "text-sm [&>*:nth-of-type(2)]:text-xs",
-        md: "text-md [&>*:nth-of-type(2)]:text-sm",
+      compact: {
+        true: "text-sm [&>*:nth-of-type(2)]:text-xs",
+        false: "text-md [&>*:nth-of-type(2)]:text-sm",
       },
       active: {
         true: "[&>*:nth-of-type(1)]:text-highlight-foreground",
       },
     },
     defaultVariants: {
-      size: "md",
+      compact: false,
     },
   }
 )
 export interface ListItemCaptionProps
-  extends VariantProps<typeof listCaption>,
+  extends Omit<VariantProps<typeof listCaption>, "compact">,
     ClassNameProp {
   title: string
   subtitle?: string
@@ -104,24 +113,27 @@ const ListItemCaption = ({
   subtitle,
   className,
   ...styles
-}: ListItemCaptionProps) => (
-  <div className={cn(listCaption(styles), className)}>
-    <span className={noOverflow}>{title}</span>
-    {subtitle && <span className={noOverflow}>{subtitle}</span>}
-  </div>
-)
+}: ListItemCaptionProps) => {
+  const { compact } = useRequiredContext()
+  return (
+    <div className={cn(listCaption({ compact, ...styles }), className)}>
+      <span className={noOverflow}>{title}</span>
+      {subtitle && <span className={noOverflow}>{subtitle}</span>}
+    </div>
+  )
+}
 
 const listCaptionSkeleton = cva(
   "flex justify-center [&>*]:max-w-full [&>:first-of-type]:w-24 [&>:nth-of-type(2)]:w-40",
   {
     variants: {
-      size: {
-        sm: [
-          listCaption({ size: "sm" }),
+      compact: {
+        true: [
+          listCaption({ compact: true }),
           "[&>:nth-of-type(1)]:h-3 [&>:nth-of-type(2)]:h-2",
         ],
-        md: [
-          listCaption({ size: "md" }),
+        false: [
+          listCaption({ compact: false }),
           "[&>:nth-of-type(1)]:h-4 [&>:nth-of-type(2)]:h-3",
         ],
       },
@@ -130,31 +142,40 @@ const listCaptionSkeleton = cva(
       },
     },
     defaultVariants: {
-      size: "md",
+      compact: false,
     },
   }
 )
 
-type ListItemCaptionSkeletonProps = VariantProps<typeof listCaptionSkeleton>
+type ListItemCaptionSkeletonProps = Omit<
+  VariantProps<typeof listCaptionSkeleton>,
+  "compact"
+>
 const ListItemCaptionSkeleton = ({
-  size,
   subtitle,
-}: ListItemCaptionSkeletonProps) => (
-  <div className={listCaptionSkeleton({ size, subtitle: !!subtitle })}>
-    <Skeleton />
-    {subtitle && <Skeleton />}
-  </div>
-)
+}: ListItemCaptionSkeletonProps) => {
+  const { compact } = useRequiredContext()
+  return (
+    <div className={listCaptionSkeleton({ compact, subtitle: !!subtitle })}>
+      <Skeleton />
+      {subtitle && <Skeleton />}
+    </div>
+  )
+}
 
 type ListItemActionProps = ClassNameProp &
-  Pick<IconButtonProps, "icon" | "compact" | "onClick" | "title" | "hideTitle">
+  Pick<IconButtonProps, "icon" | "onClick" | "title" | "hideTitle">
 
-const ListItemAction = ({ className, ...props }: ListItemActionProps) => (
-  <IconButton
-    className={cn("[:not(:hover)>&]:opacity-0", className)}
-    {...props}
-  />
-)
+const ListItemAction = ({ className, ...props }: ListItemActionProps) => {
+  const { compact } = useRequiredContext()
+  return (
+    <IconButton
+      className={cn("[:not(:hover)>&]:opacity-0", className)}
+      compact={compact}
+      {...props}
+    />
+  )
+}
 
 export const ListItem = {
   Root: ListItemRoot,

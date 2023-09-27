@@ -65,19 +65,14 @@ interface HeaderProps {
 const StaticHeader = ({ label }: Pick<HeaderProps, "label">) => (
   <ListItem.Caption
     title={label}
-    size="md"
     className="pl-2.5 flex-1 text-muted-foreground"
   />
 )
 
 const ClickableHeader = ({ label, onClick }: HeaderProps) => (
   <ListItem.Clickable onClick={onClick}>
-    <Icon icon={ChevronLeft} size="md" color="muted" />
-    <ListItem.Caption
-      title={label}
-      size="md"
-      className="text-muted-foreground"
-    />
+    <Icon icon={ChevronLeft} color="muted" />
+    <ListItem.Caption title={label} className="text-muted-foreground" />
   </ListItem.Clickable>
 )
 

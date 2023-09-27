@@ -73,10 +73,11 @@ const RepoList = ({ repos }: { repos: GithubRepository[] | null }) => {
     return createRange(MAX_DISPLAYED_REPOS).map(i => (
       <ListItem.Root
         key={i}
+        compact
         noHover
         className="flex px-2 py-1 hover:bg-transparent"
       >
-        <ListItem.CaptionSkeleton size="sm" subtitle />
+        <ListItem.CaptionSkeleton subtitle />
       </ListItem.Root>
     ))
   }
@@ -86,13 +87,9 @@ const RepoList = ({ repos }: { repos: GithubRepository[] | null }) => {
       {repos
         .slice(0, MAX_DISPLAYED_REPOS)
         .map(({ full_name, description, html_url }) => (
-          <ListItem.Root key={full_name}>
+          <ListItem.Root key={full_name} compact>
             <ListItem.Clickable href={html_url}>
-              <ListItem.Caption
-                title={full_name}
-                subtitle={description}
-                size="sm"
-              />
+              <ListItem.Caption title={full_name} subtitle={description} />
             </ListItem.Clickable>
           </ListItem.Root>
         ))}
@@ -108,7 +105,7 @@ const UserInfo = ({ user }: { user: GithubUser | null }) => {
         className="flex gap-2 px-2 py-1 hover:bg-transparent"
       >
         <AvatarSkeleton />
-        <ListItem.CaptionSkeleton size="md" subtitle />
+        <ListItem.CaptionSkeleton subtitle />
       </ListItem.Root>
     )
   }

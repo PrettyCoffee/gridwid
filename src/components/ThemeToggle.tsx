@@ -68,9 +68,9 @@ export const ThemeToggle = () => {
   const [currentMode, setCurrentMode] = useAtom(modeAtom)
 
   return modes.map(mode => (
-    <ListItem.Root key={mode}>
+    <ListItem.Root key={mode} compact>
       <HStack asChild items="center">
-        <ListItem.Clickable compact onClick={() => setCurrentMode(mode)}>
+        <ListItem.Clickable onClick={() => setCurrentMode(mode)}>
           <Icon icon={modeIcon[mode]} size="sm" />
           <ListItem.Caption
             active={currentMode === mode}
