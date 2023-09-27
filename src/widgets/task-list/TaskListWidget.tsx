@@ -13,9 +13,10 @@ import {
 
 import { HStack } from "~/components/base/Stack"
 import { IconButton } from "~/components/IconButton"
+import { ListItem } from "~/components/ListItem"
 import { MenuButton } from "~/components/MenuButton"
 import { NoData } from "~/components/NoData"
-import { CheckboxWithLabel } from "~/components/ui/checkbox"
+import { Checkbox } from "~/components/ui/checkbox"
 import { Input } from "~/components/ui/input"
 import { Widget } from "~/components/Widget"
 import { cn } from "~/lib/utils"
@@ -130,24 +131,28 @@ const TaskItem = ({
   checked,
   onDelete,
   compact,
+  onChange,
   ...delegated
 }: TaskItemProps) => (
-  <div className={cn("flex max-w-full", compact ? "rounded-sm" : "rounded-md")}>
-    <CheckboxWithLabel
-      compact={compact}
-      className={cn("flex-1", checked && "text-muted-foreground line-through")}
-      checked={checked}
-      {...delegated}
-    />
-    <IconButton
-      className="flex text-destructive-foreground hover:text-destructive-foreground [:not(:hover)>&]:opacity-0 [:not(:hover)>&]:w-0 [:not(:hover)>&]:min-w-0"
+  <ListItem.Root compact={compact}>
+    <ListItem.Clickable asChild>
+      <label className="cursor-pointer">
+        <Checkbox
+          compact={compact}
+          checked={checked}
+          onCheckedChange={onChange}
+        />
+        <ListItem.Caption title={delegated.label} />
+      </label>
+    </ListItem.Clickable>
+    <ListItem.Action
+      className="self-start text-destructive-foreground hover:text-destructive-foreground"
       icon={Trash}
       title="Delete task"
       hideTitle
       onClick={onDelete}
-      compact={compact}
     />
-  </div>
+  </ListItem.Root>
 )
 
 interface TaskListProps {
