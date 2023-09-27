@@ -72,7 +72,7 @@ const ListItemClickable = ({
         "py-1 px-2 h-full flex-1 flex text-start items-center justify-start gap-2 rounded-md overflow-hidden",
         compact ? "min-h-[theme(height.8)]" : "min-h-[theme(height.10)]",
         hover,
-        press,
+        press({ style: "solid" }),
         focusRing,
         className
       )}

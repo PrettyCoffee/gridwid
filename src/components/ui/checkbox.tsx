@@ -74,7 +74,7 @@ const CheckboxWithLabel = ({
     className={cn(
       "pr-1 flex cursor-pointer hover:bg-accent",
       compact ? "rounded-sm" : "rounded-md",
-      press,
+      press({ style: "solid" }),
       noWrap && noOverflow,
       className
     )}
