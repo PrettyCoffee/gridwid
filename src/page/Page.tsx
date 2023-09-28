@@ -1,7 +1,8 @@
 import { PropsWithChildren, useEffect, useRef, useState } from "react"
 
-import { Bell, Bird, Sticker, Flame, Banana, Ghost } from "lucide-react"
+import { Bell, Bird, Sticker, Flame, Banana, Ghost, Rocket } from "lucide-react"
 
+import { AlertBanner } from "~/components/AlertBanner"
 import { Grid } from "~/components/Grid"
 import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
@@ -23,6 +24,21 @@ import { TaskListWidget } from "~/widgets/task-list/TaskListWidget"
 
 import { Menu } from "./Menu"
 import { Workspaces } from "./Workspaces"
+
+const NewVersionAlert = () => (
+  <AlertBanner.Root variant="info">
+    <Icon icon={Rocket} />
+    <AlertBanner.Title>New version available!</AlertBanner.Title>
+    <AlertBanner.Description>
+      A new gridwid version is available. See the changelog for a list of all
+      new features.
+    </AlertBanner.Description>
+    <div className="flex justify-end gap-2 pt-2 text-foreground">
+      <Button variant="ghost">Dismiss</Button>
+      <Button variant="outline">Open</Button>
+    </div>
+  </AlertBanner.Root>
+)
 
 const Clock = () => {
   const [date, setDate] = useState(new Date())
@@ -70,8 +86,11 @@ const Notifications = () => (
     </PopoverTrigger>
     <PopoverContent
       align="end"
-      className="w-max flex flex-col gap-1 p-0 -translate-y-1 bg-transparent border-none overflow-auto max-h-[calc(100vh-theme(height.12)-theme(height.2))]"
+      className="w-max flex flex-col gap-1 p-0 -translate-y-1 bg-transparent border-none overflow-auto max-h-[calc(100vh-theme(height.12)-theme(height.2))] max-w-[calc(theme(width.64)+theme(width.2))]"
     >
+      <Card className="p-0">
+        <NewVersionAlert />
+      </Card>
       <Card className="flex gap-2 justify-between p-2">
         <Button variant="outline">Some</Button>
         <Button variant="destructive">Content</Button>
