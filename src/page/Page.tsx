@@ -1,7 +1,9 @@
 import { PropsWithChildren, useEffect, useRef, useState } from "react"
 
 import { Bell, Bird, Sticker, Flame, Banana, Ghost, Rocket } from "lucide-react"
+import { atom, localStorage, useAtomValue } from "yaasl/react"
 
+import localChangelog from "~/changelog.json"
 import { AlertBanner } from "~/components/AlertBanner"
 import { Grid } from "~/components/Grid"
 import { Icon } from "~/components/Icon"
@@ -17,6 +19,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover"
+import { tomorrow } from "~/lib/datetime"
 import { ImageWidget } from "~/widgets/image/ImageWidget"
 import { LinkTreeWidget } from "~/widgets/link-tree/LinkTreeWidget"
 import { RepoWidget } from "~/widgets/repo/RepoWidget"
@@ -25,20 +28,94 @@ import { TaskListWidget } from "~/widgets/task-list/TaskListWidget"
 import { Menu } from "./Menu"
 import { Workspaces } from "./Workspaces"
 
-const NewVersionAlert = () => (
-  <AlertBanner.Root variant="info">
-    <Icon icon={Rocket} />
-    <AlertBanner.Title>New version available!</AlertBanner.Title>
-    <AlertBanner.Description>
-      A new gridwid version is available. See the changelog for a list of all
-      new features.
-    </AlertBanner.Description>
-    <div className="flex justify-end gap-2 pt-2 text-foreground">
-      <Button variant="ghost">Dismiss</Button>
-      <Button variant="outline">Open</Button>
-    </div>
-  </AlertBanner.Root>
-)
+interface Change {
+  version: string
+  release: string
+  changes: string[]
+}
+
+const validateChangelog = (value: unknown): value is Change[] =>
+  Array.isArray(value) &&
+  value.every(
+    (entry: unknown) =>
+      entry != null &&
+      typeof entry === "object" &&
+      "version" in entry &&
+      typeof entry.version === "string"
+  )
+
+const parseVersion = (version: string) => {
+  const [major = 0, minor = 0, patch = 0] = version.split(".").map(Number)
+  return { major, minor, patch }
+}
+
+const compareVersions = (a: string, b: string) => {
+  const versionA = parseVersion(a)
+  const versionB = parseVersion(b)
+  return (
+    versionA.major - versionB.major ||
+    versionA.minor - versionB.minor ||
+    versionA.patch - versionB.patch
+  )
+}
+
+const sortChangelog = (changelog: Change[]) =>
+  changelog.sort((a, b) => compareVersions(a.version, b.version)).reverse()
+
+const rawbase = "https://raw.githubusercontent.com"
+const repo = "/prettycoffee/gridwid/master"
+const changelogPath = "/src/changelog.json"
+
+const fetchChangelog = fetch(`${rawbase}${repo}${changelogPath}`)
+  .then(response => response.json())
+  .then(json => (!validateChangelog(json) ? [] : sortChangelog(json)))
+
+const changelogAtom = atom<Change[] | null>({
+  name: "changelog",
+  defaultValue: null,
+  middleware: [localStorage({ expiresAt: tomorrow })],
+})
+
+const getLocalVersion = () => sortChangelog(localChangelog)[0]?.version
+const versionAtom = atom<string | null>({
+  name: "version",
+  defaultValue: getLocalVersion() ?? null,
+  middleware: [localStorage()],
+})
+
+const NewVersionAlert = () => {
+  const latestVersion = useAtomValue(versionAtom)
+  const changelog = useAtomValue(changelogAtom)
+  const currentVersion = changelog?.[0]?.version
+  const didChange = !latestVersion || currentVersion !== latestVersion
+
+  useEffect(() => {
+    if (changelog) return
+    changelogAtom.unwrap(fetchChangelog).catch(console.error)
+  }, [changelog])
+
+  return !didChange ? null : (
+    <Card className="p-0">
+      <AlertBanner.Root variant="info">
+        <Icon icon={Rocket} />
+        <AlertBanner.Title>New version available!</AlertBanner.Title>
+        <AlertBanner.Description>
+          A new gridwid version is available. See the changelog for a list of
+          all new features.
+        </AlertBanner.Description>
+        <div className="flex justify-end gap-2 pt-2 text-foreground">
+          <Button
+            variant="ghost"
+            onClick={() => currentVersion && versionAtom.set(currentVersion)}
+          >
+            Dismiss
+          </Button>
+          <Button variant="outline">Open</Button>
+        </div>
+      </AlertBanner.Root>
+    </Card>
+  )
+}
 
 const Clock = () => {
   const [date, setDate] = useState(new Date())
@@ -88,9 +165,7 @@ const Notifications = () => (
       align="end"
       className="w-max flex flex-col gap-1 p-0 -translate-y-1 bg-transparent border-none overflow-auto max-h-[calc(100vh-theme(height.12)-theme(height.2))] max-w-[calc(theme(width.64)+theme(width.2))]"
     >
-      <Card className="p-0">
-        <NewVersionAlert />
-      </Card>
+      <NewVersionAlert />
       <Card className="flex gap-2 justify-between p-2">
         <Button variant="outline">Some</Button>
         <Button variant="destructive">Content</Button>
