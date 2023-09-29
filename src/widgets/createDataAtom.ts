@@ -4,6 +4,7 @@ import {
   LocalStorageOptions,
   atom,
   localStorage,
+  reduxDevtools,
   useAtomValue,
 } from "yaasl/react"
 
@@ -20,7 +21,10 @@ export const createDataAtom = <T extends object | undefined>(
   const dataAtom = atom<Record<string, T>>({
     name,
     defaultValue: {},
-    middleware: [localStorage(localStorageOptions)],
+    middleware: [
+      localStorage(localStorageOptions),
+      reduxDevtools({ disable: !import.meta.env.DEV }),
+    ],
   })
 
   const getData = (id: string) => dataAtom.get()[id]

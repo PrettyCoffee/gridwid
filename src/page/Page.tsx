@@ -1,7 +1,7 @@
 import { PropsWithChildren, useEffect, useRef, useState } from "react"
 
 import { Bell, Rocket } from "lucide-react"
-import { atom, localStorage, useAtomValue } from "yaasl/react"
+import { atom, localStorage, reduxDevtools, useAtomValue } from "yaasl/react"
 
 import localChangelog from "~/changelog.json"
 import { Grid } from "~/components/Grid"
@@ -72,14 +72,20 @@ const fetchChangelog = fetch(`${rawbase}${repo}${changelogPath}`)
 const changelogAtom = atom<Change[] | null>({
   name: "changelog",
   defaultValue: null,
-  middleware: [localStorage({ expiresAt: tomorrow })],
+  middleware: [
+    localStorage({ expiresAt: tomorrow }),
+    reduxDevtools({ disable: !import.meta.env.DEV }),
+  ],
 })
 
 const getLocalVersion = () => sortChangelog(localChangelog)[0]?.version
 const versionAtom = atom<string | null>({
   name: "version",
   defaultValue: getLocalVersion() ?? null,
-  middleware: [localStorage()],
+  middleware: [
+    localStorage(),
+    reduxDevtools({ disable: !import.meta.env.DEV }),
+  ],
 })
 
 const NewVersionAlert = () => {

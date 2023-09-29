@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 
 import { Github } from "lucide-react"
-import { atom, localStorage, useAtomValue } from "yaasl/react"
+import { atom, localStorage, reduxDevtools, useAtomValue } from "yaasl/react"
 
 import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
@@ -27,13 +27,19 @@ yaaslSetup()
 export const githubProfile = atom<GithubUser | null>({
   defaultValue: null,
   name: "github-profile",
-  middleware: [localStorage({ expiresAt: tomorrow })],
+  middleware: [
+    localStorage({ expiresAt: tomorrow }),
+    reduxDevtools({ disable: !import.meta.env.DEV }),
+  ],
 })
 
 export const githubUserRepos = atom<GithubRepository[] | null>({
   defaultValue: null,
   name: "github-user-repos",
-  middleware: [localStorage({ expiresAt: tomorrow })],
+  middleware: [
+    localStorage({ expiresAt: tomorrow }),
+    reduxDevtools({ disable: !import.meta.env.DEV }),
+  ],
 })
 
 const useGithubProfile = () => {

@@ -5,6 +5,7 @@ import {
   atom,
   derive,
   localStorage,
+  reduxDevtools,
   useAtom,
   useDerivedValue,
 } from "yaasl/react"
@@ -27,7 +28,10 @@ yaaslSetup()
 const modeAtom = atom<ThemeMode>({
   name: "theme-mode",
   defaultValue: "system",
-  middleware: [localStorage()],
+  middleware: [
+    localStorage(),
+    reduxDevtools({ disable: !import.meta.env.DEV }),
+  ],
 })
 
 const displayedMode = derive(({ get }) => {
