@@ -1,16 +1,15 @@
 import { PropsWithChildren, useEffect, useRef, useState } from "react"
 
-import { Bell, Bird, Sticker, Flame, Banana, Ghost, Rocket } from "lucide-react"
+import { Bell, Rocket } from "lucide-react"
 import { atom, localStorage, useAtomValue } from "yaasl/react"
 
 import localChangelog from "~/changelog.json"
-import { AlertBanner } from "~/components/AlertBanner"
 import { Grid } from "~/components/Grid"
 import { Icon } from "~/components/Icon"
-import { IconButton } from "~/components/IconButton"
 import { Section } from "~/components/Section"
 import { StatusIndicator } from "~/components/StatusIndicator"
 import { TaskBar } from "~/components/TaskBar"
+import { RenderedToast, Toast, toastList } from "~/components/Toast"
 import { Button } from "~/components/ui/button"
 import { Calendar } from "~/components/ui/calendar"
 import { Card } from "~/components/ui/card"
@@ -95,25 +94,24 @@ const NewVersionAlert = () => {
   }, [changelog])
 
   return !didChange ? null : (
-    <Card className="p-0">
-      <AlertBanner.Root variant="info">
-        <Icon icon={Rocket} />
-        <AlertBanner.Title>New version available!</AlertBanner.Title>
-        <AlertBanner.Description>
-          A new gridwid version is available. See the changelog for a list of
-          all new features.
-        </AlertBanner.Description>
-        <div className="flex justify-end gap-2 pt-2 text-foreground">
-          <Button
-            variant="ghost"
-            onClick={() => currentVersion && versionAtom.set(currentVersion)}
-          >
-            Dismiss
-          </Button>
-          <Button variant="outline">Open</Button>
-        </div>
-      </AlertBanner.Root>
-    </Card>
+    <Toast
+      kind="info"
+      icon={Rocket}
+      title="New version available!"
+      description="A new gridwid version is available. See the changelog for a list of all new features."
+      actions={[
+        {
+          label: "Dismiss",
+          variant: "ghost",
+          onClick: () => currentVersion && versionAtom.set(currentVersion),
+        },
+        {
+          label: "Open",
+          variant: "outline",
+          onClick: () => null,
+        },
+      ]}
+    />
   )
 }
 
@@ -152,37 +150,32 @@ const Clock = () => {
   )
 }
 
-const Notifications = () => (
-  <Popover>
-    <PopoverTrigger asChild>
-      <Button variant="ghost" className="px-2 gap-2">
-        <Clock />
-        <Icon icon={Bell} size="sm" />
-        <StatusIndicator kind="info" />
-      </Button>
-    </PopoverTrigger>
-    <PopoverContent
-      align="end"
-      className="w-max flex flex-col gap-1 p-0 -translate-y-1 bg-transparent border-none overflow-auto max-h-[calc(100vh-theme(height.12)-theme(height.2))] max-w-[calc(theme(width.64)+theme(width.2))]"
-    >
-      <NewVersionAlert />
-      <Card className="flex gap-2 justify-between p-2">
-        <Button variant="outline">Some</Button>
-        <Button variant="destructive">Content</Button>
-      </Card>
-      <Card className="p-2">
-        <IconButton icon={Bird} title="Birb" />
-        <IconButton icon={Banana} title="BANANA" />
-        <IconButton icon={Sticker} title="Sticker" />
-        <IconButton icon={Flame} title="Flame" />
-        <IconButton icon={Ghost} title="*BOOOH*" />
-      </Card>
-      <Card className="p-2">
-        <Calendar />
-      </Card>
-    </PopoverContent>
-  </Popover>
-)
+const Notifications = () => {
+  const toasts = useAtomValue(toastList.atom)
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="ghost" className="px-2 gap-2">
+          <Clock />
+          <Icon icon={Bell} size="sm" />
+          <StatusIndicator kind="info" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        align="end"
+        className="w-max flex flex-col gap-1 p-0 -translate-y-1 bg-transparent border-none overflow-auto max-h-[calc(100vh-theme(height.12)-theme(height.2))] max-w-[calc(theme(width.64)+theme(width.2))]"
+      >
+        {toasts.map(toast => (
+          <RenderedToast key={toast.id} {...toast} />
+        ))}
+        <NewVersionAlert />
+        <Card className="p-2">
+          <Calendar />
+        </Card>
+      </PopoverContent>
+    </Popover>
+  )
+}
 
 const ScrollArea = ({ children }: PropsWithChildren) => (
   <div className="flex-1 overflow-auto p-2">{children}</div>

@@ -25,6 +25,10 @@ const alertVariants = cva(
   }
 )
 
+export type AlertKind = NonNullable<
+  VariantProps<typeof alertVariants>["variant"]
+>
+
 const Root = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
