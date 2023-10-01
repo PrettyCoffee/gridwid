@@ -1,5 +1,6 @@
 import { useApplyThemeMode } from "./components/ThemeToggle"
 import { TooltipProvider } from "./components/ui/tooltip"
+import { Changelog } from "./page/Changelog"
 import { Page } from "./page/Page"
 
 const App = () => {
@@ -7,6 +8,7 @@ const App = () => {
   return (
     <TooltipProvider>
       <Page />
+      <Changelog />
     </TooltipProvider>
   )
 }
