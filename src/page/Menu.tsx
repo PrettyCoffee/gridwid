@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   RefreshCw,
   Shell,
+  History,
 } from "lucide-react"
 
 import { IconButton } from "~/components/IconButton"
@@ -21,6 +22,7 @@ import {
 } from "~/components/ui/popover"
 import { Separator } from "~/components/ui/separator"
 
+import { showChangelogModal } from "./Changelog"
 import { GithubOverview, githubProfile, githubUserRepos } from "./Github"
 import { IframePopup } from "./IframePopup"
 
@@ -62,6 +64,11 @@ export const Menu = () => (
           githubProfile.set(null)
           githubUserRepos.set(null)
         }}
+      />
+      <IconButton
+        icon={History}
+        title="View changelog"
+        onClick={() => showChangelogModal.set(true)}
       />
       <Section title="Themes" className="min-w-[theme(width.48)]">
         <ThemeToggle />

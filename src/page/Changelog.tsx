@@ -1,7 +1,13 @@
-import { Dispatch, useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo } from "react"
 
 import { Rocket } from "lucide-react"
-import { atom, localStorage, reduxDevtools, useAtomValue } from "yaasl/react"
+import {
+  atom,
+  localStorage,
+  reduxDevtools,
+  useAtom,
+  useAtomValue,
+} from "yaasl/react"
 
 import localChangelog from "~/changelog.json"
 import { Text } from "~/components/Text"
@@ -13,6 +19,12 @@ import {
   DialogTitle,
 } from "~/components/ui/dialog"
 import { tomorrow } from "~/lib/datetime"
+
+export const showChangelogModal = atom({
+  name: "showChangelogModal",
+  defaultValue: false,
+  middleware: [reduxDevtools({ disable: !import.meta.env.DEV })],
+})
 
 interface Change {
   version: string
@@ -77,11 +89,7 @@ const versionAtom = atom<string | null>({
   ],
 })
 
-const VersionToast = ({
-  onOpenChange,
-}: {
-  onOpenChange: Dispatch<boolean>
-}) => {
+const VersionToast = () => {
   const latestVersion = useAtomValue(versionAtom)
   const changelog = useAtomValue(changelogAtom)
   const currentVersion = changelog?.[0]?.version
@@ -107,7 +115,7 @@ const VersionToast = ({
         {
           label: "Open",
           variant: "outline",
-          onClick: () => onOpenChange(true),
+          onClick: () => showChangelogModal.set(true),
         },
       ]}
     />
@@ -165,7 +173,7 @@ const ChangeList = ({
 )
 
 export const Changelog = () => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useAtom(showChangelogModal)
   const repoChangelog = useAtomValue(changelogAtom)
 
   const changelog = useMemo(() => {
@@ -180,7 +188,7 @@ export const Changelog = () => {
 
   return (
     <>
-      <VersionToast onOpenChange={setOpen} />
+      <VersionToast />
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent size="lg" className="h-full">
           <DialogHeader>
