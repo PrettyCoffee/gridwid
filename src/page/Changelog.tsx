@@ -1,16 +1,25 @@
-import { useEffect } from "react"
+import { Dispatch, useEffect, useMemo, useState } from "react"
 
 import { Rocket } from "lucide-react"
 import { atom, localStorage, reduxDevtools, useAtomValue } from "yaasl/react"
 
 import localChangelog from "~/changelog.json"
+import { Text } from "~/components/Text"
 import { Toast } from "~/components/Toast"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "~/components/ui/dialog"
 import { tomorrow } from "~/lib/datetime"
 
 interface Change {
   version: string
   release: string
-  changes: string[]
+  description?: string
+  features?: string[]
+  fixes?: string[]
 }
 
 const validateChangelog = (value: unknown): value is Change[] =>
@@ -68,7 +77,11 @@ const versionAtom = atom<string | null>({
   ],
 })
 
-const VersionToast = () => {
+const VersionToast = ({
+  onOpenChange,
+}: {
+  onOpenChange: Dispatch<boolean>
+}) => {
   const latestVersion = useAtomValue(versionAtom)
   const changelog = useAtomValue(changelogAtom)
   const currentVersion = changelog?.[0]?.version
@@ -94,13 +107,90 @@ const VersionToast = () => {
         {
           label: "Open",
           variant: "outline",
-          onClick: () => null,
+          onClick: () => onOpenChange(true),
         },
       ]}
     />
   )
 }
 
+const ChangeSection = ({
+  list,
+  text,
+  title,
+}: {
+  title: string
+  text?: string
+  list?: string[]
+}) => (
+  <div className="py-2 pl-4">
+    <Text asChild size="md" color="muted" weight="semibold">
+      <h4>{title}</h4>
+    </Text>
+    {text && (
+      <Text className="pl-4" asChild>
+        <p>{text}</p>
+      </Text>
+    )}
+    {list && (
+      <ul className="list-disc pl-8">
+        {list.map(item => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    )}
+  </div>
+)
+
+const ChangeList = ({
+  version,
+  release,
+  description,
+  features,
+  fixes,
+}: Change) => (
+  <div className="pt-4">
+    <Text style="large" size="xl" className="border-b" asChild>
+      <h3>
+        v{version}{" "}
+        <Text style="small" color="muted">
+          ({release})
+        </Text>
+      </h3>
+    </Text>
+    {description && <ChangeSection title="Description:" text={description} />}
+    {features && <ChangeSection title="Features:" list={features} />}
+    {fixes && <ChangeSection title="Bug Fixes:" list={fixes} />}
+  </div>
+)
+
 export const Changelog = () => {
-  return <VersionToast />
+  const [open, setOpen] = useState(false)
+  const repoChangelog = useAtomValue(changelogAtom)
+
+  const changelog = useMemo(() => {
+    const newChanges =
+      repoChangelog?.filter(
+        ({ version }) =>
+          !localChangelog.some(change => version === change.version)
+      ) ?? []
+
+    return sortChangelog([...localChangelog, ...newChanges])
+  }, [repoChangelog])
+
+  return (
+    <>
+      <VersionToast onOpenChange={setOpen} />
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent size="lg" className="h-full">
+          <DialogHeader>
+            <DialogTitle>Changelog</DialogTitle>
+          </DialogHeader>
+          {changelog.map(change => (
+            <ChangeList key={change.version} {...change} />
+          ))}
+        </DialogContent>
+      </Dialog>
+    </>
+  )
 }
