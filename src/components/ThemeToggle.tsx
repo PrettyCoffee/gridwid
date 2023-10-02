@@ -10,6 +10,7 @@ import {
   useDerivedValue,
 } from "yaasl/react"
 
+import { isProdEnv } from "~/lib/isDevEnv"
 import { cn } from "~/lib/utils"
 import { yaaslSetup } from "~/lib/yaaslSetup"
 
@@ -28,10 +29,7 @@ yaaslSetup()
 const modeAtom = atom<ThemeMode>({
   name: "theme-mode",
   defaultValue: "system",
-  middleware: [
-    localStorage(),
-    reduxDevtools({ disable: !import.meta.env.DEV }),
-  ],
+  middleware: [localStorage(), reduxDevtools({ disable: isProdEnv })],
 })
 
 const displayedMode = derive(({ get }) => {

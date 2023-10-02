@@ -20,6 +20,7 @@ import {
 import { GithubUser, GithubRepository, github } from "~/lib/apis/github"
 import { createRange } from "~/lib/createRange"
 import { tomorrow } from "~/lib/datetime"
+import { isProdEnv } from "~/lib/isDevEnv"
 import { yaaslSetup } from "~/lib/yaaslSetup"
 
 yaaslSetup()
@@ -29,7 +30,7 @@ export const githubProfile = atom<GithubUser | null>({
   name: "github-profile",
   middleware: [
     localStorage({ expiresAt: tomorrow }),
-    reduxDevtools({ disable: !import.meta.env.DEV }),
+    reduxDevtools({ disable: isProdEnv }),
   ],
 })
 
@@ -38,7 +39,7 @@ export const githubUserRepos = atom<GithubRepository[] | null>({
   name: "github-user-repos",
   middleware: [
     localStorage({ expiresAt: tomorrow }),
-    reduxDevtools({ disable: !import.meta.env.DEV }),
+    reduxDevtools({ disable: isProdEnv }),
   ],
 })
 

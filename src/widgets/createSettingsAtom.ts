@@ -3,6 +3,7 @@ import { SetStateAction, useMemo } from "react"
 import { atom, localStorage, reduxDevtools, useAtomValue } from "yaasl/react"
 
 import { deepEquals } from "~/lib/deepEquals"
+import { isProdEnv } from "~/lib/isDevEnv"
 import { removeKeyFromObject } from "~/lib/removeKeyFromObject"
 import { yaaslSetup } from "~/lib/yaaslSetup"
 
@@ -15,10 +16,7 @@ export const createSettingsAtom = <T extends object>(
   const settingsAtom = atom<Record<string, Partial<T>>>({
     name,
     defaultValue: {},
-    middleware: [
-      localStorage(),
-      reduxDevtools({ disable: !import.meta.env.DEV }),
-    ],
+    middleware: [localStorage(), reduxDevtools({ disable: isProdEnv })],
   })
 
   const setSettings = (id: string, next: SetStateAction<Partial<T>>) =>

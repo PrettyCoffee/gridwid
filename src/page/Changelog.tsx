@@ -19,11 +19,12 @@ import {
   DialogTitle,
 } from "~/components/ui/dialog"
 import { tomorrow } from "~/lib/datetime"
+import { isProdEnv } from "~/lib/isDevEnv"
 
 export const showChangelogModal = atom({
   name: "showChangelogModal",
   defaultValue: false,
-  middleware: [reduxDevtools({ disable: !import.meta.env.DEV })],
+  middleware: [reduxDevtools({ disable: isProdEnv })],
 })
 
 interface Change {
@@ -75,7 +76,7 @@ const changelogAtom = atom<Change[] | null>({
   defaultValue: null,
   middleware: [
     localStorage({ expiresAt: tomorrow }),
-    reduxDevtools({ disable: !import.meta.env.DEV }),
+    reduxDevtools({ disable: isProdEnv }),
   ],
 })
 
@@ -83,10 +84,7 @@ const getLocalVersion = () => sortChangelog(localChangelog)[0]?.version
 const versionAtom = atom<string | null>({
   name: "version",
   defaultValue: getLocalVersion() ?? null,
-  middleware: [
-    localStorage(),
-    reduxDevtools({ disable: !import.meta.env.DEV }),
-  ],
+  middleware: [localStorage(), reduxDevtools({ disable: isProdEnv })],
 })
 
 const VersionToast = () => {

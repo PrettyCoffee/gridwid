@@ -8,6 +8,7 @@ import {
   useAtomValue,
 } from "yaasl/react"
 
+import { isProdEnv } from "~/lib/isDevEnv"
 import { removeKeyFromObject } from "~/lib/removeKeyFromObject"
 import { yaaslSetup } from "~/lib/yaaslSetup"
 
@@ -23,7 +24,7 @@ export const createDataAtom = <T extends object | undefined>(
     defaultValue: {},
     middleware: [
       localStorage(localStorageOptions),
-      reduxDevtools({ disable: !import.meta.env.DEV }),
+      reduxDevtools({ disable: isProdEnv }),
     ],
   })
 

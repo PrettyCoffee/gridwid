@@ -2,6 +2,8 @@ import { useEffect, useId } from "react"
 
 import { atom, reduxDevtools, useAtomValue } from "yaasl/react"
 
+import { isProdEnv } from "~/lib/isDevEnv"
+
 import { AlertBanner, AlertKind } from "./AlertBanner"
 import { Icon, IconProp } from "./Icon"
 import { Button, ButtonProps } from "./ui/button"
@@ -23,7 +25,7 @@ interface ToastProps extends IconProp {
 const toastListAtom = atom<ToastProps[]>({
   name: "toastList",
   defaultValue: [],
-  middleware: [reduxDevtools({ disable: !import.meta.env.DEV })],
+  middleware: [reduxDevtools({ disable: isProdEnv })],
 })
 
 const add = (toast: ToastProps) =>
