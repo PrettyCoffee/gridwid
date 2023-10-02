@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover"
+import { cn } from "~/lib/utils"
 import { ImageWidget } from "~/widgets/image/ImageWidget"
 import { LinkTreeWidget } from "~/widgets/link-tree/LinkTreeWidget"
 import { RepoWidget } from "~/widgets/repo/RepoWidget"
@@ -73,12 +74,16 @@ const Notifications = () => {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="w-max flex flex-col gap-1 p-0 -translate-y-1 bg-transparent border-none overflow-auto max-h-[calc(100vh-theme(height.12)-theme(height.2))] max-w-[calc(theme(width.64)+theme(width.2))]"
+        className={cn(
+          "w-max p-0 -translate-y-1 overflow-auto max-h-[calc(100vh-theme(height.12)-theme(height.2))] max-w-[calc(theme(width.64)+theme(width.2))]",
+          "flex flex-col gap-1",
+          "backdrop-blur-sm bg-transparent border-none shadow-none"
+        )}
       >
         {toasts.map(toast => (
           <RenderedToast key={toast.id} {...toast} />
         ))}
-        <Card className="p-2">
+        <Card className="p-2 shadow-md">
           <Calendar />
         </Card>
       </PopoverContent>
