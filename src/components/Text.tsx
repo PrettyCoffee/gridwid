@@ -39,6 +39,10 @@ const text = cva("p-0 m-0", {
       highlight: "text-highlight-foreground",
       destructive: "text-destructive-foreground",
     },
+    block: {
+      true: "block",
+      false: "inline-block",
+    },
   },
 })
 
