@@ -6,7 +6,12 @@ interface NoDataProps extends IconProp {
   message?: string
 }
 export const NoData = ({ icon, message }: NoDataProps) => (
-  <VStack items="center" justify="center" gap="2" className="h-full w-full p-2">
+  <VStack
+    items="center"
+    justify="center"
+    gap="2"
+    className="h-full w-full p-4 text-center"
+  >
     <Icon
       icon={icon}
       color="muted"
