@@ -6,6 +6,7 @@ import { isProdEnv } from "~/lib/isDevEnv"
 
 import { AlertBanner, AlertKind } from "./AlertBanner"
 import { Icon, IconProp } from "./Icon"
+import { Text } from "./Text"
 import { Button, ButtonProps } from "./ui/button"
 
 interface ToastAction {
@@ -18,6 +19,7 @@ export interface ToastProps extends IconProp {
   id: string
   title: string
   description?: string
+  origin?: string
   kind?: AlertKind
   actions?: [ToastAction] | [ToastAction, ToastAction]
 }
@@ -72,6 +74,7 @@ export const RenderedToast = ({
   icon,
   title,
   description,
+  origin,
   actions,
 }: Omit<ToastProps, "id">) => (
   <AlertBanner.Root variant={kind} className="bg-card shadow-sm">
@@ -80,6 +83,12 @@ export const RenderedToast = ({
 
     {description && (
       <AlertBanner.Description>{description}</AlertBanner.Description>
+    )}
+
+    {origin && (
+      <Text size={"sm"} color="muted" block>
+        Origin: {origin}
+      </Text>
     )}
 
     {actions && actions.length > 1 && (
