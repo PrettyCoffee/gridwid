@@ -8,6 +8,8 @@ import {
   Star,
   BadgeAlert,
   MoreVertical,
+  Bug,
+  X,
 } from "lucide-react"
 import { useAtomValue } from "yaasl/react"
 
@@ -15,7 +17,9 @@ import { HStack } from "~/components/base/Stack"
 import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
 import { MenuButton } from "~/components/MenuButton"
+import { NoData } from "~/components/NoData"
 import { Section } from "~/components/Section"
+import { Toast } from "~/components/Toast"
 import { Avatar, AvatarImage, AvatarSkeleton } from "~/components/ui/avatar"
 import { Badge, BadgeSkeleton, IconBadge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button"
@@ -193,12 +197,26 @@ interface RepoWidgetProps {
   name: string
 }
 export const RepoWidget = ({ owner, name }: RepoWidgetProps) => {
-  const { repo, status } = useGithubRepo(owner, name)
+  const { repo, status, error } = useGithubRepo(owner, name)
   const repoName = repoData.getName(owner, name)
   const settings = useRepoSettings(repoName)
 
   if (status === "rejected") {
-    return <>Repo info of &quot;{repoName}&quot; could not be fetched.</>
+    return (
+      <Widget.Root>
+        <Toast
+          icon={Bug}
+          kind="error"
+          title={"Error in repo widget"}
+          description={String(error?.message)}
+          origin={repoName}
+        />
+        <NoData
+          icon={X}
+          message={`Data of "${repoName}" could not be fetched.`}
+        />
+      </Widget.Root>
+    )
   }
 
   if (!repo || status === "pending") {
