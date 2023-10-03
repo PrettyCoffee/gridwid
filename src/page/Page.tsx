@@ -3,12 +3,13 @@ import { PropsWithChildren, useEffect, useRef, useState } from "react"
 import { Bell } from "lucide-react"
 import { useAtomValue } from "yaasl/react"
 
+import { AlertKind } from "~/components/AlertBanner"
 import { Grid } from "~/components/Grid"
 import { Icon } from "~/components/Icon"
 import { Section } from "~/components/Section"
 import { StatusIndicator } from "~/components/StatusIndicator"
 import { TaskBar } from "~/components/TaskBar"
-import { RenderedToast, toastList } from "~/components/Toast"
+import { RenderedToast, ToastProps, toastList } from "~/components/Toast"
 import { Button } from "~/components/ui/button"
 import { Calendar } from "~/components/ui/calendar"
 import { Card } from "~/components/ui/card"
@@ -61,15 +62,33 @@ const Clock = () => {
   )
 }
 
+const statusPriority: AlertKind[] = [
+  "error",
+  "warning",
+  "success",
+  "info",
+  "neutral",
+]
+const getStatusKind = (toasts: ToastProps[]) => {
+  const status = new Set(toasts.map(toast => toast.kind))
+  return statusPriority.find(kind => status.has(kind)) ?? null
+}
+
 const Notifications = () => {
   const toasts = useAtomValue(toastList.atom)
+  const status = getStatusKind(toasts)
+
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="ghost" className="px-2 gap-2">
           <Clock />
-          <Icon icon={Bell} size="sm" />
-          <StatusIndicator kind="info" />
+          {status && (
+            <>
+              <Icon icon={Bell} size="sm" />
+              <StatusIndicator kind={status} />
+            </>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent

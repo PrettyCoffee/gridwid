@@ -14,7 +14,7 @@ interface ToastAction {
   onClick: ButtonProps["onClick"]
 }
 
-interface ToastProps extends IconProp {
+export interface ToastProps extends IconProp {
   id: string
   title: string
   description?: string

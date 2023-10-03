@@ -10,6 +10,7 @@ const statusIndicator = cva(
   {
     variants: {
       kind: {
+        neutral: "bg-foreground/75 after:bg-foreground",
         success: "bg-success/75 after:bg-success",
         warning: "bg-warning/75 after:bg-warning",
         error: "bg-error/75 after:bg-error",
