@@ -39,7 +39,7 @@ const useGithubRepo = (owner: string, name: string) => {
   const repo = useMemo(() => repos[repoName] ?? null, [repoName, repos])
 
   useEffect(() => {
-    if (status === "initial" || repo) {
+    if (repo || status !== "resolved") {
       return
     }
     reload()
