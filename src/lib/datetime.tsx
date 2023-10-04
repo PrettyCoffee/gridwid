@@ -2,6 +2,7 @@ const SECOND = 1000
 const MINUTE = SECOND * 60
 const HOUR = MINUTE * 60
 const DAY = HOUR * 24
+const WEEK = DAY * 7
 
 export const tomorrow = () => {
   const date = new Date()
@@ -23,14 +24,11 @@ export const timeSince = (pushedAt: string) => {
   const date = new Date(pushedAt)
 
   const diff = date.valueOf() - Date.now()
-  if (diff > MINUTE * -15) {
-    return formatter.format(Math.round(diff / MINUTE), "minute")
-  }
-  if (diff > HOUR * -12) {
-    return formatter.format(Math.round(diff / HOUR), "hour")
-  }
-  if (diff > DAY * -7) {
+  if (diff > -1 * WEEK) {
     return formatter.format(Math.round(diff / DAY), "day")
+  }
+  if (diff > -5 * WEEK) {
+    return formatter.format(Math.round(diff / WEEK), "week")
   }
   return date.toLocaleDateString()
 }
