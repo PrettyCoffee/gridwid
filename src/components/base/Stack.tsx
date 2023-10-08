@@ -28,6 +28,7 @@ const stack = cva("flex", {
       "1": "gap-1",
       "2": "gap-2",
       "4": "gap-4",
+      "8": "gap-8",
     },
     wrap: {
       true: "flex-wrap",
