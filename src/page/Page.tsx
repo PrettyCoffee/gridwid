@@ -23,6 +23,7 @@ import { ImageWidget } from "~/widgets/image/ImageWidget"
 import { LinkTreeWidget } from "~/widgets/link-tree/LinkTreeWidget"
 import { RepoWidget } from "~/widgets/repo/RepoWidget"
 import { TaskListWidget } from "~/widgets/task-list/TaskListWidget"
+import { WidgetConfig, WidgetConfigList } from "~/widgets/widgetConfig"
 
 import { Menu } from "./Menu"
 import { Workspaces } from "./Workspaces"
@@ -114,64 +115,97 @@ const ScrollArea = ({ children }: PropsWithChildren) => (
   <div className="flex-1 overflow-auto p-2">{children}</div>
 )
 
-const RepoWidgets = () => (
-  <Grid.Root>
-    <Grid.Item columns={4} rows={4}>
-      <RepoWidget
-        id="repo-1"
-        owner="prettycoffee"
-        name="yet-another-generic-startpage"
-      />
-    </Grid.Item>
-    <Grid.Item columns={4} rows={4}>
-      <RepoWidget id="repo-2" owner="prettycoffee" name="gridwid" />
-    </Grid.Item>
-    <Grid.Item columns={3} rows={3}>
-      <RepoWidget id="repo-3" owner="shadcn" name="ui" />
-    </Grid.Item>
-    <Grid.Item columns={3} rows={2}>
-      <ImageWidget
-        id="3"
-        src="https://i.pinimg.com/originals/fc/35/f2/fc35f21075cc1500fababbbbf501c2e1.gif"
-      />
-    </Grid.Item>
-    <Grid.Item columns={3} rows={2}>
-      <ImageWidget
-        id="7"
-        src="https://media.tenor.com/GjegbNUod5gAAAAC/duck-cute.gif"
-      />
-    </Grid.Item>
-  </Grid.Root>
-)
+const repoWidgets: WidgetConfigList = [
+  {
+    size: { columns: 4, rows: 4 },
+    component: RepoWidget,
+    props: {
+      id: "repo-1",
+      owner: "prettycoffee",
+      name: "yet-another-generic-startpage",
+    },
+  },
+  {
+    component: RepoWidget,
+    size: { columns: 4, rows: 4 },
+    props: { id: "repo-2", owner: "prettycoffee", name: "gridwid" },
+  },
+  {
+    component: RepoWidget,
+    size: { columns: 3, rows: 3 },
+    props: { id: "repo-3", owner: "shadcn", name: "ui" },
+  },
+  {
+    size: { columns: 3, rows: 2 },
+    component: ImageWidget,
+    props: {
+      id: "image-1",
+      src: "https://i.pinimg.com/originals/fc/35/f2/fc35f21075cc1500fababbbbf501c2e1.gif",
+    },
+  },
+  {
+    size: { columns: 3, rows: 2 },
+    component: ImageWidget,
+    props: {
+      id: "image-2",
+      src: "https://media.tenor.com/GjegbNUod5gAAAAC/duck-cute.gif",
+    },
+  },
+]
+
+const mainWidgets: WidgetConfigList = [
+  {
+    size: { columns: 3, rows: 4 },
+    component: LinkTreeWidget,
+    props: { id: "link-tree-1", title: "Bookmarks" },
+  },
+  {
+    size: { columns: 3, rows: 4 },
+    component: TaskListWidget,
+    props: { id: "1" },
+  },
+  {
+    size: { columns: 5, rows: 6 },
+    component: TaskListWidget,
+    props: { id: "2", title: "Gridwid Tasks" },
+  },
+  {
+    size: { columns: 3, rows: 2 },
+    component: ImageWidget,
+    props: {
+      id: "image-3",
+      src: "https://i.pinimg.com/originals/10/e6/ef/10e6ef76794e3c11425387a2ee140f2c.gif",
+    },
+  },
+  {
+    size: { columns: 3, rows: 2 },
+    component: ImageWidget,
+    props: {
+      id: "image-4",
+      src: "https://64.media.tumblr.com/54a945edd2641e20859d6f6537cd7423/tumblr_pwa4bogz4N1qze3hdo2_r1_500.gifv",
+    },
+  },
+]
+
+const WidgetList = ({ widgets }: { widgets: WidgetConfigList }) =>
+  (widgets as unknown as WidgetConfig[]).map(
+    ({ size, props, component: Component }) => (
+      <Grid.Item key={props.id} {...size}>
+        <Component {...props} />
+      </Grid.Item>
+    )
+  )
 
 export const Page = () => (
   <div className="flex flex-col h-full">
     <ScrollArea>
       <Grid.Root>
-        <Grid.Item columns={3} rows={4}>
-          <LinkTreeWidget id="5" title="Bookmarks" />
-        </Grid.Item>
-        <Grid.Item columns={3} rows={4}>
-          <TaskListWidget id="1" />
-        </Grid.Item>
-        <Grid.Item columns={5} rows={6}>
-          <TaskListWidget id="2" title="Gridwid Tasks" />
-        </Grid.Item>
-        <Grid.Item columns={3} rows={2}>
-          <ImageWidget
-            id="4"
-            src="https://i.pinimg.com/originals/10/e6/ef/10e6ef76794e3c11425387a2ee140f2c.gif"
-          />
-        </Grid.Item>
-        <Grid.Item columns={3} rows={2}>
-          <ImageWidget
-            id="6"
-            src="https://64.media.tumblr.com/54a945edd2641e20859d6f6537cd7423/tumblr_pwa4bogz4N1qze3hdo2_r1_500.gifv"
-          />
-        </Grid.Item>
+        <WidgetList widgets={mainWidgets} />
       </Grid.Root>
       <Section title="Repositories" className="mt-4 [&>:first-of-type]:px-2">
-        <RepoWidgets />
+        <Grid.Root>
+          <WidgetList widgets={repoWidgets} />
+        </Grid.Root>
       </Section>
     </ScrollArea>
     <TaskBar.Root>

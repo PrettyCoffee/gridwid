@@ -11,6 +11,7 @@ import { cn } from "~/lib/utils"
 import { useLinkTreeData } from "./data"
 import { LinkTree } from "./LinkTree"
 import { LinkTreeEditor } from "./LinkTreeEditor"
+import { BaseWidgetProps } from "../widgetConfig"
 
 interface MenuProps {
   onEdit: () => void
@@ -32,8 +33,7 @@ const Menu = ({ onEdit }: MenuProps) => {
   )
 }
 
-interface LinkTreeWidgetProps {
-  id: string
+export interface LinkTreeWidgetProps extends BaseWidgetProps {
   title?: string
 }
 

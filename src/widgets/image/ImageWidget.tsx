@@ -14,6 +14,7 @@ import {
   getMenuSettings,
   useImageSettings,
 } from "./settings"
+import { BaseWidgetProps } from "../widgetConfig"
 
 const getScale = (scale: Scale) => {
   switch (scale) {
@@ -61,8 +62,7 @@ const getAlignment = (horizontal: HorizontalAlign, vertical: VerticalAlign) => {
 }
 /* eslint-enable */
 
-interface ImageWidgetProps {
-  id: string
+export interface ImageWidgetProps extends BaseWidgetProps {
   src: string
 }
 

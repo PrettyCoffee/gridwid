@@ -32,6 +32,7 @@ import { usePromise } from "~/lib/usePromise"
 
 import { repoData } from "./data"
 import { getMenuSettings, useRepoSettings } from "./settings"
+import { BaseWidgetProps } from "../widgetConfig"
 
 const useGithubRepo = (owner: string, name: string) => {
   const { status, error, reload } = usePromise(() =>
@@ -191,8 +192,7 @@ const WidgetSettings = ({ id, name, owner }: RepoWidgetProps) => {
   )
 }
 
-export interface RepoWidgetProps {
-  id: string
+export interface RepoWidgetProps extends BaseWidgetProps {
   owner: string
   name: string
 }

@@ -28,6 +28,7 @@ import {
   useTaskListSettings,
 } from "./settings"
 import { TaskListProvider, useTaskList } from "./TaskProvider"
+import { BaseWidgetProps } from "../widgetConfig"
 
 const AddItem = () => {
   const { inputValue, setInputValue, filter, setFilter, addTask } =
@@ -190,8 +191,7 @@ const TaskList = ({ settings }: TaskListProps) => {
   )
 }
 
-interface TaskListWidgetProps {
-  id: string
+export interface TaskListWidgetProps extends BaseWidgetProps {
   title?: string
 }
 export const TaskListWidget = ({ id, title }: TaskListWidgetProps) => {
