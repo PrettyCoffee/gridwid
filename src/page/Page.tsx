@@ -117,13 +117,17 @@ const ScrollArea = ({ children }: PropsWithChildren) => (
 const RepoWidgets = () => (
   <Grid.Root>
     <Grid.Item columns={4} rows={4}>
-      <RepoWidget owner="prettycoffee" name="yet-another-generic-startpage" />
+      <RepoWidget
+        id="repo-1"
+        owner="prettycoffee"
+        name="yet-another-generic-startpage"
+      />
     </Grid.Item>
     <Grid.Item columns={4} rows={4}>
-      <RepoWidget owner="prettycoffee" name="gridwid" />
+      <RepoWidget id="repo-2" owner="prettycoffee" name="gridwid" />
     </Grid.Item>
     <Grid.Item columns={3} rows={3}>
-      <RepoWidget owner="shadcn" name="ui" />
+      <RepoWidget id="repo-3" owner="shadcn" name="ui" />
     </Grid.Item>
     <Grid.Item columns={3} rows={2}>
       <ImageWidget

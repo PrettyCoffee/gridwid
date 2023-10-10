@@ -167,8 +167,7 @@ const Info = ({ owner, description, html_url, homepage }: GithubRepository) => (
   </>
 )
 
-const WidgetSettings = ({ name, owner }: RepoWidgetProps) => {
-  const id = repoData.getName(owner, name)
+const WidgetSettings = ({ id, name, owner }: RepoWidgetProps) => {
   const settings = useRepoSettings(id)
   return (
     <MenuButton
@@ -192,16 +191,17 @@ const WidgetSettings = ({ name, owner }: RepoWidgetProps) => {
   )
 }
 
-interface RepoWidgetProps {
+export interface RepoWidgetProps {
+  id: string
   owner: string
   name: string
 }
-export const RepoWidget = ({ owner, name }: RepoWidgetProps) => {
+export const RepoWidget = ({ id, owner, name }: RepoWidgetProps) => {
   const { repo, status, error } = useGithubRepo(owner, name)
-  const repoName = repoData.getName(owner, name)
-  const settings = useRepoSettings(repoName)
+  const settings = useRepoSettings(id)
 
   if (status === "rejected") {
+    const repoName = repoData.getName(owner, name)
     return (
       <Widget.Root>
         <Toast
@@ -228,7 +228,7 @@ export const RepoWidget = ({ owner, name }: RepoWidgetProps) => {
       <Widget.Header
         title={settings.hideOwnerInTitle ? repo.name : repo.full_name}
       >
-        <WidgetSettings owner={owner} name={name} />
+        <WidgetSettings id={id} owner={owner} name={name} />
       </Widget.Header>
       <Widget.Content scroll>
         <Section title="Info" stickyTitle>
