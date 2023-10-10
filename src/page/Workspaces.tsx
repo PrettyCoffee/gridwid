@@ -1,4 +1,4 @@
-import { Circle } from "lucide-react"
+import { Circle, KanbanSquare } from "lucide-react"
 
 import { IconButton } from "~/components/IconButton"
 import { cn } from "~/lib/utils"
@@ -16,6 +16,6 @@ export const Workspaces = () => (
       className="text-highlight-foreground [&>svg]:fill-highlight-foreground"
     />
     <IconButton icon={Circle} title="Work" />
-    <IconButton icon={Circle} title="Homework" />
+    <IconButton icon={KanbanSquare} title="Task board" />
   </div>
 )
