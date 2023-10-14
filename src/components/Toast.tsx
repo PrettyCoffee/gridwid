@@ -77,7 +77,7 @@ export const RenderedToast = ({
   origin,
   actions,
 }: Omit<ToastProps, "id">) => (
-  <AlertBanner.Root variant={kind} className="bg-card shadow-sm">
+  <AlertBanner.Root variant={kind} className="bg-background shadow-sm">
     <Icon icon={icon} />
     <AlertBanner.Title>{title}</AlertBanner.Title>
 

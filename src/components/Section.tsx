@@ -17,7 +17,7 @@ export const Section = ({
   stickyTitle,
 }: PropsWithChildren<SectionProps>) => (
   <div className={cn("[&:not(:last-of-type)]:mb-1", className)}>
-    <div className={cn(stickyTitle && "sticky top-0 bg-card z-10")}>
+    <div className={cn(stickyTitle && "sticky top-0 bg-background z-10")}>
       <span className="text-muted-foreground text-sm">{title}</span>
       <Separator className="mb-1" />
     </div>
