@@ -3,6 +3,8 @@ import { useEffect, useMemo } from "react"
 import { Rocket } from "lucide-react"
 import {
   atom,
+  expiration,
+  indexedDb,
   localStorage,
   reduxDevtools,
   useAtom,
@@ -75,7 +77,8 @@ const changelogAtom = atom<Change[] | null>({
   name: "changelog",
   defaultValue: null,
   middleware: [
-    localStorage({ expiresAt: tomorrow }),
+    indexedDb(),
+    expiration({ expiresAt: tomorrow }),
     reduxDevtools({ disable: isProdEnv }),
   ],
 })

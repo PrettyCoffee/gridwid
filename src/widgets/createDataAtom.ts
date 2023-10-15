@@ -1,9 +1,10 @@
 import { SetStateAction, useMemo } from "react"
 
 import {
-  LocalStorageOptions,
+  ExpirationOptions,
   atom,
-  localStorage,
+  expiration,
+  indexedDb,
   reduxDevtools,
   useAtomValue,
 } from "yaasl/react"
@@ -17,13 +18,14 @@ yaaslSetup()
 export const createDataAtom = <T extends object | undefined>(
   name: string,
   fallback: T,
-  localStorageOptions?: LocalStorageOptions
+  expirationOptions?: ExpirationOptions
 ) => {
   const dataAtom = atom<Record<string, T>>({
     name,
     defaultValue: {},
     middleware: [
-      localStorage(localStorageOptions),
+      indexedDb(),
+      ...(!expirationOptions ? [] : [expiration(expirationOptions)]),
       reduxDevtools({ disable: isProdEnv }),
     ],
   })
