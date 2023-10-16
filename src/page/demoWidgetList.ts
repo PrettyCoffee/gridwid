@@ -46,16 +46,6 @@ export const mainWidgets: WidgetConfigList = [
     props: { id: "link-tree-1", title: "Bookmarks" },
   },
   {
-    widget: "task-list",
-    size: { columns: 3, rows: 4 },
-    props: { id: "1" },
-  },
-  {
-    widget: "task-list",
-    size: { columns: 5, rows: 6 },
-    props: { id: "2", title: "Gridwid Tasks" },
-  },
-  {
     widget: "image",
     size: { columns: 3, rows: 2 },
     props: {
@@ -64,8 +54,18 @@ export const mainWidgets: WidgetConfigList = [
     },
   },
   {
+    widget: "task-list",
+    size: { columns: 3, rows: 4 },
+    props: { id: "1", title: "Chores" },
+  },
+  {
+    widget: "task-list",
+    size: { columns: 3, rows: 4 },
+    props: { id: "2", title: "Gaming backlog" },
+  },
+  {
     widget: "image",
-    size: { columns: 3, rows: 2 },
+    size: { columns: 3, rows: 4 },
     props: {
       id: "image-4",
       src: "https://64.media.tumblr.com/54a945edd2641e20859d6f6537cd7423/tumblr_pwa4bogz4N1qze3hdo2_r1_500.gifv",
