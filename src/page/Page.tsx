@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useRef, useState } from "react"
+import { FC, PropsWithChildren, useEffect, useRef, useState } from "react"
 
 import { Bell } from "lucide-react"
 import { useAtomValue } from "yaasl/react"
@@ -20,6 +20,7 @@ import {
 } from "~/components/ui/popover"
 import { cn } from "~/lib/utils"
 import { WidgetConfig, WidgetConfigList } from "~/widgets/widgetConfig"
+import { widgets } from "~/widgets/widgets"
 
 import { mainWidgets, repoWidgets } from "./demoWidgetList"
 import { Menu } from "./Menu"
@@ -112,24 +113,25 @@ const ScrollArea = ({ children }: PropsWithChildren) => (
   <div className="flex-1 overflow-auto p-2">{children}</div>
 )
 
-const WidgetList = ({ widgets }: { widgets: WidgetConfigList }) =>
-  (widgets as unknown as WidgetConfig[]).map(
-    ({ size, props, component: Component }) => (
+const WidgetList = ({ list }: { list: WidgetConfigList }) =>
+  (list as unknown as WidgetConfig[]).map(({ size, props, widget }) => {
+    const Component = widgets[widget].component as FC<typeof props>
+    return (
       <Grid.Item key={props.id} {...size}>
         <Component {...props} />
       </Grid.Item>
     )
-  )
+  })
 
 export const Page = () => (
   <div className="flex flex-col h-full">
     <ScrollArea>
       <Grid.Root>
-        <WidgetList widgets={mainWidgets} />
+        <WidgetList list={mainWidgets} />
       </Grid.Root>
       <Section title="Repositories" className="mt-4 [&>:first-of-type]:px-2">
         <Grid.Root>
-          <WidgetList widgets={repoWidgets} />
+          <WidgetList list={repoWidgets} />
         </Grid.Root>
       </Section>
     </ScrollArea>
