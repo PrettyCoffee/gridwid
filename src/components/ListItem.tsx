@@ -2,6 +2,7 @@ import { PropsWithChildren } from "react"
 
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { LucideIcon } from "lucide-react"
 
 import { createContext } from "~/lib/createContext"
 import { focusRing, hover, noOverflow, press } from "~/lib/styles"
@@ -9,6 +10,7 @@ import { cn } from "~/lib/utils"
 
 import { AsChildProp, ClassNameProp } from "./base/BaseProps"
 import { HStack } from "./base/Stack"
+import { Icon } from "./Icon"
 import { IconButton, IconButtonProps } from "./IconButton"
 import { Skeleton } from "./ui/skeleton"
 
@@ -107,19 +109,30 @@ export interface ListItemCaptionProps
     ClassNameProp {
   title: string
   subtitle?: string
+  icon?: LucideIcon
 }
 const ListItemCaption = ({
   title,
   subtitle,
   className,
+  icon,
   ...styles
 }: ListItemCaptionProps) => {
   const { compact } = useRequiredContext()
   return (
-    <div className={cn(listCaption({ compact, ...styles }), className)}>
-      <span className={noOverflow}>{title}</span>
-      {subtitle && <span className={noOverflow}>{subtitle}</span>}
-    </div>
+    <>
+      {icon && (
+        <Icon
+          icon={icon}
+          size={compact ? "sm" : "md"}
+          className={compact ? "w-6" : "w-8"}
+        />
+      )}
+      <div className={cn(listCaption({ compact, ...styles }), className)}>
+        <span className={noOverflow}>{title}</span>
+        {subtitle && <span className={noOverflow}>{subtitle}</span>}
+      </div>
+    </>
   )
 }
 
