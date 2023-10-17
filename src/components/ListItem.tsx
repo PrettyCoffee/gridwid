@@ -16,13 +16,13 @@ import { Skeleton } from "./ui/skeleton"
 
 interface ListItemContext {
   compact?: boolean
+  disabled?: boolean
 }
 const { Provider, useRequiredContext } =
   createContext<ListItemContext>("ListItem")
 
-export interface ListItemRootProps extends ClassNameProp {
+export interface ListItemRootProps extends ClassNameProp, ListItemContext {
   noHover?: boolean
-  compact?: boolean
 }
 
 const ListItemRoot = ({
@@ -30,12 +30,17 @@ const ListItemRoot = ({
   className,
   noHover,
   compact,
+  disabled,
 }: PropsWithChildren<ListItemRootProps>) => (
-  <Provider value={{ compact }}>
+  <Provider value={{ compact, disabled }}>
     <HStack
       items="center"
       justify="start"
-      className={cn("rounded-md", !noHover && "hover:bg-accent/50", className)}
+      className={cn(
+        "rounded-md",
+        !noHover && !disabled && "hover:bg-accent/50",
+        className
+      )}
     >
       {children}
     </HStack>
@@ -56,7 +61,7 @@ const ListItemClickable = ({
   onClick,
   asChild,
 }: PropsWithChildren<ListItemClickableProps>) => {
-  const { compact } = useRequiredContext()
+  const { compact, disabled } = useRequiredContext()
   const props = href
     ? {
         onClick,
@@ -73,7 +78,7 @@ const ListItemClickable = ({
       className={cn(
         "py-1 px-2 h-full flex-1 flex text-start items-center justify-start gap-2 rounded-md overflow-hidden",
         compact ? "min-h-[theme(height.8)]" : "min-h-[theme(height.10)]",
-        hover,
+        disabled ? "pointer-events-none" : hover,
         press({ style: "solid" }),
         focusRing,
         className
@@ -98,6 +103,9 @@ const listCaption = cva(
       active: {
         true: "[&>*:nth-of-type(1)]:text-highlight-foreground",
       },
+      disabled: {
+        true: "text-muted-foreground",
+      },
     },
     defaultVariants: {
       compact: false,
@@ -105,7 +113,7 @@ const listCaption = cva(
   }
 )
 export interface ListItemCaptionProps
-  extends Omit<VariantProps<typeof listCaption>, "compact">,
+  extends Omit<VariantProps<typeof listCaption>, keyof ListItemContext>,
     ClassNameProp {
   title: string
   subtitle?: string
@@ -118,17 +126,20 @@ const ListItemCaption = ({
   icon,
   ...styles
 }: ListItemCaptionProps) => {
-  const { compact } = useRequiredContext()
+  const { compact, disabled } = useRequiredContext()
   return (
     <>
       {icon && (
         <Icon
           icon={icon}
+          color={disabled ? "muted" : "default"}
           size={compact ? "sm" : "md"}
           className={compact ? "w-6" : "w-8"}
         />
       )}
-      <div className={cn(listCaption({ compact, ...styles }), className)}>
+      <div
+        className={cn(listCaption({ compact, disabled, ...styles }), className)}
+      >
         <span className={noOverflow}>{title}</span>
         {subtitle && <span className={noOverflow}>{subtitle}</span>}
       </div>

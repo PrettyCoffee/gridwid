@@ -16,7 +16,6 @@ import {
 } from "lucide-react"
 
 import { HStack } from "~/components/base/Stack"
-import { Icon } from "~/components/Icon"
 import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
 import { Section } from "~/components/Section"
@@ -36,22 +35,22 @@ interface MenuItemProps {
   icon: LucideIcon
   title: string
   onClick?: () => void
+  disabled?: boolean
 }
-const MenuItem = ({ icon, title, onClick }: MenuItemProps) => (
-  <ListItem.Root compact>
+const MenuItem = ({ icon, title, onClick, disabled }: MenuItemProps) => (
+  <ListItem.Root compact disabled={disabled}>
     <ListItem.Clickable onClick={onClick}>
-      <Icon icon={icon} size="sm" />
-      <ListItem.Caption title={title} />
+      <ListItem.Caption icon={icon} title={title} />
     </ListItem.Clickable>
   </ListItem.Root>
 )
 
 const SettingsList = () => (
   <>
-    <MenuItem icon={Settings} title="General" />
-    <MenuItem icon={UserCircle2} title="About me" />
-    <MenuItem icon={LayoutDashboard} title="Widget layout" />
-    <MenuItem icon={PanelBottom} title="Taskbar" />
+    <MenuItem icon={Settings} title="General" disabled />
+    <MenuItem icon={UserCircle2} title="About me" disabled />
+    <MenuItem icon={LayoutDashboard} title="Widget layout" disabled />
+    <MenuItem icon={PanelBottom} title="Taskbar" disabled />
   </>
 )
 
