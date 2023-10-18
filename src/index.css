@@ -42,9 +42,6 @@
     --primary: var(--neutral-900);
     --primary-foreground: var(--neutral-50);
     
-    --secondary: var(--neutral-100);
-    --secondary-foreground: var(--neutral-900);
-    
     --highlight: var(--blue-500);
     --highlight-foreground: var(--blue-700);
     
@@ -75,9 +72,6 @@
     --primary: var(--neutral-50);
     --primary-foreground: var(--neutral-900);
     
-    --secondary: var(--neutral-800);
-    --secondary-foreground: var(--neutral-50);
-    
     --highlight: var(--blue-500);
     --highlight-foreground:  var(--blue-300);
     
@@ -107,9 +101,6 @@
     
     --primary: 226 64% 88%;
     --primary-foreground: 240 21% 12%;
-    
-    --secondary: 240 21% 15%;
-    --secondary-foreground: 226 64% 88%;
     
     --highlight: 217 92% 76%;
     --highlight-foreground:  217 92% 76%;

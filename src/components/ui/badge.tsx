@@ -17,8 +17,8 @@ const badgeVariants = cva(
       variant: {
         default:
           "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
-        secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        accent:
+          "border-transparent bg-accent text-accent-foreground hover:bg-accent/80",
         destructive:
           "border-destructive-foreground bg-destructive/10 text-destructive-foreground hover:bg-destructive/20",
         outline: "text-foreground",
@@ -48,7 +48,7 @@ const IconBadge = ({
   children,
   ...delegated
 }: PropsWithChildren<IconBageProps>) => (
-  <Badge variant="secondary" {...delegated}>
+  <Badge variant="accent" {...delegated}>
     <Icon icon={icon} size="sm" color="muted" />
     {children}
   </Badge>

@@ -119,7 +119,7 @@ const RepoStats = ({
     </div>
     <div className="my-1 flex gap-2 items-center">
       <span className="text-sm text-muted-foreground">Last push:</span>
-      <Badge variant="secondary">{timeSince(pushed_at)}</Badge>
+      <Badge variant="accent">{timeSince(pushed_at)}</Badge>
     </div>
   </>
 )
@@ -130,7 +130,7 @@ const Topics = ({ topics }: GithubRepository) =>
   ) : (
     <HStack gap="1" wrap>
       {topics.map(topic => (
-        <Badge key={topic} variant="secondary">
+        <Badge key={topic} variant="accent">
           {topic}
         </Badge>
       ))}
