@@ -89,7 +89,6 @@ const RepoList = ({ repos }: { repos: GithubRepository[] | null }) => {
       <ListItem.Root
         key={i}
         compact
-        noHover
         className="flex px-2 py-1 hover:bg-transparent"
       >
         <ListItem.CaptionSkeleton subtitle />
@@ -115,10 +114,7 @@ const RepoList = ({ repos }: { repos: GithubRepository[] | null }) => {
 const UserInfo = ({ user }: { user: GithubUser | null }) => {
   if (user == null) {
     return (
-      <ListItem.Root
-        noHover
-        className="flex gap-2 px-2 py-1 hover:bg-transparent"
-      >
+      <ListItem.Root className="flex gap-2 px-2 py-1 hover:bg-transparent">
         <AvatarSkeleton />
         <ListItem.CaptionSkeleton subtitle />
       </ListItem.Root>
