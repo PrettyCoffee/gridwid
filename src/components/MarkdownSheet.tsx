@@ -29,19 +29,19 @@ export const MarkdownSheet = ({ children, className }: MarkdownSheetProps) =>
           "[&_h5]:text-xl [&_h5]:mb-1 [&_h5]:mt-2",
           "[&_h6]:text-lg [&_h6]:mb-1 [&_h6]:mt-2",
 
-          "[&_a]:font-normal [&_a]:text-highlight-foreground [&_a:hover]:underline",
+          "[&_a]:font-normal [&_a]:text-accent [&_a:hover]:underline",
           "[&>p]:my-2",
 
           "[&_ul]:ml-8 [&_ul>li]:list-disc [&_ul>li]:list-item",
           "[&_ol]:ml-8 [&_ol>li]:list-decimal [&_ol>li]:list-item",
 
           "[&_blockquote]:border-l-4 [&_blockquote]:pl-4",
-          "[&_pre]:bg-accent [&_pre]:rounded-sm [&_pre]:px-4 [&_pre]:py-2 [&_pre]:text-sm",
-          "[&_code]:font-mono [&_code]:text-sm [&_code]:bg-accent [&_code]:text-accent-foreground [&_code]:rounded-sm",
+          "[&_pre]:bg-muted [&_pre]:rounded-sm [&_pre]:px-4 [&_pre]:py-2 [&_pre]:text-sm",
+          "[&_code]:font-mono [&_code]:text-sm [&_code]:bg-muted [&_code]:text-muted-foreground [&_code]:rounded-sm",
 
           "[&_table]:w-auto [&_table]:my-4",
-          "[&_td]:px-2 [&_td]:py-1 [&_td]:border-b [&_td]:border-accent [&_tr:nth-of-type(even)]:bg-accent/50",
-          "[&_th]:px-2 [&_th]:py-1 [&_th]:border-b [&_th]:border-accent",
+          "[&_td]:px-2 [&_td]:py-1 [&_td]:border-b [&_td]:border-muted [&_tr:nth-of-type(even)]:bg-muted/50",
+          "[&_th]:px-2 [&_th]:py-1 [&_th]:border-b [&_th]:border-muted",
 
           className
         )}

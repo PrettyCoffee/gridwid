@@ -51,7 +51,10 @@ const MenuButtonItem = ({
   selectable,
 }: MenuItem) => {
   // focus is hover here as well
-  const className = cn("flex gap-2", destructive && "focus:bg-destructive/20")
+  const className = cn(
+    "flex gap-2",
+    destructive && "hover:bg-error/10 focus:bg-error/10 active:bg-error/20"
+  )
   const handleClick: MouseEventHandler<HTMLDivElement> = e => {
     if (keepOpen) e.preventDefault()
     onClick?.()
@@ -78,11 +81,7 @@ const MenuButtonItem = ({
       onClick={handleClick}
     >
       {icon && (
-        <Icon
-          icon={icon}
-          color={destructive ? "destructive" : "default"}
-          size="sm"
-        />
+        <Icon icon={icon} color={destructive ? "error" : "default"} size="sm" />
       )}
       {label}
     </DropdownMenuItem>

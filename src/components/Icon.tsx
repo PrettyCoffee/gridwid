@@ -16,11 +16,9 @@ const icon = cva("shrink-0", {
     color: {
       default: "text-foreground",
       current: "text-current",
-      accent: "text-accent-foreground",
-      primary: "text-primary-foreground",
+      accent: "text-accent",
       muted: "text-muted-foreground",
-      highlight: "text-highlight-foreground",
-      destructive: "text-destructive-foreground",
+      error: "text-error",
     },
   },
   defaultVariants: {

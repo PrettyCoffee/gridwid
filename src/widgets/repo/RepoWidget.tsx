@@ -54,7 +54,7 @@ const useGithubRepo = (owner: string, name: string) => {
 }
 
 const RepoAvatarSkeleton = () => (
-  <ListItem.Root noHover className="flex gap-2 py-2 hover:bg-transparent">
+  <ListItem.Root className="flex gap-2 py-2 hover:bg-transparent">
     <AvatarSkeleton className="h-6 w-6" />
     <ListItem.CaptionSkeleton />
   </ListItem.Root>
@@ -119,7 +119,7 @@ const RepoStats = ({
     </div>
     <div className="my-1 flex gap-2 items-center">
       <span className="text-sm text-muted-foreground">Last push:</span>
-      <Badge variant="accent">{timeSince(pushed_at)}</Badge>
+      <Badge>{timeSince(pushed_at)}</Badge>
     </div>
   </>
 )
@@ -130,9 +130,7 @@ const Topics = ({ topics }: GithubRepository) =>
   ) : (
     <HStack gap="1" wrap>
       {topics.map(topic => (
-        <Badge key={topic} variant="accent">
-          {topic}
-        </Badge>
+        <Badge key={topic}>{topic}</Badge>
       ))}
     </HStack>
   )

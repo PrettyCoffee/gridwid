@@ -13,7 +13,7 @@ export const Workspaces = () => (
     <IconButton
       icon={Circle}
       title="Productivity"
-      className="text-highlight-foreground [&>svg]:fill-highlight-foreground"
+      className="text-accent [&>svg]:fill-accent"
     />
     <IconButton icon={Circle} title="Work" />
     <IconButton icon={KanbanSquare} title="Task board" />

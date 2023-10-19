@@ -11,17 +11,14 @@ import { ClassNameProp, TitleProp } from "../base/BaseProps"
 import { Icon, IconProp } from "../Icon"
 
 const badgeVariants = cva(
-  "inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-sm font-semibold",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
-        accent:
-          "border-transparent bg-accent text-accent-foreground hover:bg-accent/80",
-        destructive:
-          "border-destructive-foreground bg-destructive/10 text-destructive-foreground hover:bg-destructive/20",
-        outline: "text-foreground",
+          "border-transparent bg-button text-button-foreground hover:bg-button-hover",
+        destructive: "border-error bg-error/10 text-error hover:bg-error/20",
+        outline: "border-input bg-transparent text-foreground hover:bg-hover",
       },
     },
     defaultVariants: {
@@ -34,13 +31,11 @@ export type BadgeProps = React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof badgeVariants> &
   TitleProp
 
-const Badge = ({ className, variant, title, ...props }: BadgeProps) => {
-  return (
-    <TitleTooltip asChild title={title}>
-      <div className={cn(badgeVariants({ variant }), className)} {...props} />
-    </TitleTooltip>
-  )
-}
+const Badge = ({ className, variant, title, ...props }: BadgeProps) => (
+  <TitleTooltip asChild title={title}>
+    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+  </TitleTooltip>
+)
 
 export type IconBageProps = IconProp & TitleProp & ClassNameProp
 const IconBadge = ({
@@ -48,7 +43,7 @@ const IconBadge = ({
   children,
   ...delegated
 }: PropsWithChildren<IconBageProps>) => (
-  <Badge variant="accent" {...delegated}>
+  <Badge {...delegated}>
     <Icon icon={icon} size="sm" color="muted" />
     {children}
   </Badge>

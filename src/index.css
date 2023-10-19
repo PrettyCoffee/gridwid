@@ -27,8 +27,11 @@
     --neutral-300: 240 5% 84%;
     --neutral-400: 240 5% 65%;
     --neutral-500: 240 4% 46%;
+    --neutral-600: 240 5% 34%;
+    --neutral-700: 240 5% 26%;
     --neutral-800: 240 4% 16%;
     --neutral-900: 240 6% 10%;
+    --neutral-950: 240 10% 4%;
     --neutral-black: 240 10% 4%;
     
     --radius: 0.5rem;
@@ -37,27 +40,24 @@
   .light {
     --page: var(--neutral-50);
     --background: var(--neutral-white);
-    --foreground: var(--neutral-black);
-    
-    --primary: var(--neutral-900);
-    --primary-foreground: var(--neutral-50);
-    
-    --highlight: var(--blue-500);
-    --highlight-foreground: var(--blue-700);
-    
+    --foreground: var(--neutral-950);
+        
+    --hover: var(--neutral-100);
+    --press: var(--neutral-200);
+
+    --button: var(--neutral-100);
+    --button-foreground: var(--neutral-950);
+    --button-hover: var(--neutral-200);
+    --button-press: var(--neutral-300);
+
     --muted: var(--neutral-100);
     --muted-foreground: var(--neutral-500);
     
-    --accent: var(--neutral-100);
-    --accent-foreground: var(--neutral-900);
-    
-    --destructive: var(--red-500);
-    --destructive-foreground: var(--red-700);
-    
     --border: var(--neutral-200);
     --input: var(--neutral-200);
-    --ring: var(--neutral-black);
-
+    --ring: var(--neutral-950);
+    
+    --accent: var(--blue-500);
     --success: var(--green-700);
     --warning: var(--yellow-700);
     --error: var(--red-700);
@@ -69,25 +69,22 @@
     --background: var(--neutral-black);
     --foreground: var(--neutral-50);
     
-    --primary: var(--neutral-50);
-    --primary-foreground: var(--neutral-900);
-    
-    --highlight: var(--blue-500);
-    --highlight-foreground:  var(--blue-300);
+    --hover: var(--neutral-900);
+    --press: var(--neutral-800);
+
+    --button: var(--neutral-900);
+    --button-foreground: var(--neutral-50);
+    --button-hover: var(--neutral-800);
+    --button-press: var(--neutral-700);
     
     --muted: var(--neutral-800);
     --muted-foreground: var(--neutral-400);
-  
-    --accent: var(--neutral-800);
-    --accent-foreground: var(--neutral-50);
-  
-    --destructive: var(--red-500);
-    --destructive-foreground: var(--red-300);
-  
+
     --border: var(--neutral-800);
-    --input: var(--neutral-800);
+    --input: var(--neutral-700);
     --ring: var(--neutral-300);
 
+    --accent: var(--blue-300);
     --success: var(--green-300);
     --warning: var(--yellow-300);
     --error: var(--red-300);
@@ -98,26 +95,23 @@
     --page: 240 21% 12%;
     --background: 240 23% 9%;
     --foreground: 226 64% 88%;
-    
-    --primary: 226 64% 88%;
-    --primary-foreground: 240 21% 12%;
-    
-    --highlight: 217 92% 76%;
-    --highlight-foreground:  217 92% 76%;
+        
+    --hover: 240 21% 15%;
+    --press: 237 16% 23%;
+
+    --button: 240 21% 15%;
+    --button-foreground: 226 64% 88%;
+    --button-hover: 237 16% 23%;
+    --button-press: 234 13% 31%;
     
     --muted: 240 21% 15%;
     --muted-foreground: 230 13% 55%;
-  
-    --accent: 240 21% 15%;
-    --accent-foreground: 226 64% 88%;
-  
-    --destructive: 343 81% 75%;
-    --destructive-foreground: 343 81% 75%;
-  
-    --border: 240 21% 15%;
-    --input: 240 21% 15%;
+    
+    --border: 237 16% 23%;
+    --input: 237 16% 23%;
     --ring: 228 17% 64%;
-
+    
+    --accent: 217 92% 76%;
     --success: 115 54% 76%;
     --warning: 41 86% 83%;
     --error: 343 81% 75%;

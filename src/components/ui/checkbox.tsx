@@ -14,9 +14,9 @@ import { Text } from "../Text"
 
 const checkbox = cva(
   cn(
-    "peer shrink-0 rounded-sm border border-primary disabled:cursor-not-allowed disabled:opacity-50",
+    "peer shrink-0 rounded-sm bg-background border border-input disabled:cursor-not-allowed disabled:opacity-50",
     "ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-    "data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+    "data-[state=checked]:bg-button data-[state=checked]:text-button-foreground"
   ),
   {
     variants: {
@@ -72,7 +72,7 @@ const CheckboxWithLabel = ({
 }: CheckboxWithLabelProps) => (
   <label
     className={cn(
-      "pr-1 flex cursor-pointer hover:bg-accent",
+      "pr-1 flex cursor-pointer hover:bg-hover",
       compact ? "rounded-sm" : "rounded-md",
       press({ style: "solid" }),
       noWrap && noOverflow,

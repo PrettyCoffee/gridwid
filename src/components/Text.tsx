@@ -33,11 +33,9 @@ const text = cva("p-0 m-0", {
     color: {
       current: "text-current",
       default: "text-foreground",
-      primary: "text-primary-foreground",
       muted: "text-muted-foreground",
-      accent: "text-accent-foreground",
-      highlight: "text-highlight-foreground",
-      destructive: "text-destructive-foreground",
+      accent: "text-accent",
+      destructive: "text-error",
     },
     block: {
       true: "block",

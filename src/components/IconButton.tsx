@@ -1,6 +1,6 @@
 import { MouseEventHandler, forwardRef, useState } from "react"
 
-import { Button } from "~/components/ui/button"
+import { Button, ButtonProps } from "~/components/ui/button"
 
 import { ClassNameProp } from "./base/BaseProps"
 import { Icon, IconProp } from "./Icon"
@@ -15,6 +15,7 @@ export interface IconButtonProps extends ClassNameProp, IconProp {
   titleSide?: TitleTooltipProps["side"]
   hideTitle?: boolean
   compact?: boolean
+  variant?: ButtonProps["variant"]
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
@@ -27,6 +28,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       titleSide,
       compact,
       hideTitle,
+      variant = "ghost",
       ...delegated
     },
     ref
@@ -46,7 +48,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       >
         <Button
           ref={ref}
-          variant="ghost"
+          variant={variant}
           size={compact ? "compactIcon" : "icon"}
           onAnimationEnd={() => setAnimate(false)}
           onClick={handleClick}

@@ -6,7 +6,7 @@ export const noOverflow = cn(
   "overflow-hidden text-ellipsis whitespace-nowrap max-w-[100%]"
 )
 
-export const hover = cn("hover:bg-accent hover:text-accent-foreground")
+export const hover = cn("hover:bg-hover hover:text-foreground")
 
 export const press = cva(
   cn(

@@ -31,12 +31,12 @@ const Calendar = ({ className, classNames, ...props }: CalendarProps) => {
         row: "flex w-full space-x-1 [&:not(:last-of-type)]:mb-1",
         cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
         day: "flex items-center rounded justify-center h-8 w-8 p-0 font-normal aria-selected:opacity-100",
-        day_selected: "text-highlight-foreground",
-        day_today: "bg-accent text-highlight-foreground",
+        day_selected: "text-accent",
+        day_today: "bg-accent/10 text-accent",
         day_outside: "text-muted-foreground opacity-50",
         day_disabled: "text-muted-foreground opacity-50",
         day_range_middle:
-          "aria-selected:bg-accent aria-selected:text-accent-foreground",
+          "aria-selected:bg-button aria-selected:text-foreground",
         day_hidden: "invisible",
         ...classNames,
       }}

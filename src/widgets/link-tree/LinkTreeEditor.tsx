@@ -14,7 +14,6 @@ import {
 
 import { HStack, VStack } from "~/components/base/Stack"
 import { Icon } from "~/components/Icon"
-import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
 import { Button } from "~/components/ui/button"
 import {
@@ -149,7 +148,7 @@ const LinkEditor = ({ item, navigate, onDelete, onEdit }: LinkEditorProps) => {
     >
       <Icon
         icon={isGroup(item) ? Folder : Bookmark}
-        color={isGroup(item) ? "highlight" : "muted"}
+        color={isGroup(item) ? "accent" : "muted"}
         size="sm"
       />
       <ListItem.Caption title={item.label} className="flex-1" />
@@ -170,7 +169,8 @@ const LinkEditor = ({ item, navigate, onDelete, onEdit }: LinkEditorProps) => {
   return (
     <ListItem.Root
       key={item.id}
-      className="p-1 flex max-w-full rounded-md hover:bg-accent/50"
+      rowHover
+      className="p-1 flex max-w-full rounded-md"
     >
       {mainItem}
 
@@ -185,7 +185,7 @@ const LinkEditor = ({ item, navigate, onDelete, onEdit }: LinkEditorProps) => {
         title={`Delete`}
         onClick={onDelete}
         hideTitle
-        className="[&>svg]:text-destructive-foreground"
+        className="[&>svg]:text-error"
       />
     </ListItem.Root>
   )
@@ -204,18 +204,18 @@ const TreeEditor = ({ id, data }: TreeEditorProps) => {
   const [editItem, setEditItem] = useState<TreeNode | null>(null)
 
   const header = (
-    <ListItem.Root className="w-full p-1">
+    <ListItem.Root rowHover className="w-full p-1">
       {!group ? (
         <StaticHeader label="root" />
       ) : (
         <ClickableHeader label={group.label} onClick={back} />
       )}
-      <IconButton
+      <ListItem.Action
         icon={FolderPlus}
         title="Add group"
         onClick={() => linkTree.addNode(id, path, createGroup())}
       />
-      <IconButton
+      <ListItem.Action
         icon={BookmarkPlus}
         title="Add bookmark"
         onClick={() => linkTree.addNode(id, path, createTask())}

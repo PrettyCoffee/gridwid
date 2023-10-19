@@ -135,7 +135,7 @@ const TaskItem = ({
   onChange,
   ...delegated
 }: TaskItemProps) => (
-  <ListItem.Root compact={compact}>
+  <ListItem.Root compact={compact} rowHover>
     <ListItem.Clickable asChild>
       <label className="cursor-pointer">
         <Checkbox
@@ -147,7 +147,7 @@ const TaskItem = ({
       </label>
     </ListItem.Clickable>
     <ListItem.Action
-      className="self-start text-destructive-foreground hover:text-destructive-foreground"
+      className="self-start text-error hover:text-error"
       icon={Trash}
       title="Delete task"
       hideTitle

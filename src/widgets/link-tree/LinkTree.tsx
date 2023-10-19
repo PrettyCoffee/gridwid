@@ -32,7 +32,7 @@ const LinkGroup = ({
 }: TreeGroup & { navigate: Dispatch<string> }) => (
   <ListItem.Root compact>
     <ListItem.Clickable onClick={() => navigate(id)}>
-      <Icon icon={Folder} size="sm" color="highlight" />
+      <Icon icon={Folder} size="sm" color="accent" />
       <ListItem.Caption title={label} />
       <Icon
         icon={ChevronRight}
@@ -50,7 +50,7 @@ interface HeaderProps {
 }
 
 const StaticHeader = ({ label }: Pick<HeaderProps, "label">) => (
-  <ListItem.Root compact noHover className="px-2 py-2 min-h-[theme(height.8)]">
+  <ListItem.Root compact className="px-2 py-2 min-h-[theme(height.8)]">
     <ListItem.Caption title={label} className="text-muted-foreground" />
   </ListItem.Root>
 )

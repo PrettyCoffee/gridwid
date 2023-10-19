@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { LucideIcon } from "lucide-react"
 
 import { createContext } from "~/lib/createContext"
-import { focusRing, hover, noOverflow, press } from "~/lib/styles"
+import { focusRing, noOverflow } from "~/lib/styles"
 import { cn } from "~/lib/utils"
 
 import { AsChildProp, ClassNameProp } from "./base/BaseProps"
@@ -17,28 +17,27 @@ import { Skeleton } from "./ui/skeleton"
 interface ListItemContext {
   compact?: boolean
   disabled?: boolean
+  rowHover?: boolean
 }
 const { Provider, useRequiredContext } =
   createContext<ListItemContext>("ListItem")
 
-export interface ListItemRootProps extends ClassNameProp, ListItemContext {
-  noHover?: boolean
-}
+export interface ListItemRootProps extends ClassNameProp, ListItemContext {}
 
 const ListItemRoot = ({
   children,
   className,
-  noHover,
+  rowHover,
   compact,
   disabled,
 }: PropsWithChildren<ListItemRootProps>) => (
-  <Provider value={{ compact, disabled }}>
+  <Provider value={{ compact, disabled, rowHover }}>
     <HStack
       items="center"
       justify="start"
       className={cn(
         "rounded-md",
-        !noHover && !disabled && "hover:bg-accent/50",
+        rowHover && !disabled && "hover:bg-hover",
         className
       )}
     >
@@ -61,7 +60,7 @@ const ListItemClickable = ({
   onClick,
   asChild,
 }: PropsWithChildren<ListItemClickableProps>) => {
-  const { compact, disabled } = useRequiredContext()
+  const { compact, disabled, rowHover } = useRequiredContext()
   const props = href
     ? {
         onClick,
@@ -78,8 +77,10 @@ const ListItemClickable = ({
       className={cn(
         "py-1 px-2 h-full flex-1 flex text-start items-center justify-start gap-2 rounded-md overflow-hidden",
         compact ? "min-h-[theme(height.8)]" : "min-h-[theme(height.10)]",
-        disabled ? "pointer-events-none" : hover,
-        press({ style: "solid" }),
+        rowHover
+          ? "hover:bg-button-hover active:bg-button-press"
+          : "hover:bg-hover active:bg-press",
+        disabled && "pointer-events-none",
         focusRing,
         className
       )}
@@ -101,7 +102,7 @@ const listCaption = cva(
         false: "text-md [&>*:nth-of-type(2)]:text-sm",
       },
       active: {
-        true: "[&>*:nth-of-type(1)]:text-highlight-foreground",
+        true: "[&>*:nth-of-type(1)]:text-accent",
       },
       disabled: {
         true: "text-muted-foreground",
@@ -191,11 +192,12 @@ type ListItemActionProps = ClassNameProp &
   Pick<IconButtonProps, "icon" | "onClick" | "title" | "hideTitle">
 
 const ListItemAction = ({ className, ...props }: ListItemActionProps) => {
-  const { compact } = useRequiredContext()
+  const { compact, rowHover } = useRequiredContext()
   return (
     <IconButton
       className={cn("[:not(:hover)>&]:opacity-0", className)}
       compact={compact}
+      variant={rowHover ? "default" : "ghost"}
       {...props}
     />
   )

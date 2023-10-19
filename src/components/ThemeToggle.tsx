@@ -54,14 +54,14 @@ const modeIcon: Record<ThemeMode, LucideIcon> = {
   mocha: Cat,
 }
 
-const modeCircle = "w-4 h-4 rounded-full border border-accent-foreground"
+const modeCircle = "w-4 h-4 rounded-full border border-border"
 
 const ModePreview = ({ mode }: { mode: ThemeMode }) => {
   return (
     <HStack className={cn(mode, "-space-x-1.5")}>
       <div className={cn(modeCircle, "bg-background")} />
       <div className={cn(modeCircle, "bg-foreground")} />
-      <div className={cn(modeCircle, "bg-highlight")} />
+      <div className={cn(modeCircle, "bg-accent")} />
     </HStack>
   )
 }
