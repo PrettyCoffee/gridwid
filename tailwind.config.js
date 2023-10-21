@@ -11,6 +11,8 @@ module.exports = {
       },
     },
     colors: {
+      transparent: "transparent",
+
       page: "hsl(var(--page))",
       background: "hsl(var(--background))",
       foreground: "hsl(var(--foreground))",
