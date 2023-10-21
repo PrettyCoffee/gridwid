@@ -3,6 +3,7 @@ import { PropsWithChildren } from "react"
 
 import { cn } from "~/lib/utils"
 
+import { ClassNameProp } from "../base/BaseProps"
 import { VStack } from "../base/Stack"
 import { Text } from "../Text"
 
@@ -28,15 +29,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 )
 Input.displayName = "Input"
 
-interface InputLabelProps {
+interface InputLabelProps extends ClassNameProp {
   label: string
 }
 const InputLabel = ({
   label,
   children,
+  className,
 }: PropsWithChildren<InputLabelProps>) => (
   <VStack asChild gap="2">
-    <label>
+    <label className={className}>
       <Text color="muted" noOverflow style="small">
         {label}
       </Text>
