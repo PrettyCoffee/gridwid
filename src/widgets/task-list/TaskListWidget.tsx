@@ -45,7 +45,7 @@ const AddItem = () => {
       <IconButton
         className={cn(
           "absolute top-0 bottom-0 left-0",
-          filter && "[&>svg]:fill-accent-foreground"
+          filter && "[&>svg]:fill-foreground"
         )}
         icon={Filter}
         title={`${filter ? "Disable" : "Enable"} filtering`}
