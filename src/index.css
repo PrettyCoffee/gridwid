@@ -32,7 +32,7 @@
     --neutral-800: 240 4% 16%;
     --neutral-900: 240 6% 10%;
     --neutral-950: 240 10% 4%;
-    --neutral-black: 240 10% 4%;
+    --neutral-black: 0 0% 0%;
     
     --radius: 0.5rem;
   }
@@ -65,7 +65,7 @@
   }
   
   .dark {
-    --page: var(--neutral-900);
+    --page: var(--neutral-950);
     --background: var(--neutral-black);
     --foreground: var(--neutral-50);
     
