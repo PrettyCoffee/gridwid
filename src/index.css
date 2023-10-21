@@ -130,6 +130,12 @@
     @apply bg-page;
     @apply text-foreground;
   }
+
+  *:focus-visible {
+    outline-color: hsl(var(--ring));
+    outline-style: solid;
+    outline-width: 0.125rem;
+  }
 }
 
 /* ===== Scrollbar CSS ===== */
