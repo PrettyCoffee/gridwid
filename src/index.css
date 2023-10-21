@@ -131,3 +131,33 @@
     @apply text-foreground;
   }
 }
+
+/* ===== Scrollbar CSS ===== */
+/* web standard */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: hsl(var(--muted-foreground)) hsl(var(--background));
+}
+
+*:focus-visible {
+  scrollbar-color: hsl(var(--accent)) hsl(var(--background));
+}
+
+/* browsers that are not applying the web standard since 2018 */
+*::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--muted-foreground));
+  border-radius: 0.75rem;
+  border: 0.25rem solid hsl(var(--background));
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  border-width: 0.2rem;
+}
