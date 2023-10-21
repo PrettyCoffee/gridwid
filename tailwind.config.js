@@ -10,37 +10,37 @@ module.exports = {
         "2xl": "1400px",
       },
     },
-    extend: {
-      colors: {
-        page: "hsl(var(--page))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+    colors: {
+      page: "hsl(var(--page))",
+      background: "hsl(var(--background))",
+      foreground: "hsl(var(--foreground))",
 
-        hover: "hsl(var(--hover))",
-        press: "hsl(var(--press))",
+      hover: "hsl(var(--hover))",
+      press: "hsl(var(--press))",
 
-        button: {
-          DEFAULT: "hsl(var(--button))",
-          foreground: "hsl(var(--button-foreground))",
-          hover: "hsl(var(--button-hover))",
-          press: "hsl(var(--button-press))",
-        },
-
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-
-        accent: "hsl(var(--accent))",
-        success: "hsl(var(--success))",
-        warning: "hsl(var(--warning))",
-        error: "hsl(var(--error))",
-        info: "hsl(var(--info))",
+      button: {
+        DEFAULT: "hsl(var(--button))",
+        foreground: "hsl(var(--button-foreground))",
+        hover: "hsl(var(--button-hover))",
+        press: "hsl(var(--button-press))",
       },
+
+      muted: {
+        DEFAULT: "hsl(var(--muted))",
+        foreground: "hsl(var(--muted-foreground))",
+      },
+
+      border: "hsl(var(--border))",
+      input: "hsl(var(--input))",
+      ring: "hsl(var(--ring))",
+
+      accent: "hsl(var(--accent))",
+      success: "hsl(var(--success))",
+      warning: "hsl(var(--warning))",
+      error: "hsl(var(--error))",
+      info: "hsl(var(--info))",
+    },
+    extend: {
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) * 0.75)",
