@@ -1,4 +1,4 @@
-import { MouseEventHandler, forwardRef, useState } from "react"
+import { forwardRef, useState } from "react"
 
 import { Button, ButtonProps } from "~/components/ui/button"
 
@@ -6,11 +6,9 @@ import { ClassNameProp } from "./base/BaseProps"
 import { Icon, IconProp } from "./Icon"
 import { TitleTooltip, TitleTooltipProps } from "./ui/tooltip"
 
-type ButtonClick = MouseEventHandler<HTMLButtonElement>
-
 export interface IconButtonProps extends ClassNameProp, IconProp {
   title: string
-  onClick?: ButtonClick
+  onClick?: ButtonProps["onClick"]
   clickAnimation?: string
   titleSide?: TitleTooltipProps["side"]
   hideTitle?: boolean
@@ -35,7 +33,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   ) => {
     const [animate, setAnimate] = useState(false)
 
-    const handleClick: ButtonClick = (...args) => {
+    const handleClick: ButtonProps["onClick"] = (...args) => {
       onClick?.(...args)
       if (clickAnimation) setAnimate(true)
     }

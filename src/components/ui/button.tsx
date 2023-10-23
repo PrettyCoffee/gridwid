@@ -1,10 +1,13 @@
 import * as React from "react"
+import { ButtonHTMLAttributes, PropsWithChildren } from "react"
 
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { focusRing, press } from "~/lib/styles"
 import { cn } from "~/lib/utils"
+
+import { AsChildProp, ClassNameProp } from "../base/BaseProps"
 
 const buttonVariants = cva(
   [
@@ -44,24 +47,30 @@ const buttonVariants = cva(
   }
 )
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-}
+type NativeButtonProps = Pick<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  "onFocus" | "onBlur" | "onAnimationStart" | "onAnimationEnd" | "onClick"
+>
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, active, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, active, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
+export interface ButtonProps
+  extends NativeButtonProps,
+    VariantProps<typeof buttonVariants>,
+    ClassNameProp,
+    AsChildProp {}
+
+const Button = React.forwardRef<
+  HTMLButtonElement,
+  PropsWithChildren<ButtonProps>
+>(({ className, variant, size, asChild = false, active, ...props }, ref) => {
+  const Comp = asChild ? Slot : "button"
+  return (
+    <Comp
+      className={cn(buttonVariants({ variant, size, active, className }))}
+      ref={ref}
+      {...props}
+    />
+  )
+})
 Button.displayName = "Button"
 
 export { Button, buttonVariants }
