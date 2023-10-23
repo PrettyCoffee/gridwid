@@ -11,11 +11,12 @@ export const Workspaces = () => (
     )}
   >
     <IconButton
+      disabled
       icon={Circle}
       title="Productivity"
       className="text-accent [&>svg]:fill-accent"
     />
-    <IconButton icon={Circle} title="Work" />
-    <IconButton icon={KanbanSquare} title="Task board" />
+    <IconButton disabled icon={Circle} title="Work" />
+    <IconButton disabled icon={KanbanSquare} title="Task board" />
   </div>
 )

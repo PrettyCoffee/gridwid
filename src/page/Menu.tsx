@@ -63,11 +63,11 @@ export const Menu = () => (
 
       <Separator orientation="vertical" className="h-5 mx-1" />
 
-      <IconButton icon={UserCircle2} title="User profile" />
-      <IconButton icon={Users2} title="Socials" />
-      <IconButton icon={Pilcrow} title="Markdown notes" />
+      <IconButton disabled icon={UserCircle2} title="User profile" />
+      <IconButton disabled icon={Users2} title="Socials" />
+      <IconButton disabled icon={Pilcrow} title="Markdown notes" />
       <GithubOverview name="prettycoffee" />
-      <IconButton icon={Sticker} title="*beep boop*" />
+      <IconButton disabled icon={Sticker} title="*beep boop*" />
 
       <Separator orientation="vertical" className="h-5 mx-1" />
 
