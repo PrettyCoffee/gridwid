@@ -13,7 +13,7 @@ const buttonVariants = cva(
   [
     press({ style: "gradient" }),
     focusRing,
-    "inline-flex items-center justify-center rounded-md text-sm font-medium overflow-hidden disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex items-center justify-center rounded-md text-sm font-medium overflow-hidden disabled:pointer-events-none",
   ],
   {
     variants: {
@@ -39,7 +39,22 @@ const buttonVariants = cva(
       active: {
         true: "text-accent hover:text-accent",
       },
+      disabled: {
+        true: "pointer-events-none",
+      },
     },
+    compoundVariants: [
+      {
+        variant: ["outline", "ghost", "link"],
+        disabled: true,
+        className: "text-muted-foreground",
+      },
+      {
+        variant: ["default", "destructive", "highlight"],
+        disabled: true,
+        className: "opacity-50",
+      },
+    ],
     defaultVariants: {
       variant: "default",
       size: "default",
@@ -56,21 +71,32 @@ export interface ButtonProps
   extends NativeButtonProps,
     VariantProps<typeof buttonVariants>,
     ClassNameProp,
-    AsChildProp {}
+    AsChildProp {
+  disabled?: boolean
+}
 
 const Button = React.forwardRef<
   HTMLButtonElement,
   PropsWithChildren<ButtonProps>
->(({ className, variant, size, asChild = false, active, ...props }, ref) => {
-  const Comp = asChild ? Slot : "button"
-  return (
-    <Comp
-      className={cn(buttonVariants({ variant, size, active, className }))}
-      ref={ref}
-      {...props}
-    />
-  )
-})
+>(
+  (
+    { className, variant, size, asChild = false, active, disabled, ...props },
+    ref
+  ) => {
+    const Comp = asChild ? Slot : "button"
+    return (
+      <Comp
+        className={cn(
+          buttonVariants({ variant, size, active, className, disabled })
+        )}
+        ref={ref}
+        disabled={disabled}
+        aria-disabled={disabled}
+        {...props}
+      />
+    )
+  }
+)
 Button.displayName = "Button"
 
 export { Button, buttonVariants }

@@ -6,14 +6,15 @@ import { ClassNameProp } from "./base/BaseProps"
 import { Icon, IconProp } from "./Icon"
 import { TitleTooltip, TitleTooltipProps } from "./ui/tooltip"
 
-export interface IconButtonProps extends ClassNameProp, IconProp {
+export interface IconButtonProps
+  extends ClassNameProp,
+    IconProp,
+    Pick<ButtonProps, "onClick" | "variant" | "disabled"> {
   title: string
-  onClick?: ButtonProps["onClick"]
   clickAnimation?: string
   titleSide?: TitleTooltipProps["side"]
   hideTitle?: boolean
   compact?: boolean
-  variant?: ButtonProps["variant"]
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
