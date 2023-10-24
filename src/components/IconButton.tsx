@@ -3,6 +3,7 @@ import { forwardRef, useState } from "react"
 import { Button, ButtonProps } from "~/components/ui/button"
 
 import { ClassNameProp } from "./base/BaseProps"
+import { VisuallyHidden } from "./base/VisuallyHidden"
 import { Icon, IconProp } from "./Icon"
 import { TitleTooltip, TitleTooltipProps } from "./ui/tooltip"
 
@@ -53,6 +54,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           onClick={handleClick}
           {...delegated}
         >
+          <VisuallyHidden>{title}</VisuallyHidden>
           <Icon
             icon={icon}
             size={compact ? "sm" : "md"}
