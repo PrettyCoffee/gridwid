@@ -1,6 +1,5 @@
 import { Dispatch, useMemo } from "react"
 
-import { PopoverAnchor } from "@radix-ui/react-popover"
 import { Palette } from "lucide-react"
 
 import { createRange } from "~/lib/createRange"
@@ -10,7 +9,7 @@ import { ClassNameProp } from "./base/BaseProps"
 import { HStack, VStack } from "./base/Stack"
 import { IconButton } from "./IconButton"
 import { Input, InputLabel } from "./ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
+import { Popover } from "./ui/popover"
 import { SliderRange, SliderRoot, SliderThumb, SliderTrack } from "./ui/slider"
 
 const ColorSwatch = ({
@@ -99,25 +98,25 @@ interface ColorPickerProps {
 
 export const ColorPicker = ({ value, onChange }: ColorPickerProps) => {
   return (
-    <Popover>
+    <Popover.Root>
       <HStack asChild items="center" className="relative">
-        <PopoverAnchor>
+        <Popover.Anchor>
           <ColorSwatch color={value} className="absolute left-3" />
           <Input
             value={value}
             onChange={({ target }) => onChange(target.value)}
             className="pl-10 pr-12"
           />
-          <PopoverTrigger asChild>
+          <Popover.Trigger asChild>
             <IconButton
               title="Pick a color"
               icon={Palette}
               className="absolute right-0"
             />
-          </PopoverTrigger>
-        </PopoverAnchor>
+          </Popover.Trigger>
+        </Popover.Anchor>
       </HStack>
-      <PopoverContent className="w-[var(--radix-popover-trigger-width)]">
+      <Popover.Content className="w-[var(--radix-popover-trigger-width)]">
         <VStack gap="2">
           {["hue", "saturation", "lightness"].map(attribute => (
             <HStack key={attribute} items="center">
@@ -131,7 +130,7 @@ export const ColorPicker = ({ value, onChange }: ColorPickerProps) => {
             </HStack>
           ))}
         </VStack>
-      </PopoverContent>
-    </Popover>
+      </Popover.Content>
+    </Popover.Root>
   )
 }

@@ -1,4 +1,3 @@
-import { PopoverAnchor } from "@radix-ui/react-popover"
 import {
   MoreVertical,
   Pilcrow,
@@ -20,11 +19,7 @@ import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
 import { Section } from "~/components/Section"
 import { ThemeToggle } from "~/components/ThemeToggle"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover"
+import { Popover } from "~/components/ui/popover"
 import { Separator } from "~/components/ui/separator"
 
 import { showChangelogModal } from "./Changelog"
@@ -55,11 +50,11 @@ const SettingsList = () => (
 )
 
 export const Menu = () => (
-  <Popover>
-    <PopoverAnchor className="flex items-center">
-      <PopoverTrigger asChild>
+  <Popover.Root>
+    <Popover.Anchor className="flex items-center">
+      <Popover.Trigger asChild>
         <IconButton icon={MoreVertical} title="Settings" />
-      </PopoverTrigger>
+      </Popover.Trigger>
 
       <Separator orientation="vertical" className="h-5 mx-1" />
 
@@ -81,8 +76,8 @@ export const Menu = () => (
         src="https://www.getdevkit.com/devgpt"
         title="DevGPT"
       />
-    </PopoverAnchor>
-    <PopoverContent className="w-max max-w-xl mb-1">
+    </Popover.Anchor>
+    <Popover.Content className="w-max max-w-xl mb-1">
       <IconButton
         icon={RefreshCw}
         title="Refresh fetched data"
@@ -105,6 +100,6 @@ export const Menu = () => (
           <ThemeToggle />
         </Section>
       </HStack>
-    </PopoverContent>
-  </Popover>
+    </Popover.Content>
+  </Popover.Root>
 )

@@ -13,11 +13,7 @@ import { RenderedToast, ToastProps, toastList } from "~/components/Toast"
 import { Button } from "~/components/ui/button"
 import { Calendar } from "~/components/ui/calendar"
 import { Card } from "~/components/ui/card"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover"
+import { Popover } from "~/components/ui/popover"
 import { cn } from "~/lib/utils"
 import { WidgetConfig, WidgetConfigList } from "~/widgets/widgetConfig"
 import { widgets } from "~/widgets/widgets"
@@ -78,8 +74,8 @@ const Notifications = () => {
   const status = getStatusKind(toasts)
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
+    <Popover.Root>
+      <Popover.Trigger asChild>
         <Button variant="ghost" className="px-2 gap-2">
           <Clock />
           {status && (
@@ -89,8 +85,8 @@ const Notifications = () => {
             </>
           )}
         </Button>
-      </PopoverTrigger>
-      <PopoverContent
+      </Popover.Trigger>
+      <Popover.Content
         align="end"
         className={cn(
           "w-max p-0 -translate-y-1 overflow-auto max-h-[calc(100vh-theme(height.12)-theme(height.2))] max-w-[calc(theme(width.64)+theme(width.2))]",
@@ -104,8 +100,8 @@ const Notifications = () => {
         <Card className="p-2 shadow-md">
           <Calendar />
         </Card>
-      </PopoverContent>
-    </Popover>
+      </Popover.Content>
+    </Popover.Root>
   )
 }
 

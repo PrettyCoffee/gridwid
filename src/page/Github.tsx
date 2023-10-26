@@ -13,11 +13,7 @@ import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
 import { Section } from "~/components/Section"
 import { Avatar } from "~/components/ui/avatar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover"
+import { Popover } from "~/components/ui/popover"
 import { GithubUser, GithubRepository, github } from "~/lib/apis/github"
 import { createRange } from "~/lib/createRange"
 import { tomorrow } from "~/lib/datetime"
@@ -171,12 +167,12 @@ interface GithubOverviewProps {
 
 export const GithubOverview = ({ name }: GithubOverviewProps) =>
   !name ? null : (
-    <Popover>
-      <PopoverTrigger asChild>
+    <Popover.Root>
+      <Popover.Trigger asChild>
         <IconButton icon={Github} title="Github overview" />
-      </PopoverTrigger>
-      <PopoverContent className="mb-1">
+      </Popover.Trigger>
+      <Popover.Content className="mb-1">
         <Profile name={name} />
-      </PopoverContent>
-    </Popover>
+      </Popover.Content>
+    </Popover.Root>
   )
