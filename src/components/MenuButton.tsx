@@ -4,16 +4,7 @@ import { cn } from "~/lib/utils"
 
 import { Icon, IconProp } from "./Icon"
 import { IconButton, IconButtonProps } from "./IconButton"
-import {
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuTrigger,
-  DropdownMenuCheckboxItem,
-} from "./ui/dropdown-menu"
+import { DropdownMenu } from "./ui/dropdown-menu"
 
 export interface MenuItem extends Partial<IconProp> {
   label: string
@@ -61,7 +52,7 @@ const MenuButtonItem = ({
   }
   if (selectable) {
     return (
-      <DropdownMenuCheckboxItem
+      <DropdownMenu.CheckboxItem
         // focus is hover here as well
         className={className}
         checked={selectable.checked}
@@ -71,11 +62,11 @@ const MenuButtonItem = ({
         }}
       >
         {label}
-      </DropdownMenuCheckboxItem>
+      </DropdownMenu.CheckboxItem>
     )
   }
   return (
-    <DropdownMenuItem
+    <DropdownMenu.Item
       // focus is hover here as well
       className={className}
       onClick={handleClick}
@@ -84,7 +75,7 @@ const MenuButtonItem = ({
         <Icon icon={icon} color={destructive ? "error" : "default"} size="sm" />
       )}
       {label}
-    </DropdownMenuItem>
+    </DropdownMenu.Item>
   )
 }
 
@@ -94,15 +85,15 @@ const MenuButtonGroup = ({
   addSeparator,
 }: MenuItemGroup & { addSeparator: boolean }) => (
   <>
-    {addSeparator && <DropdownMenuSeparator />}
-    <DropdownMenuLabel className="text-xs text-muted-foreground">
+    {addSeparator && <DropdownMenu.Separator />}
+    <DropdownMenu.Label className="text-xs text-muted-foreground">
       {label}
-    </DropdownMenuLabel>
-    <DropdownMenuGroup>
+    </DropdownMenu.Label>
+    <DropdownMenu.Group>
       {items.map(item => (
         <MenuButtonItem key={item.label} {...item} />
       ))}
-    </DropdownMenuGroup>
+    </DropdownMenu.Group>
   </>
 )
 
@@ -119,12 +110,12 @@ const MenuButtonItems = ({ items }: Pick<MenuButtonProps, "items">) => (
 )
 
 export const MenuButton = ({ items, ...iconButtonProps }: MenuButtonProps) => (
-  <DropdownMenu>
-    <DropdownMenuTrigger asChild>
+  <DropdownMenu.Root>
+    <DropdownMenu.Trigger asChild>
       <IconButton {...iconButtonProps} />
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="end">
+    </DropdownMenu.Trigger>
+    <DropdownMenu.Content align="end">
       <MenuButtonItems items={items} />
-    </DropdownMenuContent>
-  </DropdownMenu>
+    </DropdownMenu.Content>
+  </DropdownMenu.Root>
 )
