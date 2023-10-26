@@ -12,12 +12,7 @@ import {
 import { IconButton } from "~/components/IconButton"
 import { ListItem } from "~/components/ListItem"
 import { Section } from "~/components/Section"
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  AvatarSkeleton,
-} from "~/components/ui/avatar"
+import { Avatar } from "~/components/ui/avatar"
 import {
   Popover,
   PopoverContent,
@@ -115,7 +110,7 @@ const UserInfo = ({ user }: { user: GithubUser | null }) => {
   if (user == null) {
     return (
       <ListItem.Root className="flex gap-2 px-2 py-1 hover:bg-transparent">
-        <AvatarSkeleton />
+        <Avatar.Skeleton />
         <ListItem.CaptionSkeleton subtitle />
       </ListItem.Root>
     )
@@ -124,12 +119,12 @@ const UserInfo = ({ user }: { user: GithubUser | null }) => {
   return (
     <ListItem.Root>
       <ListItem.Clickable href={user.html_url}>
-        <Avatar>
-          <AvatarImage src={user.avatar_url} alt="github profile avatar" />
-          <AvatarFallback>
+        <Avatar.Root>
+          <Avatar.Image src={user.avatar_url} alt="github profile avatar" />
+          <Avatar.Fallback>
             <span className="text-xs">{user.name[0] ?? "NA"}</span>
-          </AvatarFallback>
-        </Avatar>
+          </Avatar.Fallback>
+        </Avatar.Root>
         <ListItem.Caption title={user.name} subtitle={user.bio} />
       </ListItem.Clickable>
     </ListItem.Root>

@@ -4,13 +4,13 @@ import * as AvatarPrimitive from "@radix-ui/react-avatar"
 
 import { cn } from "~/lib/utils"
 
-import { Skeleton } from "./skeleton"
+import { Skeleton as SkeletonComp } from "./skeleton"
 import { ClassNameProp } from "../base/BaseProps"
 
 const avatarCircle = cn(
   "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full"
 )
-const Avatar = React.forwardRef<
+const Root = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
 >(({ className, ...props }, ref) => (
@@ -20,9 +20,9 @@ const Avatar = React.forwardRef<
     {...props}
   />
 ))
-Avatar.displayName = AvatarPrimitive.Root.displayName
+Root.displayName = AvatarPrimitive.Root.displayName
 
-const AvatarImage = React.forwardRef<
+const Image = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Image>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
 >(({ className, ...props }, ref) => (
@@ -32,9 +32,9 @@ const AvatarImage = React.forwardRef<
     {...props}
   />
 ))
-AvatarImage.displayName = AvatarPrimitive.Image.displayName
+Image.displayName = AvatarPrimitive.Image.displayName
 
-const AvatarFallback = React.forwardRef<
+const Fallback = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Fallback>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
 >(({ className, ...props }, ref) => (
@@ -47,10 +47,10 @@ const AvatarFallback = React.forwardRef<
     {...props}
   />
 ))
-AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
+Fallback.displayName = AvatarPrimitive.Fallback.displayName
 
-const AvatarSkeleton = ({ className }: ClassNameProp) => (
-  <Skeleton className={cn(avatarCircle, className)} />
+const Skeleton = ({ className }: ClassNameProp) => (
+  <SkeletonComp className={cn(avatarCircle, className)} />
 )
 
-export { Avatar, AvatarImage, AvatarFallback, AvatarSkeleton }
+export const Avatar = { Root, Image, Fallback, Skeleton }

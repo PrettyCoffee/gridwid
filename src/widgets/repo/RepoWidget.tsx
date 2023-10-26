@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from "react"
 
-import { AvatarFallback } from "@radix-ui/react-avatar"
 import {
   RefreshCw,
   GitFork,
@@ -20,7 +19,7 @@ import { MenuButton } from "~/components/MenuButton"
 import { NoData } from "~/components/NoData"
 import { Section } from "~/components/Section"
 import { Toast } from "~/components/Toast"
-import { Avatar, AvatarImage, AvatarSkeleton } from "~/components/ui/avatar"
+import { Avatar } from "~/components/ui/avatar"
 import { Badge, BadgeSkeleton, IconBadge } from "~/components/ui/badge"
 import { Button } from "~/components/ui/button"
 import { Skeleton } from "~/components/ui/skeleton"
@@ -55,7 +54,7 @@ const useGithubRepo = (owner: string, name: string) => {
 
 const RepoAvatarSkeleton = () => (
   <ListItem.Root className="flex gap-2 py-2 hover:bg-transparent">
-    <AvatarSkeleton className="h-6 w-6" />
+    <Avatar.Skeleton className="h-6 w-6" />
     <ListItem.CaptionSkeleton />
   </ListItem.Root>
 )
@@ -138,10 +137,10 @@ const Topics = ({ topics }: GithubRepository) =>
 const Owner = ({ html_url, avatar_url, login }: GithubRepository["owner"]) => (
   <ListItem.Root className="-mx-2">
     <ListItem.Clickable href={html_url}>
-      <Avatar className="h-6 w-6">
-        <AvatarImage src={avatar_url} />
-        <AvatarFallback>{login[0]}</AvatarFallback>
-      </Avatar>
+      <Avatar.Root className="h-6 w-6">
+        <Avatar.Image src={avatar_url} />
+        <Avatar.Fallback>{login[0]}</Avatar.Fallback>
+      </Avatar.Root>
       <ListItem.Caption title={login} />
     </ListItem.Clickable>
   </ListItem.Root>
