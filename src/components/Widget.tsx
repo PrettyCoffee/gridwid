@@ -9,14 +9,14 @@ import { ClassNameProp } from "./base/BaseProps"
 import { Card } from "./ui/card"
 
 const Root = ({ children, className }: PropsWithChildren<ClassNameProp>) => (
-  <Card
+  <Card.Root
     className={cn(
       "relative w-full h-full max-h-full flex flex-col overflow-y-auto overflow-x-hidden",
       className
     )}
   >
     {children}
-  </Card>
+  </Card.Root>
 )
 
 interface WidgetHeaderProps extends ClassNameProp {

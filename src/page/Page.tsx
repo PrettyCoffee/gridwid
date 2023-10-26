@@ -97,9 +97,9 @@ const Notifications = () => {
         {toasts.map(toast => (
           <RenderedToast key={toast.id} {...toast} />
         ))}
-        <Card className="p-2 shadow-md">
+        <Card.Root className="p-2 shadow-md">
           <Calendar />
-        </Card>
+        </Card.Root>
       </Popover.Content>
     </Popover.Root>
   )

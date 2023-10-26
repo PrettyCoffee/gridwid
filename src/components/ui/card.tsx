@@ -2,7 +2,7 @@ import * as React from "react"
 
 import { cn } from "~/lib/utils"
 
-const Card = React.forwardRef<
+const Root = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -15,9 +15,9 @@ const Card = React.forwardRef<
     {...props}
   />
 ))
-Card.displayName = "Card"
+Root.displayName = "Card"
 
-const CardHeader = React.forwardRef<
+const Header = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -27,9 +27,9 @@ const CardHeader = React.forwardRef<
     {...props}
   />
 ))
-CardHeader.displayName = "CardHeader"
+Header.displayName = "CardHeader"
 
-const CardTitle = React.forwardRef<
+const Title = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, children, ...props }, ref) => (
@@ -44,9 +44,9 @@ const CardTitle = React.forwardRef<
     {children}
   </h3>
 ))
-CardTitle.displayName = "CardTitle"
+Title.displayName = "CardTitle"
 
-const CardDescription = React.forwardRef<
+const Description = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
@@ -56,17 +56,17 @@ const CardDescription = React.forwardRef<
     {...props}
   />
 ))
-CardDescription.displayName = "CardDescription"
+Description.displayName = "CardDescription"
 
-const CardContent = React.forwardRef<
+const Content = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
 ))
-CardContent.displayName = "CardContent"
+Content.displayName = "CardContent"
 
-const CardFooter = React.forwardRef<
+const Footer = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -76,6 +76,6 @@ const CardFooter = React.forwardRef<
     {...props}
   />
 ))
-CardFooter.displayName = "CardFooter"
+Footer.displayName = "CardFooter"
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+export const Card = { Root, Header, Footer, Title, Description, Content }
