@@ -16,13 +16,7 @@ import { HStack, VStack } from "~/components/base/Stack"
 import { Icon } from "~/components/Icon"
 import { ListItem } from "~/components/ListItem"
 import { Button } from "~/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog"
+import { Dialog } from "~/components/ui/dialog"
 import { Input, InputLabel } from "~/components/ui/input"
 
 import {
@@ -277,21 +271,21 @@ export const LinkTreeEditor = ({ id, ...dialogProps }: LinkTreeEditorProps) => {
   useSetDemoData(id)
 
   return (
-    <Dialog {...dialogProps}>
-      <DialogContent
+    <Dialog.Root {...dialogProps}>
+      <Dialog.Content
         size="md"
         className="flex flex-col h-[calc(theme(height.60)*2)]"
       >
-        <DialogHeader>
-          <DialogTitle>Link editor</DialogTitle>
-          <DialogDescription>
+        <Dialog.Header>
+          <Dialog.Title>Link editor</Dialog.Title>
+          <Dialog.Description>
             Hover on bookmarks or groups to see their actions.
-          </DialogDescription>
-        </DialogHeader>
+          </Dialog.Description>
+        </Dialog.Header>
 
         <div className="pb-2" />
         <TreeEditor id={id} data={data} />
-      </DialogContent>
-    </Dialog>
+      </Dialog.Content>
+    </Dialog.Root>
   )
 }

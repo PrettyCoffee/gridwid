@@ -14,12 +14,7 @@ import {
 import localChangelog from "~/changelog.json"
 import { Text } from "~/components/Text"
 import { Toast } from "~/components/Toast"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog"
+import { Dialog } from "~/components/ui/dialog"
 import { tomorrow } from "~/lib/datetime"
 import { isProdEnv } from "~/lib/isDevEnv"
 
@@ -190,16 +185,16 @@ export const Changelog = () => {
   return (
     <>
       <VersionToast />
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent size="lg" className="h-full">
-          <DialogHeader>
-            <DialogTitle>Changelog</DialogTitle>
-          </DialogHeader>
+      <Dialog.Root open={open} onOpenChange={setOpen}>
+        <Dialog.Content size="lg" className="h-full">
+          <Dialog.Header>
+            <Dialog.Title>Changelog</Dialog.Title>
+          </Dialog.Header>
           {changelog.map(change => (
             <ChangeList key={change.version} {...change} />
           ))}
-        </DialogContent>
-      </Dialog>
+        </Dialog.Content>
+      </Dialog.Root>
     </>
   )
 }
