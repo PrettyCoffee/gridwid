@@ -5,7 +5,7 @@ import * as SliderPrimitive from "@radix-ui/react-slider"
 import { focusRing } from "~/lib/styles"
 import { cn } from "~/lib/utils"
 
-const SliderRoot = React.forwardRef<
+const Root = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
 >(({ className, ...props }, ref) => (
@@ -18,9 +18,9 @@ const SliderRoot = React.forwardRef<
     {...props}
   />
 ))
-SliderRoot.displayName = SliderPrimitive.Root.displayName
+Root.displayName = SliderPrimitive.Root.displayName
 
-const SliderTrack = React.forwardRef<
+const Track = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Track>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Track>
 >(({ className, ...props }, ref) => (
@@ -33,9 +33,9 @@ const SliderTrack = React.forwardRef<
     {...props}
   />
 ))
-SliderTrack.displayName = SliderPrimitive.Track.displayName
+Track.displayName = SliderPrimitive.Track.displayName
 
-const SliderRange = React.forwardRef<
+const Range = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Range>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Range>
 >(({ className, ...props }, ref) => (
@@ -45,9 +45,9 @@ const SliderRange = React.forwardRef<
     {...props}
   />
 ))
-SliderRange.displayName = SliderPrimitive.Range.displayName
+Range.displayName = SliderPrimitive.Range.displayName
 
-const SliderThumb = React.forwardRef<
+const Thumb = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Thumb>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Thumb>
 >(({ className, ...props }, ref) => (
@@ -62,19 +62,25 @@ const SliderThumb = React.forwardRef<
     {...props}
   />
 ))
-SliderThumb.displayName = SliderPrimitive.Thumb.displayName
+Thumb.displayName = SliderPrimitive.Thumb.displayName
 
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
 >(({ className, ...props }, ref) => (
-  <SliderRoot ref={ref} className={className} {...props}>
-    <SliderTrack className="bg-muted">
-      <SliderRange className="bg-accent" />
-    </SliderTrack>
-    <SliderThumb className="border-accent bg-button" />
-  </SliderRoot>
+  <Root ref={ref} className={className} {...props}>
+    <Track className="bg-muted">
+      <Range className="bg-accent" />
+    </Track>
+    <Thumb className="border-accent bg-button" />
+  </Root>
 ))
 Slider.displayName = SliderPrimitive.Root.displayName
 
-export { Slider, SliderRoot, SliderTrack, SliderRange, SliderThumb }
+const SliderFragments = {
+  Root,
+  Track,
+  Range,
+  Thumb,
+}
+export { Slider, SliderFragments }

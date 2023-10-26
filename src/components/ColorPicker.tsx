@@ -10,7 +10,7 @@ import { HStack, VStack } from "./base/Stack"
 import { IconButton } from "./IconButton"
 import { Input, InputLabel } from "./ui/input"
 import { Popover } from "./ui/popover"
-import { SliderRange, SliderRoot, SliderThumb, SliderTrack } from "./ui/slider"
+import { SliderFragments } from "./ui/slider"
 
 const ColorSwatch = ({
   color,
@@ -71,7 +71,7 @@ const ColorSlider = ({ value, onChange, attribute }: ColorSliderProps) => {
   )
 
   return (
-    <SliderRoot
+    <SliderFragments.Root
       min={0}
       max={maxValue[attribute]}
       value={[color[attribute]]}
@@ -79,15 +79,15 @@ const ColorSlider = ({ value, onChange, attribute }: ColorSliderProps) => {
         value && onChange(toColorString({ ...color, [attribute]: value }))
       }
     >
-      <SliderTrack style={{ background: gradient }}>
-        <SliderRange />
-      </SliderTrack>
-      <SliderThumb
+      <SliderFragments.Track style={{ background: gradient }}>
+        <SliderFragments.Range />
+      </SliderFragments.Track>
+      <SliderFragments.Thumb
         className="bg-input border-foreground"
         aria-label={attribute}
         style={{ background: `hsl(${toColorString(color)})` }}
       />
-    </SliderRoot>
+    </SliderFragments.Root>
   )
 }
 
