@@ -1,15 +1,15 @@
 import { useApplyThemeMode } from "./components/ThemeToggle"
-import { TooltipProvider } from "./components/ui/tooltip"
+import { Tooltip } from "./components/ui/tooltip"
 import { Changelog } from "./page/Changelog"
 import { Page } from "./page/Page"
 
 const App = () => {
   useApplyThemeMode()
   return (
-    <TooltipProvider>
+    <Tooltip.Provider>
       <Page />
       <Changelog />
-    </TooltipProvider>
+    </Tooltip.Provider>
   )
 }
 

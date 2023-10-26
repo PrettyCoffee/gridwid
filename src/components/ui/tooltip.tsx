@@ -6,15 +6,15 @@ import { cn } from "~/lib/utils"
 
 import { AsChildProp, TitleProp } from "../base/BaseProps"
 
-const TooltipProvider = TooltipPrimitive.Provider
+const Provider = TooltipPrimitive.Provider
 
-const TooltipPortal = TooltipPrimitive.Portal
+const Portal = TooltipPrimitive.Portal
 
-const Tooltip = TooltipPrimitive.Root
+const Root = TooltipPrimitive.Root
 
-const TooltipTrigger = TooltipPrimitive.Trigger
+const Trigger = TooltipPrimitive.Trigger
 
-const TooltipContent = React.forwardRef<
+const Content = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
 >(({ className, sideOffset = 4, ...props }, ref) => (
@@ -28,7 +28,7 @@ const TooltipContent = React.forwardRef<
     {...props}
   />
 ))
-TooltipContent.displayName = TooltipPrimitive.Content.displayName
+Content.displayName = TooltipPrimitive.Content.displayName
 
 export interface TitleTooltipProps extends TitleProp, AsChildProp {
   side?: TooltipPrimitive.TooltipContentProps["side"]
@@ -42,19 +42,19 @@ const TitleTooltip = ({
   !title ? (
     children
   ) : (
-    <Tooltip>
-      <TooltipTrigger asChild={asChild}>{children}</TooltipTrigger>
-      <TooltipPortal>
-        <TooltipContent side={side}>{title}</TooltipContent>
-      </TooltipPortal>
-    </Tooltip>
+    <Root>
+      <Trigger asChild={asChild}>{children}</Trigger>
+      <Portal>
+        <Content side={side}>{title}</Content>
+      </Portal>
+    </Root>
   )
 
-export {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipPortal,
-  TooltipProvider,
-  TitleTooltip,
+const Tooltip = {
+  Root,
+  Trigger,
+  Content,
+  Portal,
+  Provider,
 }
+export { Tooltip, TitleTooltip }
