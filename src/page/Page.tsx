@@ -110,14 +110,16 @@ const ScrollArea = ({ children }: PropsWithChildren) => (
 )
 
 const WidgetList = ({ list }: { list: WidgetConfigList }) =>
-  (list as unknown as WidgetConfig[]).map(({ size, props, widget }) => {
-    const Component = widgets[widget].component as FC<typeof props>
-    return (
-      <Grid.Item key={props.id} {...size}>
-        <Component {...props} />
-      </Grid.Item>
-    )
-  })
+  (list as unknown as WidgetConfig[]).map(
+    ({ size, position, props, widget }) => {
+      const Component = widgets[widget].component as FC<typeof props>
+      return (
+        <Grid.Item key={props.id} position={position} {...size}>
+          <Component {...props} />
+        </Grid.Item>
+      )
+    }
+  )
 
 export const Page = () => (
   <div className="flex flex-col h-full">

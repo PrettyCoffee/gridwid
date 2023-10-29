@@ -13,6 +13,7 @@ export interface WidgetConfig<
   Widget extends WidgetId = WidgetId
 > {
   size: { columns: number; rows: number }
+  position?: { x: number; y: number }
   widget: Widget
   props: Props
 }

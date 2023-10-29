@@ -7,6 +7,7 @@ import { ClassNameProp } from "./base/BaseProps"
 export interface GridSize {
   columns?: number
   rows?: number
+  position?: { x: number; y: number }
 }
 
 export interface GridItemProps extends ClassNameProp, GridSize {}
@@ -16,11 +17,18 @@ const Item = ({
   className,
   columns = 2,
   rows = 2,
+  position,
 }: PropsWithChildren<GridItemProps>) => (
   <div
     style={{
       gridRow: `span ${rows}`,
       gridColumn: `span ${columns}`,
+      ...(position && {
+        gridRowStart: position.y,
+        gridColumnStart: position.x,
+        gridRowEnd: position.y + rows,
+        gridColumnEnd: position.x + columns,
+      }),
     }}
     className={cn(className, "p-1")}
   >
