@@ -11,6 +11,7 @@ import {
   History,
   LucideIcon,
   PanelBottom,
+  Palette,
   Settings,
 } from "lucide-react"
 
@@ -25,6 +26,7 @@ import { Separator } from "~/components/ui/separator"
 import { showChangelogModal } from "./Changelog"
 import { GithubOverview, githubProfile, githubUserRepos } from "./Github"
 import { IframePopup } from "./IframePopup"
+import { Settings as SettingsViews, settingsView } from "./settings/Settings"
 
 interface MenuItemProps {
   icon: LucideIcon
@@ -42,10 +44,30 @@ const MenuItem = ({ icon, title, onClick, disabled }: MenuItemProps) => (
 
 const SettingsList = () => (
   <>
-    <MenuItem icon={Settings} title="General" disabled />
-    <MenuItem icon={UserCircle2} title="About me" disabled />
-    <MenuItem icon={LayoutDashboard} title="Widget layout" disabled />
-    <MenuItem icon={PanelBottom} title="Taskbar" disabled />
+    <SettingsViews />
+    <MenuItem
+      disabled
+      icon={Settings}
+      title="General"
+      onClick={() => settingsView.set("general")}
+    />
+    <MenuItem
+      disabled
+      icon={LayoutDashboard}
+      title="Widget layout"
+      onClick={() => settingsView.set("widget-layout")}
+    />
+    <MenuItem
+      disabled
+      icon={PanelBottom}
+      title="Taskbar"
+      onClick={() => settingsView.set("taskbar")}
+    />
+    <MenuItem
+      icon={Palette}
+      title="Theming"
+      onClick={() => settingsView.set("theme")}
+    />
   </>
 )
 
