@@ -14,10 +14,11 @@ import {
 
 import { HStack, VStack } from "~/components/base/Stack"
 import { Icon } from "~/components/Icon"
+import { InputLabel } from "~/components/InputLabel"
 import { ListItem } from "~/components/ListItem"
 import { Button } from "~/components/ui/button"
 import { Dialog } from "~/components/ui/dialog"
-import { Input, InputLabel } from "~/components/ui/input"
+import { Input } from "~/components/ui/input"
 
 import {
   TreeGroup,
