@@ -67,12 +67,12 @@ Thumb.displayName = SliderPrimitive.Thumb.displayName
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
->(({ className, ...props }, ref) => (
+>(({ className, id, ...props }, ref) => (
   <Root ref={ref} className={className} {...props}>
     <Track className="bg-muted">
       <Range className="bg-accent" />
     </Track>
-    <Thumb className="border-accent bg-button" />
+    <Thumb id={id} className="border-accent bg-button" />
   </Root>
 ))
 Slider.displayName = SliderPrimitive.Root.displayName

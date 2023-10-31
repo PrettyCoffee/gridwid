@@ -1,4 +1,4 @@
-import { Dispatch, useMemo } from "react"
+import { Dispatch, useId, useMemo } from "react"
 
 import { Palette } from "lucide-react"
 
@@ -58,12 +58,13 @@ const createGradient = (color: HslColor, attribute: keyof HslColor) => {
 }
 
 interface ColorSliderProps {
+  id: string
   value: string
   onChange: Dispatch<string>
   attribute: keyof HslColor
 }
 
-const ColorSlider = ({ value, onChange, attribute }: ColorSliderProps) => {
+const ColorSlider = ({ id, value, onChange, attribute }: ColorSliderProps) => {
   const color = useMemo(() => splitColor(value), [value])
   const gradient = useMemo(
     () => createGradient(color, attribute),
@@ -83,26 +84,39 @@ const ColorSlider = ({ value, onChange, attribute }: ColorSliderProps) => {
         <SliderFragments.Range />
       </SliderFragments.Track>
       <SliderFragments.Thumb
-        className="bg-input border-foreground"
+        id={id}
         aria-label={attribute}
         style={{ background: `hsl(${toColorString(color)})` }}
+        className="bg-input border-foreground"
       />
     </SliderFragments.Root>
   )
 }
 
 interface ColorPickerProps {
+  id?: string
   value: string
   onChange: Dispatch<string>
 }
 
-export const ColorPicker = ({ value, onChange }: ColorPickerProps) => {
+export const ColorPicker = ({
+  id: externalId,
+  value,
+  onChange,
+}: ColorPickerProps) => {
+  const internalId = useId()
+  const id = externalId ?? internalId
+
+  const getId = (attribute?: string) =>
+    attribute ? `color-picker-${attribute}-${id}` : `color-picker-${id}`
+
   return (
     <Popover.Root>
       <HStack asChild items="center" className="relative">
         <Popover.Anchor>
           <ColorSwatch color={value} className="absolute left-3" />
           <Input
+            id={getId()}
             value={value}
             onChange={({ target }) => onChange(target.value)}
             className="pl-10 pr-12"
@@ -120,8 +134,13 @@ export const ColorPicker = ({ value, onChange }: ColorPickerProps) => {
         <VStack gap="2">
           {["hue", "saturation", "lightness"].map(attribute => (
             <HStack key={attribute} items="center">
-              <InputLabel label={attribute} className="w-full">
+              <InputLabel
+                htmlFor={getId(attribute)}
+                label={attribute}
+                className="w-full"
+              >
                 <ColorSlider
+                  id={getId(attribute)}
                   value={value}
                   onChange={onChange}
                   attribute={attribute as keyof HslColor}

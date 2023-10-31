@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, useState } from "react"
+import { Dispatch, useEffect, useId, useState } from "react"
 
 import { DialogProps } from "@radix-ui/react-dialog"
 import {
@@ -79,14 +79,17 @@ const ItemEditor = ({ item, onSave, onCancel }: ItemEditorProps) => {
   const [localItem, setLocalItem] = useState(item)
   const label = localItem.label
   const href = isGroup(localItem) ? null : localItem.href
+  const id = useId()
 
   return (
     <>
       <VStack gap="2" className="py-2">
         <InputLabel
+          htmlFor={`label-${id}`}
           label={isGroup(localItem) ? "Group label" : "Bookmark label"}
         >
           <Input
+            id={`label-${id}`}
             placeholder={
               isGroup(localItem) ? "e.g. reddit" : " e.g. r/startpages (rip)"
             }
@@ -97,8 +100,9 @@ const ItemEditor = ({ item, onSave, onCancel }: ItemEditorProps) => {
           />
         </InputLabel>
         {href != null && (
-          <InputLabel label="Bookmark link">
+          <InputLabel htmlFor={`link-${id}`} label="Bookmark link">
             <Input
+              id={`link-${id}`}
               placeholder="e.g. https://www.reddit.com/r/startpages/"
               value={href}
               onChange={({ target }) =>

@@ -30,20 +30,22 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 Input.displayName = "Input"
 
 interface InputLabelProps extends ClassNameProp {
+  htmlFor: string
   label: string
 }
 const InputLabel = ({
+  htmlFor,
   label,
   children,
   className,
 }: PropsWithChildren<InputLabelProps>) => (
-  <VStack asChild gap="2">
-    <label className={className}>
-      <Text color="muted" noOverflow style="small">
+  <VStack gap="2" className={className}>
+    <Text color="muted" style="small" asChild>
+      <label htmlFor={htmlFor} className="w-max">
         {label}
-      </Text>
-      {children}
-    </label>
+      </label>
+    </Text>
+    {children}
   </VStack>
 )
 
