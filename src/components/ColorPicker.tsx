@@ -108,8 +108,7 @@ export const ColorPicker = ({
   const internalId = useId()
   const id = externalId ?? internalId
 
-  const getId = (attribute?: string) =>
-    attribute ? `color-picker-${attribute}-${id}` : `color-picker-${id}`
+  const getId = (attribute: string) => `color-picker-${attribute}-${id}`
 
   return (
     <Popover.Root>
@@ -117,10 +116,10 @@ export const ColorPicker = ({
         <Popover.Anchor>
           <ColorSwatch color={value} className="absolute left-3" />
           <Input
-            id={getId()}
+            id={id}
             value={value}
             onChange={({ target }) => onChange(target.value)}
-            className="pl-10 pr-12"
+            className="pl-10 pr-11"
           />
           <Popover.Trigger asChild>
             <IconButton
