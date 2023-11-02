@@ -4,11 +4,13 @@ import { settingsView } from "./Settings"
 
 export const GeneralSettings = ({ open }: { open: boolean }) => {
   return (
-    <Dialog.Root open={open} onOpenChange={() => settingsView.set(null)}>
-      <Dialog.Content>
-        <Dialog.Title>General Settings</Dialog.Title>
-        <Dialog.Description>???</Dialog.Description>
-      </Dialog.Content>
-    </Dialog.Root>
+    <Dialog
+      open={open}
+      onOpenChange={() => settingsView.set(null)}
+      title="General Settings"
+      description="???"
+    >
+      TBD
+    </Dialog>
   )
 }

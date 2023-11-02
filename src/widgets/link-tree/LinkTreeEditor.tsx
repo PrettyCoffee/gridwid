@@ -1,6 +1,5 @@
 import { Dispatch, useEffect, useId, useState } from "react"
 
-import { DialogProps } from "@radix-ui/react-dialog"
 import {
   Bookmark,
   BookmarkPlus,
@@ -17,7 +16,7 @@ import { Icon } from "~/components/Icon"
 import { InputLabel } from "~/components/InputLabel"
 import { ListItem } from "~/components/ListItem"
 import { Button } from "~/components/ui/button"
-import { Dialog } from "~/components/ui/dialog"
+import { DialogProps, Dialog } from "~/components/ui/dialog"
 import { Input } from "~/components/ui/input"
 
 import {
@@ -276,21 +275,15 @@ export const LinkTreeEditor = ({ id, ...dialogProps }: LinkTreeEditorProps) => {
   useSetDemoData(id)
 
   return (
-    <Dialog.Root {...dialogProps}>
-      <Dialog.Content
-        size="md"
-        className="flex flex-col h-[calc(theme(height.60)*2)]"
-      >
-        <Dialog.Header>
-          <Dialog.Title>Link editor</Dialog.Title>
-          <Dialog.Description>
-            Hover on bookmarks or groups to see their actions.
-          </Dialog.Description>
-        </Dialog.Header>
-
-        <div className="pb-2" />
-        <TreeEditor id={id} data={data} />
-      </Dialog.Content>
-    </Dialog.Root>
+    <Dialog
+      {...dialogProps}
+      title="Link editor"
+      description="Hover on bookmarks or groups to see their actions."
+      size="md"
+      className="flex flex-col h-[calc(theme(height.60)*2)]"
+    >
+      <div className="pb-2" />
+      <TreeEditor id={id} data={data} />
+    </Dialog>
   )
 }

@@ -6,7 +6,6 @@ import { X } from "lucide-react"
 
 import { cn } from "~/lib/utils"
 
-import { ClassNameProp } from "../base/BaseProps"
 import { IconButton } from "../IconButton"
 
 const Root = DialogPrimitive.Root
@@ -33,7 +32,7 @@ Overlay.displayName = DialogPrimitive.Overlay.displayName
 const dialogContent = cva(
   cn(
     "fixed overflow-y-auto z-50 border bg-background shadow-lg",
-    "inset-2 p-6 m-auto w-auto h-max max-h-[calc(100vh-theme(height.4))]",
+    "inset-2 px-6 pb-6 m-auto w-auto h-max max-h-[calc(100vh-theme(height.4))]",
     "sm:inset-8 sm:max-h-[calc(100vh-theme(height.16))] sm:rounded-lg",
     "duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-50 data-[state=open]:zoom-in-50 data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom"
   ),
@@ -69,12 +68,6 @@ const Content = React.forwardRef<
       {...props}
     >
       {children}
-      <DialogPrimitive.Close
-        asChild
-        className="absolute right-1 top-1 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-      >
-        <IconButton icon={X} title="Close" hideTitle />
-      </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </Portal>
 ))
@@ -86,11 +79,19 @@ const Header = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "flex flex-col space-y-1.5 text-center sm:text-left",
+      "flex flex-col p-6 pb-4 -mx-6 text-center sm:text-left sticky top-0 z-10 bg-background",
       className
     )}
     {...props}
-  />
+  >
+    {props.children}
+    <DialogPrimitive.Close
+      asChild
+      className="absolute right-1 top-1 z-20 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+    >
+      <IconButton icon={X} title="Close" hideTitle />
+    </DialogPrimitive.Close>
+  </div>
 )
 Header.displayName = "DialogHeader"
 
@@ -115,7 +116,7 @@ const Title = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      "text-lg font-semibold leading-none tracking-tight",
+      "text-lg font-semibold leading-none tracking-tight mb-2",
       className
     )}
     {...props}
@@ -129,13 +130,13 @@ const Description = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn("text-sm text-muted-foreground my-2", className)}
     {...props}
   />
 ))
 Description.displayName = DialogPrimitive.Description.displayName
 
-export const DialogFragments = {
+export const Dialog = {
   Root,
   Trigger,
   Content,
@@ -145,33 +146,26 @@ export const DialogFragments = {
   Description,
 }
 
-export interface DialogProps
-  extends Pick<DialogContentProps, "size">,
-    ClassNameProp {
+interface DialogProps extends Pick<DialogContentProps, "size"> {
   open: boolean
   onOpenChange: (open: boolean) => void
   title: string
   description?: string
 }
-export const Dialog = ({
+export const DialogRecipe = ({
   open,
   onOpenChange,
   title,
   description,
   children,
-  ...contentProps
 }: React.PropsWithChildren<DialogProps>) => (
-  <DialogFragments.Root open={open} onOpenChange={onOpenChange}>
-    <DialogFragments.Content {...contentProps}>
-      <DialogFragments.Header>
-        <DialogFragments.Title>{title}</DialogFragments.Title>
-        {description && (
-          <DialogFragments.Description>
-            {description}
-          </DialogFragments.Description>
-        )}
-      </DialogFragments.Header>
+  <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <Dialog.Content>
+      <Dialog.Header>
+        <Dialog.Title>{title}</Dialog.Title>
+        {description && <Dialog.Description>{description}</Dialog.Description>}
+      </Dialog.Header>
       {children}
-    </DialogFragments.Content>
-  </DialogFragments.Root>
+    </Dialog.Content>
+  </Dialog.Root>
 )

@@ -185,16 +185,17 @@ export const Changelog = () => {
   return (
     <>
       <VersionToast />
-      <Dialog.Root open={open} onOpenChange={setOpen}>
-        <Dialog.Content size="lg" className="h-full">
-          <Dialog.Header>
-            <Dialog.Title>Changelog</Dialog.Title>
-          </Dialog.Header>
-          {changelog.map(change => (
-            <ChangeList key={change.version} {...change} />
-          ))}
-        </Dialog.Content>
-      </Dialog.Root>
+      <Dialog
+        open={open}
+        onOpenChange={setOpen}
+        title="Changelog"
+        size="lg"
+        className="h-full"
+      >
+        {changelog.map(change => (
+          <ChangeList key={change.version} {...change} />
+        ))}
+      </Dialog>
     </>
   )
 }
