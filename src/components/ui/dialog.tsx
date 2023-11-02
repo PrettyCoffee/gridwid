@@ -32,8 +32,8 @@ Overlay.displayName = DialogPrimitive.Overlay.displayName
 
 const dialogContent = cva(
   cn(
-    "fixed overflow-y-auto z-50 border bg-background shadow-lg",
-    "inset-2 p-6 m-auto w-auto h-max max-h-[calc(100vh-theme(height.4))]",
+    "fixed flex flex-col overflow-y-auto z-50 border bg-background shadow-lg",
+    "inset-2 m-auto w-auto h-max max-h-[calc(100vh-theme(height.4))]",
     "sm:inset-8 sm:max-h-[calc(100vh-theme(height.16))] sm:rounded-lg",
     "duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-50 data-[state=open]:zoom-in-50 data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom"
   ),
@@ -86,7 +86,7 @@ const Header = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "flex flex-col space-y-1.5 text-center sm:text-left",
+      "flex flex-col space-y-1.5 p-6 pb-4 text-center sm:text-left",
       className
     )}
     {...props}
@@ -171,7 +171,7 @@ export const Dialog = ({
           </DialogFragments.Description>
         )}
       </DialogFragments.Header>
-      {children}
+      <div className="flex-1 px-6 pb-6 overflow-auto">{children}</div>
     </DialogFragments.Content>
   </DialogFragments.Root>
 )
