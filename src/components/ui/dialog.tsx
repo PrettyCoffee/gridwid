@@ -44,6 +44,7 @@ const dialogContent = cva(
         md: "max-w-[calc(theme(width.20)*5)]",
         lg: "max-w-[calc(theme(width.20)*8)]",
         full: "max-w-full h-full",
+        fluid: "max-w-max h-max",
       },
     },
     defaultVariants: {

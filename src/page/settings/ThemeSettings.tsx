@@ -176,7 +176,7 @@ export const ThemeSettings = ({ open }: { open: boolean }) => (
     onOpenChange={() => settingsView.set(null)}
     title="Theme Settings"
     description="Adapt gridwid to your style."
-    size="full"
+    size="fluid"
   >
     <HStack gap="8" justify="center">
       <div className="lg:min-w-[calc(theme(width.20)*7)] lg:max-w-xl w-full">
