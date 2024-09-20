@@ -1,3 +1,6 @@
+import { EllipsisVertical } from "lucide-react"
+
+import { Divider } from "components/ui/divider"
 import { IconButton } from "components/ui/icon-button/icon-button"
 import { showToast } from "components/ui/toaster"
 import { HashRouter, useHashRouter } from "components/utility/hash-router"
@@ -11,7 +14,9 @@ const MainNavigation = () => {
   const { allRoutes = [], route: currentRoute } = useHashRouter()
   const mainRoutes = allRoutes.filter(({ meta }) => meta?.isMainRoute)
   return (
-    <div className={cn(hstack({ gap: 1 }))}>
+    <div className={cn(hstack({ gap: 1, align: "center" }))}>
+      <IconButton icon={EllipsisVertical} title={"Settings"} />
+      <Divider orientation="vertical" color="gentle" className="h-4" />
       {mainRoutes.map(({ path, meta }) => (
         <HashRouter.Link key={path} to={path}>
           {meta?.icon ? (
