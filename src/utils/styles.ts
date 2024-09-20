@@ -96,3 +96,17 @@ export const vstack = (props?: StackProps) =>
 
 export const hstack = (props?: StackProps) =>
   stack({ direction: "row", ...props })
+
+export const surface = cva("border", {
+  variants: {
+    look: {
+      card: "bg-background/50 border-background shade-low rounded-lg",
+      overlay:
+        "text-text border-text-gentle/25 bgl-base-b/75 shade-low backdrop-blur-md",
+    },
+    size: {
+      md: "rounded-md p-2",
+      lg: "rounded-lg p-4",
+    },
+  },
+})

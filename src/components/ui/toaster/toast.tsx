@@ -12,7 +12,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { Icon } from "components/ui/icon"
 import { AlertKind } from "types/base-props"
 import { cn } from "utils/cn"
-import { hstack } from "utils/styles"
+import { hstack, surface } from "utils/styles"
 
 import { ToastProps } from "./toaster-data"
 import { IconButton } from "../icon-button/icon-button"
@@ -121,7 +121,8 @@ export const Toast = ({
       onTransitionEnd={handleTransitionEnd}
       className={cn(
         hstack(),
-        "text-text shade-low bgl-base-b/75 relative my-1 w-72 overflow-hidden rounded-md border-2 p-1 backdrop-blur-md",
+        surface({ look: "overlay", size: "md" }),
+        "relative my-1 w-72 overflow-hidden border-2 p-1",
         border[kind],
         transition.className
       )}
