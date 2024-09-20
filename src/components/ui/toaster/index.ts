@@ -1,2 +1,2 @@
 export { Toaster } from "./toaster"
-export { showToast } from "./toaster-data"
+export * from "./toaster-data"

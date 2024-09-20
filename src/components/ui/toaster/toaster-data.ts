@@ -9,7 +9,7 @@ const defaultDurations: Record<AlertKind, number> = {
   error: 0,
 }
 
-interface ToastProps {
+export interface ToastProps {
   id: string
   kind: AlertKind
   title: string
@@ -23,6 +23,7 @@ export const toastList = createSlice({
   reducers: {
     add: (state, toast: ToastProps) => [toast, ...state],
     close: (state, id: string) => state.filter(toast => toast.id !== id),
+    clear: () => [],
   },
 })
 

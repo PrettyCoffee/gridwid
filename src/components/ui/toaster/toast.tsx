@@ -14,6 +14,7 @@ import { AlertKind } from "types/base-props"
 import { cn } from "utils/cn"
 import { hstack } from "utils/styles"
 
+import { ToastProps } from "./toaster-data"
 import { IconButton } from "../icon-button/icon-button"
 
 const icon: Record<AlertKind, LucideIcon> = {
@@ -37,12 +38,7 @@ const barColor: Record<AlertKind, string> = {
   info: "bg-alert-info",
 }
 
-interface ToastProps {
-  id: string
-  kind: AlertKind
-  title: string
-  message?: string
-  duration?: number
+interface ExtendedToastProps extends ToastProps {
   onClose: (id: string) => void
 }
 
@@ -91,7 +87,7 @@ export const Toast = ({
   message,
   duration,
   onClose,
-}: ToastProps) => {
+}: ExtendedToastProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const timeout = useRef<Timer | undefined>(undefined)
   const [transitionState, setTransitionState] = useState(TRANSITION.IDLE)
