@@ -1,4 +1,11 @@
-import { Home, ListCheck, Notebook, Book, Cog, Wrench } from "lucide-react"
+import {
+  Bookmark,
+  Cog,
+  Shapes,
+  LayoutGrid,
+  CheckCheck,
+  FileText,
+} from "lucide-react"
 import { lazy } from "react"
 
 import { AppLayout, SettingsLayout, ToolsLayout } from "components/layouts"
@@ -11,12 +18,12 @@ const LazyPlaceholder = lazy(() => import("./routes/placeholder"))
 const routes = createRoutes([
   {
     path: "",
-    meta: { title: "Home", icon: Home, isMainRoute: true },
+    meta: { title: "Overview", icon: LayoutGrid, isMainRoute: true },
     Component: lazy(() => import("./routes/main")),
   },
   {
     path: "todos",
-    meta: { title: "Todos", icon: ListCheck, isMainRoute: true },
+    meta: { title: "Todos", icon: CheckCheck, isMainRoute: true },
     Component: LazyPlaceholder,
     subroutes: [
       {
@@ -27,7 +34,7 @@ const routes = createRoutes([
   },
   {
     path: "notes",
-    meta: { title: "Notes", icon: Notebook, isMainRoute: true },
+    meta: { title: "Notes", icon: FileText, isMainRoute: true },
     Component: lazy(() => import("./routes/notes/notes-main")),
     subroutes: [
       {
@@ -38,12 +45,12 @@ const routes = createRoutes([
   },
   {
     path: "bookmarks",
-    meta: { title: "Bookmarks", icon: Book, isMainRoute: true },
+    meta: { title: "Bookmarks", icon: Bookmark, isMainRoute: true },
     Component: LazyPlaceholder,
   },
   {
     path: "tools",
-    meta: { title: "Tools", icon: Wrench, isMainRoute: true },
+    meta: { title: "Tools", icon: Shapes, isMainRoute: true },
     Layout: ToolsLayout,
     Component: LazyPlaceholder,
     subroutes: [
