@@ -8,9 +8,10 @@ import {
 } from "lucide-react"
 import { lazy } from "react"
 
-import { AppLayout, SettingsLayout, ToolsLayout } from "components/layouts"
+import { SettingsLayout, ToolsLayout } from "components/layouts"
 import { createRoutes, HashRouter } from "components/utility/hash-router"
 
+import { AppLayout } from "./layout"
 import { NotFoundRoute } from "./routes/not-found"
 
 const LazyPlaceholder = lazy(() => import("./routes/placeholder"))

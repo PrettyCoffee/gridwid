@@ -3,10 +3,9 @@ import { PropsWithChildren, Suspense } from "react"
 import { MainErrorFallback } from "components/errors/main"
 import { Spinner } from "components/ui/spinner"
 import { ErrorBoundary } from "components/utility/error-boundary"
+import { Taskbar } from "features/taskbar"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
-
-import { Taskbar } from "./taskbar"
 
 export const AppLayout = ({ children }: PropsWithChildren) => {
   return (

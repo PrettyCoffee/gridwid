@@ -4,12 +4,12 @@ import { Bell } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
 import { AlertBadge } from "components/ui/alert-badge"
+import { Button } from "components/ui/button"
 import { Icon } from "components/ui/icon"
 import { showToast, toastList, ToastProps } from "components/ui/toaster"
 import { useAtomValue } from "lib/yaasl"
 import { AlertKind } from "types/base-props"
-
-import { Button } from "../../ui/button"
+import { formatDate, formatTime } from "utils/format"
 
 const Clock = () => {
   const [date, setDate] = useState(new Date())
@@ -23,15 +23,8 @@ const Clock = () => {
     return () => clearInterval(interval.current)
   }, [])
 
-  const time = date.toLocaleTimeString(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-  })
-  const day = date.toLocaleDateString(undefined, {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  })
+  const time = formatTime(date)
+  const day = formatDate(date)
 
   return (
     <div>

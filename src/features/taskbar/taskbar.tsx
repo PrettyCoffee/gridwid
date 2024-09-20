@@ -1,7 +1,7 @@
 import { EllipsisVertical } from "lucide-react"
 
 import { Divider } from "components/ui/divider"
-import { IconButton } from "components/ui/icon-button/icon-button"
+import { IconButton } from "components/ui/icon-button"
 import { HashRouter, useHashRouter } from "components/utility/hash-router"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
