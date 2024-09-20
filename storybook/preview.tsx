@@ -1,6 +1,8 @@
 import "../src/index.css"
 import type { Preview } from "@storybook/react"
+import { PropsWithChildren } from "react"
 
+import { Tooltip } from "components/ui/tooltip"
 import { argType } from "lib/storybook"
 
 import { cusomtBlocks } from "./custom-blocks"
@@ -25,9 +27,19 @@ const parameters: Preview["parameters"] = {
   },
 }
 
+const Providers = ({ children }: PropsWithChildren) => (
+  <Tooltip.Provider>{children}</Tooltip.Provider>
+)
+
 const preview: Preview = {
   tags: ["autodocs"],
-  decorators: [Story => <Story />],
+  decorators: [
+    Story => (
+      <Providers>
+        <Story />
+      </Providers>
+    ),
+  ],
   parameters,
   argTypes: {
     asChild: argType.hidden(),

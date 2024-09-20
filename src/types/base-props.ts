@@ -21,3 +21,8 @@ export interface DisableProp {
   /** Disable the component */
   disabled?: boolean
 }
+
+export interface TitleProp {
+  /** Title tooltip to briefly describe the element / an action */
+  title?: string
+}

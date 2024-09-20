@@ -121,7 +121,7 @@ export const Toast = ({
       onTransitionEnd={handleTransitionEnd}
       className={cn(
         hstack(),
-        "text-text shade-low border-background/20 bgl-base-b/75 relative my-1 w-72 overflow-hidden rounded-md border-2 p-1 backdrop-blur-md",
+        "text-text shade-low bgl-base-b/75 relative my-1 w-72 overflow-hidden rounded-md border-2 p-1 backdrop-blur-md",
         border[kind],
         transition.className
       )}
