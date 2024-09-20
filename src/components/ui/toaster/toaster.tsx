@@ -9,7 +9,7 @@ export const Toaster = () => {
 
   return (
     <Portal>
-      <div className="fixed bottom-10 right-0 z-50 flex flex-col p-2">
+      <div className="absolute bottom-10 right-0 z-50 flex flex-col p-2">
         {toasts.map(toast => (
           <Toast key={toast.id} {...toast} onClose={toastList.actions.close} />
         ))}
