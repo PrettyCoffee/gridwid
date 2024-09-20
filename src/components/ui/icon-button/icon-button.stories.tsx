@@ -15,6 +15,8 @@ const meta: Meta<typeof IconButton> = {
     active: argType.boolean(),
     filled: argType.boolean(),
     disabled: argType.boolean(),
+    hideTitle: argType.boolean(),
+    titleSide: argType.enum(),
 
     onBlur: argType.callback(),
     onClick: argType.callback(),
@@ -22,11 +24,14 @@ const meta: Meta<typeof IconButton> = {
   },
   args: {
     icon: Cat,
-    title: "*click*",
-    size: "md",
     look: "flat",
+    title: "*click*",
+    titleSide: "top",
+    size: "md",
     active: false,
     filled: false,
+    hideTitle: false,
+    disabled: false,
   },
 }
 

@@ -6,6 +6,7 @@ import { cn } from "utils/cn"
 
 import { Button, ButtonProps } from "../button"
 import { Icon, IconProps } from "../icon/icon"
+import { TitleTooltip, TitleTooltipProps } from "../tooltip"
 
 const iconButton = cva("shrink-0", {
   variants: {
@@ -25,8 +26,8 @@ export interface IconButtonProps
     Omit<ButtonProps, "look" | "icon" | "asChild" | "isLoading"> {
   title: string
   look?: Exclude<ButtonProps["look"], "link">
-  //titleSide?: TitleTooltipProps["side"]
-  //hideTitle?: boolean
+  titleSide?: TitleTooltipProps["side"]
+  hideTitle?: boolean
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
@@ -38,19 +39,27 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       look = "flat",
       size = "md",
       className,
+      hideTitle,
+      titleSide,
       ...delegated
     },
     ref
   ) => (
-    <Button
-      ref={ref}
-      look={look}
-      className={cn(iconButton({ size }), className)}
-      {...delegated}
+    <TitleTooltip
+      title={hideTitle ? undefined : title}
+      side={titleSide}
+      asChild
     >
-      <VisuallyHidden>{title}</VisuallyHidden>
-      <Icon icon={icon} size={size} color="current" filled={filled} />
-    </Button>
+      <Button
+        ref={ref}
+        look={look}
+        className={cn(iconButton({ size }), className)}
+        {...delegated}
+      >
+        <VisuallyHidden>{title}</VisuallyHidden>
+        <Icon icon={icon} size={size} color="current" filled={filled} />
+      </Button>
+    </TitleTooltip>
   )
 )
 IconButton.displayName = "IconButton"
