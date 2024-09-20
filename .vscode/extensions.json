@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "styled-components.vscode-styled-components",
+    "csstools.postcss",
+    "vitest.explorer"
+  ]
+}
