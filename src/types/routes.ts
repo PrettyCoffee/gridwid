@@ -10,6 +10,7 @@ export type RoutePath =
   | "tools"
   | "tools/color-picker"
   | "settings"
+  | "settings/general"
   | "settings/taskbar"
   | "settings/widgets"
   | "settings/theming"

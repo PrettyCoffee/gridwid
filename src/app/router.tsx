@@ -5,6 +5,11 @@ import {
   LayoutGrid,
   CheckCheck,
   FileText,
+  Palette,
+  Database,
+  LayoutDashboard,
+  PanelBottom,
+  Layers,
 } from "lucide-react"
 import { lazy } from "react"
 
@@ -68,24 +73,34 @@ const routes = createRoutes([
     Component: LazyPlaceholder,
     subroutes: [
       {
+        path: "settings/general",
+        Component: LazyPlaceholder,
+        meta: { title: "General", icon: Cog },
+      },
+      {
         path: "settings/taskbar",
         Component: LazyPlaceholder,
+        meta: { title: "Taskbar", icon: PanelBottom },
       },
       {
         path: "settings/widgets",
         Component: LazyPlaceholder,
+        meta: { title: "Widgets", icon: LayoutDashboard },
       },
       {
         path: "settings/theming",
         Component: LazyPlaceholder,
+        meta: { title: "Theming", icon: Palette },
       },
       {
         path: "settings/data",
         Component: LazyPlaceholder,
+        meta: { title: "Data", icon: Database },
       },
       {
         path: "settings/workspaces",
         Component: LazyPlaceholder,
+        meta: { title: "Workspaces", icon: Layers },
       },
     ],
   },
