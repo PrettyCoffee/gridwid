@@ -21,7 +21,7 @@ type SbMeta<T extends CompOrProps> = ComponentAnnotations<
 >
 
 type IgnoredProps = "ref" | "key" | "children" | "asChild"
-type DefaultOmittedProps = "className" | "icon"
+type DefaultOmittedProps = "className"
 
 export interface Meta<
   T extends CompOrProps,

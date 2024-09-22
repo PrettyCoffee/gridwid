@@ -1,8 +1,8 @@
-import { EllipsisVertical } from "lucide-react"
+import { Circle, EllipsisVertical } from "lucide-react"
 
 import { Divider } from "components/ui/divider"
 import { IconButton } from "components/ui/icon-button"
-import { HashRouter, useHashRouter } from "components/utility/hash-router"
+import { useHashRouter } from "components/utility/hash-router"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
 
@@ -16,17 +16,13 @@ const MainNavigation = () => {
       <IconButton icon={EllipsisVertical} title={"Settings"} />
       <Divider orientation="vertical" color="gentle" className="h-4" />
       {mainRoutes.map(({ path, meta }) => (
-        <HashRouter.Link key={path} to={path}>
-          {meta?.icon ? (
-            <IconButton
-              icon={meta.icon}
-              active={currentRoute?.path === path}
-              title={meta.title ?? ""}
-            />
-          ) : (
-            <>{meta?.title}</>
-          )}
-        </HashRouter.Link>
+        <IconButton
+          key={path}
+          to={path}
+          icon={meta?.icon ?? Circle}
+          active={currentRoute?.path === path}
+          title={meta?.title ?? ""}
+        />
       ))}
     </div>
   )

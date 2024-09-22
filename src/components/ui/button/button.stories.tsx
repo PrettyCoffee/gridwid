@@ -9,7 +9,9 @@ const meta: Meta<typeof Button> = {
   title: "Buttons/Button",
   component: Button,
   argTypes: {
-    active: { control: "boolean" },
+    icon: argType.disabled(),
+    active: argType.boolean(),
+    to: argType.string(),
     isLoading: argType.boolean(),
     look: argType.enum(),
     size: argType.enum(),
@@ -24,6 +26,7 @@ const meta: Meta<typeof Button> = {
     isLoading: false,
     look: "flat",
     active: false,
+    to: "",
   },
 }
 

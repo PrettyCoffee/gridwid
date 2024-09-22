@@ -8,6 +8,7 @@ const meta: Meta<typeof Icon> = {
   title: "Primitives/Icon",
   component: Icon,
   argTypes: {
+    icon: argType.disabled(),
     strokeWidth: argType.range({ min: 0.5, max: 5, step: 0.5 }),
     color: argType.enum(),
     filled: argType.boolean(),

@@ -1,8 +1,8 @@
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
-import * as React from "react"
-import { PropsWithChildren } from "react"
+import { ButtonHTMLAttributes, forwardRef, PropsWithChildren } from "react"
 
+import { HashRouter, HashRouterLinkProps } from "components/utility/hash-router"
 import {
   AsChildProp,
   ClassNameProp,
@@ -33,10 +33,11 @@ const button = cva(
   }
 )
 
-type ButtonHtmlProps = React.ButtonHTMLAttributes<HTMLButtonElement>
+type ButtonHtmlProps = ButtonHTMLAttributes<HTMLButtonElement>
 
 export interface ButtonProps
   extends Pick<ButtonHtmlProps, "onClick" | "onFocus" | "onBlur">,
+    HashRouterLinkProps,
     IconProp,
     ClassNameProp,
     AsChildProp,
@@ -46,10 +47,7 @@ export interface ButtonProps
   isLoading?: boolean
 }
 
-const Button = React.forwardRef<
-  HTMLButtonElement,
-  PropsWithChildren<ButtonProps>
->(
+const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
   (
     {
       className,
@@ -61,20 +59,23 @@ const Button = React.forwardRef<
       icon,
       active,
       disabled,
+      to,
       ...props
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : "button"
+    const Comp = asChild ? Slot : to != null ? HashRouter.Link : "button"
     return (
       <Comp
+        {...props}
+        // @ts-expect-error -- the ref type shouldn't matter too much here
+        ref={ref}
+        to={to}
+        disabled={disabled}
         className={cn(
           interactive({ look, active, disabled }),
           button({ size, className })
         )}
-        disabled={disabled}
-        ref={ref}
-        {...props}
       >
         {isLoading ? (
           <Spinner size={"sm"} color="current" className="mr-2" />

@@ -9,7 +9,9 @@ const meta: Meta<typeof IconButton> = {
   title: "Buttons/IconButton",
   component: IconButton,
   argTypes: {
+    icon: argType.disabled(),
     title: argType.string(),
+    to: argType.string(),
     size: argType.enum(),
     look: argType.enum(),
     active: argType.boolean(),
@@ -23,6 +25,7 @@ const meta: Meta<typeof IconButton> = {
     onFocus: argType.callback(),
   },
   args: {
+    to: "",
     icon: Cat,
     look: "flat",
     title: "*click*",
