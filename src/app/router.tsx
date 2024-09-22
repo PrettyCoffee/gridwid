@@ -70,7 +70,7 @@ const routes = createRoutes([
     path: "settings",
     meta: { title: "Settings", icon: Cog, isMainRoute: false },
     Layout: SettingsLayout,
-    Component: LazyPlaceholder,
+    Component: lazy(() => import("./routes/settings")),
     subroutes: [
       {
         path: "settings/general",

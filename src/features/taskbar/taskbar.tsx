@@ -13,7 +13,7 @@ const MainNavigation = () => {
   const mainRoutes = allRoutes.filter(({ meta }) => meta?.isMainRoute)
   return (
     <div className={cn(hstack({ gap: 1, align: "center" }))}>
-      <IconButton icon={EllipsisVertical} title={"Settings"} />
+      <IconButton to="settings" icon={EllipsisVertical} title={"Settings"} />
       <Divider orientation="vertical" color="gentle" className="h-4" />
       {mainRoutes.map(({ path, meta }) => (
         <IconButton
