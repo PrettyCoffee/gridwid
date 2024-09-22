@@ -15,9 +15,10 @@ export type LazyOrFunctionComponent<Props = {}> =
 export interface BaseRoute {
   path: RoutePath
   meta?: RouteMeta
+  subroutes?: BaseRoute[]
 }
 
-export type Route = BaseRoute & {
+export type Route = Omit<BaseRoute, "subroutes"> & {
   Layout?: LazyOrFunctionComponent<PropsWithChildren>
   Component: LazyOrFunctionComponent
   subroutes?: Route[]

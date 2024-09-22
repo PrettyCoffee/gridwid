@@ -9,6 +9,7 @@ const flattenRoute = (route: Route, parent: FlatRoute | null): FlatRoute => {
       path: route.path,
       meta: route.meta ?? {},
       parent: parent?.route ?? null,
+      subroutes: [],
     },
     layouts,
     Component: route.Component,
@@ -25,6 +26,7 @@ const flattenRoutes = (
 
     if (route.subroutes) {
       const subroutes = flattenRoutes(route.subroutes, flatRoute)
+      flatRoute.route.subroutes = subroutes.map(({ route }) => route)
       result.push(...subroutes)
     }
 
