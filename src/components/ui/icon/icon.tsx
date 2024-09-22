@@ -12,6 +12,7 @@ const icon = cva("inline-block shrink-0", {
       sm: "size-4",
       md: "size-5",
       lg: "size-6",
+      xl: "size-8",
     },
     color: {
       default: "text-text",
