@@ -100,7 +100,7 @@ export const hstack = (props?: StackProps) =>
 export const surface = cva("border", {
   variants: {
     look: {
-      card: "bg-background/50 border-background shade-low rounded-lg",
+      card: "bg-background border-stroke-gentle shade-low rounded-lg",
       overlay:
         "text-text border-text-gentle/25 bgl-base-b/75 shade-low backdrop-blur-md",
     },
