@@ -1,0 +1,64 @@
+import { ArrowLeft } from "lucide-react"
+import { PropsWithChildren } from "react"
+
+import { Button } from "components/ui/button"
+import { Divider } from "components/ui/divider"
+import { ClassNameProp } from "types/base-props"
+import { RoutePath } from "types/routes"
+import { cn } from "utils/cn"
+import { hstack, surface, vstack } from "utils/styles"
+
+const Centered = ({
+  children,
+  className,
+}: PropsWithChildren & ClassNameProp) => (
+  <div className={cn("grid size-full place-content-center", className)}>
+    {children}
+  </div>
+)
+
+const Grid = ({ children }: PropsWithChildren) => <>{children}</>
+
+interface LayoutSideProps extends PropsWithChildren, ClassNameProp {
+  back?: {
+    path: RoutePath
+    caption: string
+  }
+}
+const Side = ({ children, back, className }: LayoutSideProps) => (
+  <div
+    className={cn(
+      surface({ look: "card" }),
+      vstack({ gap: 2, align: "stretch" }),
+      "h-full w-60 p-2",
+      className
+    )}
+  >
+    {back && (
+      <>
+        <Button to={back.path} icon={ArrowLeft} className="justify-start">
+          {back.caption}
+        </Button>
+        <Divider color="gentle" />
+      </>
+    )}
+
+    {children}
+  </div>
+)
+
+const Multiple = ({
+  children,
+  className,
+}: PropsWithChildren & ClassNameProp) => (
+  <div className={cn(hstack({ gap: 4 }), "size-full", className)}>
+    {children}
+  </div>
+)
+
+export const Layout = {
+  Multiple,
+  Centered,
+  Side,
+  Grid,
+}
