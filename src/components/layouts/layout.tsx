@@ -30,7 +30,7 @@ const Side = ({ children, back, className }: LayoutSideProps) => (
     className={cn(
       surface({ look: "card" }),
       vstack({ gap: 2, align: "stretch" }),
-      "h-full w-60 p-2",
+      "h-full min-w-60 max-w-60 overflow-auto p-2",
       className
     )}
   >

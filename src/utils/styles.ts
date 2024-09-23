@@ -50,7 +50,7 @@ export const interactive = cva("", {
       key: "bgl-base-background-surface text-text-surface hover:bgl-layer-b/10 active:bgl-layer-b/20",
       ghost:
         "text-text bgl-base-transparent border-input hover:bgl-layer-w/10 active:bgl-layer-w/15 border",
-      flat: "text-text bgl-base-transparent hover:bgl-layer-w/10 active:bgl-layer-w/15",
+      flat: "text-text bgl-base-transparent hover:bgl-layer-w/5 active:bgl-layer-w/10",
       link: "text-text-priority underline-offset-4 hover:underline active:opacity-80",
       destructive:
         "bg-alert-error/10 border-alert-error text-alert-error hover:bg-alert-error/15 active:bg-alert-error/20 border",
