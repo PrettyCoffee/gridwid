@@ -20,7 +20,7 @@ export const useHashRouter = () => {
   const context = useHashRouterContext()
   const routerContext = useHashRouterRouterContext()
   return useMemo(
-    () => ({ params: {}, ...context, ...(routerContext ?? {}) }),
+    () => ({ params: {}, allRoutes: [], ...context, ...(routerContext ?? {}) }),
     [context, routerContext]
   )
 }
