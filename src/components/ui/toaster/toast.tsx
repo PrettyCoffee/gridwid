@@ -1,42 +1,13 @@
 import { keyframes } from "goober"
-import {
-  BadgeAlert,
-  BadgeCheck,
-  BadgeInfo,
-  BadgeX,
-  LucideIcon,
-  X,
-} from "lucide-react"
+import { X } from "lucide-react"
 import { useCallback, useEffect, useRef, useState } from "react"
 
 import { Icon } from "components/ui/icon"
-import { AlertKind } from "types/base-props"
 import { cn } from "utils/cn"
-import { hstack, surface } from "utils/styles"
+import { alertStyles, hstack, surface } from "utils/styles"
 
 import { ToastProps } from "./toaster-data"
 import { IconButton } from "../icon-button/icon-button"
-
-const icon: Record<AlertKind, LucideIcon> = {
-  info: BadgeInfo,
-  success: BadgeCheck,
-  warn: BadgeAlert,
-  error: BadgeX,
-}
-
-const border: Record<AlertKind, string> = {
-  info: "border-alert-info/25",
-  success: "border-alert-success/25",
-  warn: "border-alert-warn/25",
-  error: "border-alert-error/25",
-}
-
-const barColor: Record<AlertKind, string> = {
-  error: "bg-alert-error",
-  warn: "bg-alert-warn",
-  success: "bg-alert-success",
-  info: "bg-alert-info",
-}
 
 interface ExtendedToastProps extends ToastProps {
   onClose: (id: string) => void
@@ -123,7 +94,7 @@ export const Toast = ({
         hstack(),
         surface({ look: "overlay", size: "md" }),
         "relative my-1 w-72 overflow-hidden border-2 p-1",
-        border[kind],
+        alertStyles[kind].border,
         transition.className
       )}
       style={transition.style}
@@ -134,7 +105,7 @@ export const Toast = ({
           "size-10"
         )}
       >
-        <Icon icon={icon[kind]} color={kind} size="lg" />
+        <Icon icon={alertStyles[kind].icon} color={kind} size="lg" />
       </div>
       <div className="my-2 flex-1 overflow-hidden">
         <div className="text-text-priority truncate">{title}</div>
@@ -149,7 +120,7 @@ export const Toast = ({
         onClick={startClose}
       />
       <span
-        className={cn("absolute h-0.5 rounded", barColor[kind])}
+        className={cn("absolute h-0.5 rounded", alertStyles[kind].bg)}
         style={{
           animation: `${shrinkTimeBar} ${duration ?? 0}ms linear forwards`,
         }}

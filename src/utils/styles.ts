@@ -1,6 +1,44 @@
 import { VariantProps, cva } from "class-variance-authority"
+import {
+  BadgeAlert,
+  BadgeCheck,
+  BadgeInfo,
+  BadgeX,
+  LucideIcon,
+} from "lucide-react"
+
+import { AlertKind } from "types/base-props"
 
 import { cn } from "./cn"
+
+interface AlertStyle {
+  icon: LucideIcon
+  border: string
+  bg: string
+}
+
+export const alertStyles: Record<AlertKind, AlertStyle> = {
+  info: {
+    icon: BadgeInfo,
+    bg: "bg-alert-info",
+    border: "border-alert-info/25",
+  },
+  success: {
+    icon: BadgeCheck,
+    bg: "bg-alert-success",
+    border: "border-alert-success/25",
+  },
+  warn: {
+    icon: BadgeAlert,
+    bg: "bg-alert-warn",
+    border: "border-alert-warn/25",
+  },
+  error: {
+    icon: BadgeX,
+    bg: "bg-alert-error",
+    border: "border-alert-error/25",
+  },
+}
 
 export const focusRing = cn(
   "outline-stroke-marked outline-2 outline-offset-2 focus-visible:outline [&:has(*:focus-visible)]:outline"
