@@ -7,8 +7,8 @@ const divider = cva("block shrink-0", {
   variants: {
     color: {
       text: "bg-text",
-      default: "bg-text-gentle",
-      gentle: "bg-text-gentle opacity-50",
+      default: "bg-stroke",
+      gentle: "bg-stroke-gentle",
     },
     orientation: {
       horizontal: "h-px w-full",

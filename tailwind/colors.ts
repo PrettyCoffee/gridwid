@@ -75,7 +75,7 @@ const colorTokens = {
     marked: colorValues.secondaryText,
   },
   stroke: {
-    DEFAULT: colorValues.neutral["1"],
+    DEFAULT: colorValues.neutral["4"],
     gentle: colorValues.neutral["3"],
     highlight: colorValues.primaryText,
     marked: colorValues.secondaryText,
