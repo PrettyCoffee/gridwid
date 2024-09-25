@@ -41,7 +41,7 @@ export const alertStyles: Record<AlertKind, AlertStyle> = {
 }
 
 export const focusRing = cn(
-  "outline-stroke-marked outline-2 outline-offset-2 focus-visible:outline [&:has(*:focus-visible)]:outline"
+  "outline-stroke-marked bgl-layer-transparent outline-2 outline-offset-2 focus-visible:outline [&:has(*:focus-visible)]:outline"
 )
 
 export const interactive = cva("", {
