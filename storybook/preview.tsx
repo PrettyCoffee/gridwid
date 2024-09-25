@@ -2,6 +2,8 @@ import "../src/index.css"
 import type { Preview } from "@storybook/react"
 import { PropsWithChildren } from "react"
 
+import { DialogProvider } from "components/ui/dialog"
+import { Toaster } from "components/ui/toaster"
 import { Tooltip } from "components/ui/tooltip"
 import { argType } from "lib/storybook"
 
@@ -28,7 +30,11 @@ const parameters: Preview["parameters"] = {
 }
 
 const Providers = ({ children }: PropsWithChildren) => (
-  <Tooltip.Provider>{children}</Tooltip.Provider>
+  <Tooltip.Provider>
+    <Toaster />
+    <DialogProvider />
+    {children}
+  </Tooltip.Provider>
 )
 
 const preview: Preview = {

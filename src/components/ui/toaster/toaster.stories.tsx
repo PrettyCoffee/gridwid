@@ -4,7 +4,6 @@ import { vstack } from "utils/styles"
 
 import { Toast } from "./toast"
 import { Button } from "../button"
-import { Toaster as ToasterComp } from "./toaster"
 import { showToast } from "./toaster-data"
 
 const meta: Meta<typeof Toast> = {
@@ -47,7 +46,6 @@ export const Toaster: Story = {
   args: { kind: "error" },
   render: () => (
     <>
-      <ToasterComp />
       <Button
         onClick={() => showToast({ kind: "success", title: "Oh yes! :)" })}
       >

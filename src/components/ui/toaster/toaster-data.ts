@@ -21,7 +21,10 @@ export const toastList = createSlice({
   name: "toast-list",
   defaultValue: [] as ToastProps[],
   reducers: {
-    add: (state, toast: ToastProps) => [toast, ...state],
+    add: (state, toast: Omit<ToastProps, "id">) => [
+      { ...toast, id: createId() },
+      ...state,
+    ],
     close: (state, id: string) => state.filter(toast => toast.id !== id),
     clear: () => [],
   },
@@ -32,6 +35,5 @@ export const showToast = ({
   duration = defaultDurations[kind],
   ...props
 }: Omit<ToastProps, "id">) => {
-  const id = createId()
-  toastList.actions.add({ ...props, kind, duration, id })
+  toastList.actions.add({ ...props, kind, duration })
 }

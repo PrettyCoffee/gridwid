@@ -75,7 +75,7 @@
       }
     },
     {
-      "files": ["storybook/**", "src/lib/storybook.ts"],
+      "files": ["storybook/**", "src/lib/storybook.ts", "**.stories.*"],
       "rules": {
         "import/no-extraneous-dependencies": "off"
       }
