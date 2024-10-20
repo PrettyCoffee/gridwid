@@ -3,11 +3,11 @@ import { Config } from "tailwindcss"
 import { fontFamily } from "tailwindcss/defaultTheme"
 import animatePlugin from "tailwindcss-animate"
 
-import { bgLayerPlugin } from "./bg-layer-plugin"
 import { screens } from "./breakpoints"
-import { colorVarsPlugin } from "./color-vars-plugin"
 import { colors } from "./colors"
-import { shadowPlugin } from "./shadow-plugin"
+import { bgLayerPlugin } from "./plugins/bg-layer-plugin"
+import { colorVarsPlugin } from "./plugins/color-vars-plugin"
+import { shadowPlugin } from "./plugins/shadow-plugin"
 
 export default {
   content: ["./src/**/*.{ts,tsx}"],

@@ -62,7 +62,7 @@
   },
   "overrides": [
     {
-      "files": ["./*", "./tailwind/*"], 
+      "files": ["./*", "./tailwind/**"], 
       "rules": {
         "import/no-extraneous-dependencies": "off"
       }
