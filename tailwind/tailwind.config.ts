@@ -5,6 +5,7 @@ import animatePlugin from "tailwindcss-animate"
 
 import { bgLayerPlugin } from "./bg-layer-plugin"
 import { screens } from "./breakpoints"
+import { colorVarsPlugin } from "./color-vars-plugin"
 import { colors } from "./colors"
 import { shadowPlugin } from "./shadow-plugin"
 
@@ -17,7 +18,7 @@ export default {
       mono: ["Fira Code", ...fontFamily.mono],
     },
     screens,
-    colors,
+    colors: {},
 
     // Remove default box shadows
     boxShadow: {},
@@ -43,5 +44,11 @@ export default {
       },
     },
   },
-  plugins: [typographyPlugin(), animatePlugin, bgLayerPlugin(), shadowPlugin()],
+  plugins: [
+    colorVarsPlugin({ prefix: "twc", colors }),
+    typographyPlugin(),
+    animatePlugin,
+    bgLayerPlugin(),
+    shadowPlugin(),
+  ],
 } satisfies Config
