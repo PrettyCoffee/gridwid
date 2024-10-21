@@ -7,7 +7,7 @@ import { createId } from "utils/create-id"
 export interface Note {
   id: string
   createdAt: number
-  editedAt?: number
+  changedAt?: number
   title: string
   text: string
 }
@@ -35,7 +35,7 @@ export const notesData = createSlice({
     ],
     edit: (state, id: string, data: Partial<Omit<Note, "id">>) =>
       state.map(note =>
-        note.id === id ? { ...note, ...data, editedAt: Date.now() } : note
+        note.id === id ? { ...note, ...data, changedAt: Date.now() } : note
       ),
     remove: (state, id: string) => state.filter(note => note.id !== id),
   },

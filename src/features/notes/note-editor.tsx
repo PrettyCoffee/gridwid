@@ -6,7 +6,7 @@ import { IconButton } from "components/ui/icon-button"
 import { NoData } from "components/ui/no-data"
 import { useAtomValue } from "lib/yaasl"
 import { cn } from "utils/cn"
-import { formatDateTime } from "utils/format"
+import { formatDate } from "utils/format"
 import { hstack, surface } from "utils/styles"
 
 import { notesData } from "./notes-data"
@@ -108,11 +108,8 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
       </div>
 
       <div className="text-text-gentle mx-3 mb-2 text-sm">
-        {note.editedAt ? (
-          <>Last edited {formatDateTime(note.editedAt)}</>
-        ) : (
-          <>Created {formatDateTime(note.createdAt)}</>
-        )}
+        Created {formatDate(note.createdAt)}
+        {note.changedAt && <>, last changed {formatDate(note.changedAt)}</>}
       </div>
 
       <ContentEditor value={text} changed={textChanged} onChange={setText} />
