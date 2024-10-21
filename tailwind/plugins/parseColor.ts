@@ -1,7 +1,7 @@
 /**
  * Color Parser
  * Sourced from Tailwind
- * Reference: https://gist.github.com/Merott/d2a19b32db07565e94f10d13d11a8574?permalink_comment_id=4819600#gistcomment-4819600
+ * Reference: https://github.com/tailwindlabs/tailwindcss/blob/main/src/util/color.js
  **/
 
 const HEX = /^#([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/i
