@@ -7,6 +7,7 @@ import { createId } from "utils/create-id"
 export interface Note {
   id: string
   createdAt: number
+  editedAt?: number
   title: string
   text: string
 }
@@ -14,13 +15,15 @@ export interface Note {
 export const createRandomNote = (): Note => ({
   createdAt: faker.date.recent().valueOf(),
   id: createId(),
-  title: faker.lorem.words(3),
-  text: faker.lorem.paragraph(),
+  title: faker.lorem.words({ min: 2, max: 4 }),
+  text: faker.lorem.paragraph({ min: 3, max: 15 }),
 })
 
 export const notesData = createSlice({
   name: "notes",
   defaultValue: [
+    createRandomNote(),
+    createRandomNote(),
     createRandomNote(),
     createRandomNote(),
     createRandomNote(),
@@ -30,6 +33,10 @@ export const notesData = createSlice({
       ...state,
       { ...note, id: createId(), createdAt: Date.now() },
     ],
+    edit: (state, id: string, data: Partial<Omit<Note, "id">>) =>
+      state.map(note =>
+        note.id === id ? { ...note, ...data, editedAt: Date.now() } : note
+      ),
     remove: (state, id: string) => state.filter(note => note.id !== id),
   },
 })

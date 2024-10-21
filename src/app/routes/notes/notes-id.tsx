@@ -1,6 +1,7 @@
 import { Layout } from "components/layouts"
 import { useHashRouter } from "components/utility/hash-router"
 import { Note, notesData } from "features/notes"
+import { NoteEditor } from "features/notes/note-editor"
 import { useAtomValue } from "lib/yaasl"
 
 import { NotesSidebar } from "./notes-sidebar"
@@ -20,7 +21,9 @@ const NotesIdRoute = () => {
   return (
     <Layout.Multiple>
       <NotesSidebar />
-      <Layout.Centered>Notes id: {params["id"]}</Layout.Centered>
+      <Layout.Centered>
+        <NoteEditor key={params["id"]} noteId={params["id"] ?? ""} />
+      </Layout.Centered>
     </Layout.Multiple>
   )
 }
