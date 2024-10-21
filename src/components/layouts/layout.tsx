@@ -6,7 +6,7 @@ import { Divider } from "components/ui/divider"
 import { ClassNameProp } from "types/base-props"
 import { RoutePath } from "types/routes"
 import { cn } from "utils/cn"
-import { hstack, surface, vstack } from "utils/styles"
+import { hstack, vstack } from "utils/styles"
 
 const Centered = ({
   children,
@@ -34,7 +34,6 @@ interface LayoutSideProps extends PropsWithChildren, ClassNameProp {
 const Side = ({ children, back, className }: LayoutSideProps) => (
   <div
     className={cn(
-      surface({ look: "card" }),
       vstack({ gap: 2, align: "stretch" }),
       "h-full min-w-60 max-w-60 overflow-auto p-2",
       className
