@@ -12,7 +12,13 @@ const Centered = ({
   children,
   className,
 }: PropsWithChildren & ClassNameProp) => (
-  <div className={cn("grid size-full place-content-center", className)}>
+  <div
+    className={cn(
+      vstack({ align: "center", justify: "center" }),
+      "size-full",
+      className
+    )}
+  >
     {children}
   </div>
 )
