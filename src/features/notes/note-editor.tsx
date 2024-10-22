@@ -1,8 +1,6 @@
-import { X, Save } from "lucide-react"
 import { useMemo } from "react"
 
 import { Editor } from "components/ui/editor"
-import { IconButton } from "components/ui/icon-button"
 import { NoData } from "components/ui/no-data"
 import { useAtomValue } from "lib/yaasl"
 import { cn } from "utils/cn"
@@ -10,29 +8,6 @@ import { formatDate } from "utils/format"
 import { hstack, surface } from "utils/styles"
 
 import { notesData } from "./notes-data"
-
-const Actions = () => {
-  const editor = Editor.useContext()
-
-  return (
-    <>
-      <IconButton
-        icon={Save}
-        title="Save"
-        onClick={() => editor.save()}
-        disabled={!editor.didChange}
-        className={cn(!editor.didChange && "opacity-10")}
-      />
-      <IconButton
-        icon={X}
-        title="Discard changes"
-        onClick={() => editor.discard()}
-        disabled={!editor.didChange}
-        className={cn(!editor.didChange && "opacity-10")}
-      />
-    </>
-  )
-}
 
 interface NoteEditorProps {
   noteId: string
@@ -65,7 +40,8 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
 
           <span className="pr-4" />
 
-          <Actions />
+          <Editor.Save />
+          <Editor.Discard />
         </div>
 
         <div className="text-text-gentle mx-3 mb-2 text-sm">
