@@ -34,6 +34,7 @@ const parseHex = (value: string): Color | null => {
 
   if (!match) return null
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, r, g, b, a] = match.map(value => parseInt(value, 16))
   return {
     mode: "rgb",
@@ -46,6 +47,7 @@ const parseRgb = (value: string): Color | null => {
   const match = value.match(RGB)
   if (!match) return null
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, r, g, b, a] = match
   return {
     mode: "rgb",
@@ -58,6 +60,7 @@ const parseHsl = (value: string): Color | null => {
   const match = value.match(HSL)
   if (!match) return null
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, h, s, l, a] = match
   return {
     mode: "hsl",
