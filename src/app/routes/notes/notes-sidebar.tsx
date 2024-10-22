@@ -1,34 +1,14 @@
 import { useAtomValue } from "@yaasl/react"
-import { GripHorizontal, PenBox, Plus, Trash } from "lucide-react"
+import { GripHorizontal, Plus, Trash } from "lucide-react"
 
 import { Layout } from "components/layouts"
 import { Button } from "components/ui/button"
-import { showDialog } from "components/ui/dialog"
 import { Divider } from "components/ui/divider"
 import { IconButton } from "components/ui/icon-button"
 import { List } from "components/ui/list"
 import { useHashRouter } from "components/utility/hash-router"
 import { createRandomNote, Note, notesData } from "features/notes"
-
-const deleteNote = (id: string, title: string) =>
-  showDialog({
-    title: "Delete note",
-    description: (
-      <>
-        Clicking on &quot;Delete note&quot; will remove all data related to your
-        note <span className="text-text-highlight">&quot;{title}&quot;</span>.
-        This action cannot be undone.
-      </>
-    ),
-    confirm: {
-      look: "destructive",
-      caption: "Delete note",
-      onClick: () => notesData.actions.remove(id),
-    },
-    cancel: {
-      caption: "Keep note",
-    },
-  })
+import { deleteNote } from "features/notes/delete-note"
 
 const ListItem = ({ id, active, title }: Note & { active?: boolean }) => (
   <List.Item active={active}>
@@ -69,23 +49,8 @@ export const NotesSidebar = () => {
         className="justify-start"
         onClick={() => notesData.actions.add(createRandomNote())}
       >
-        Create
+        Create new
       </Button>
-
-      {currentNote && (
-        <>
-          <Button icon={PenBox} className="justify-start">
-            Edit
-          </Button>
-          <Button
-            icon={Trash}
-            className="justify-start"
-            onClick={() => deleteNote(currentNote.id, currentNote.title)}
-          >
-            Delete
-          </Button>
-        </>
-      )}
 
       <Divider color="gentle" />
 

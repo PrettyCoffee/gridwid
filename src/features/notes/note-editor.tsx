@@ -1,12 +1,15 @@
+import { Trash, X } from "lucide-react"
 import { useMemo } from "react"
 
 import { Editor } from "components/ui/editor"
+import { IconButton } from "components/ui/icon-button"
 import { NoData } from "components/ui/no-data"
 import { useAtomValue } from "lib/yaasl"
 import { cn } from "utils/cn"
 import { formatDate } from "utils/format"
 import { hstack, surface } from "utils/styles"
 
+import { deleteNote } from "./delete-note"
 import { notesData } from "./notes-data"
 
 interface NoteEditorProps {
@@ -29,20 +32,25 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
       state={state}
       setState={state => notesData.actions.edit(note.id, state)}
     >
+      <div className={cn(hstack({ justify: "end" }), "mb-1 w-full max-w-4xl")}>
+        <Editor.Save />
+        <Editor.Discard />
+        <IconButton
+          icon={Trash}
+          className="justify-start"
+          onClick={() => deleteNote(note.id, note.title)}
+          title="Delete note"
+        />
+        <IconButton icon={X} to="notes" title="Close note" />
+      </div>
+
       <div
         className={cn(
           surface({ look: "card", size: "lg" }),
           "w-full max-w-4xl"
         )}
       >
-        <div className={cn(hstack({}))}>
-          <Editor.TextInput field="title" className="flex-1 text-2xl" />
-
-          <span className="pr-4" />
-
-          <Editor.Save />
-          <Editor.Discard />
-        </div>
+        <Editor.TextInput field="title" className="w-full text-2xl" />
 
         <div className="text-text-gentle mx-3 mb-2 text-sm">
           Created {formatDate(note.createdAt)}
