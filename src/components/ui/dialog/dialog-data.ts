@@ -35,19 +35,13 @@ export const showDialog = (dialog: DialogProps) => {
       look: "key",
       caption: "Confirm",
       ...dialog.confirm,
-      onClick: () => {
-        dialog.confirm.onClick()
-        dialogState.set(null)
-      },
+      onClick: () => dialog.confirm.onClick(),
     },
     cancel: {
       look: "flat",
       caption: "Cancel",
       ...dialog.cancel,
-      onClick: () => {
-        dialog.cancel?.onClick?.()
-        dialogState.set(null)
-      },
+      onClick: () => dialog.cancel?.onClick?.(),
     },
   })
 }
