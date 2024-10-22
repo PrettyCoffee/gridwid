@@ -77,7 +77,7 @@ export const EditorTextArea = ({
         inputBorder({
           kind: hasError ? "error" : isEditing ? "editing" : "default",
         }),
-        "text-text text-md block min-h-48 w-full bg-transparent px-3 py-1",
+        "text-text text-md block w-full resize-none bg-transparent px-3 py-1",
         className
       )}
     />

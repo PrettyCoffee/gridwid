@@ -54,7 +54,7 @@ export const NotesSidebar = () => {
 
       <Divider color="gentle" />
 
-      <div className="-mx-2 -my-1 flex-1 overflow-auto px-2 py-1">
+      <div className="-m-1 flex-1 overflow-auto p-1">
         <List.Root>
           {notes.map(note => (
             <ListItem

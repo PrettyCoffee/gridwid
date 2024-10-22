@@ -35,7 +35,7 @@ const Side = ({ children, back, className }: LayoutSideProps) => (
   <div
     className={cn(
       vstack({ gap: 2, align: "stretch" }),
-      "h-full min-w-60 max-w-60 overflow-auto p-2",
+      "h-full min-w-60 max-w-60",
       className
     )}
   >
