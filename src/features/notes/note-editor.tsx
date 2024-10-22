@@ -1,7 +1,7 @@
-import { cva } from "class-variance-authority"
 import { X, Save } from "lucide-react"
-import { Dispatch, useState } from "react"
+import { useMemo } from "react"
 
+import { Editor } from "components/ui/editor"
 import { IconButton } from "components/ui/icon-button"
 import { NoData } from "components/ui/no-data"
 import { useAtomValue } from "lib/yaasl"
@@ -11,55 +11,26 @@ import { hstack, surface } from "utils/styles"
 
 import { notesData } from "./notes-data"
 
-const inputBorder = cva("rounded border outline-none", {
-  variants: {
-    isEditing: {
-      true: "border-muted-foreground focus-within:border-stroke-marked",
-      false: "hover:border-muted-foreground border-transparent",
-    },
-  },
-})
-
-interface InputProps {
-  value: string
-  onChange: Dispatch<string>
-  changed: boolean
-}
-
-const TitleEditor = ({ value, onChange, changed }: InputProps) => {
-  const [hasFocus, setHasFocus] = useState(false)
-  const isEditing = hasFocus || changed
+const Actions = () => {
+  const editor = Editor.useContext()
 
   return (
-    <input
-      onFocus={() => setHasFocus(true)}
-      onBlur={() => setHasFocus(false)}
-      value={value}
-      onChange={({ currentTarget }) => onChange(currentTarget.value)}
-      className={cn(
-        hstack({}),
-        inputBorder({ isEditing }),
-        "text-text inline-flex h-10 flex-1 justify-center truncate bg-transparent px-3 text-2xl"
-      )}
-    />
-  )
-}
-
-const ContentEditor = ({ value, onChange, changed }: InputProps) => {
-  const [hasFocus, setHasFocus] = useState(false)
-  const isEditing = hasFocus || changed
-
-  return (
-    <textarea
-      onFocus={() => setHasFocus(true)}
-      onBlur={() => setHasFocus(false)}
-      value={value}
-      onChange={({ currentTarget }) => onChange(currentTarget.value)}
-      className={cn(
-        inputBorder({ isEditing }),
-        "text-text text-md block min-h-48 w-full flex-1 bg-transparent px-3 py-1"
-      )}
-    />
+    <>
+      <IconButton
+        icon={Save}
+        title="Save"
+        onClick={() => editor.save()}
+        disabled={!editor.didChange}
+        className={cn(!editor.didChange && "opacity-10")}
+      />
+      <IconButton
+        icon={X}
+        title="Discard changes"
+        onClick={() => editor.discard()}
+        disabled={!editor.didChange}
+        className={cn(!editor.didChange && "opacity-10")}
+      />
+    </>
   )
 }
 
@@ -68,51 +39,47 @@ interface NoteEditorProps {
 }
 export const NoteEditor = ({ noteId }: NoteEditorProps) => {
   const note = useAtomValue(notesData).find(({ id }) => id === noteId)
-
-  const [title, setTitle] = useState(note?.title ?? "")
-  const [text, setText] = useState(note?.text ?? "")
+  const state = useMemo(
+    () => ({
+      title: note?.title,
+      text: note?.text,
+    }),
+    [note]
+  )
 
   if (!note) return <NoData label="Note does not exist anymore" />
 
-  const titleChanged = title !== note.title
-  const textChanged = text !== note.text
-
-  const hasChanged = titleChanged || textChanged
-
   return (
-    <div
-      className={cn(surface({ look: "card", size: "lg" }), "w-full max-w-4xl")}
+    <Editor.Provider
+      state={state}
+      setState={state => notesData.actions.edit(note.id, state)}
     >
-      <div className={cn(hstack({}))}>
-        <TitleEditor value={title} changed={titleChanged} onChange={setTitle} />
+      <div
+        className={cn(
+          surface({ look: "card", size: "lg" }),
+          "w-full max-w-4xl"
+        )}
+      >
+        <div className={cn(hstack({}))}>
+          <Editor.TextInput field="title" className="flex-1 text-2xl" />
 
-        <span className="pr-4" />
+          <span className="pr-4" />
 
-        <IconButton
-          icon={Save}
-          title="Save"
-          onClick={() => notesData.actions.edit(note.id, { title, text })}
-          disabled={!hasChanged}
-          className={cn(!hasChanged && "opacity-10")}
-        />
-        <IconButton
-          icon={X}
-          title="Discard changes"
-          onClick={() => {
-            setTitle(note.title)
-            setText(note.text)
-          }}
-          disabled={!hasChanged}
-          className={cn(!hasChanged && "opacity-10")}
+          <Actions />
+        </div>
+
+        <div className="text-text-gentle mx-3 mb-2 text-sm">
+          Created {formatDate(note.createdAt)}
+          {note.changedAt && <>, last changed {formatDate(note.changedAt)}</>}
+        </div>
+
+        <Editor.TextArea
+          field="text"
+          placeholder="Note content"
+          valid={() => true}
+          className="flex-1"
         />
       </div>
-
-      <div className="text-text-gentle mx-3 mb-2 text-sm">
-        Created {formatDate(note.createdAt)}
-        {note.changedAt && <>, last changed {formatDate(note.changedAt)}</>}
-      </div>
-
-      <ContentEditor value={text} changed={textChanged} onChange={setText} />
-    </div>
+    </Editor.Provider>
   )
 }
