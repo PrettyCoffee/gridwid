@@ -1,3 +1,4 @@
+import { motion } from "framer-motion"
 import {
   PropsWithChildren,
   RefObject,
@@ -71,9 +72,14 @@ const Item = ({ children, ...props }: PropsWithChildren<ClassNameProp>) => {
   const height = useContentHeight(ref)
 
   return (
-    <div ref={ref} style={{ gridRowEnd: `span ${height}` }} {...props}>
+    <motion.div
+      layout="position"
+      ref={ref}
+      style={{ gridRowEnd: `span ${height}` }}
+      {...props}
+    >
       {children}
-    </div>
+    </motion.div>
   )
 }
 

@@ -27,6 +27,7 @@
     "@yaasl/devtools": "^0.10.1",
     "@yaasl/react": "^0.10.1",
     "class-variance-authority": "^0.7.0",
+    "framer-motion": "^11.11.9",
     "goober": "^2.1.14",
     "lucide-react": "^0.441.0",
     "marked": "^12.0.2",
