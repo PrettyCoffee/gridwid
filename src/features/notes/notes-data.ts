@@ -2,7 +2,7 @@
 import { faker } from "@faker-js/faker"
 
 import { createSlice } from "lib/yaasl"
-import { createId } from "utils/create-id"
+import { getNextId } from "utils/get-next-id"
 
 export interface Note {
   id: string
@@ -12,26 +12,18 @@ export interface Note {
   text: string
 }
 
-export const createRandomNote = (): Note => ({
-  createdAt: faker.date.recent().valueOf(),
-  id: createId(),
+export const createRandomNote = (): Omit<Note, "id" | "createdAt"> => ({
   title: faker.lorem.words({ min: 2, max: 4 }),
-  text: faker.lorem.paragraph({ min: 3, max: 15 }),
+  text: faker.lorem.paragraph({ min: 5, max: 15 }),
 })
 
 export const notesData = createSlice({
   name: "notes",
-  defaultValue: [
-    createRandomNote(),
-    createRandomNote(),
-    createRandomNote(),
-    createRandomNote(),
-    createRandomNote(),
-  ] as Note[],
+  defaultValue: [] as Note[],
   reducers: {
     add: (state, note: Omit<Note, "id" | "createdAt">) => [
       ...state,
-      { ...note, id: createId(), createdAt: Date.now() },
+      { ...note, id: getNextId(), createdAt: Date.now() },
     ],
     edit: (state, id: string, data: Partial<Omit<Note, "id">>) =>
       state.map(note =>
@@ -40,3 +32,9 @@ export const notesData = createSlice({
     remove: (state, id: string) => state.filter(note => note.id !== id),
   },
 })
+
+notesData.actions.add(createRandomNote())
+notesData.actions.add(createRandomNote())
+notesData.actions.add(createRandomNote())
+notesData.actions.add(createRandomNote())
+notesData.actions.add(createRandomNote())
