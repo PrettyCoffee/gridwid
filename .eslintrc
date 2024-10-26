@@ -22,7 +22,7 @@
       {
         "zones": [
           // disables cross-feature imports:
-          // eg. src/features/discussions should not import from src/features/comments, etc.
+          // e.g. src/features/discussions should not import from src/features/comments, etc.
           {
             "target": "./src/features/taskbar",
             "from": "./src/features",
@@ -36,7 +36,7 @@
             "from": "./src/app"
           },
 
-          // e.g src/features and src/app can import from these shared modules but not the other way around
+          // e.g. src/features and src/app can import from these shared modules but not the other way around
           {
             "target": [
               "./src/components",
