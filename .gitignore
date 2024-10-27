@@ -18,3 +18,7 @@ storybook-static
 
 # local test files
 /.dump
+
+# editors
+.idea/*
+!.idea/tailwindcss.xml
