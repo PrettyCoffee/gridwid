@@ -9,7 +9,7 @@ import { IconButton } from "components/ui/icon-button"
 import { List } from "components/ui/list"
 import { useHashRouter } from "components/utility/hash-router"
 import { Sortable } from "components/utility/sortable"
-import { createRandomNote, Note, notesData } from "features/notes"
+import { Note, notesData } from "features/notes"
 import { deleteNote } from "features/notes/delete-note"
 import { cn } from "utils/cn"
 
@@ -62,11 +62,7 @@ export const NotesSidebar = () => {
           : { path: "notes", caption: "Back to overview" }
       }
     >
-      <Button
-        icon={Plus}
-        className="justify-start"
-        onClick={() => notesData.actions.add(createRandomNote())}
-      >
+      <Button icon={Plus} className="justify-start" to="notes/new">
         Create new
       </Button>
 

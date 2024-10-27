@@ -12,9 +12,10 @@ const getNoteById = (notes: Note[], id?: string) =>
 const NotesIdRoute = () => {
   const { params, setPath } = useHashRouter()
   const notes = useAtomValue(notesData)
-  const currentNote = getNoteById(notes, params["id"])
+  const noteId = params["id"] ?? ""
+  const currentNote = getNoteById(notes, noteId)
 
-  if (!currentNote) {
+  if (!currentNote && noteId !== "new") {
     setPath("notes")
   }
 
@@ -22,7 +23,7 @@ const NotesIdRoute = () => {
     <Layout.Multiple>
       <NotesSidebar />
       <Layout.Centered>
-        <NoteEditor key={params["id"]} noteId={params["id"] ?? ""} />
+        <NoteEditor key={params["id"]} noteId={noteId} />
       </Layout.Centered>
     </Layout.Multiple>
   )

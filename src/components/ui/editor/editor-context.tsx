@@ -19,15 +19,15 @@ interface ContextState {
 const { Provider, useRequiredValue } = createContext<ContextState>("Editor")
 export const useEditorContext = useRequiredValue
 
-interface EditorProviderProps {
-  state: EditorState
-  setState: Dispatch<EditorState>
+interface EditorProviderProps<TState extends EditorState> {
+  state: TState
+  setState: Dispatch<TState>
 }
-export const EditorProvider = ({
+export const EditorProvider = <TState extends EditorState>({
   children,
   state,
   setState,
-}: PropsWithChildren<EditorProviderProps>) => {
+}: PropsWithChildren<EditorProviderProps<TState>>) => {
   const [draft, setDraft] = useState(state)
 
   const save = () => setState(draft)
