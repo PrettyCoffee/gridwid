@@ -19,7 +19,7 @@ export const EditorSave = () => {
   )
 }
 
-export const EditorDicsard = () => {
+export const EditorDiscard = () => {
   const editor = useEditorContext()
 
   return (

@@ -45,6 +45,7 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
   return (
     <Editor.Provider
       state={state}
+      validateFields={{ title: Boolean }}
       setState={state => {
         if (noteId === "new") {
           notesData.actions.add(state)
@@ -93,7 +94,6 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
         <Editor.TextArea
           field="text"
           placeholder="Note content"
-          valid={() => true}
           className="flex-1"
         />
       </div>

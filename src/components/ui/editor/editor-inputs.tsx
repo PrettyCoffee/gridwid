@@ -19,21 +19,15 @@ const inputBorder = cva("rounded border outline-none", {
 
 interface InputProps extends ClassNameProp {
   field: string
-  valid?: (value?: string) => boolean
   placeholder?: string
 }
 
-export const EditorTextInput = ({
-  field,
-  valid = Boolean,
-  className,
-  ...props
-}: InputProps) => {
+export const EditorTextInput = ({ field, className, ...props }: InputProps) => {
   const input = useEditorContext().getContext(field)
   const [hasFocus, setHasFocus] = useState(false)
 
   const isEditing = hasFocus || input.didChange
-  const hasError = !valid(input.value)
+  const hasError = !input.isValid
 
   return (
     <input
@@ -54,17 +48,12 @@ export const EditorTextInput = ({
   )
 }
 
-export const EditorTextArea = ({
-  field,
-  className,
-  valid = Boolean,
-  ...props
-}: InputProps) => {
+export const EditorTextArea = ({ field, className, ...props }: InputProps) => {
   const input = useEditorContext().getContext(field)
   const [hasFocus, setHasFocus] = useState(false)
 
   const isEditing = hasFocus || input.didChange
-  const hasError = !valid(input.value)
+  const hasError = !input.isValid
 
   return (
     <textarea
