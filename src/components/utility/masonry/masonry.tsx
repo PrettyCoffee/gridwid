@@ -76,6 +76,12 @@ const Item = ({ children, ...props }: PropsWithChildren<ClassNameProp>) => {
       layout="position"
       ref={ref}
       style={{ gridRowEnd: `span ${height}` }}
+      transition={{
+        type: "spring",
+        damping: 5,
+        mass: 0.15,
+        stiffness: 80,
+      }}
       {...props}
     >
       {children}
