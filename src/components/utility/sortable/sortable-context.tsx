@@ -61,6 +61,7 @@ export const SortableContext = <T extends Sortable>({
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
+    setActive(null)
     if (over === null || active.id === over.id) return
 
     onSort(items => {
@@ -68,8 +69,6 @@ export const SortableContext = <T extends Sortable>({
       const newIndex = items.findIndex(item => getId(item) === over.id)
       return arrayMove(items, oldIndex, newIndex)
     })
-
-    setActive(null)
   }
 
   return (
