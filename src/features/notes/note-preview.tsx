@@ -36,10 +36,11 @@ export const NotePreview = ({
       </h2>
     </HashRouter.Link>
     <span className="text-text-gentle text-sm">
+      #{id}
       {changedAt ? (
-        <>Last changed {formatDate(changedAt)}</>
+        <> | Last changed {formatDate(changedAt)}</>
       ) : (
-        <>Created {formatDate(createdAt)}</>
+        <> | Created {formatDate(createdAt)}</>
       )}
     </span>
     <p className="text-text max-w-prose whitespace-pre-wrap">{text}</p>
