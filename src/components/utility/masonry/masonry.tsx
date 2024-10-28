@@ -71,8 +71,11 @@ const Item = ({ children, ...props }: PropsWithChildren<ClassNameProp>) => {
   const ref = useRef<HTMLDivElement>(null)
   const height = useContentHeight(ref)
 
+  // Skip initial layout animation
+  const Div = height < 1 ? "div" : motion.div
+
   return (
-    <motion.div
+    <Div
       layout="position"
       ref={ref}
       style={{ gridRowEnd: `span ${height}` }}
@@ -85,7 +88,7 @@ const Item = ({ children, ...props }: PropsWithChildren<ClassNameProp>) => {
       {...props}
     >
       {children}
-    </motion.div>
+    </Div>
   )
 }
 
