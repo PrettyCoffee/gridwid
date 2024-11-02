@@ -9,10 +9,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: "1.1.29"
+          bun-version: "1.1.33"
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
