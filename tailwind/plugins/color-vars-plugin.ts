@@ -3,6 +3,7 @@ import plugin from "tailwindcss/plugin"
 
 import { parseColor } from "./parseColor"
 import { deepLoop } from "../../src/utils/deep-loop"
+import { objectPath } from "../../src/utils/object-path"
 
 const getVarName = (path: string[], prefix: string | undefined) => {
   let varName = "-"
@@ -15,26 +16,13 @@ interface ConfigItem {
   [key: string]: string | ConfigItem
 }
 
-const isObject = (value: unknown): value is ConfigItem =>
-  typeof value === "object" && value != null
-
 const setPath = (
   config: ConfigItem,
   path: string[],
   value: ConfigItem | string
-) => {
-  const [key, ...rest] = path
-  if (!key) return
-
-  if (rest.length === 0) {
-    config[key] = value
-  } else {
-    const obj = config[key] ?? {}
-    if (!isObject(obj)) return
-    config[key] = obj
-    setPath(obj, rest, value)
-  }
-}
+) =>
+  // @ts-expect-error -- value cannot be inferred here since keys are used dynamically
+  objectPath.set(config, path.join("."), value)
 
 interface ColorVarsPluginOptions {
   prefix?: string
@@ -76,21 +64,15 @@ export const colorVarsPlugin =
       const { prefix, colors } = defaultOptions(options)
 
       const basePath = ["theme", "extend", "colors"]
-      const pluginConfig: ConfigItem = {}
+      let pluginConfig: ConfigItem = {}
 
       deepLoop(colors, (itemPath, value) => {
         const varName = getVarName(itemPath, prefix)
         const color = parseColor(value)
-        if (!color) {
-          setPath(pluginConfig, [...basePath, ...itemPath], value)
-          return
-        }
 
-        setPath(
-          pluginConfig,
-          [...basePath, ...itemPath],
-          `${color.mode}(var(${varName}))`
-        )
+        const newValue = !color ? value : `${color.mode}(var(${varName}))`
+        const path = [...basePath, ...itemPath]
+        pluginConfig = setPath(pluginConfig, path, newValue)
       })
 
       return pluginConfig

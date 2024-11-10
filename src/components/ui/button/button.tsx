@@ -83,7 +83,7 @@ const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
           <Icon
             icon={icon}
             size={size === "sm" ? "sm" : "md"}
-            className="mr-2 text-current"
+            className="border-stroke-highlight mr-2 text-current"
           />
         ) : null}
         {children}
