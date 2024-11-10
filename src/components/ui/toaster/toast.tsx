@@ -120,7 +120,7 @@ export const Toast = ({
         onClick={startClose}
       />
       <span
-        className={cn("absolute h-0.5 rounded", alertStyles[kind].bg)}
+        className={cn("absolute h-0.5 rounded-sm", alertStyles[kind].bg)}
         style={{
           animation: `${shrinkTimeBar} ${duration ?? 0}ms linear forwards`,
         }}

@@ -7,7 +7,7 @@ import { hstack } from "utils/styles"
 
 import { useEditorContext } from "./editor-context"
 
-const inputBorder = cva("rounded border outline-none", {
+const inputBorder = cva("rounded-sm border outline-none", {
   variants: {
     status: {
       default: "hover:border-stroke border-transparent",

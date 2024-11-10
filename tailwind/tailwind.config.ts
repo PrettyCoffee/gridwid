@@ -19,12 +19,20 @@ export default {
     },
     screens,
     colors: {},
+    borderRadius: {},
 
     // Remove default box shadows
     boxShadow: {},
     boxShadowColor: {},
 
     extend: {
+      borderRadius: {
+        lg: "0.5rem",
+        md: "0.375rem",
+        sm: "0.25rem",
+        full: "9999px",
+        none: "0px",
+      },
       transitionTimingFunction: {
         bounce: "cubic-bezier(.47,1.64,.41,.8)",
       },

@@ -33,7 +33,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           onChange={({ currentTarget }) => onChange?.(currentTarget.value)}
           onKeyDown={({ key }) => onKeyDown?.(key)}
           className={cn(
-            "border-stroke-gentle bg-background-page placeholder:text-text-gentle text-text h-10 w-full rounded border px-3 text-sm",
+            "border-stroke-gentle bg-background-page placeholder:text-text-gentle text-text h-10 w-full rounded-sm border px-3 text-sm",
             alert && ["pr-10", alertStyles[alert.kind].border]
           )}
         />
