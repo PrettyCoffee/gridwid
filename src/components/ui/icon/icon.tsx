@@ -17,9 +17,9 @@ const icon = cva("inline-block shrink-0", {
     color: {
       default: "text-text",
       current: "text-current",
-      highlight: "text-text-highlight",
+      highlight: "text-highlight",
       gentle: "text-text-gentle",
-      surface: "text-text-surface",
+      invert: "text-text-invert",
 
       info: "text-alert-info",
       warn: "text-alert-warn",

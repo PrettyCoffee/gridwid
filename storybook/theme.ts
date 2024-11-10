@@ -10,8 +10,8 @@ const textMuted = colors.text.gentle
 const border = colors.stroke.DEFAULT
 const borderMuted = colors.stroke.gentle
 
-const primary = colors.background.highlight
-const secondary = colors.background.highlight + "50"
+const primary = colors.highlight
+const secondary = colors.highlight + "50"
 
 export const theme = create({
   base: "dark",

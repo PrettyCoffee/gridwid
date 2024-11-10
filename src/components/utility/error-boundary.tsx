@@ -3,7 +3,7 @@ import { Component, FunctionComponent, ReactNode } from "react"
 const DefaultFallback = () => (
   <div className="flex size-full flex-col items-center justify-center">
     <div>💥KABOOM💥</div>
-    <div className="text-muted-foreground text-sm">
+    <div className="text-text-gentle text-sm">
       Something went terribly wrong and everything is burning now.
     </div>
   </div>

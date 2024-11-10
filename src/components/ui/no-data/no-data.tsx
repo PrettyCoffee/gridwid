@@ -59,7 +59,7 @@ export const NoData = ({ label }: { label: string | JSX.Element }) => (
         className={cn("absolute -bottom-4 rounded-[50%] bg-black", shadow)}
       />
     </div>
-    <span className="text-md text-muted-foreground block max-w-80 text-center font-bold">
+    <span className="text-md text-text block max-w-80 text-center font-bold">
       {label}
     </span>
   </div>

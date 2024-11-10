@@ -9,9 +9,9 @@ import { useEditorContext } from "./editor-context"
 
 const inputBorder = cva("rounded border outline-none", {
   variants: {
-    kind: {
-      default: "hover:border-muted-foreground border-transparent",
-      editing: "border-muted-foreground focus-within:border-stroke-marked",
+    status: {
+      default: "hover:border-stroke border-transparent",
+      editing: "border-stroke focus-within:border-stroke-focus",
       error: "border-alert-error",
     },
   },
@@ -39,7 +39,7 @@ export const EditorTextInput = ({ field, className, ...props }: InputProps) => {
       className={cn(
         hstack({}),
         inputBorder({
-          kind: hasError ? "error" : isEditing ? "editing" : "default",
+          status: hasError ? "error" : isEditing ? "editing" : "default",
         }),
         "text-text text-md inline-flex h-10 justify-center truncate bg-transparent px-3",
         className
@@ -64,7 +64,7 @@ export const EditorTextArea = ({ field, className, ...props }: InputProps) => {
       onChange={({ currentTarget }) => input.set(currentTarget.value)}
       className={cn(
         inputBorder({
-          kind: hasError ? "error" : isEditing ? "editing" : "default",
+          status: hasError ? "error" : isEditing ? "editing" : "default",
         }),
         "text-text text-md block w-full resize-none bg-transparent px-3 py-1",
         className

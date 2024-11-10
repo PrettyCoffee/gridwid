@@ -1,47 +1,4 @@
-import { red, yellow, green, blue, zinc, sky, rose } from "tailwindcss/colors"
-
-const themeExtension = {
-  colors: {
-    border: "hsl(var(--border))",
-    input: "hsl(var(--input))",
-    ring: "hsl(var(--ring))",
-    background: "hsl(var(--background))",
-    foreground: "hsl(var(--foreground))",
-    primary: {
-      DEFAULT: "hsl(var(--primary))",
-      foreground: "hsl(var(--primary-foreground))",
-    },
-    secondary: {
-      DEFAULT: "hsl(var(--secondary))",
-      foreground: "hsl(var(--secondary-foreground))",
-    },
-    destructive: {
-      DEFAULT: "hsl(var(--destructive))",
-      foreground: "hsl(var(--destructive-foreground))",
-    },
-    muted: {
-      DEFAULT: "hsl(var(--muted))",
-      foreground: "hsl(var(--muted-foreground))",
-    },
-    accent: {
-      DEFAULT: "hsl(var(--accent))",
-      foreground: "hsl(var(--accent-foreground))",
-    },
-    popover: {
-      DEFAULT: "hsl(var(--popover))",
-      foreground: "hsl(var(--popover-foreground))",
-    },
-    card: {
-      DEFAULT: "hsl(var(--card))",
-      foreground: "hsl(var(--card-foreground))",
-    },
-  },
-  borderRadius: {
-    lg: "var(--radius)",
-    md: "calc(var(--radius) - 2px)",
-    sm: "calc(var(--radius) - 4px)",
-  },
-}
+import { red, yellow, green, blue, zinc, rose } from "tailwindcss/colors"
 
 const colorValues = {
   neutral: {
@@ -52,33 +9,30 @@ const colorValues = {
     5: zinc[200],
     6: zinc[50],
   },
-  primary: rose[500],
-  primaryText: rose[300],
-  secondary: sky[500],
-  secondaryText: sky[300],
+  primary: rose[300],
 } as const
 
 const colorTokens = {
+  highlight: colorValues.primary,
   background: {
-    DEFAULT: colorValues.neutral["2"],
     page: colorValues.neutral["1"],
-    surface: colorValues.neutral["6"],
-    highlight: colorValues.primary,
-    marked: colorValues.secondary,
+    DEFAULT: colorValues.neutral["2"],
+    invert: colorValues.neutral["6"],
+    button: colorValues.neutral["6"],
   },
   text: {
-    DEFAULT: colorValues.neutral["5"],
     priority: colorValues.neutral["6"],
+    DEFAULT: colorValues.neutral["5"],
     gentle: colorValues.neutral["4"],
-    surface: colorValues.neutral["1"],
-    highlight: colorValues.primaryText,
-    marked: colorValues.secondaryText,
+    invert: colorValues.neutral["1"],
+    button: colorValues.neutral["1"],
   },
   stroke: {
     DEFAULT: colorValues.neutral["4"],
     gentle: colorValues.neutral["3"],
-    highlight: colorValues.primaryText,
-    marked: colorValues.secondaryText,
+    invert: colorValues.neutral["1"],
+    button: colorValues.neutral["6"],
+    focus: colorValues.primary,
   },
   alert: {
     error: red[400],
@@ -97,7 +51,6 @@ const utilityColors = {
 } as const
 
 export const colors = {
-  ...themeExtension.colors,
   ...utilityColors,
   ...colorTokens,
 }

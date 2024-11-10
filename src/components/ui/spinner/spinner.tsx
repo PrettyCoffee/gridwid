@@ -27,7 +27,7 @@ const spinner = cva("", {
     color: {
       default: "stroke-text",
       current: "stroke-current",
-      surface: "stroke-text-surface",
+      invert: "stroke-text-invert",
     },
     size: sizes,
   },

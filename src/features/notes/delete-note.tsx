@@ -8,8 +8,8 @@ export const deleteNote = (id: string, title: string) =>
     description: (
       <>
         Clicking on &quot;Delete note&quot; will remove all data related to your
-        note <span className="text-text-highlight">&quot;{title}&quot;</span>.
-        This action cannot be undone.
+        note <span className="text-highlight">&quot;{title}&quot;</span>. This
+        action cannot be undone.
       </>
     ),
     confirm: {
