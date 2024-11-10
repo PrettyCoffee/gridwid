@@ -2,6 +2,7 @@ import defaultColors from "tailwindcss/colors"
 import plugin from "tailwindcss/plugin"
 
 import { parseColor } from "./parseColor"
+import { deepLoop } from "../../src/utils/deep-loop"
 
 const getVarName = (path: string[], prefix: string | undefined) => {
   let varName = "-"
@@ -35,20 +36,6 @@ const setPath = (
   }
 }
 
-const forEachDeepPath = (
-  parent: ConfigItem,
-  handler: (path: string[], value: string) => void,
-  prevPath: string[] = []
-) =>
-  Object.entries(parent).forEach(([key, value]) => {
-    const path = [...prevPath, key]
-    if (typeof value === "string") {
-      handler(path, value)
-    } else {
-      forEachDeepPath(value, handler, path)
-    }
-  })
-
 interface ColorVarsPluginOptions {
   prefix?: string
   colors?: ConfigItem
@@ -71,7 +58,7 @@ export const colorVarsPlugin =
 
         const vars: Record<string, string> = {}
 
-        forEachDeepPath(colors, (itemPath, value) => {
+        deepLoop(colors, (itemPath, value) => {
           const varName = getVarName(itemPath, prefix)
           const color = parseColor(value)
           if (!color) return
@@ -91,7 +78,7 @@ export const colorVarsPlugin =
       const basePath = ["theme", "extend", "colors"]
       const pluginConfig: ConfigItem = {}
 
-      forEachDeepPath(colors, (itemPath, value) => {
+      deepLoop(colors, (itemPath, value) => {
         const varName = getVarName(itemPath, prefix)
         const color = parseColor(value)
         if (!color) {
