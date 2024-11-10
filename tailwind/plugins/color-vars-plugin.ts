@@ -1,9 +1,9 @@
 import defaultColors from "tailwindcss/colors"
 import plugin from "tailwindcss/plugin"
 
-import { parseColor } from "./parseColor"
 import { deepLoop } from "../../src/utils/deep-loop"
 import { objectPath } from "../../src/utils/object-path"
+import { parseColor } from "../../src/utils/parse-color"
 
 const getVarName = (path: string[], prefix: string | undefined) => {
   let varName = "-"
