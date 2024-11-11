@@ -47,13 +47,13 @@ export const focusRing = cn(
 export const interactive = cva("", {
   variants: {
     look: {
-      key: "bgl-base-background-button text-text-button hover:bgl-layer-b/10 active:bgl-layer-b/20",
+      key: "bgl-base-background-button text-text-button hover:bgl-layer-b/15 active:bgl-layer-b/20",
       ghost:
         "text-text bgl-base-transparent border-stroke-button hover:bgl-layer-w/10 active:bgl-layer-w/15 border",
-      flat: "text-text bgl-base-transparent hover:bgl-layer-w/5 active:bgl-layer-w/10",
+      flat: "text-text bgl-base-transparent hover:bgl-layer-w/10 active:bgl-layer-w/15",
       link: "text-text-priority underline-offset-4 hover:underline active:opacity-80",
       destructive:
-        "bg-alert-error/10 border-alert-error text-alert-error hover:bg-alert-error/15 active:bg-alert-error/20 border",
+        "bg-alert-error/5 border-alert-error text-alert-error hover:bg-alert-error/15 active:bg-alert-error/20 border",
     },
     active: {
       false: "",
