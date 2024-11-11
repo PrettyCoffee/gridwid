@@ -17,10 +17,10 @@ const parameters: Preview["parameters"] = {
   docs: { ...cusomtBlocks },
   actions: { argTypesRegex: "^on[A-Z].*" },
   backgrounds: {
-    default: "dark",
+    default: "page",
     values: [
-      { name: "light", value: "white" },
-      { name: "dark", value: themeTokens.colors.background.page },
+      { name: "page", value: themeTokens.colors.background.page },
+      { name: "surface", value: themeTokens.colors.background.DEFAULT },
     ],
   },
   options: {
