@@ -1,17 +1,19 @@
 import { create } from "@storybook/theming"
 
-import { colors } from "../tailwind/colors"
+import { theme as appTheme } from "../tailwind/theme"
 
-const background = colors.background.DEFAULT
-const page = colors.background.page
+const color = appTheme.getDefaultTheme().color
 
-const text = colors.text.DEFAULT
-const textMuted = colors.text.gentle
-const border = colors.stroke.DEFAULT
-const borderMuted = colors.stroke.gentle
+const background = color.neutral[900]
+const page = color.neutral[950]
 
-const primary = colors.highlight
-const secondary = colors.highlight + "50"
+const text = color.neutral[200]
+const textMuted = color.neutral[400]
+const border = color.neutral[400]
+const borderMuted = color.neutral[800]
+
+const primary = color.accent
+const secondary = color.accent + "50"
 
 export const theme = create({
   base: "dark",

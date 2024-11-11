@@ -9,7 +9,9 @@ import { Tooltip } from "components/ui/tooltip"
 import { argType } from "lib/storybook"
 
 import { cusomtBlocks } from "./custom-blocks"
-import { colors } from "../tailwind/colors"
+import { theme } from "../tailwind/theme"
+
+const themeTokens = theme.getTokens()
 
 const parameters: Preview["parameters"] = {
   docs: { ...cusomtBlocks },
@@ -18,7 +20,7 @@ const parameters: Preview["parameters"] = {
     default: "dark",
     values: [
       { name: "light", value: "white" },
-      { name: "dark", value: colors.background.page },
+      { name: "dark", value: themeTokens.colors.background.page },
     ],
   },
   options: {
