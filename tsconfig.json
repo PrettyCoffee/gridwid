@@ -8,7 +8,7 @@
 
     /* Modules */
     "module": "esnext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
 
     /* JavaScript Support */
