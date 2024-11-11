@@ -6,6 +6,7 @@ import { cn } from "utils/cn"
 import { hstack } from "utils/styles"
 
 import { useEditorContext } from "./editor-context"
+import { MDPreview } from "../md-preview"
 
 const inputBorder = cva("rounded-sm border outline-none", {
   variants: {
@@ -70,5 +71,42 @@ export const EditorTextArea = ({ field, className, ...props }: InputProps) => {
         className
       )}
     />
+  )
+}
+
+export const EditorMarkdown = ({ field, className, ...props }: InputProps) => {
+  const input = useEditorContext().getContext(field)
+  const [hasFocus, setHasFocus] = useState(false)
+
+  const isEditing = hasFocus || input.didChange
+  const hasError = !input.isValid
+
+  return (
+    <div
+      className={cn(
+        inputBorder({
+          status: hasError ? "error" : isEditing ? "editing" : "default",
+        }),
+        "relative size-full"
+      )}
+    >
+      <MDPreview
+        value={input.value ?? ""}
+        className={cn("px-3 py-1", isEditing && "opacity-0")}
+      />
+      <textarea
+        {...props}
+        onFocus={() => setHasFocus(true)}
+        onBlur={() => setHasFocus(false)}
+        value={input.value ?? ""}
+        onChange={({ currentTarget }) => input.set(currentTarget.value)}
+        className={cn(
+          "absolute inset-0 size-full",
+          "prose dark:prose-invert prose-zinc block resize-none border-none bg-transparent px-3 py-1 outline-none",
+          !isEditing && "opacity-0",
+          className
+        )}
+      />
+    </div>
   )
 }

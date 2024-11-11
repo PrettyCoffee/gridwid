@@ -91,7 +91,7 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
           <Divider color="gentle" />
         </div>
 
-        <Editor.TextArea
+        <Editor.Markdown
           field="text"
           placeholder="Note content"
           className="flex-1"

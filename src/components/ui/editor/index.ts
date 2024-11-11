@@ -1,6 +1,10 @@
 import { EditorDiscard, EditorSave } from "./editor-actions"
 import { EditorProvider, useEditorContext } from "./editor-context"
-import { EditorTextArea, EditorTextInput } from "./editor-inputs"
+import {
+  EditorTextArea,
+  EditorTextInput,
+  EditorMarkdown,
+} from "./editor-inputs"
 
 export const Editor = {
   Provider: EditorProvider,
@@ -8,6 +12,7 @@ export const Editor = {
 
   TextInput: EditorTextInput,
   TextArea: EditorTextArea,
+  Markdown: EditorMarkdown,
 
   Save: EditorSave,
   Discard: EditorDiscard,
