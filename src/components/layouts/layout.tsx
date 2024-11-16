@@ -8,6 +8,12 @@ import { RoutePath } from "types/routes"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
 
+const Main = ({ children, className }: PropsWithChildren & ClassNameProp) => (
+  <div className={cn(vstack({}), "h-full flex-1 overflow-auto", className)}>
+    <div className={cn("w-full flex-1")}>{children}</div>
+  </div>
+)
+
 const Centered = ({
   children,
   className,
@@ -15,7 +21,7 @@ const Centered = ({
   <div
     className={cn(
       vstack({ align: "center", justify: "center" }),
-      "size-full",
+      "h-full flex-1",
       className
     )}
   >
@@ -66,4 +72,5 @@ export const Layout = {
   Centered,
   Side,
   Grid,
+  Main,
 }

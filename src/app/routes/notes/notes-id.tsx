@@ -22,9 +22,11 @@ const NotesIdRoute = () => {
   return (
     <Layout.Multiple>
       <NotesSidebar />
-      <Layout.Centered>
-        <NoteEditor key={params["id"]} noteId={noteId} />
-      </Layout.Centered>
+      <Layout.Main>
+        <div className="mx-auto max-w-max">
+          <NoteEditor key={params["id"]} noteId={noteId} />
+        </div>
+      </Layout.Main>
     </Layout.Multiple>
   )
 }
