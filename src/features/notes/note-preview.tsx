@@ -7,6 +7,8 @@ import { formatDate } from "utils/format"
 import { surface } from "utils/styles"
 
 import { Note } from "./notes-data"
+import { Divider } from "../../components/ui/divider"
+import { MDPreview } from "../../components/ui/md-preview"
 
 export const NotePreview = ({
   id,
@@ -43,6 +45,9 @@ export const NotePreview = ({
         <> | Created {formatDate(createdAt)}</>
       )}
     </span>
-    <p className="text-text max-w-prose whitespace-pre-wrap">{text}</p>
+    <div className="w-full py-2">
+      <Divider color="gentle" />
+    </div>
+    <MDPreview value={text} />
   </div>
 )
