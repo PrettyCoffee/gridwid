@@ -92,7 +92,7 @@ export const EditorMarkdown = ({ field, className, ...props }: InputProps) => {
     >
       <MDPreview
         value={input.value ?? ""}
-        className={cn("px-3 py-1", isEditing && "opacity-0")}
+        className={cn("px-3 py-1", hasFocus && "opacity-0")}
       />
       <textarea
         {...props}
@@ -103,7 +103,7 @@ export const EditorMarkdown = ({ field, className, ...props }: InputProps) => {
         className={cn(
           "absolute inset-0 size-full",
           "prose dark:prose-invert prose-zinc block resize-none border-none bg-transparent px-3 py-1 outline-none",
-          !isEditing && "opacity-0",
+          !hasFocus && "opacity-0",
           className
         )}
       />
