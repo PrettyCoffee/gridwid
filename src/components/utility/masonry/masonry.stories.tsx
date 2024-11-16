@@ -26,14 +26,14 @@ faker.seed(1337)
 
 const items = createRange(0, 20).map(key => ({
   key,
-  text: faker.lorem.paragraphs(2),
+  text: faker.lorem.paragraphs({ min: 1, max: 5 }),
 }))
 
 export const Default: Story = {
   render: args => (
     <Masonry.Grid {...args}>
       {items.map(({ key, text }) => (
-        <Masonry.Item key={key} className="p-2">
+        <Masonry.Item key={key} maxHeight={25} className="p-2">
           <div
             className={cn(surface({ look: "card", size: "lg" }), "min-h-full")}
           >

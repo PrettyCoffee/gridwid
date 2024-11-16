@@ -21,7 +21,7 @@ const NotesMainRoute = () => {
         <div className="-m-2 -mr-3 flex h-[calc(100%+theme(height.2))] flex-1 flex-col overflow-auto pr-1">
           <Masonry.Grid minItemWidth={20} className="flex-1">
             {notes.map(note => (
-              <Masonry.Item key={note.id} className="p-2">
+              <Masonry.Item key={note.id} maxHeight={40} className="p-2">
                 <NotePreview {...note} />
               </Masonry.Item>
             ))}
