@@ -2,92 +2,18 @@ import {
   Dispatch,
   TextareaHTMLAttributes,
   KeyboardEvent,
-  useMemo,
   ChangeEvent,
   forwardRef,
-  useRef,
 } from "react"
-import rehypePrism from "rehype-prism-plus/all"
-import type { Pluggable, PluggableList } from "unified"
+import type { PluggableList } from "unified"
 
 import { ClassNameProp, DisableProp } from "types/base-props"
 import { cn } from "utils/cn"
 
+import { CodeLanguage, CodePreview } from "./code-preview"
 import { keyEvents } from "./key-events"
 import * as styles from "./styles"
 import { rehypeTheme } from "./styles"
-import { processHtml, htmlEncode } from "./utils"
-
-export * from "./selection-text"
-
-type CodeLanguage = "markdown" | "css" | "jsx"
-
-const getPlugin = (pluggable: Pluggable) => {
-  if (typeof pluggable === "function") return pluggable
-  if (Array.isArray(pluggable)) return pluggable[0]
-  if (pluggable.plugins) return pluggable.plugins
-  return null
-}
-const hasPlugin = (list: PluggableList, plugin: Pluggable) => {
-  return list.some(listPlugin => getPlugin(listPlugin) === getPlugin(plugin))
-}
-
-const withDefaultPlugins = (plugins: PluggableList): PluggableList =>
-  hasPlugin(plugins, rehypePrism)
-    ? plugins
-    : [[rehypePrism, { ignoreMissing: true }], ...plugins]
-
-const pluginDiff = (a: PluggableList, b: PluggableList) => {
-  if (a.length !== b.length) return true
-  return a.some(plugin => !hasPlugin(b, plugin))
-}
-const useRehypePlugins = (plugins: PluggableList = []): PluggableList => {
-  const withDefaults = withDefaultPlugins(plugins)
-
-  const previous = useRef(withDefaults)
-  if (pluginDiff(previous.current, withDefaults)) {
-    previous.current = withDefaults
-  }
-
-  return previous.current
-}
-
-interface CodePreviewProps extends ClassNameProp {
-  language: CodeLanguage
-  value: string
-  rehypePlugins?: PluggableList
-}
-// TODO: Make CodePreview a standalone component
-const CodePreview = ({
-  value,
-  language,
-  className,
-  rehypePlugins,
-}: CodePreviewProps) => {
-  const plugins = useRehypePlugins(rehypePlugins)
-  const languageClass = `language-${language}`
-
-  const html = useMemo(() => {
-    const code = htmlEncode(value)
-    return processHtml(
-      `<pre aria-hidden=true><code class="${languageClass}">${code}</code><br /></pre>`,
-      plugins
-    )
-  }, [value, languageClass, plugins])
-
-  return useMemo(
-    () => (
-      <div
-        style={styles.editor}
-        className={cn(languageClass, className)}
-        dangerouslySetInnerHTML={{
-          __html: html,
-        }}
-      />
-    ),
-    [languageClass, className, html]
-  )
-}
 
 const classPrefix = "w-tc-editor"
 const indentWidth = 2
