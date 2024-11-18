@@ -65,6 +65,20 @@ const markdownCode = `
 }
 \`\`\`
 
+\`\`\`diff
+--- bar.yml\t2014-12-16 11:43:41 +0800
++++ /Users/foo/Desktop/bar.yml\t2014-12-31 11:28:08 +0800
+@@ -4,5 +4,5 @@
+project:
+\tsources: "src/*.cpp"
+\theaders: "src/*.h"
+-    qt: core
++    qt: core gui
+public_headers: "src/*.h"
+\`\`\`
+
+[thats a link](yup://thats-a-link.clearly)
+
 1. This is a numbered list item
 2. This is another numbered list item
 
@@ -75,6 +89,12 @@ const markdownCode = `
 - [x] This is another checkbox
 
 > This is a quote
+
+| Heading | Heading |
+|---------|---------|
+| Content | Content |
+| Content | Content |
+| Content | Content |
 `
 export const Markdown: Story = {
   args: {
@@ -86,9 +106,14 @@ export const Markdown: Story = {
 
 const cssCode = `
 .some-class {
+  content: "bliblablub";
   color: pink;
   background-color: black;
+  color: var(--some-variable);
+  height: calc(1rem + 100vh);
 }
+
+@media screen and (min-width: 768px) { /* ... */ }
 `
 export const CSS: Story = {
   args: {
@@ -99,18 +124,49 @@ export const CSS: Story = {
 }
 
 const jsxCode = `
-/** This is an input component */
-const Input = () => {
-  const [value, setValue] = useState("")
-  
+interface InterfaceType extends SomeProp {
+  props: InterfaceType
+  value: string
+  boolValue: true
+}
+
+const REGEX = /some[^abc]*\\S\\.+/ig
+REGEX.exec("some-x")
+
+const num = 42
+export const CONSTANT_NUM = 123213
+
+/** Something something yada uada
+ *  Lorem ipsum
+ **/
+export const SomeComponent = ({
+  props,
+  value,
+  boolValue
+}: InterfaceType) => {
+  const text = \`Something \${value}\`;
+}
+
+  const memed = useMemo(() => {
+    const hmmmm = value + String(boolValue)
+    if (!hmmmm) {
+      throw new Error("HAH!!!")
+    }
+    return hmmmm
+  }, [value, languageClass, plugins])
+
   return (
-    <input
-      value={value}
-      onChange={({ target }) => setValue(target.value)}
-    />
+    <div
+      href="httpstest.de"
+      className={cn(languageClass, className, "other-class")}
+      onClick={({ target }) => console.log(target)}
+    >
+      This is an &amp; symbol
+    </div>
   )
 }
 `
+
 export const JSX: Story = {
   args: {
     value: jsxCode,
