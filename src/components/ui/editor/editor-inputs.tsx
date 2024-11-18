@@ -6,6 +6,7 @@ import { cn } from "utils/cn"
 import { hstack } from "utils/styles"
 
 import { useEditorContext } from "./editor-context"
+import { CodeEditor } from "../code-editor"
 import { MDPreview } from "../md-preview"
 
 const inputBorder = cva("rounded-sm border outline-none", {
@@ -94,15 +95,16 @@ export const EditorMarkdown = ({ field, className, ...props }: InputProps) => {
         value={input.value ?? ""}
         className={cn("w-full max-w-full px-3 py-1", hasFocus && "opacity-0")}
       />
-      <textarea
+      <CodeEditor
         {...props}
+        language="markdown"
+        value={input.value ?? ""}
+        onChange={input.set}
         onFocus={() => setHasFocus(true)}
         onBlur={() => setHasFocus(false)}
-        value={input.value ?? ""}
-        onChange={({ currentTarget }) => input.set(currentTarget.value)}
         className={cn(
           "absolute inset-0 size-full",
-          "prose dark:prose-invert prose-zinc block max-w-full resize-none border-none bg-transparent px-3 py-1 outline-none",
+          "max-w-full border-none outline-none",
           !hasFocus && "opacity-0",
           className
         )}
