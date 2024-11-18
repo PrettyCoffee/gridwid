@@ -2,7 +2,6 @@ import { css } from "goober"
 import {
   Dispatch,
   TextareaHTMLAttributes,
-  KeyboardEvent,
   ChangeEvent,
   forwardRef,
 } from "react"
@@ -67,13 +66,7 @@ const sharedStyles = css`
 
 type NativeTextAreaProps = Pick<
   TextareaHTMLAttributes<HTMLTextAreaElement>,
-  | "readOnly"
-  | "style"
-  | "placeholder"
-  | "id"
-  | "onKeyDown"
-  | "onFocus"
-  | "onBlur"
+  "readOnly" | "style" | "placeholder" | "id" | "onFocus" | "onBlur"
 >
 
 export interface CodeEditorProps
@@ -104,14 +97,13 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
       style,
       rehypePlugins,
       onChange,
-      onKeyDown,
       readOnly,
       onSave,
       ...textAreaProps
     },
     textAreaRef
   ) => {
-    const keyEvents = createKeyEvents({
+    const handleKeyDown = createKeyEvents({
       events: [
         {
           key: "s",
@@ -123,12 +115,6 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
 
     const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) =>
       onChange(target.value)
-
-    const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-      if (readOnly) return
-      onKeyDown?.(event)
-      keyEvents(event)
-    }
 
     return (
       <div
@@ -146,8 +132,8 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
           value={value}
           readOnly={readOnly}
           placeholder={placeholder}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
+          onChange={readOnly ? undefined : handleChange}
+          onKeyDown={readOnly ? undefined : handleKeyDown}
           className={cn(
             "placeholder:text-text-gentle absolute left-0 top-0 size-full resize-none overflow-hidden",
             sharedStyles,

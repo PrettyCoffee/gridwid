@@ -19,7 +19,6 @@ const meta: Meta<typeof CodeEditor> = {
     disabled: argType.boolean(),
 
     onChange: argType.callback(),
-    onKeyDown: argType.callback(),
     onBlur: argType.callback(),
     onFocus: argType.callback(),
     onSave: argType.callback(),
@@ -29,7 +28,6 @@ const meta: Meta<typeof CodeEditor> = {
     language: "markdown",
     placeholder: "Type some demo code here...",
     onChange: action("onChange"),
-    onKeyDown: action("onKeyDown"),
     onSave: action("onSave"),
   },
 }
