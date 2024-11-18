@@ -4,6 +4,7 @@ import {
   TextareaHTMLAttributes,
   ChangeEvent,
   forwardRef,
+  useMemo,
 } from "react"
 import type { PluggableList } from "unified"
 
@@ -11,7 +12,7 @@ import { ClassNameProp, DisableProp } from "types/base-props"
 import { cn } from "utils/cn"
 
 import { CodeLanguage, CodePreview } from "./code-preview"
-import { createKeyEvents } from "./create-key-events"
+import { editorKeyEvents } from "./editor-key-events"
 import { rehypeTheme } from "./styles"
 
 const textAreaStaticProps: TextareaHTMLAttributes<HTMLTextAreaElement> = {
@@ -103,15 +104,19 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
     },
     textAreaRef
   ) => {
-    const handleKeyDown = createKeyEvents({
-      events: [
-        {
-          key: "s",
-          filter: event => event.ctrlKey,
-          handler: () => onSave?.(),
-        },
-      ],
-    })
+    const handleKeyDown = useMemo(
+      () =>
+        editorKeyEvents({
+          additionalEvents: [
+            {
+              key: "s",
+              filter: event => event.ctrlKey,
+              handler: () => onSave?.(),
+            },
+          ],
+        }),
+      [onSave]
+    )
 
     const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) =>
       onChange(target.value)
