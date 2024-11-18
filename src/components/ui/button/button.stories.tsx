@@ -36,6 +36,7 @@ type Story = StoryObj<typeof Button>
 const kinds = ["key", "ghost", "flat", "link", "destructive"] as const
 
 const AllKinds = ({ to, ...args }: ButtonProps) => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const props = { ...args, to: to || undefined }
   return (
     <div className="inline-grid grid-cols-[auto_auto_auto_auto_auto_auto] items-center gap-1">

@@ -2,6 +2,7 @@ import { css } from "goober"
 
 import { theme } from "../../../../tailwind/theme"
 
+/* eslint-disable sonarjs/no-duplicate-string */
 export const rehypeTheme = css`
   color: ${theme.get("color.neutral.200")};
   background-color: ${theme.get("color.neutral.900")};
@@ -125,7 +126,10 @@ export const rehypeTheme = css`
     /** Markdown specific */
 
     .token.title {
-      color: ${theme.get("color.category.yellow")};
+      color: ${theme.get("color.neutral.100")};
+      .token.punctuation {
+        color: ${theme.get("color.neutral.500")};
+      }
     }
 
     .token.important,
@@ -149,10 +153,7 @@ export const rehypeTheme = css`
 
     .language-markdown {
       .token.punctuation {
-        color: ${theme.get("color.neutral.600")};
-      }
-      .title .token.punctuation {
-        color: ${theme.get("color.category.violet")};
+        color: ${theme.get("color.neutral.500")};
       }
       .token.list.punctuation {
         color: ${theme.get("color.category.blue")};
