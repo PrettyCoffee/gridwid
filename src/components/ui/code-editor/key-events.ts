@@ -1,85 +1,95 @@
-import { KeyboardEvent } from "react"
+import { Dispatch, KeyboardEvent } from "react"
 
 import { SelectionText } from "./selection-text"
 import { stopPropagation } from "./utils"
 
-/*
+type KeyEvent = KeyboardEvent<HTMLTextAreaElement>
+
 interface KeyEventProps {
   api: SelectionText
-  event: KeyboardEvent<HTMLTextAreaElement>
+  event: KeyEvent
   indentWidth: number
 }
-type KeyEvent = (props: KeyEventProps) => void
-*/
 
-// TODO: Refactor
-/* eslint-disable sonarjs/cognitive-complexity */
+interface KeyEventHandler {
+  key?: string | string[]
+  filter?: (event: KeyEventProps) => boolean
+  handler: Dispatch<KeyEventProps>
+}
+
+const eventHandlers: KeyEventHandler[] = [
+  {
+    key: "enter",
+    handler: ({ api }) => {
+      const indent = `\n${api.getIndentText()}`
+      api
+        .insertText(indent)
+        .position(api.start + indent.length, api.start + indent.length)
+    },
+  },
+
+  {
+    key: ["'", '"', "`", "[", "{", "(", "<"],
+    handler: ({ event, api }) => {
+      const open = event.key
+      const close = {
+        "[": "]",
+        "{": "}",
+        "(": ")",
+        "<": ">",
+      }[open]
+      const text = `${open}${api.getSelectedValue()}${close ?? open}`
+      api.insertText(text)
+    },
+  },
+
+  {
+    key: "tab",
+    handler: ({ event, api, indentWidth }) => {
+      const indent = " ".repeat(indentWidth)
+
+      if (event.shiftKey) {
+        api.lineStartRemove(indent)
+        return
+      }
+
+      if (api.start !== api.end) {
+        api.lineStartInsert(indent)
+        return
+      }
+
+      const newPosition = api.start + indentWidth
+      api.insertText(indent).position(newPosition, newPosition)
+    },
+  },
+]
+
+const getEventHandler = (props: KeyEventProps) => {
+  const { event } = props
+
+  const matchKey = (keys: string | string[] = [], eventKey: string) => {
+    const keysArray = [keys].flat().map(key => key.toLowerCase())
+    return keysArray.length === 0
+      ? true
+      : keysArray.map(key => key.toLowerCase()).includes(eventKey.toLowerCase())
+  }
+
+  return eventHandlers.find(({ key, filter = () => true }) => {
+    return matchKey(key, event.key) && filter(props)
+  })
+}
 
 export const keyEvents = (
   event: KeyboardEvent<HTMLTextAreaElement>,
   indentWidth = 2
 ) => {
   const api = new SelectionText(event.currentTarget)
-  const code = event.code.toLocaleLowerCase()
-  const indent = " ".repeat(indentWidth)
+  const handlerProps = { event, api, indentWidth }
 
-  if (code === "tab") {
-    stopPropagation(event)
-    if (api.start === api.end) {
-      if (event.shiftKey) {
-        api.lineStartRemove(indent)
-      } else {
-        api
-          .insertText(indent)
-          .position(api.start + indentWidth, api.end + indentWidth)
-      }
-    } else if (api.getSelectedValue().includes("\n") && event.shiftKey) {
-      api.lineStartRemove(indent)
-    } else if (api.getSelectedValue().includes("\n")) {
-      api.lineStartInsert(indent)
-    } else {
-      api.insertText(indent).position(api.start + indentWidth, api.end)
-    }
-    api.notifyChange()
-  } else if (code === "enter") {
-    stopPropagation(event)
-    const indent = `\n${api.getIndentText()}`
-    api
-      .insertText(indent)
-      .position(api.start + indent.length, api.start + indent.length)
-    api.notifyChange()
-  } else if (
-    code &&
-    /^(quote|backquote|bracketleft|digit9|comma)$/.test(code) &&
-    api.getSelectedValue()
-  ) {
-    stopPropagation(event)
-    const val = api.getSelectedValue()
-    let txt = ""
-    switch (code) {
-      case "quote":
-        txt = `'${val}'`
-        if (event.shiftKey) {
-          txt = `"${val}"`
-        }
-        break
-      case "backquote":
-        txt = `\`${val}\``
-        break
-      case "bracketleft":
-        txt = `[${val}]`
-        if (event.shiftKey) {
-          txt = `{${val}}`
-        }
-        break
-      case "digit9":
-        txt = `(${val})`
-        break
-      case "comma":
-        txt = `<${val}>`
-        break
-    }
-    api.insertText(txt)
-    api.notifyChange()
-  }
+  const eventHandler = getEventHandler(handlerProps)
+  if (!eventHandler) return
+
+  stopPropagation(event)
+  eventHandler.handler(handlerProps)
+  api.notifyChange()
 }
