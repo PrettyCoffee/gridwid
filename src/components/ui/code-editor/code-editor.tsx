@@ -1,3 +1,4 @@
+import { css } from "goober"
 import {
   Dispatch,
   TextareaHTMLAttributes,
@@ -12,11 +13,59 @@ import { cn } from "utils/cn"
 
 import { CodeLanguage, CodePreview } from "./code-preview"
 import { keyEvents } from "./key-events"
-import * as styles from "./styles"
 import { rehypeTheme } from "./styles"
 
-const classPrefix = "w-tc-editor"
 const indentWidth = 2
+
+const textAreaStaticProps: TextareaHTMLAttributes<HTMLTextAreaElement> = {
+  autoComplete: "off",
+  autoCorrect: "off",
+  spellCheck: "false",
+  autoCapitalize: "off",
+} as const
+
+const textAreaStyles = css`
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-fill-color: transparent;
+
+  &::placeholder {
+    -webkit-text-fill-color: initial;
+  }
+`
+
+const sharedStyles = css`
+  outline: 0;
+  background: none;
+  display: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-variant-ligatures: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  tab-size: inherit;
+  text-indent: inherit;
+  text-rendering: inherit;
+  text-transform: inherit;
+  white-space: pre-wrap;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+
+  min-height: 3.5rem;
+  padding: 1rem;
+  margin: 0;
+
+  pre {
+    white-space: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    code {
+      font-family: inherit;
+    }
+  }
+`
 
 type NativeTextAreaProps = Pick<
   TextareaHTMLAttributes<HTMLTextAreaElement>,
@@ -67,8 +116,6 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
     },
     textAreaRef
   ) => {
-    const layoutStyles = cn("min-h-14 p-4")
-
     const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) =>
       onChange(target.value)
 
@@ -78,37 +125,36 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
       keyEvents(event, indentWidth)
     }
 
-    const textareaProps: TextareaHTMLAttributes<HTMLTextAreaElement> = {
-      ...textAreaProps,
-      autoComplete: "off",
-      autoCorrect: "off",
-      spellCheck: "false",
-      autoCapitalize: "off",
-      readOnly,
-      placeholder,
-      style: {
-        ...styles.editor,
-        ...styles.textarea,
-        ...(placeholder && !value ? { WebkitTextFillColor: "inherit" } : {}),
-      },
-      className: cn(layoutStyles, `${classPrefix}-text`),
-      value,
-      onKeyDown: handleKeyDown,
-      onChange: handleChange,
-    }
-
     return (
       <div
-        style={{ ...styles.container, ...style }}
-        className={cn(classPrefix, rehypeTheme, className)}
         data-color-mode={dataColorMode}
+        style={style}
+        className={cn(
+          "relative overflow-hidden rounded-sm text-left font-mono text-sm font-normal selection:bg-white/15",
+          rehypeTheme,
+          className
+        )}
       >
-        <textarea {...textareaProps} ref={textAreaRef} />
+        <textarea
+          ref={textAreaRef}
+          {...textAreaStaticProps}
+          {...textAreaProps}
+          value={value}
+          readOnly={readOnly}
+          placeholder={placeholder}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          className={cn(
+            "placeholder:text-text-gentle absolute left-0 top-0 size-full resize-none overflow-hidden",
+            sharedStyles,
+            textAreaStyles
+          )}
+        />
         <CodePreview
           rehypePlugins={rehypePlugins}
           language={language}
           value={value}
-          className={cn(layoutStyles, `${classPrefix}-preview`)}
+          className={sharedStyles}
         />
       </div>
     )

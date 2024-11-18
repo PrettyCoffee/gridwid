@@ -1,152 +1,162 @@
 import { css } from "goober"
-import { CSSProperties } from "react"
 
-export const container: CSSProperties = {
-  position: "relative",
-  textAlign: "left",
-  boxSizing: "border-box",
-  padding: 0,
-  overflow: "hidden",
-}
+import { theme } from "../../../../tailwind/theme"
 
-export const textarea: CSSProperties = {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  height: "100%",
-  width: "100%",
-  resize: "none",
-  color: "inherit",
-  opacity: 0.8,
-  overflow: "hidden",
-  MozOsxFontSmoothing: "grayscale",
-  WebkitFontSmoothing: "antialiased",
-  WebkitTextFillColor: "transparent",
-}
-
-export const editor: CSSProperties = {
-  margin: 0,
-  border: 0,
-  background: "none",
-  boxSizing: "inherit",
-  display: "inherit",
-  fontFamily: "inherit",
-  fontSize: "inherit",
-  fontStyle: "inherit",
-  fontVariantLigatures: "inherit",
-  fontWeight: "inherit",
-  letterSpacing: "inherit",
-  lineHeight: "inherit",
-  tabSize: "inherit",
-  textIndent: "inherit",
-  textRendering: "inherit",
-  textTransform: "inherit",
-  whiteSpace: "pre-wrap",
-  wordBreak: "keep-all",
-  overflowWrap: "break-word",
-  outline: 0,
-}
-
-// TODO: Prefer tailwind and use theme colors
 export const rehypeTheme = css`
-  --color-fg-default: #c9d1d9;
-  --color-canvas-subtle: #161b22;
-  --color-prettylights-syntax-comment: #8b949e;
-  --color-prettylights-syntax-entity-tag: #7ee787;
-  --color-prettylights-syntax-entity: #d2a8ff;
-  --color-prettylights-syntax-sublimelinter-gutter-mark: #484f58;
-  --color-prettylights-syntax-constant: #79c0ff;
-  --color-prettylights-syntax-string: #a5d6ff;
-  --color-prettylights-syntax-keyword: #ff7b72;
-  --color-prettylights-syntax-markup-bold: #c9d1d9;
-
-  font-family: inherit;
-  font-size: 1rem;
-  color: var(--color-fg-default);
-  background-color: var(--color-canvas-subtle);
-
-  .w-tc-editor-preview {
-    pre {
-      margin: 0;
-      padding: 0;
-      white-space: inherit;
-      font-family: inherit;
-      font-size: inherit;
-      code {
-        font-family: inherit;
-      }
-    }
-  }
+  color: ${theme.get("color.neutral.200")};
+  background-color: ${theme.get("color.neutral.900")};
 
   code[class*="language-"],
   pre[class*="language-"] {
-    .token.cdata,
+    /* See https://prismjs.com/tokens.html for all tokens */
+
     .token.comment,
+    .token.prolog,
     .token.doctype,
-    .token.prolog {
-      color: var(--color-prettylights-syntax-comment);
+    .token.cdata {
+      color: ${theme.get("color.neutral.400")};
     }
+
     .token.punctuation {
-      color: var(--color-prettylights-syntax-sublimelinter-gutter-mark);
+      color: ${theme.get("color.neutral.500")};
     }
+
     .namespace {
       opacity: 0.7;
     }
 
-    .token.boolean,
-    .token.constant,
-    .token.deleted,
-    .token.number,
-    .token.symbol {
-      color: var(--color-prettylights-syntax-entity-tag);
-    }
-
-    .token.builtin,
-    .token.char,
-    .token.inserted,
-    .token.selector,
-    .token.string {
-      color: var(--color-prettylights-syntax-constant);
-    }
-
-    .style .token.string,
-    .token.entity,
-    .token.property,
-    .token.operator,
-    .token.url {
-      color: var(--color-prettylights-syntax-constant);
-    }
-
-    .token.atrule,
-    .token.property-access .token.method,
     .token.keyword {
-      color: var(--color-prettylights-syntax-keyword);
+      color: ${theme.get("color.category.violet")};
+    }
+
+    .token.tag,
+    .token.builtin,
+    .token.constant {
+      color: ${theme.get("color.category.red")};
+    }
+    .token.boolean {
+      color: ${theme.get("color.category.violet")};
+    }
+
+    .token.class-name,
+    .token.maybe-class-name {
+      color: ${theme.get("color.category.orange")};
+    }
+
+    .token.number {
+      color: ${theme.get("color.category.orange")};
+    }
+
+    .token.string,
+    .token.char,
+    .token.attr-value {
+      color: ${theme.get("color.category.green")};
+    }
+
+    .token.symbol {
+      color: ${theme.get("color.category.red")};
+    }
+
+    .token.attr-name {
+      color: ${theme.get("color.category.orange")};
+    }
+
+    .token.variable {
+      color: ${theme.get("color.category.red")};
+    }
+
+    .token.operator {
+      color: ${theme.get("color.category.cyan")};
+    }
+
+    .token.entity {
+      color: ${theme.get("color.category.red")};
     }
 
     .token.function {
-      color: var(--color-prettylights-syntax-string);
+      color: ${theme.get("color.category.blue")};
+    }
+
+    /** Git diff specific */
+
+    .token.inserted {
+      color: ${theme.get("color.alert.success")};
+    }
+    .token.deleted {
+      color: ${theme.get("color.alert.error")};
+    }
+    .token.coord {
+      color: ${theme.get("color.neutral.500")};
+    }
+
+    /** Regex specific */
+
+    .token.regex {
+      color: ${theme.get("color.category.red")};
+      .token.quantifier.number {
+        color: ${theme.get("color.category.cyan")};
+      }
+      .token.char-set.class-name {
+        color: ${theme.get("color.category.violet")};
+      }
+      .token.regex-delimiter,
+      .token.punctuation {
+        color: ${theme.get("color.neutral.500")};
+      }
+      .token.regex-flags {
+        color: ${theme.get("color.category.orange")};
+      }
+    }
+
+    /** Css specific */
+
+    .token.selector {
+      color: ${theme.get("color.category.cyan")};
+    }
+
+    .token.property {
+      color: ${theme.get("color.category.violet")};
+    }
+
+    .token.atrule {
+      color: ${theme.get("color.category.red")};
+    }
+
+    /** Markdown specific */
+
+    .token.title {
+      color: ${theme.get("color.category.yellow")};
     }
 
     .token.important,
-    .token.regex,
-    .token.variable {
-      color: var(--color-prettylights-syntax-string-regexp);
+    .token.bold {
+      font-weight: 500;
     }
 
-    .token.bold,
-    .token.important {
-      color: var(--color-prettylights-syntax-markup-bold);
+    .token.italic {
+      font-style: italic;
     }
-    .token.tag {
-      color: var(--color-prettylights-syntax-entity-tag);
+
+    .token.url {
+      color: ${theme.get("color.neutral.500")};
+      .token.content {
+        color: ${theme.get("color.category.red")};
+      }
+      .token.url {
+        color: ${theme.get("color.category.blue")};
+      }
     }
-    .token.attr-value,
-    .token.attr-name {
-      color: var(--color-prettylights-syntax-constant);
-    }
-    .token.selector .class,
-    .token.class-name {
-      color: var(--color-prettylights-syntax-entity);
+
+    .language-markdown {
+      .token.punctuation {
+        color: ${theme.get("color.neutral.600")};
+      }
+      .title .token.punctuation {
+        color: ${theme.get("color.category.violet")};
+      }
+      .token.list.punctuation {
+        color: ${theme.get("color.category.blue")};
+      }
     }
   }
 `

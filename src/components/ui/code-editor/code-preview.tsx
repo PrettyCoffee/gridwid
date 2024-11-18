@@ -5,7 +5,6 @@ import type { Pluggable, PluggableList } from "unified"
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"
 
-import * as styles from "./styles"
 import { processHtml, htmlEncode } from "./utils"
 
 export type CodeLanguage = "markdown" | "css" | "jsx"
@@ -69,7 +68,6 @@ export const CodePreview = ({
   return useMemo(
     () => (
       <div
-        style={styles.editor}
         className={cn(languageClass, className)}
         dangerouslySetInnerHTML={{
           __html: html,
