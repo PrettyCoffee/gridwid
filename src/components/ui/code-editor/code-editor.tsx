@@ -12,10 +12,8 @@ import { ClassNameProp, DisableProp } from "types/base-props"
 import { cn } from "utils/cn"
 
 import { CodeLanguage, CodePreview } from "./code-preview"
-import { keyEvents } from "./key-events"
+import { createKeyEvents } from "./create-key-events"
 import { rehypeTheme } from "./styles"
-
-const indentWidth = 2
 
 const textAreaStaticProps: TextareaHTMLAttributes<HTMLTextAreaElement> = {
   autoComplete: "off",
@@ -92,11 +90,8 @@ export interface CodeEditorProps
    *  List of [rehype plugins](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins) to use. See the next section for examples on how to pass options
    **/
   rehypePlugins?: PluggableList
-
-  /** Support dark-mode/night-mode
-   *  TODO: Remove if possible
-   **/
-  ["data-color-mode"]?: "dark" | "light"
+  /** Handler to be called if the user hits s + ctrl */
+  onSave?: () => void
 }
 
 export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
@@ -105,29 +100,38 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
       value,
       placeholder = "Type here...",
       language,
-      "data-color-mode": dataColorMode,
       className,
       style,
       rehypePlugins,
       onChange,
       onKeyDown,
       readOnly,
+      onSave,
       ...textAreaProps
     },
     textAreaRef
   ) => {
+    const keyEvents = createKeyEvents({
+      events: [
+        {
+          key: "s",
+          filter: event => event.ctrlKey,
+          handler: () => onSave?.(),
+        },
+      ],
+    })
+
     const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) =>
       onChange(target.value)
 
     const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
       if (readOnly) return
       onKeyDown?.(event)
-      keyEvents(event, indentWidth)
+      keyEvents(event)
     }
 
     return (
       <div
-        data-color-mode={dataColorMode}
         style={style}
         className={cn(
           "relative overflow-hidden rounded-sm text-left font-mono text-sm font-normal selection:bg-white/15",

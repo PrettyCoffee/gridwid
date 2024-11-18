@@ -76,7 +76,8 @@ export const EditorTextArea = ({ field, className, ...props }: InputProps) => {
 }
 
 export const EditorMarkdown = ({ field, className, ...props }: InputProps) => {
-  const input = useEditorContext().getContext(field)
+  const editor = useEditorContext()
+  const input = editor.getContext(field)
   const [hasFocus, setHasFocus] = useState(false)
 
   const isEditing = hasFocus || input.didChange
@@ -102,6 +103,7 @@ export const EditorMarkdown = ({ field, className, ...props }: InputProps) => {
         onChange={input.set}
         onFocus={() => setHasFocus(true)}
         onBlur={() => setHasFocus(false)}
+        onSave={() => editor.save()}
         className={cn(
           "absolute inset-0 size-full",
           "max-w-full border-none outline-none",

@@ -11,7 +11,6 @@ const meta: Meta<typeof CodeEditor> = {
     value: argType.string,
     language: argType.string,
     rehypePlugins: argType.disabled(),
-    "data-color-mode": argType.enum(),
 
     id: argType.string(),
     placeholder: argType.string,
@@ -23,13 +22,15 @@ const meta: Meta<typeof CodeEditor> = {
     onKeyDown: argType.callback(),
     onBlur: argType.callback(),
     onFocus: argType.callback(),
+    onSave: argType.callback(),
   },
   args: {
     value: "",
     language: "markdown",
+    placeholder: "Type some demo code here...",
     onChange: action("onChange"),
     onKeyDown: action("onKeyDown"),
-    placeholder: "Type some markdown here...",
+    onSave: action("onSave"),
   },
 }
 
