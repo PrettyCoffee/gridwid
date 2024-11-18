@@ -37,7 +37,7 @@ interface CreateThemeResult<TTheme, TTokens> {
   /** Returns all tokens with the theme's css vars applied */
   getTokens: () => TTokens
   /** Returns a string which applies the according css var */
-  readValue: ReadValue<TTheme>
+  get: ReadValue<TTheme>
 }
 
 export const createTheme = <
@@ -90,7 +90,7 @@ export const createTheme = <
     getDefaultTheme: () => defaultTheme,
     getCssVars,
     getTokens,
-    readValue,
+    get: readValue,
   }
 }
 
