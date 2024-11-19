@@ -56,6 +56,12 @@ const tabEvent: EventListener = {
   },
 }
 
+const deleteEvent: EventListener = {
+  key: "d",
+  filter: event => event.ctrlKey,
+  handler: ({ api }) => api.deleteLines(),
+}
+
 interface CreateKeyEventsProps {
   indentWidth?: number
 }
@@ -79,6 +85,7 @@ export const editorKeyEvents = ({ indentWidth = 2 }: CreateKeyEventsProps) => {
     .listen(enterEvent)
     .listen(wrapValueEvent)
     .listen(tabEvent)
+    .listen(deleteEvent)
 
   return keyEvents
 }

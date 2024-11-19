@@ -43,15 +43,21 @@ export class SelectionText {
   }
 
   private getLineStartNumber() {
+    const value = this.value
     let start = this.start
-    while (start > 0) {
+    do {
       start--
-      if (this.value.charAt(start) === "\n") {
-        start++
-        break
-      }
-    }
+    } while (value.charAt(start) !== "\n" && start > 0)
     return start
+  }
+
+  private getLineEndNumber() {
+    const value = this.value
+    let end = this.end
+    while (value.charAt(end) !== "\n" && end < value.length) {
+      end++
+    }
+    return end
   }
 
   public getIndentText() {
@@ -80,24 +86,33 @@ export class SelectionText {
   }
 
   public lineStartRemove(text: string) {
-    if (text) {
-      const oldStart = this.start
-      const start = this.getLineStartNumber()
-      const str = this.getSelectedValue(start)
-      const reg = new RegExp(`^${text}`, "g")
-      let newStart = oldStart - text.length
-      if (!reg.test(str)) {
-        newStart = oldStart
-      }
-      this.position(start, this.end)
-        .insertText(
-          str
-            .split("\n")
-            .map(txt => txt.replace(reg, ""))
-            .join("\n")
-        )
-        .position(newStart, this.end)
+    if (!text) return
+
+    const oldStart = this.start
+    const start = this.getLineStartNumber()
+    const str = this.getSelectedValue(start)
+    const reg = new RegExp(`^${text}`, "g")
+    let newStart = oldStart - text.length
+    if (!reg.test(str)) {
+      newStart = oldStart
     }
+    this.position(start, this.end)
+      .insertText(
+        str
+          .split("\n")
+          .map(txt => txt.replace(reg, ""))
+          .join("\n")
+      )
+      .position(newStart, this.end)
+  }
+
+  public deleteLines() {
+    const start = this.getLineStartNumber()
+    const end = this.getLineEndNumber()
+
+    this.position(start, end)
+    this.insertText("")
+    this.position(start + 1, start + 1)
   }
 
   public notifyChange() {
