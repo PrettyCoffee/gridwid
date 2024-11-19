@@ -104,19 +104,17 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
     },
     textAreaRef
   ) => {
-    const handleKeyDown = useMemo(
-      () =>
-        editorKeyEvents({
-          additionalEvents: [
-            {
-              key: "s",
-              filter: event => event.ctrlKey,
-              handler: () => onSave?.(),
-            },
-          ],
-        }),
-      [onSave]
-    )
+    const keyEvents = useMemo(() => {
+      const keyEvents = editorKeyEvents({})
+
+      keyEvents.listen({
+        key: "s",
+        filter: event => event.ctrlKey,
+        handler: () => onSave?.(),
+      })
+
+      return keyEvents
+    }, [onSave])
 
     const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) =>
       onChange(target.value)
@@ -138,7 +136,7 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
           readOnly={readOnly}
           placeholder={placeholder}
           onChange={readOnly ? undefined : handleChange}
-          onKeyDown={readOnly ? undefined : handleKeyDown}
+          onKeyDown={readOnly ? undefined : event => keyEvents.emit(event)}
           className={cn(
             "placeholder:text-text-gentle absolute left-0 top-0 size-full resize-none overflow-hidden",
             sharedStyles,
