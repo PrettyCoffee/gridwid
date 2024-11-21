@@ -17,11 +17,16 @@ export class SelectionText {
   }
 
   public position(start?: number, end?: number) {
-    const { selectionStart, selectionEnd } = this.element
+    const { selectionStart, selectionEnd, selectionDirection } = this.element
     this.start = isNumber(start) ? start : selectionStart
     this.end = isNumber(end) ? end : selectionEnd
-    this.element.selectionStart = this.start
-    this.element.selectionEnd = this.end
+    if (selectionDirection === "forward") {
+      this.element.selectionStart = this.start
+      this.element.selectionEnd = this.end
+    } else {
+      this.element.selectionEnd = this.end
+      this.element.selectionStart = this.start
+    }
     return this
   }
 
