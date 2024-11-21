@@ -13,6 +13,7 @@ import { cn } from "utils/cn"
 
 import { CodeLanguage, CodePreview } from "./code-preview"
 import { editorKeyEvents } from "./editor-key-events"
+import { ShortcutsInfo } from "./shortcuts-info"
 import { rehypeTheme } from "./styles"
 
 const textAreaStaticProps: TextareaHTMLAttributes<HTMLTextAreaElement> = {
@@ -128,6 +129,9 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
           className
         )}
       >
+        <div className={"absolute right-1 top-1 z-20"}>
+          <ShortcutsInfo />
+        </div>
         <textarea
           ref={textAreaRef}
           {...textAreaStaticProps}
