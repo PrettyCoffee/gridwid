@@ -65,14 +65,14 @@ const markdownCode = `
 \`\`\`
 
 \`\`\`diff
---- bar.yml\t2014-12-16 11:43:41 +0800
-+++ /Users/foo/Desktop/bar.yml\t2014-12-31 11:28:08 +0800
+--- bar.yml 2014-12-16 11:43:41 +0800
++++ /Users/foo/Desktop/bar.yml 2014-12-31 11:28:08 +0800
 @@ -4,5 +4,5 @@
 project:
-\tsources: "src/*.cpp"
-\theaders: "src/*.h"
--    qt: core
-+    qt: core gui
+  sources: "src/*.cpp"
+  headers: "src/*.h"
+-  qt: core
++  qt: core gui
 public_headers: "src/*.h"
 \`\`\`
 
