@@ -53,7 +53,7 @@ export class SelectionText {
     do {
       start--
     } while (value.charAt(start) !== "\n" && start > 0)
-    return start
+    return start + 1
   }
 
   private getLineEndNumber() {
@@ -66,11 +66,10 @@ export class SelectionText {
   }
 
   public getIndentText() {
-    const start = this.getLineStartNumber()
-    const str = this.getSelectedValue(start)
-    let indent = ""
-    str.replace(/(^(\s)+)/, (_match, old) => (indent = String(old)))
-    return indent
+    const lineStart = this.getLineStartNumber()
+    const selectedValue = this.getSelectedValue(lineStart)
+    const [, indent] = selectedValue.match(/(^(\s)+)/) ?? []
+    return indent ?? ""
   }
 
   public lineStartInsert(insert: string) {
@@ -116,9 +115,9 @@ export class SelectionText {
     const lineStart = this.getLineStartNumber()
     const lineEnd = this.getLineEndNumber()
 
-    this.position(lineStart, lineEnd)
+    this.position(lineStart - 1, lineEnd)
     this.insertText("")
-    this.position(lineStart + 1, lineStart + 1)
+    this.position(lineStart, lineStart)
   }
 
   public notifyChange() {
