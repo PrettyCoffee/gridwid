@@ -14,10 +14,10 @@ type EventListener = KeyEventListener<HTMLTextAreaElement, EventExtension>
 const enterEvent: EventListener = {
   key: "enter",
   handler: ({ api }) => {
-    const indent = `\n${api.getIndentText()}`
-    api
-      .insertText(indent)
-      .position(api.start + indent.length, api.start + indent.length)
+    const position = api.cursor.getPosition()
+    const indent = `\n${api.getLineIndentation()}`
+    api.cursor.insertText(indent)
+    api.cursor.setPosition(position.start + indent.length)
   },
 }
 
@@ -31,8 +31,9 @@ const wrapValueEvent: EventListener = {
       "(": ")",
       "<": ">",
     }[open]
-    const text = `${open}${api.getSelectedValue()}${close ?? open}`
-    api.insertText(text)
+    const selectedValue = api.cursor.getSelectedValue()
+    const text = `${open}${selectedValue}${close ?? open}`
+    api.cursor.insertText(text)
   },
 }
 
@@ -40,19 +41,20 @@ const tabEvent: EventListener = {
   key: "tab",
   handler: ({ event, api, indentWidth }) => {
     const indent = " ".repeat(indentWidth)
+    const position = api.cursor.getPosition()
 
     if (event.shiftKey) {
       api.lineStartRemove(indent)
       return
     }
 
-    if (api.start !== api.end) {
+    if (position.start !== position.end) {
       api.lineStartInsert(indent)
       return
     }
 
-    const newPosition = api.start + indentWidth
-    api.insertText(indent).position(newPosition, newPosition)
+    api.cursor.insertText(indent)
+    api.cursor.setPosition(position.start + indentWidth)
   },
 }
 

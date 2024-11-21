@@ -1,155 +1,183 @@
-const isNumber = (value?: unknown): value is number =>
-  typeof value === "number" && !isNaN(value)
+interface Position {
+  start: number
+  end: number
+  direction: HTMLTextAreaElement["selectionDirection"]
+}
 
-export class SelectionText {
+class TextCursor {
   private readonly element: HTMLTextAreaElement
-  private value: string
 
-  public start: number
-  public end: number
+  private position: Position
 
   constructor(element: HTMLTextAreaElement) {
-    const { selectionStart, selectionEnd } = element
     this.element = element
-    this.start = selectionStart
-    this.end = selectionEnd
-    this.value = this.element.value
+    this.position = {
+      start: element.selectionStart,
+      end: element.selectionEnd,
+      direction: element.selectionDirection,
+    }
   }
 
-  public position(start?: number, end?: number) {
+  public getPosition() {
+    return { ...this.position }
+  }
+
+  public setPosition(positionArg: number | Partial<Position>) {
     const { selectionStart, selectionEnd, selectionDirection } = this.element
-    this.start = isNumber(start) ? start : selectionStart
-    this.end = isNumber(end) ? end : selectionEnd
-    if (selectionDirection === "forward") {
-      this.element.selectionStart = this.start
-      this.element.selectionEnd = this.end
+    this.position =
+      typeof positionArg == "number"
+        ? { start: positionArg, end: positionArg, direction: "forward" }
+        : {
+            start: positionArg.start ?? selectionStart,
+            end: positionArg.end ?? selectionEnd,
+            direction: positionArg.direction ?? selectionDirection,
+          }
+
+    if (this.position.direction === "forward") {
+      this.element.selectionStart = this.position.start
+      this.element.selectionEnd = this.position.end
     } else {
-      this.element.selectionEnd = this.end
-      this.element.selectionStart = this.start
+      this.element.selectionEnd = this.position.end
+      this.element.selectionStart = this.position.start
     }
-    return this
   }
 
   public insertText(text: string) {
     // Most of the used APIs only work with the field selected
     this.element.focus()
     this.element.setRangeText(text)
-    this.value = this.element.value
-    this.position()
-    return this
+    this.setPosition({})
+    return this.element.value
   }
 
-  public getSelectedValue(start?: number, end?: number) {
-    const { selectionStart, selectionEnd } = this.element
-    return this.value.slice(
-      isNumber(start) ? start : selectionStart,
-      isNumber(end) ? end : selectionEnd
+  public getSelectedValue(position?: Partial<Omit<Position, "direction">>) {
+    return this.element.value.slice(
+      position?.start ?? this.position.start,
+      position?.end ?? this.position.end
     )
   }
 
-  private getLineStartNumber() {
-    const value = this.value
-    let start = this.start
+  public getLineStart() {
+    const value = this.element.value
+    let start = this.position.start
     do {
       start--
     } while (value.charAt(start) !== "\n" && start > 0)
     return start + 1
   }
 
-  private getLineEndNumber() {
-    const value = this.value
-    let end = this.end
+  public getLineEnd() {
+    const value = this.element.value
+    let end = this.position.end
     while (value.charAt(end) !== "\n" && end < value.length) {
       end++
     }
     return end
   }
+}
 
-  public getIndentText() {
-    const lineStart = this.getLineStartNumber()
-    const selectedValue = this.getSelectedValue(lineStart)
+export class SelectionText {
+  private readonly element: HTMLTextAreaElement
+
+  public readonly cursor: TextCursor
+
+  constructor(element: HTMLTextAreaElement) {
+    this.element = element
+    this.cursor = new TextCursor(element)
+  }
+
+  public getLineIndentation() {
+    const lineStart = this.cursor.getLineStart()
+    const selectedValue = this.cursor.getSelectedValue({ start: lineStart })
     const [, indent] = selectedValue.match(/(^(\s)+)/) ?? []
     return indent ?? ""
   }
 
   public lineStartInsert(insert: string) {
-    const lineStart = this.getLineStartNumber()
-    const selectedValue = this.getSelectedValue(lineStart)
+    const position = this.cursor.getPosition()
+    const lineStart = this.cursor.getLineStart()
+    const selectedValue = this.cursor.getSelectedValue({ start: lineStart })
 
-    const newStart = this.start + insert.length
+    const newStart = position.start + insert.length
 
-    this.position(lineStart, this.end)
-    this.insertText(
+    this.cursor.setPosition({ start: lineStart })
+    this.cursor.insertText(
       selectedValue
         .split("\n")
         .map(line => insert + line)
         .join("\n")
     )
-    this.position(newStart, this.end)
+    this.cursor.setPosition({ start: newStart })
 
     return this
   }
 
   public lineStartRemove(remove: string) {
-    const lineStart = this.getLineStartNumber()
-    const selectedValue = this.getSelectedValue(lineStart)
+    const position = this.cursor.getPosition()
+    const lineStart = this.cursor.getLineStart()
+    const selectedValue = this.cursor.getSelectedValue({ start: lineStart })
 
     const removeRegex = new RegExp(`^${remove}`, "g")
     const newStart = !removeRegex.test(selectedValue)
-      ? this.start
-      : this.start - remove.length
+      ? position.start
+      : position.start - remove.length
 
-    this.position(lineStart, this.end)
-    this.insertText(
+    this.cursor.setPosition({ start: lineStart })
+    this.cursor.insertText(
       selectedValue
         .split("\n")
         .map(line => line.replace(removeRegex, ""))
         .join("\n")
     )
-    this.position(newStart, this.end)
+    this.cursor.setPosition({ start: newStart })
 
     return this
   }
 
   public deleteLines() {
-    const removedValue = this.getSelectedValue()
-    const cursorPosition = this.start
-    const lineStart = this.getLineStartNumber()
-    const lineEnd = this.getLineEndNumber()
+    const position = this.cursor.getPosition()
+    const removedValue = this.cursor.getSelectedValue()
+    const lineStart = this.cursor.getLineStart()
+    const lineEnd = this.cursor.getLineEnd()
 
-    this.position(lineStart - 1, lineEnd)
-    this.insertText("")
+    this.cursor.setPosition({ start: lineStart - 1, end: lineEnd })
+    this.cursor.insertText("")
 
     // multi line deletion moves cursor to line start
     if (removedValue.includes("\n")) {
-      this.position(lineStart, lineStart)
+      this.cursor.setPosition(lineStart)
       return
     }
 
     const newValue = this.element.value
     // if single line deletion can keep cursor position, do that
-    if (!newValue.slice(lineStart, cursorPosition).includes("\n")) {
-      this.position(cursorPosition, cursorPosition)
+    if (!newValue.slice(lineStart, position.start).includes("\n")) {
+      this.cursor.setPosition(position.start)
     } else {
       // otherwise, move it to the end of the line
-      this.position(lineStart, lineStart)
-      const newLineEnd = this.getLineEndNumber()
-      this.position(newLineEnd, newLineEnd)
+      this.cursor.setPosition(lineStart)
+      const newLineEnd = this.cursor.getLineEnd()
+      this.cursor.setPosition(newLineEnd)
     }
   }
 
   public duplicateLines() {
-    const initialStart = this.start
-    const initialEnd = this.end
-    const lineStart = this.getLineStartNumber()
-    const lineEnd = this.getLineEndNumber()
+    const position = this.cursor.getPosition()
+    const lineStart = this.cursor.getLineStart()
+    const lineEnd = this.cursor.getLineEnd()
 
-    const duplicateValue = this.getSelectedValue(lineStart - 1, lineEnd)
-    this.position(lineEnd, lineEnd)
-    this.insertText(duplicateValue)
+    const duplicateValue = this.cursor.getSelectedValue({
+      start: lineStart - 1,
+      end: lineEnd,
+    })
+    this.cursor.setPosition(lineEnd)
+    this.cursor.insertText(duplicateValue)
 
     const positionOffset = duplicateValue.length
-    this.position(initialStart + positionOffset, initialEnd + positionOffset)
+    this.cursor.setPosition({
+      start: position.start + positionOffset,
+      end: position.end + positionOffset,
+    })
   }
 
   public notifyChange() {
