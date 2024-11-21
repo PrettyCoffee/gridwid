@@ -8,9 +8,9 @@ export class SelectionText {
   public start: number
   public end: number
 
-  constructor(elm: HTMLTextAreaElement) {
-    const { selectionStart, selectionEnd } = elm
-    this.element = elm
+  constructor(element: HTMLTextAreaElement) {
+    const { selectionStart, selectionEnd } = element
+    this.element = element
     this.start = selectionStart
     this.end = selectionEnd
     this.value = this.element.value
@@ -73,51 +73,52 @@ export class SelectionText {
     return indent
   }
 
-  public lineStartInsert(text: string) {
-    if (text) {
-      const oldStart = this.start
-      const start = this.getLineStartNumber()
-      const str = this.getSelectedValue(start)
-      this.position(start, this.end)
-        .insertText(
-          str
-            .split("\n")
-            .map(txt => text + txt)
-            .join("\n")
-        )
-        .position(oldStart + text.length, this.end)
-    }
+  public lineStartInsert(insert: string) {
+    const lineStart = this.getLineStartNumber()
+    const selectedValue = this.getSelectedValue(lineStart)
+
+    const newStart = this.start + insert.length
+
+    this.position(lineStart, this.end)
+    this.insertText(
+      selectedValue
+        .split("\n")
+        .map(line => insert + line)
+        .join("\n")
+    )
+    this.position(newStart, this.end)
+
     return this
   }
 
-  public lineStartRemove(text: string) {
-    if (!text) return
+  public lineStartRemove(remove: string) {
+    const lineStart = this.getLineStartNumber()
+    const selectedValue = this.getSelectedValue(lineStart)
 
-    const oldStart = this.start
-    const start = this.getLineStartNumber()
-    const str = this.getSelectedValue(start)
-    const reg = new RegExp(`^${text}`, "g")
-    let newStart = oldStart - text.length
-    if (!reg.test(str)) {
-      newStart = oldStart
-    }
-    this.position(start, this.end)
-      .insertText(
-        str
-          .split("\n")
-          .map(txt => txt.replace(reg, ""))
-          .join("\n")
-      )
-      .position(newStart, this.end)
+    const removeRegex = new RegExp(`^${remove}`, "g")
+    const newStart = !removeRegex.test(selectedValue)
+      ? this.start
+      : this.start - remove.length
+
+    this.position(lineStart, this.end)
+    this.insertText(
+      selectedValue
+        .split("\n")
+        .map(line => line.replace(removeRegex, ""))
+        .join("\n")
+    )
+    this.position(newStart, this.end)
+
+    return this
   }
 
   public deleteLines() {
-    const start = this.getLineStartNumber()
-    const end = this.getLineEndNumber()
+    const lineStart = this.getLineStartNumber()
+    const lineEnd = this.getLineEndNumber()
 
-    this.position(start, end)
+    this.position(lineStart, lineEnd)
     this.insertText("")
-    this.position(start + 1, start + 1)
+    this.position(lineStart + 1, lineStart + 1)
   }
 
   public notifyChange() {
