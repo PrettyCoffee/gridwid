@@ -112,12 +112,30 @@ export class SelectionText {
   }
 
   public deleteLines() {
+    const removedValue = this.getSelectedValue()
+    const cursorPosition = this.start
     const lineStart = this.getLineStartNumber()
     const lineEnd = this.getLineEndNumber()
 
     this.position(lineStart - 1, lineEnd)
     this.insertText("")
-    this.position(lineStart, lineStart)
+
+    // multi line deletion moves cursor to line start
+    if (removedValue.includes("\n")) {
+      this.position(lineStart, lineStart)
+      return
+    }
+
+    const newValue = this.element.value
+    // if single line deletion can keep cursor position, do that
+    if (!newValue.slice(lineStart, cursorPosition).includes("\n")) {
+      this.position(cursorPosition, cursorPosition)
+    } else {
+      // otherwise, move it to the end of the line
+      this.position(lineStart, lineStart)
+      const newLineEnd = this.getLineEndNumber()
+      this.position(newLineEnd, newLineEnd)
+    }
   }
 
   public notifyChange() {
