@@ -62,6 +62,12 @@ const deleteEvent: EventListener = {
   handler: ({ api }) => api.deleteLines(),
 }
 
+const duplicateEvent: EventListener = {
+  key: "insert",
+  filter: event => event.ctrlKey,
+  handler: ({ api }) => api.duplicateLines(),
+}
+
 interface CreateKeyEventsProps {
   indentWidth?: number
 }
@@ -86,6 +92,7 @@ export const editorKeyEvents = ({ indentWidth = 2 }: CreateKeyEventsProps) => {
     .listen(wrapValueEvent)
     .listen(tabEvent)
     .listen(deleteEvent)
+    .listen(duplicateEvent)
 
   return keyEvents
 }

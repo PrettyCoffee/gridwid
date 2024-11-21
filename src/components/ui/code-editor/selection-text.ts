@@ -138,6 +138,20 @@ export class SelectionText {
     }
   }
 
+  public duplicateLines() {
+    const initialStart = this.start
+    const initialEnd = this.end
+    const lineStart = this.getLineStartNumber()
+    const lineEnd = this.getLineEndNumber()
+
+    const duplicateValue = this.getSelectedValue(lineStart - 1, lineEnd)
+    this.position(lineEnd, lineEnd)
+    this.insertText(duplicateValue)
+
+    const positionOffset = duplicateValue.length
+    this.position(initialStart + positionOffset, initialEnd + positionOffset)
+  }
+
   public notifyChange() {
     const event = new Event("input", { bubbles: true, cancelable: false })
     this.element.dispatchEvent(event)
