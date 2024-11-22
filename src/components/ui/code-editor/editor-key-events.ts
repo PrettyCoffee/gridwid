@@ -70,6 +70,15 @@ const duplicateEvent: EventListener = {
   handler: ({ api }) => api.duplicateLines(),
 }
 
+const moveEvent: EventListener = {
+  key: ["ArrowUp", "ArrowDown"],
+  filter: event => event.altKey,
+  handler: ({ event, api }) => {
+    const key = event.key
+    api.moveLines(key === "ArrowUp" ? -1 : 1)
+  },
+}
+
 interface CreateKeyEventsProps {
   indentWidth?: number
 }
@@ -95,6 +104,7 @@ export const editorKeyEvents = ({ indentWidth = 2 }: CreateKeyEventsProps) => {
     .listen(tabEvent)
     .listen(deleteEvent)
     .listen(duplicateEvent)
+    .listen(moveEvent)
 
   return keyEvents
 }

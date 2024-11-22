@@ -36,8 +36,10 @@ export const ShortcutsInfo = () => (
     <Tooltip.Portal>
       <Tooltip.Content side="left" align="start">
         <span>Available shortcuts:</span>
+        <Shortcut keys={["ctrl", "s"]} description="Save changes" />
         <Shortcut keys={["ctrl", "d"]} description="Delete line(s)" />
         <Shortcut keys={["ctrl", "insrt"]} description="Duplicate line(s)" />
+        <Shortcut keys={["alt", "↑/↓"]} description="Move line(s)" />
       </Tooltip.Content>
     </Tooltip.Portal>
   </Tooltip.Root>

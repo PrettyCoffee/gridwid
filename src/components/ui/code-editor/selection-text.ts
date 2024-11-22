@@ -180,6 +180,41 @@ export class SelectionText {
     })
   }
 
+  public moveLines(direction: number) {
+    const position = this.cursor.getPosition()
+    const lineStart = this.cursor.getLineStart()
+    const lineEnd = this.cursor.getLineEnd()
+
+    const movedText = this.cursor.getSelectedValue({
+      start: lineStart,
+      end: lineEnd + 1,
+    })
+
+    this.cursor.setPosition({ start: lineStart, end: lineEnd + 1 })
+    this.cursor.insertText("")
+
+    const oldPosition = this.cursor.getPosition().start
+    let newPosition: number
+
+    if (direction < 0) {
+      this.cursor.setPosition(this.cursor.getLineStart() - 1) // start of the line
+      this.cursor.setPosition(this.cursor.getLineStart()) // start of the line above
+      newPosition = this.cursor.getPosition().start
+      this.cursor.insertText(movedText)
+    } else {
+      this.cursor.setPosition(this.cursor.getLineEnd() + 1) // start of the line below
+      newPosition = this.cursor.getPosition().start
+      this.cursor.insertText(movedText)
+    }
+
+    const diff = newPosition - oldPosition
+    this.cursor.setPosition({
+      ...position,
+      start: position.start + diff,
+      end: position.end + diff,
+    })
+  }
+
   public notifyChange() {
     const event = new Event("input", { bubbles: true, cancelable: false })
     this.element.dispatchEvent(event)
