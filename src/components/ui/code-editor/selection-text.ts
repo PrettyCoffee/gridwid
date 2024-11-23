@@ -1,4 +1,4 @@
-interface Position {
+export interface Position {
   start: number
   end: number
   direction: HTMLTextAreaElement["selectionDirection"]
