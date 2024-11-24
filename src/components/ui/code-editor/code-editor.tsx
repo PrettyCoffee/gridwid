@@ -5,7 +5,6 @@ import {
   ChangeEvent,
   forwardRef,
   useMemo,
-  useRef,
 } from "react"
 import type { PluggableList } from "unified"
 
@@ -14,53 +13,9 @@ import { cn } from "utils/cn"
 
 import { CodeLanguage, CodePreview } from "./code-preview"
 import { editorKeyEvents } from "./editor-key-events"
-import { Position } from "./selection-text"
 import { ShortcutsInfo } from "./shortcuts-info"
 import { rehypeTheme } from "./styles"
-
-interface HistoryItem {
-  prev?: HistoryItem
-  next?: HistoryItem
-  value: string
-  position: Omit<Position, "direction">
-}
-
-const useHistory = (initialValue: string) => {
-  const history = useRef<HistoryItem>({
-    value: initialValue,
-    position: { start: 0, end: 0 },
-  })
-
-  const getCurrent = () => ({
-    value: history.current.value,
-    position: history.current.position,
-  })
-
-  return {
-    getCurrent,
-    push: (value: string, position: HistoryItem["position"]) => {
-      if (history.current.value === value) return
-      history.current = {
-        prev: history.current,
-        position,
-        value,
-      }
-    },
-    undo: () => {
-      if (history.current.prev) {
-        const next = history.current
-        const prev = history.current.prev
-        prev.next = next
-        history.current = prev
-      }
-      return getCurrent()
-    },
-    redo: () => {
-      if (history.current.next) history.current = history.current.next
-      return getCurrent()
-    },
-  }
-}
+import { useChangeHistory } from "./use-change-history"
 
 const textAreaStaticProps: TextareaHTMLAttributes<HTMLTextAreaElement> = {
   autoComplete: "off",
@@ -151,7 +106,7 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
     },
     textAreaRef
   ) => {
-    const history = useHistory(value)
+    const history = useChangeHistory(value)
 
     const keyEvents = useMemo(() => {
       const keyEvents = editorKeyEvents({})
@@ -171,9 +126,7 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
               end: history.getCurrent().value.length,
             })
 
-            let entry: Omit<HistoryItem, "prev" | "next">
-            if (event.shiftKey) entry = history.redo()
-            else entry = history.undo()
+            const entry = event.shiftKey ? history.redo() : history.undo()
 
             api.cursor.insertText(entry.value)
             api.cursor.setPosition(entry.position)
