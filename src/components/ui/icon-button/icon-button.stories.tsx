@@ -25,7 +25,6 @@ const meta: Meta<typeof IconButton> = {
     onFocus: argType.callback(),
   },
   args: {
-    to: "",
     icon: Cat,
     look: "flat",
     title: "*click*",
