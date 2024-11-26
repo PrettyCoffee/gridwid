@@ -8,6 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006 -c ./storybook --no-open",
+    "storybook:build": "storybook build -c ./storybook -o dist/storybook",
     "test": "vitest",
     "test:all": "vitest --watch=false",
     "lint": "eslint ./ --ext .ts,.tsx --ignore-path .gitignore",
