@@ -1,12 +1,77 @@
 import * as Primitive from "@radix-ui/react-checkbox"
+import { css, keyframes } from "goober"
 import { Check, Minus } from "lucide-react"
-import { Dispatch, ReactNode } from "react"
+import { Dispatch, ReactNode, useRef } from "react"
 
-import { ClassNameProp } from "../../../types/base-props"
-import { cn } from "../../../utils/cn"
-import { hstack, interactive, vstack } from "../../../utils/styles"
+import { ClassNameProp } from "types/base-props"
+import { cn } from "utils/cn"
+import { hstack, interactive, vstack } from "utils/styles"
+
+import { AutoAnimateHeight } from "../../utility/auto-animate-height"
 import { Divider } from "../divider"
 import { Icon } from "../icon"
+
+const CheckboxLabel = ({
+  checked,
+  label,
+  subLine,
+}: Pick<CheckboxProps, "checked" | "label" | "subLine">) => {
+  const isChecked = checked === true
+
+  return (
+    <AutoAnimateHeight duration={150} className={"my-0.5"}>
+      <div className={cn(vstack({}), isChecked && "h-5")}>
+        <div
+          className={cn(
+            "relative shrink-0 text-start text-sm",
+            isChecked && "text-text-gentle truncate"
+          )}
+        >
+          <span
+            className={cn(
+              "bg-text-gentle absolute top-1/2 h-0.5 w-full",
+              "origin-left scale-x-0 transition-transform duration-300 ease-out",
+              isChecked && "scale-x-100",
+              isChecked && subLine && "delay-150"
+            )}
+          />
+          {label}
+        </div>
+
+        {!isChecked && subLine && (
+          <>
+            <Divider color="gentle" className="my-0.5" />
+            <div className={"text-text-gentle text-xs"}>{subLine}</div>
+          </>
+        )}
+      </div>
+    </AutoAnimateHeight>
+  )
+}
+
+const wiggle = keyframes`
+  0% {
+      rotate: 0deg;
+      scale: 0;
+  }
+  25% {
+      rotate: 10deg;
+  }
+  50% {
+    rotate: -10deg;
+    scale: 1;
+  }
+  75% {
+      rotate: 10deg;
+  }
+  100% {
+    rotate: 0deg;
+  }
+`
+
+const checkAnimation = css`
+  animation: 500ms ${wiggle} ease-in-out;
+`
 
 export interface CheckboxProps extends ClassNameProp {
   /** Checked state of the checkbox */
@@ -18,6 +83,7 @@ export interface CheckboxProps extends ClassNameProp {
   /** Additional information */
   subLine?: ReactNode
 }
+
 export const Checkbox = ({
   checked,
   onChange,
@@ -26,7 +92,13 @@ export const Checkbox = ({
   className,
   ...delegated
 }: CheckboxProps) => {
-  const isChecked = checked === true
+  const renderState = useRef<"initial" | "didMount">()
+  if (renderState.current == null) {
+    renderState.current = "initial"
+  } else {
+    renderState.current = "didMount"
+  }
+
   return (
     <Primitive.Root
       {...delegated}
@@ -51,26 +123,16 @@ export const Checkbox = ({
             size="xs"
             strokeWidth={4}
             color={checked === "indeterminate" ? "gentle" : "success"}
+            className={cn(
+              checked === true &&
+                renderState.current === "didMount" &&
+                checkAnimation
+            )}
           />
         </Primitive.Indicator>
       </div>
-      <div className={cn(vstack({}))}>
-        <div
-          className={cn(
-            "text-start text-sm",
-            isChecked &&
-              "decoration-text-gentle text-text-gentle truncate line-through decoration-2"
-          )}
-        >
-          {label}
-        </div>
-        {subLine && !isChecked && (
-          <>
-            <Divider color="gentle" className="my-0.5" />
-            <div className="text-text-gentle text-xs">{subLine}</div>
-          </>
-        )}
-      </div>
+
+      <CheckboxLabel checked={checked} label={label} subLine={subLine} />
     </Primitive.Root>
   )
 }

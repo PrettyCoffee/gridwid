@@ -2,6 +2,7 @@ import { Clock } from "lucide-react"
 import { useState } from "react"
 
 import { action, argType, Meta, StoryObj } from "lib/storybook"
+import { formatTime } from "utils/format"
 
 import { Checkbox, CheckboxProps } from "./checkbox"
 import { Icon } from "../icon"
@@ -20,7 +21,7 @@ const meta: Meta<typeof Checkbox> = {
     onChange: argType.callback(),
   },
   args: {
-    label: "Check me for satisfaction!",
+    label: "I like ducks and ducks like me!",
     checked: false,
     onChange: action("onChange"),
   },
@@ -39,7 +40,7 @@ const SubLine = () => (
       size="xs"
       className="mr-1"
     />
-    05:00
+    {formatTime(new Date())}
   </>
 )
 
