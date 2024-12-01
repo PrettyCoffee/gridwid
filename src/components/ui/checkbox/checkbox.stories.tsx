@@ -95,8 +95,23 @@ export const MultiLineLabel: Story = {
   },
   render: args => (
     <StoryWrapper>
-      <ControlledCheckbox {...args} checked={false} />
+      <ControlledCheckbox {...args} checked />
+      <ControlledCheckbox {...args} checked={"indeterminate"} />
       <ControlledCheckbox {...args} checked={false} subLine={<SubLine />} />
+    </StoryWrapper>
+  ),
+}
+
+export const BoxOnly: Story = {
+  args: {
+    label: undefined,
+    subLine: undefined,
+  },
+  render: args => (
+    <StoryWrapper>
+      <ControlledCheckbox {...args} checked />
+      <ControlledCheckbox {...args} checked={"indeterminate"} />
+      <ControlledCheckbox {...args} checked={false} />
     </StoryWrapper>
   ),
 }

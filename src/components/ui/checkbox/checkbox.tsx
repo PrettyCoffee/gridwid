@@ -78,7 +78,7 @@ export interface CheckboxProps extends ClassNameProp {
   /** Handler top be called when clicking the checkbox */
   onChange: Dispatch<Primitive.CheckedState>
   /** Label of the checkbox */
-  label: ReactNode
+  label?: ReactNode
   /** Additional information */
   subLine?: ReactNode
 }
@@ -106,7 +106,8 @@ export const Checkbox = ({
       className={cn(
         hstack({ gap: 4, align: "center" }),
         interactive({ look: "flat" }),
-        "min-h-10 w-full rounded-md p-2 pr-3",
+        "rounded-md p-2",
+        label ? "min-h-10 w-full pr-3" : "size-10",
         className
       )}
     >
@@ -131,7 +132,9 @@ export const Checkbox = ({
         </Primitive.Indicator>
       </div>
 
-      <CheckboxLabel checked={checked} label={label} subLine={subLine} />
+      {label && (
+        <CheckboxLabel checked={checked} label={label} subLine={subLine} />
+      )}
     </Primitive.Root>
   )
 }
