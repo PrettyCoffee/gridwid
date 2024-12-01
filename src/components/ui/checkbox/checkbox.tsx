@@ -19,20 +19,19 @@ const CheckboxLabel = ({
   const isChecked = checked === true
 
   return (
-    <AutoAnimateHeight duration={150} className={"my-0.5"}>
+    <AutoAnimateHeight duration={150} className={cn("my-0.5")}>
       <div className={cn(vstack({}), isChecked && "h-5")}>
         <div
           className={cn(
-            "relative shrink-0 text-start text-sm",
-            isChecked && "text-text-gentle truncate"
+            "relative w-full shrink-0 text-start text-sm",
+            isChecked ? "text-text-gentle line-clamp-1" : "line-clamp-3"
           )}
         >
           <span
             className={cn(
-              "bg-text-gentle absolute top-1/2 h-0.5 w-full",
+              "bg-text-gentle absolute top-2.5 h-0.5 w-full rounded-sm",
               "origin-left scale-x-0 transition-transform duration-300 ease-out",
-              isChecked && "scale-x-100",
-              isChecked && subLine && "delay-150"
+              isChecked && "scale-x-100 delay-150"
             )}
           />
           {label}
@@ -107,7 +106,7 @@ export const Checkbox = ({
       className={cn(
         hstack({ gap: 4, align: "center" }),
         interactive({ look: "flat" }),
-        "min-h-10 rounded-md p-2 pr-3",
+        "min-h-10 w-full rounded-md p-2 pr-3",
         className
       )}
     >

@@ -1,11 +1,14 @@
+import { faker } from "@faker-js/faker"
 import { Clock } from "lucide-react"
-import { useState } from "react"
+import { PropsWithChildren, useState } from "react"
 
 import { action, argType, Meta, StoryObj } from "lib/storybook"
 import { formatTime } from "utils/format"
 
 import { Checkbox, CheckboxProps } from "./checkbox"
 import { Icon } from "../icon"
+
+faker.seed(1334)
 
 const meta: Meta<typeof Checkbox> = {
   title: "Inputs/Checkbox",
@@ -30,6 +33,10 @@ const meta: Meta<typeof Checkbox> = {
 export default meta
 
 type Story = StoryObj<typeof Checkbox>
+
+const StoryWrapper = ({ children }: PropsWithChildren) => (
+  <div className="max-w-96 overflow-hidden">{children}</div>
+)
 
 const SubLine = () => (
   <>
@@ -61,11 +68,11 @@ const ControlledCheckbox = ({ checked, onChange, ...args }: CheckboxProps) => {
 export const Default: Story = {
   args: {},
   render: args => (
-    <div>
+    <StoryWrapper>
       <ControlledCheckbox {...args} checked />
       <ControlledCheckbox {...args} checked="indeterminate" />
       <ControlledCheckbox {...args} checked={false} />
-    </div>
+    </StoryWrapper>
   ),
 }
 
@@ -74,10 +81,22 @@ export const WithSubLine: Story = {
     subLine: <SubLine />,
   },
   render: args => (
-    <div>
+    <StoryWrapper>
       <ControlledCheckbox {...args} checked />
       <ControlledCheckbox {...args} checked="indeterminate" />
       <ControlledCheckbox {...args} checked={false} />
-    </div>
+    </StoryWrapper>
+  ),
+}
+
+export const MultiLineLabel: Story = {
+  args: {
+    label: faker.lorem.paragraphs(1),
+  },
+  render: args => (
+    <StoryWrapper>
+      <ControlledCheckbox {...args} checked={false} />
+      <ControlledCheckbox {...args} checked={false} subLine={<SubLine />} />
+    </StoryWrapper>
   ),
 }
