@@ -72,6 +72,7 @@ const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
         ref={ref}
         to={to}
         disabled={disabled}
+        aria-selected={active}
         className={cn(
           interactive({ look, active, disabled }),
           button({ size, className })
