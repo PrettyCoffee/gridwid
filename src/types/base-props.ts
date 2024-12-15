@@ -1,4 +1,5 @@
 import { LucideIcon } from "lucide-react"
+import { CSSProperties } from "react"
 
 export type AlertKind = "info" | "success" | "warn" | "error"
 
@@ -25,4 +26,9 @@ export interface DisableProp {
 export interface TitleProp {
   /** Title tooltip to briefly describe the element / an action */
   title?: string
+}
+
+export interface StyleProp {
+  /** Add custom CSS styles to the component */
+  style?: CSSProperties
 }

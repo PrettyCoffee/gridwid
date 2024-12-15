@@ -2,10 +2,10 @@ import { Slot } from "@radix-ui/react-slot"
 import { Code, LetterText, SquareSplitHorizontal } from "lucide-react"
 import { PropsWithChildren, useState } from "react"
 
+import { AsChildProp, ClassNameProp, StyleProp } from "types/base-props"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
 
-import { AsChildProp, ClassNameProp } from "../../../types/base-props"
 import { CodeEditor, CodeEditorProps } from "../code-editor"
 import { MDPreview } from "../md-preview"
 import { StateSwitch } from "../state-switch"
@@ -14,10 +14,11 @@ const ScrollArea = ({
   className,
   children,
   asChild,
-}: PropsWithChildren<ClassNameProp & AsChildProp>) => {
+  style,
+}: PropsWithChildren<ClassNameProp & AsChildProp & StyleProp>) => {
   const Inner = asChild ? Slot : "div"
   return (
-    <div className={cn("overflow-hidden", vstack({}), className)}>
+    <div style={style} className={cn("overflow-hidden", vstack({}), className)}>
       <Inner className="w-full flex-1 overflow-auto">{children}</Inner>
     </div>
   )
@@ -34,10 +35,13 @@ export const MDEditor = ({ className, ...inputProps }: MDEditorProps) => {
   const { value } = inputProps
   const [mode, setMode] = useState<EditorMode>("split")
 
+  const codeWidth = { code: 100, split: 50, preview: 0 }[mode]
+  const previewWidth = { code: 0, split: 50, preview: 100 }[mode]
+
   return (
     <div
       className={cn(
-        hstack({ gap: 4 }),
+        hstack({ gap: 0 }),
         "relative size-full flex-1 overflow-hidden",
         className
       )}
@@ -64,8 +68,14 @@ export const MDEditor = ({ className, ...inputProps }: MDEditorProps) => {
 
       <ScrollArea
         className={cn(
-          { code: "flex-1", split: "flex-[1_1_50%]", preview: "hidden" }[mode]
+          "transition-all duration-300",
+          mode === "split" ? "pr-2" : "pr-0"
         )}
+        style={{
+          flexGrow: codeWidth ? 1 : 0,
+          flexShrink: codeWidth ? 1 : 0,
+          flexBasis: `${codeWidth}%`,
+        }}
       >
         <CodeEditor {...inputProps} language="markdown" />
       </ScrollArea>
@@ -73,11 +83,16 @@ export const MDEditor = ({ className, ...inputProps }: MDEditorProps) => {
       <ScrollArea
         asChild
         className={cn(
-          "items-stretch",
-          { code: "hidden", split: "flex-[1_1_50%]", preview: "flex-1" }[mode]
+          "transition-all duration-300",
+          mode === "split" ? "pl-2" : "pl-0"
         )}
+        style={{
+          flexGrow: previewWidth ? 1 : 0,
+          flexShrink: previewWidth ? 1 : 0,
+          flexBasis: `${previewWidth}%`,
+        }}
       >
-        <MDPreview value={value} />
+        <MDPreview value={value} className="max-w-none" />
       </ScrollArea>
     </div>
   )
