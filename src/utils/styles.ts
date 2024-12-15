@@ -120,10 +120,6 @@ const stack = cva("", {
   },
   defaultVariants: {
     inline: false,
-    align: "start",
-    justify: "start",
-    gap: 0,
-    wrap: false,
   },
 })
 
