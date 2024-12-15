@@ -57,15 +57,24 @@ const callback = (input: InputType) => ({
   table: { ...input.table, category: "Callbacks" },
 })
 
+const optionsToArgTypes = (options?: Record<string, unknown> | unknown[]) => {
+  if (!options) return undefined
+  if (Array.isArray(options)) return { options }
+
+  const keys = Object.keys(options)
+  return { options: keys, mapping: options }
+}
+
 export const argType = createArgTypes({
   string: () => prop({ control: "text", table: { category: "Props" } }),
   boolean: () => prop({ control: "boolean" }),
   enum: (
-    type: "radio" | "select" = "radio",
-    options?: Record<string, unknown>
+    type: "radio" | "select" | "check" | "multi-select" = "radio",
+    options?: Record<string, unknown> | unknown[]
   ) =>
     prop({
-      control: { type, labels: options },
+      control: type,
+      ...optionsToArgTypes(options),
     }),
   number: (range: ControlRange = {}) =>
     prop({
