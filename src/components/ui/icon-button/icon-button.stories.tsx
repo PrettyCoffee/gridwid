@@ -23,6 +23,8 @@ const meta: Meta<typeof IconButton> = {
     onBlur: argType.callback(),
     onClick: argType.callback(),
     onFocus: argType.callback(),
+
+    style: argType.hidden(),
   },
   args: {
     icon: Cat,

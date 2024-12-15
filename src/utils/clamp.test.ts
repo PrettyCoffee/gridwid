@@ -1,3 +1,5 @@
+import { it } from "vitest"
+
 import { clamp } from "./clamp"
 
 describe("Test clamp", () => {

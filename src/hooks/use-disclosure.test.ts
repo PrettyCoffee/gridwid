@@ -1,4 +1,5 @@
 import { renderHook, act } from "@testing-library/react"
+import { it } from "vitest"
 
 import { useDisclosure } from "./use-disclosure"
 

@@ -1,3 +1,5 @@
+import { it } from "vitest"
+
 import { objectPath } from "./object-path"
 
 const testString = "string"

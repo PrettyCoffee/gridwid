@@ -1,3 +1,5 @@
+import { it, vi } from "vitest"
+
 import { deepLoop } from "./deep-loop"
 
 const stringValue = "string"
