@@ -112,11 +112,8 @@ const ScrollArea = ({
   )
 }
 
-type EditorMode = "code" | "split" | "preview"
-
 export interface MDEditorProps
   extends Omit<CodeEditorProps, "rehypePlugins" | "language" | "style"> {
-  initialMode?: EditorMode
   inputClassName?: string
   previewClassName?: string
 }
