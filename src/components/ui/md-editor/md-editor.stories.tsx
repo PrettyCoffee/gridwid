@@ -31,6 +31,7 @@ const meta: Meta<typeof MDEditor> = {
     value: argType.string(),
     placeholder: argType.string(),
     id: argType.string(),
+    initialMode: argType.enum("radio", ["code", "split", "preview"]),
     disabled: argType.boolean(),
     readOnly: argType.boolean(),
 
@@ -44,6 +45,7 @@ const meta: Meta<typeof MDEditor> = {
     disabled: false,
     readOnly: false,
     placeholder: "Insert markdown here...",
+    initialMode: "split",
 
     onChange: action("onChange"),
     onSave: action("onSave"),
