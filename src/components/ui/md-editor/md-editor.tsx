@@ -117,9 +117,16 @@ type EditorMode = "code" | "split" | "preview"
 export interface MDEditorProps
   extends Omit<CodeEditorProps, "rehypePlugins" | "language" | "style"> {
   initialMode?: EditorMode
+  inputClassName?: string
+  previewClassName?: string
 }
 
-export const MDEditor = ({ className, ...inputProps }: MDEditorProps) => {
+export const MDEditor = ({
+  className,
+  inputClassName,
+  previewClassName,
+  ...inputProps
+}: MDEditorProps) => {
   const { value } = inputProps
   const [modeValue, setModeValue] = useState(50)
 
@@ -145,7 +152,11 @@ export const MDEditor = ({ className, ...inputProps }: MDEditorProps) => {
         className={cn(!showCode && "hidden")}
         style={{ flex: `1 1 ${codeWidth}%` }}
       >
-        <CodeEditor {...inputProps} language="markdown" />
+        <CodeEditor
+          {...inputProps}
+          language="markdown"
+          className={inputClassName}
+        />
       </ScrollArea>
 
       <ScrollArea
@@ -156,7 +167,8 @@ export const MDEditor = ({ className, ...inputProps }: MDEditorProps) => {
           value={value}
           className={cn(
             "max-w-none pl-4 pt-1",
-            showCode && "border-stroke-gentle ml-4 border-l"
+            showCode && "border-stroke-gentle ml-4 border-l",
+            previewClassName
           )}
         />
       </ScrollArea>

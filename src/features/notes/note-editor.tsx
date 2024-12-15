@@ -87,7 +87,7 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
           {note.changedAt && <> | Last changed {formatDate(note.changedAt)}</>}
         </div>
 
-        <div className="w-full px-3 pb-1 pt-2">
+        <div className="w-full px-3 py-2">
           <Divider color="gentle" />
         </div>
 

@@ -6,8 +6,7 @@ import { cn } from "utils/cn"
 import { hstack } from "utils/styles"
 
 import { useEditorContext } from "./editor-context"
-import { CodeEditor } from "../code-editor"
-import { MDPreview } from "../md-preview"
+import { MDEditor } from "../md-editor"
 
 const inputBorder = cva("rounded-sm border outline-none", {
   variants: {
@@ -75,7 +74,7 @@ export const EditorTextArea = ({ field, className, ...props }: InputProps) => {
   )
 }
 
-export const EditorMarkdown = ({ field, className, ...props }: InputProps) => {
+export const EditorMarkdown = ({ field, ...props }: InputProps) => {
   const editor = useEditorContext()
   const input = editor.getContext(field)
   const [hasFocus, setHasFocus] = useState(false)
@@ -84,33 +83,18 @@ export const EditorMarkdown = ({ field, className, ...props }: InputProps) => {
   const hasError = !input.isValid
 
   return (
-    <div
-      className={cn(
+    <MDEditor
+      {...props}
+      value={input.value ?? ""}
+      onChange={input.set}
+      onFocus={() => setHasFocus(true)}
+      onBlur={() => setHasFocus(false)}
+      onSave={() => editor.save()}
+      inputClassName={cn(
         inputBorder({
           status: hasError ? "error" : isEditing ? "editing" : "default",
-        }),
-        "relative size-full"
+        })
       )}
-    >
-      <MDPreview
-        value={input.value ?? ""}
-        className={cn("w-full max-w-full px-3 py-1", hasFocus && "opacity-0")}
-      />
-      <CodeEditor
-        {...props}
-        language="markdown"
-        value={input.value ?? ""}
-        onChange={input.set}
-        onFocus={() => setHasFocus(true)}
-        onBlur={() => setHasFocus(false)}
-        onSave={() => editor.save()}
-        className={cn(
-          "absolute inset-0 size-full",
-          "max-w-full border-none outline-none",
-          !hasFocus && "opacity-0",
-          className
-        )}
-      />
-    </div>
+    />
   )
 }
