@@ -1,12 +1,13 @@
 import * as Primitive from "@radix-ui/react-checkbox"
 import { css, keyframes } from "goober"
 import { Check, Minus } from "lucide-react"
-import { Dispatch, ReactNode, useRef } from "react"
+import { Dispatch, ReactNode } from "react"
 
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"
 import { hstack, interactive, vstack } from "utils/styles"
 
+import { useRenderState } from "../../../hooks/use-render-state"
 import { AutoAnimateHeight } from "../../utility/auto-animate-height"
 import { Divider } from "../divider"
 import { Icon } from "../icon"
@@ -91,12 +92,7 @@ export const Checkbox = ({
   className,
   ...delegated
 }: CheckboxProps) => {
-  const renderState = useRef<"initial" | "didMount">()
-  if (renderState.current == null) {
-    renderState.current = "initial"
-  } else {
-    renderState.current = "didMount"
-  }
+  const renderState = useRenderState()
 
   return (
     <Primitive.Root
