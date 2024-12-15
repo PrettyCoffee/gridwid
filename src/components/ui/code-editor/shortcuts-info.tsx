@@ -1,4 +1,4 @@
-import { Info } from "lucide-react"
+import { Command } from "lucide-react"
 
 import { cn } from "utils/cn"
 
@@ -24,17 +24,17 @@ const Shortcut = ({
 export const ShortcutsInfo = () => (
   <Tooltip.Root>
     <Tooltip.Trigger asChild>
-      <button
+      <span
         className={cn(
           vstack({ align: "center", justify: "center" }),
           "size-10 cursor-default"
         )}
       >
-        <Icon icon={Info} color="gentle" />
-      </button>
+        <Icon icon={Command} color="gentle" size="sm" />
+      </span>
     </Tooltip.Trigger>
     <Tooltip.Portal>
-      <Tooltip.Content side="left" align="start">
+      <Tooltip.Content side="left" align="start" alignOffset={2}>
         <span>Available shortcuts:</span>
         <Shortcut keys={["ctrl", "s"]} description="Save changes" />
         <Shortcut keys={["ctrl", "d"]} description="Delete line(s)" />

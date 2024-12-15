@@ -153,7 +153,7 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
           className
         )}
       >
-        <div className={"absolute right-1 top-1 z-20"}>
+        <div className={"absolute right-0 top-0 z-20"}>
           <ShortcutsInfo />
         </div>
         <textarea
