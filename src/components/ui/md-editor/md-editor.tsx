@@ -7,6 +7,7 @@ import { AsChildProp, ClassNameProp, StyleProp } from "types/base-props"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
 
+import { KeyEventDispatcher } from "../../../utils/key-event-dispatcher"
 import { CodeEditor, CodeEditorProps } from "../code-editor"
 import { IconButton } from "../icon-button"
 import { MDPreview } from "../md-preview"
@@ -58,6 +59,8 @@ const slider = css`
   }
 `
 
+const snapOffset = 15
+
 const ModeSlider = ({
   value,
   onChange,
@@ -65,6 +68,48 @@ const ModeSlider = ({
   value: number
   onChange: Dispatch<number>
 }) => {
+  const handleChange = (stringValue: string) => {
+    const value = Number(stringValue)
+    if (value < snapOffset) {
+      onChange(0)
+    } else if (value > 50 - snapOffset / 2 && value < 50 + snapOffset / 2) {
+      onChange(50)
+    } else if (value > 100 - snapOffset) {
+      onChange(100)
+    } else {
+      onChange(value)
+    }
+  }
+
+  const keyEvents = new KeyEventDispatcher({})
+    .afterAll(({ event }) => event.preventDefault())
+    .listen({
+      key: ["ArrowRight", "ArrowUp"],
+      handler: ({ event }) => {
+        const value = Number((event.target as HTMLInputElement).value)
+        if (value === 0) {
+          onChange(snapOffset)
+        } else if (value + 1 > 100 - snapOffset) {
+          onChange(100)
+        } else {
+          onChange(value + 1)
+        }
+      },
+    })
+    .listen({
+      key: ["ArrowLeft", "ArrowDown"],
+      handler: ({ event }) => {
+        const value = Number((event.target as HTMLInputElement).value)
+        if (value === 100) {
+          onChange(100 - snapOffset)
+        } else if (value - 1 < snapOffset) {
+          onChange(0)
+        } else {
+          onChange(value - 1)
+        }
+      },
+    })
+
   return (
     <div
       className={cn(
@@ -81,11 +126,12 @@ const ModeSlider = ({
       />
       <input
         type="range"
-        min="20"
-        max="80"
+        min="0"
+        max="100"
         value={value}
-        onChange={({ target }) => onChange(Number(target.value))}
+        onChange={({ target }) => handleChange(target.value)}
         className={cn("text-stroke-button/75 hover:text-stroke-button", slider)}
+        onKeyDown={event => keyEvents.emit(event)}
       />
       <IconButton
         title="Show code"
@@ -130,8 +176,8 @@ export const MDEditor = ({
   const codeWidth = modeValue
   const previewWidth = 100 - modeValue
 
-  const showCode = codeWidth > 20
-  const showPreview = previewWidth > 20
+  const showCode = modeValue > 0
+  const showPreview = modeValue < 100
 
   return (
     <div
