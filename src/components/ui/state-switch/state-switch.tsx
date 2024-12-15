@@ -13,12 +13,14 @@ import {
 
 import { IconProp } from "types/base-props"
 import { clamp } from "utils/clamp"
+import { cn } from "utils/cn"
 import { createContext } from "utils/create-context"
+import { KeyEventDispatcher } from "utils/key-event-dispatcher"
 
-import { KeyEventDispatcher } from "../../../utils/key-event-dispatcher"
 import { IconButton } from "../icon-button"
 
 interface ContextState {
+  size: StateSwitchGroupProps["size"]
   current: string
   onChange: Dispatch<string>
   setCurrentOptionRef: Dispatch<HTMLElement>
@@ -35,7 +37,7 @@ export interface StateSwitchOptionProps extends Required<IconProp> {
 
 export const Option = ({ value, label, icon }: StateSwitchOptionProps) => {
   const ref = useRef<HTMLButtonElement>(null)
-  const { current, onChange, setCurrentOptionRef } = useRequiredValue()
+  const { size, current, onChange, setCurrentOptionRef } = useRequiredValue()
 
   useEffect(() => {
     if (!ref.current || current !== value) return
@@ -47,6 +49,7 @@ export const Option = ({ value, label, icon }: StateSwitchOptionProps) => {
       ref={ref}
       icon={icon}
       title={label}
+      size={size}
       active={current === value}
       onClick={() => onChange(value)}
     />
@@ -68,11 +71,14 @@ export interface StateSwitchGroupProps {
   current: string
   /** Handler to be called when clicking a state */
   onChange: Dispatch<string>
+  /** Size of the buttons */
+  size?: "md" | "sm"
 }
 
 const Group = ({
   current,
   onChange,
+  size = "md",
   children,
 }: PropsWithChildren<StateSwitchGroupProps>) => {
   const groupRef = useRef<HTMLDivElement | null>(null)
@@ -117,12 +123,13 @@ const Group = ({
       onKeyDown={event => keyHandler.emit(event)}
     >
       <div
-        className={
-          "border-highlight absolute size-10 rounded-md border transition-[translate] duration-150 ease-out"
-        }
+        className={cn(
+          "border-highlight absolute size-10 rounded-md border transition-[translate] duration-150 ease-out",
+          { md: "size-10", sm: "size-8" }[size]
+        )}
         style={{ translate: currentOptionRef?.offsetLeft ?? 0 }}
       />
-      <Provider value={{ current, onChange, setCurrentOptionRef }}>
+      <Provider value={{ size, current, onChange, setCurrentOptionRef }}>
         {children}
       </Provider>
     </div>
