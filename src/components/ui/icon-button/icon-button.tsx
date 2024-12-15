@@ -2,10 +2,11 @@ import { cva, VariantProps } from "class-variance-authority"
 import { forwardRef } from "react"
 
 import { VisuallyHidden } from "components/utility/visually-hidden"
+import { StyleProp } from "types/base-props"
 import { cn } from "utils/cn"
 
 import { Button, ButtonProps } from "../button"
-import { Icon, IconProps } from "../icon/icon"
+import { Icon, IconProps } from "../icon"
 import { TitleTooltip, TitleTooltipProps } from "../tooltip"
 
 const iconButton = cva("shrink-0", {
@@ -23,7 +24,8 @@ const iconButton = cva("shrink-0", {
 export interface IconButtonProps
   extends VariantProps<typeof iconButton>,
     Pick<IconProps, "icon" | "filled">,
-    Omit<ButtonProps, "look" | "icon" | "asChild" | "isLoading"> {
+    Omit<ButtonProps, "look" | "icon" | "asChild" | "isLoading">,
+    StyleProp {
   title: string
   look?: Exclude<ButtonProps["look"], "link">
   titleSide?: TitleTooltipProps["side"]

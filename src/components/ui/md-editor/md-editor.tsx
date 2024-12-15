@@ -37,10 +37,18 @@ const slider = css`
   appearance: none;
   display: inline-block;
   background: transparent;
-  width: 100%;
   cursor: pointer;
-  height: 1.5rem;
+  height: 2rem;
   border-radius: 0.25rem;
+
+  width: 2rem;
+  transition: width 150ms ease-out;
+
+  *:hover > &,
+  &:focus-visible,
+  *:has(:focus-visible) > & {
+    width: 5rem;
+  }
 
   &::-moz-range-track {
     ${trackStyles}
@@ -114,7 +122,7 @@ const ModeSlider = ({
     <div
       className={cn(
         hstack({ gap: 1, align: "center" }),
-        "bg-background/75 border-stroke w-36 rounded-full border backdrop-blur-sm"
+        "bg-background/75 border-stroke shade-low rounded-full border backdrop-blur-sm"
       )}
     >
       <IconButton
@@ -123,6 +131,10 @@ const ModeSlider = ({
         size="sm"
         className="rounded-full"
         onClick={() => onChange(0)}
+        active={value < 100}
+        style={{
+          filter: `saturate(${100 - value}%)`,
+        }}
       />
       <input
         type="range"
@@ -139,6 +151,10 @@ const ModeSlider = ({
         size="sm"
         className="rounded-full"
         onClick={() => onChange(100)}
+        active={value > 0}
+        style={{
+          filter: `saturate(${value}%)`,
+        }}
       />
     </div>
   )
@@ -187,7 +203,7 @@ export const MDEditor = ({
         className
       )}
     >
-      <div className="absolute right-2 top-1 z-50">
+      <div className="absolute right-1 top-1 z-50">
         <ModeSlider value={modeValue} onChange={setModeValue} />
       </div>
 
