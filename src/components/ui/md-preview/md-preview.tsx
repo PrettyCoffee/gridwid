@@ -14,7 +14,10 @@ export interface MDPreviewProps extends ClassNameProp {
 export const MDPreview = ({ value = "", className }: MDPreviewProps) => {
   return (
     <div
-      className={cn("prose dark:prose-invert prose-zinc", className)}
+      className={cn(
+        "prose dark:prose-invert prose-zinc [&_li>p]:m-0 [&_li]:my-1",
+        className
+      )}
       dangerouslySetInnerHTML={{
         __html: parse(adjustForRender(value)) as string,
       }}
