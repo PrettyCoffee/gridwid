@@ -3,6 +3,8 @@ import { useHashRouter } from "components/utility/hash-router"
 import { Note, notesData } from "features/notes"
 import { NoteEditor } from "features/notes/note-editor"
 import { useAtomValue } from "lib/yaasl"
+import { cn } from "utils/cn"
+import { vstack } from "utils/styles"
 
 import { NotesSidebar } from "./notes-sidebar"
 
@@ -23,7 +25,7 @@ const NotesIdRoute = () => {
     <Layout.Multiple>
       <NotesSidebar />
       <Layout.Main>
-        <div className="mx-auto max-w-max">
+        <div className={cn(vstack({}), "mx-auto size-full max-w-4xl flex-1")}>
           <NoteEditor key={params["id"]} noteId={noteId} />
         </div>
       </Layout.Main>

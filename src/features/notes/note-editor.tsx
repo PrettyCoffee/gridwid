@@ -56,7 +56,7 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
         }
       }}
     >
-      <div className={cn(hstack({ justify: "end" }), "mb-2 w-full max-w-4xl")}>
+      <div className={cn(hstack({ justify: "end" }), "mb-2")}>
         <Editor.Save />
         <Editor.Discard />
         <IconButton
@@ -72,7 +72,7 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
         className={cn(
           surface({ look: "card", size: "lg" }),
           vstack({}),
-          "w-full max-w-4xl flex-1"
+          "flex-1 overflow-hidden"
         )}
       >
         <Editor.TextInput
@@ -93,7 +93,7 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
 
         <Editor.Markdown
           field="text"
-          placeholder="Note content"
+          placeholder="Start writing your note..."
           className="flex-1"
         />
       </div>

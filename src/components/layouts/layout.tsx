@@ -9,8 +9,8 @@ import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
 
 const Main = ({ children, className }: PropsWithChildren & ClassNameProp) => (
-  <div className={cn(vstack({}), "h-full flex-1 overflow-auto", className)}>
-    <div className={cn("w-full flex-1")}>{children}</div>
+  <div className={cn(vstack({}), "h-full flex-1 overflow-hidden", className)}>
+    {children}
   </div>
 )
 
