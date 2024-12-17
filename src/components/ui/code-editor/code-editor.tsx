@@ -10,11 +10,11 @@ import type { PluggableList } from "unified"
 
 import { ClassNameProp, DisableProp } from "types/base-props"
 import { cn } from "utils/cn"
+import { prismTheme } from "utils/prism-theme"
 
 import { CodeLanguage, CodePreview } from "./code-preview"
 import { editorKeyEvents } from "./editor-key-events"
 import { ShortcutsInfo } from "./shortcuts-info"
-import { rehypeTheme } from "./styles"
 import { useChangeHistory } from "./use-change-history"
 
 const textAreaStaticProps: TextareaHTMLAttributes<HTMLTextAreaElement> = {
@@ -149,7 +149,7 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
         style={style}
         className={cn(
           "relative overflow-hidden rounded-sm text-left font-mono text-sm font-normal selection:bg-white/15",
-          rehypeTheme,
+          prismTheme,
           className
         )}
       >
