@@ -2,24 +2,109 @@ import { argType, Meta, StoryObj } from "lib/storybook"
 
 import { MDPreview } from "./md-preview"
 
-const markdown = `
-# Hello World!
+const meta: Meta<typeof MDPreview> = {
+  title: "Primitives/MDPreview",
+  component: MDPreview,
+  argTypes: {
+    value: argType.string,
+  },
+  args: {
+    value: "",
+  },
+}
 
-## This is markdown
+export default meta
 
-**This is bold text**
-*This is italic text*
+type Story = StoryObj<typeof MDPreview>
 
-1. This is a numbered list item
-2. This is another numbered list item
+const commonMarkTest = `
+# CommonMark Features
 
-- This is a list item
-- This is another list item
+This is a paragraph with **bold text**, *italicized text*, and \`inline code\`.
 
-- [ ] This is a checkbox
-- [x] This is another checkbox
+---
 
-> This is a quote
+## Lists
+
+### Unordered list:
+
+- Item 1
+- Item 2
+  - Sub-item 2.1
+  - Sub-item 2.2
+
+### Ordered list:
+
+1. First item
+2. Second item
+   1. Sub-item 2.1
+   2. Sub-item 2.2
+
+---
+
+## Links and Images
+
+This is a [link to CommonMark](https://commonmark.org).
+
+![CommonMark Logo](https://commonmark.org/help/images/favicon.png)
+
+---
+
+## Blockquotes
+
+> This is a blockquote.
+>
+> It can span multiple lines.
+`
+
+export const CommonMark: Story = {
+  args: { value: commonMarkTest },
+}
+
+const githubTest = `
+# GFM Features
+
+~~Strikethrough~~ is now supported and auto links like https://github.com, www.github.com or example@github.com.
+
+At the bottom you will also find a Footnote[^1].
+[^1]: Footnote mentioned at the top.
+
+---
+
+## Task Lists
+
+- [x] Write the markdown example
+- [ ] Submit the example
+
+---
+
+## Tables
+
+| Feature       | Description            | Supported |
+|---------------|------------------------|-----------|
+| Task Lists    | Interactive checkboxes | ✅         |
+| Tables        | Organize data          | ✅         |
+| Strikethrough | Cross out text         | ✅         |
+
+---
+`
+
+export const GFM: Story = {
+  args: { value: githubTest },
+}
+
+const codeBlocksTest = `
+# Code Blocks Features
+
+## Indented Code
+
+    function someFunction() {
+      console.log("Hello, world!")
+    }
+ 
+---
+
+## Fenced code with syntax highlighting
 
 \`\`\`js
 function someFunction() {
@@ -28,23 +113,8 @@ function someFunction() {
 \`\`\`
 `
 
-const meta: Meta<typeof MDPreview> = {
-  title: "Primitives/MDPreview",
-  component: MDPreview,
-  argTypes: {
-    value: argType.string,
-  },
-  args: {
-    value: markdown,
-  },
-}
-
-export default meta
-
-type Story = StoryObj<typeof MDPreview>
-
-export const Default: Story = {
-  args: {},
+export const CodeBlocks: Story = {
+  args: { value: codeBlocksTest },
 }
 
 const mathTest = `
