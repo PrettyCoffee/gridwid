@@ -6,6 +6,31 @@ import { theme } from "../../tailwind/theme"
 export const prismTheme = css`
   color: ${theme.get("color.neutral.200")};
 
+  /** Allow to show line numbers */
+  pre[class*="language-"] {
+    overflow-x: hidden;
+
+    .code-highlight {
+      float: left;
+      min-width: 100%;
+    }
+
+    .line-number::before {
+      /* Line number color */
+      color: ${theme.get("color.neutral.400")};
+      /* Line number */
+      content: attr(line);
+
+      display: inline-block;
+      width: calc(3ch + 0.5rem);
+      text-align: right;
+      padding-right: 0.5rem;
+      margin-right: 0.5rem;
+      border-right: 1px solid ${theme.get("color.neutral.700")};
+      white-space: nowrap;
+    }
+  }
+
   code[class*="language-"],
   pre[class*="language-"] {
     /* See https://prismjs.com/tokens.html for all tokens */
