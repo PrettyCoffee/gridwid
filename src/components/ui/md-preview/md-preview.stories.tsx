@@ -46,3 +46,25 @@ type Story = StoryObj<typeof MDPreview>
 export const Default: Story = {
   args: {},
 }
+
+const mathTest = `
+# Katex Features
+
+## Inline math ($)
+
+Partial correlation (pcor):
+$ r_{AB \\backslash Z} = \\frac{r_{AB}-(r_{AZ})(r_{BZ})}{\\sqrt{1-r_{AZ}^2} \\sqrt{1-r_{BZ}^2}} $
+
+---
+
+## Math block ($$)
+
+Binomial distribution:
+$$
+p(T | n, \\mu) = {n \\choose T} \\cdot \\mu^T \\cdot (1-\\mu)^{n-T}
+$$
+`
+
+export const Math: Story = {
+  args: { value: mathTest },
+}

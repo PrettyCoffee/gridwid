@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 // eslint-disable-next-line import/no-extraneous-dependencies -- installed via rehype-katex
 import "katex/dist/katex.css"
+import rehypeKatex from "rehype-katex"
 import rehypePrism from "rehype-prism-plus/all"
 import rehypeStringify from "rehype-stringify"
 import remarkGfm from "remark-gfm"
+import remarkMath from "remark-math"
 import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
@@ -20,7 +22,9 @@ const parse = (markdown: string) =>
   unified()
     .use(remarkParse)
     .use(remarkGfm)
+    .use(remarkMath)
     .use(remarkRehype)
+    .use(rehypeKatex)
     .use(rehypePrism, { ignoreMissing: true })
     .use(rehypeStringify)
     .process(adjustForRender(markdown))
