@@ -111,6 +111,26 @@ function someFunction() {
   console.log("Hello, world!")
 }
 \`\`\`
+
+---
+
+## Highlighted lines and diffs
+
+\`\`\`js {2}
+function someFunction() {
+  console.log("Hello, world!")
+}
+\`\`\`
+
+\`\`\`diff
+--- some-function.js 2024-12-16 11:43:41 +0200
++++ /Users/foo/Desktop/some-function.js 2024-12-31 11:28:08 +0200
+@@ -2 +2 @@
+function someFunction() {
+-  console.log("Helo, world!")
++  console.log("Hello, world!")
+}
+\`\`\`
 `
 
 export const CodeBlocks: Story = {

@@ -77,16 +77,46 @@ export const prismTheme = css`
       color: ${theme.get("color.category.blue")};
     }
 
+    /** Highlighted lines (rehype-prism-plus specific) */
+
+    .code-line {
+      display: block;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      margin-left: -1rem;
+      margin-right: -1rem;
+    }
+
+    .highlight-line {
+      background-color: ${theme.get("color.neutral.900")};
+      box-shadow: inset 0.25rem 00 0 ${theme.get("color.accent")};
+    }
+
     /** Git diff specific */
 
+    .token.coord {
+      /* diff meta info */
+      color: ${theme.get("color.neutral.500")};
+    }
     .token.inserted {
       color: ${theme.get("color.alert.success")};
     }
     .token.deleted {
       color: ${theme.get("color.alert.error")};
     }
-    .token.coord {
-      color: ${theme.get("color.neutral.500")};
+    .code-line.inserted {
+      /* inserted line (+) color */
+      color: ${theme.get("color.alert.success")};
+      background-color: hsla(
+        from ${theme.get("color.alert.success")} h s l / 0.1
+      );
+    }
+    .code-line.deleted {
+      /* deleted line (-) color */
+      color: ${theme.get("color.alert.error")};
+      background-color: hsla(
+        from ${theme.get("color.alert.error")} h s l / 0.1
+      );
     }
 
     /** Regex specific */
@@ -123,6 +153,10 @@ export const prismTheme = css`
     }
 
     /** Markdown specific */
+
+    .token.table {
+      display: initial;
+    }
 
     .token.title {
       color: ${theme.get("color.neutral.100")};
