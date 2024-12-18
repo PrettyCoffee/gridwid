@@ -10,6 +10,12 @@ export const prismTheme = css`
   pre[class*="language-"] {
     overflow-x: hidden;
 
+    /** Fix padding when a line wraps */
+    .code-line.line-number {
+      text-indent: -2.6rem;
+      padding-left: 3.6rem !important;
+    }
+
     .code-highlight {
       float: left;
       min-width: 100%;
