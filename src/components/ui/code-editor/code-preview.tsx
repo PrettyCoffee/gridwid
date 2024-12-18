@@ -68,8 +68,12 @@ export const CodePreview = ({
 
   const html = useMemo(() => {
     const code = htmlEncode(value)
+
+    // Add a new empty line in preview, if the last line is only whitespace
+    const end = value.match(/\n\s*$/) ? "<br />&nbsp;" : ""
+
     return processHtml(
-      `<pre aria-hidden=true><code class="${languageClass}">${code}</code><br /></pre>`,
+      `<pre aria-hidden=true><code class="${languageClass}">${code}</code>${end}</pre>`,
       plugins
     )
   }, [value, languageClass, plugins])

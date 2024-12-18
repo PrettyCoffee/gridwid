@@ -31,8 +31,7 @@ export const prismTheme = css`
     }
   }
 
-  code[class*="language-"],
-  pre[class*="language-"] {
+  code[class*="language-"] {
     /* See https://prismjs.com/tokens.html for all tokens */
 
     .token.comment,
