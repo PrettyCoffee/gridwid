@@ -5,7 +5,6 @@ import { theme } from "../../tailwind/theme"
 /* eslint-disable sonarjs/no-duplicate-string */
 export const prismTheme = css`
   color: ${theme.get("color.neutral.200")};
-  background-color: ${theme.get("color.neutral.900")};
 
   code[class*="language-"],
   pre[class*="language-"] {

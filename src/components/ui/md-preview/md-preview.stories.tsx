@@ -20,6 +20,12 @@ const markdown = `
 - [x] This is another checkbox
 
 > This is a quote
+
+\`\`\`js
+function someFunction() {
+  console.log("Hello, world!")
+}
+\`\`\`
 `
 
 const meta: Meta<typeof MDPreview> = {
