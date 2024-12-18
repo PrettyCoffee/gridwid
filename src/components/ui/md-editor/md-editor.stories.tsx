@@ -28,13 +28,13 @@ const meta: Meta<typeof MDEditor> = {
   title: "Inputs/MDEditor",
   component: MDEditor,
   argTypes: {
-    value: argType.string(),
+    value: argType.disabled(),
     placeholder: argType.string(),
     id: argType.string(),
-    inputClassName: argType.string(),
-    previewClassName: argType.string(),
     disabled: argType.boolean(),
     readOnly: argType.boolean(),
+    inputClassName: argType.disabled(),
+    previewClassName: argType.disabled(),
 
     onChange: argType.callback(),
     onSave: argType.callback(),
@@ -42,6 +42,7 @@ const meta: Meta<typeof MDEditor> = {
     onBlur: argType.callback(),
   },
   args: {
+    id: "",
     value: markdown.trim(),
     disabled: false,
     readOnly: false,

@@ -114,13 +114,25 @@ function someFunction() {
 
 ---
 
-## Highlighted lines and diffs
+## Line modifications
+
+### Highlighted Line
 
 \`\`\`js {2}
 function someFunction() {
   console.log("Hello, world!")
 }
 \`\`\`
+
+### Line numbers
+
+\`\`\`js {2} showLineNumbers
+function someFunction() {
+  console.log("Hello, world!")
+}
+\`\`\`
+
+### Line Diffs
 
 \`\`\`diff
 --- some-function.js 2024-12-16 11:43:41 +0200

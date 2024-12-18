@@ -88,6 +88,8 @@ export interface CodeEditorProps
   rehypePlugins?: PluggableList
   /** Handler to be called if the user hits s + ctrl */
   onSave?: () => void
+  /** Display code line numbers */
+  showLineNumbers?: boolean
 }
 
 export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
@@ -102,6 +104,7 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
       onChange,
       readOnly,
       onSave,
+      showLineNumbers,
       ...textAreaProps
     },
     textAreaRef
@@ -170,12 +173,18 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
             sharedStyles,
             textAreaStyles
           )}
+          style={{
+            /* 3 line number chars + 1rem regular padding + 1rem negative margin */
+            paddingLeft: showLineNumbers ? "calc(3ch + 2rem)" : undefined,
+          }}
         />
         <CodePreview
+          key={String(showLineNumbers)}
           rehypePlugins={rehypePlugins}
           language={language}
           value={value}
           className={sharedStyles}
+          showLineNumbers={showLineNumbers}
         />
       </div>
     )

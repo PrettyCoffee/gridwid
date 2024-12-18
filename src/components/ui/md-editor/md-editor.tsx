@@ -175,7 +175,10 @@ const ScrollArea = ({
 }
 
 export interface MDEditorProps
-  extends Omit<CodeEditorProps, "rehypePlugins" | "language" | "style"> {
+  extends Omit<
+    CodeEditorProps,
+    "rehypePlugins" | "language" | "style" | "showLineNumbers"
+  > {
   inputClassName?: string
   previewClassName?: string
 }
@@ -215,6 +218,7 @@ export const MDEditor = ({
           {...inputProps}
           language="markdown"
           className={inputClassName}
+          showLineNumbers
         />
       </ScrollArea>
 

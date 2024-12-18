@@ -8,12 +8,13 @@ const meta: Meta<typeof CodeEditor> = {
   title: "Inputs/CodeEditor",
   component: CodeEditor,
   argTypes: {
-    value: argType.string,
-    language: argType.string,
+    value: argType.disabled(),
+    language: argType.string(),
     rehypePlugins: argType.disabled(),
+    showLineNumbers: argType.boolean(),
 
     id: argType.string(),
-    placeholder: argType.string,
+    placeholder: argType.string(),
     style: argType.disabled(),
     readOnly: argType.boolean(),
     disabled: argType.boolean(),
@@ -24,7 +25,11 @@ const meta: Meta<typeof CodeEditor> = {
     onSave: argType.callback(),
   },
   args: {
+    id: "",
     value: "",
+    disabled: false,
+    readOnly: false,
+    showLineNumbers: false,
     language: "markdown",
     placeholder: "Type some demo code here...",
     onChange: action("onChange"),
@@ -170,6 +175,7 @@ export const JSX: Story = {
   args: {
     value: jsxCode,
     language: "jsx",
+    showLineNumbers: true,
   },
   render: ControlledCodeEditor,
 }

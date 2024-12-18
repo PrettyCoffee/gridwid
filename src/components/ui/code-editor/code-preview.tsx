@@ -29,10 +29,17 @@ const pluginDiff = (a: PluggableList, b: PluggableList) => {
   return a.some(plugin => !hasPlugin(b, plugin))
 }
 
-const defaultPlugins: PluggableList = [[rehypePrism, { ignoreMissing: true }]]
-
-const useRehypePlugins = (plugins: PluggableList = []): PluggableList => {
-  const withDefaults = mergePlugins(...defaultPlugins, ...plugins)
+const useRehypePlugins = ({
+  rehypePlugins = [],
+  showLineNumbers,
+}: Pick<
+  CodePreviewProps,
+  "rehypePlugins" | "showLineNumbers"
+>): PluggableList => {
+  const withDefaults = mergePlugins(
+    [rehypePrism, { ignoreMissing: true, showLineNumbers }],
+    ...rehypePlugins
+  )
 
   const previous = useRef(withDefaults)
   if (pluginDiff(previous.current, withDefaults)) {
@@ -46,6 +53,7 @@ interface CodePreviewProps extends ClassNameProp {
   language: CodeLanguage
   value: string
   rehypePlugins?: PluggableList
+  showLineNumbers?: boolean
 }
 
 export const CodePreview = ({
@@ -53,8 +61,9 @@ export const CodePreview = ({
   language,
   className,
   rehypePlugins,
+  showLineNumbers,
 }: CodePreviewProps) => {
-  const plugins = useRehypePlugins(rehypePlugins)
+  const plugins = useRehypePlugins({ rehypePlugins, showLineNumbers })
   const languageClass = `language-${language}`
 
   const html = useMemo(() => {
