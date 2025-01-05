@@ -11,6 +11,7 @@ const meta: Meta<typeof TitleTooltip> = {
   argTypes: {
     side: argType.enum(),
     title: argType.string(),
+    force: argType.boolean(),
   },
   args: {
     side: "top",
@@ -33,7 +34,7 @@ export const Default: Story = {
       )}
     >
       {sides.map(side => (
-        <TitleTooltip key={side} {...args} side={side}>
+        <TitleTooltip key={side} {...args} side={side} force>
           <Button>{side}</Button>
         </TitleTooltip>
       ))}
