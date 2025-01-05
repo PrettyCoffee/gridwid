@@ -25,7 +25,7 @@ const NotesIdRoute = () => {
     <Layout.Multiple>
       <NotesSidebar />
       <Layout.Main>
-        <div className={cn(vstack({}), "mx-auto size-full max-w-4xl flex-1")}>
+        <div className={cn(vstack({}), "mx-auto size-full max-w-6xl flex-1")}>
           <NoteEditor key={params["id"]} noteId={noteId} />
         </div>
       </Layout.Main>

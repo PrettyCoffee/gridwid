@@ -229,7 +229,7 @@ export const MDEditor = ({
         <MDPreview
           value={value}
           className={cn(
-            "max-w-none pl-4 pt-1",
+            "pl-4 pt-1",
             showCode && "border-stroke-gentle ml-4 border-l",
             previewClassName
           )}

@@ -46,7 +46,7 @@ export const MDPreview = ({ value = "", className }: MDPreviewProps) => {
   return (
     <div
       className={cn(
-        "prose dark:prose-invert prose-zinc [&_li>p]:m-0 [&_li]:my-1",
+        "prose dark:prose-invert prose-zinc max-w-[80ch] [&_li>p]:m-0 [&_li]:my-1",
         prismTheme,
         className
       )}
