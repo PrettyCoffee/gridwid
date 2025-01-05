@@ -1,6 +1,6 @@
 import { Slot } from "@radix-ui/react-slot"
 import { css } from "goober"
-import { Code, LetterText } from "lucide-react"
+import { Code, LetterText, Maximize, Minimize } from "lucide-react"
 import { Dispatch, PropsWithChildren, useState } from "react"
 
 import { AsChildProp, ClassNameProp, StyleProp } from "types/base-props"
@@ -41,14 +41,8 @@ const slider = css`
   height: 2rem;
   border-radius: 0.25rem;
 
-  width: 2rem;
+  width: 5rem;
   transition: width 150ms ease-out;
-
-  *:hover > &,
-  &:focus-visible,
-  *:has(:focus-visible) > & {
-    width: 5rem;
-  }
 
   &::-moz-range-track {
     ${trackStyles}
@@ -72,9 +66,11 @@ const snapOffset = 15
 const ModeSlider = ({
   value,
   onChange,
+  size,
 }: {
   value: number
   onChange: Dispatch<number>
+  size: "sm" | "md"
 }) => {
   const handleChange = (stringValue: string) => {
     const value = Number(stringValue)
@@ -119,17 +115,11 @@ const ModeSlider = ({
     })
 
   return (
-    <div
-      className={cn(
-        hstack({ gap: 1, align: "center" }),
-        "bg-background/75 border-stroke shade-low rounded-full border backdrop-blur-sm"
-      )}
-    >
+    <div className={cn(hstack({ gap: 1, align: "center" }))}>
       <IconButton
         title="Show preview"
         icon={LetterText}
-        size="sm"
-        className="rounded-full"
+        size={size}
         onClick={() => onChange(0)}
         active={value < 100}
         style={{
@@ -144,12 +134,14 @@ const ModeSlider = ({
         onChange={({ target }) => handleChange(target.value)}
         className={cn("text-stroke-button/75 hover:text-stroke-button", slider)}
         onKeyDown={event => keyEvents.emit(event)}
+        style={{
+          width: size === "sm" ? "5rem" : "8rem",
+        }}
       />
       <IconButton
         title="Show code"
         icon={Code}
-        size="sm"
-        className="rounded-full"
+        size={size}
         onClick={() => onChange(100)}
         active={value > 0}
         style={{
@@ -191,6 +183,7 @@ export const MDEditor = ({
 }: MDEditorProps) => {
   const { value } = inputProps
   const [modeValue, setModeValue] = useState(50)
+  const [viewMode, setViewMode] = useState<"inline" | "fullscreen">("inline")
 
   const codeWidth = modeValue
   const previewWidth = 100 - modeValue
@@ -202,12 +195,35 @@ export const MDEditor = ({
     <div
       className={cn(
         hstack({}),
-        "relative size-full flex-1 overflow-hidden",
+        "flex-1 overflow-hidden pt-10",
+        viewMode === "inline"
+          ? "relative size-full"
+          : "bg-background fixed inset-0 z-50 h-screen w-screen p-4 pt-14",
         className
       )}
     >
-      <div className="absolute right-1 top-1 z-50">
-        <ModeSlider value={modeValue} onChange={setModeValue} />
+      <div
+        className={cn(
+          hstack({ gap: 1, align: "center", justify: "end" }),
+          "absolute inset-x-0 top-0 z-50 w-full",
+          viewMode === "inline"
+            ? ""
+            : "shade-low border-stroke-gentle border-b p-1"
+        )}
+      >
+        <ModeSlider
+          value={modeValue}
+          onChange={setModeValue}
+          size={viewMode === "inline" ? "sm" : "md"}
+        />
+        <IconButton
+          title={viewMode === "inline" ? "Maximize Editor" : "Minimize Editor"}
+          size={viewMode === "inline" ? "sm" : "md"}
+          icon={viewMode === "inline" ? Maximize : Minimize}
+          onClick={() =>
+            setViewMode(mode => (mode === "inline" ? "fullscreen" : "inline"))
+          }
+        />
       </div>
 
       <ScrollArea
