@@ -25,7 +25,7 @@ const ListItem = forwardRef<
     {...props}
     ref={ref}
     active={active}
-    className={cn(isPlaceholder && "[&_*]:opacity-0")}
+    className={cn(isPlaceholder && "bg-background [&_*]:opacity-0")}
   >
     <Sortable.Handle item={note} asChild>
       <IconButton
@@ -73,7 +73,7 @@ export const NotesSidebar = () => {
           items={notes}
           onSort={sort => notesData.set(sort(notesData.get()))}
           OverlayItem={({ item }) => (
-            <div className="bg-background-page shade-medium">
+            <div className="bg-background shade-medium [&_*]:!bgl-base-transparent [&_*]:!bgl-layer-transparent rounded-sm">
               <ListItem
                 note={item}
                 key={item.id}
