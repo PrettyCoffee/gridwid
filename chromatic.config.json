@@ -1,0 +1,7 @@
+{
+  "$schema": "https://www.chromatic.com/config-file.schema.json",
+  "buildScriptName": "storybook:build",
+  "outputDir": "dist/storybook",
+  "storybookConfigDir": "./storybook"
+
+}

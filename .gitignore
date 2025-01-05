@@ -12,6 +12,7 @@
 migration-storybook.log
 storybook.log
 storybook-static
+build-storybook.log
 
 # production
 /dist
