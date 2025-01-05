@@ -47,14 +47,14 @@ export const Dialog = ({
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           className={cn(
-            "bg-background-page/50 fixed inset-0 size-full",
+            "bg-background-page/50 fixed inset-0 z-50 size-full",
             transition.overlayClassName
           )}
         />
 
         <DialogPrimitive.Content
           className={cn(
-            "bg-background-page border-stroke-gentle fixed inset-1/2 h-max w-96 -translate-x-1/2 -translate-y-1/2 rounded-lg border",
+            "bg-background-page border-stroke-gentle fixed inset-1/2 z-50 h-max w-96 -translate-x-1/2 -translate-y-1/2 rounded-lg border",
             transition.contentClassName
           )}
         >
