@@ -5,15 +5,17 @@ import { theme } from "../../tailwind/theme"
 /* eslint-disable sonarjs/no-duplicate-string */
 export const prismTheme = css`
   color: ${theme.get("color.neutral.200")};
+  padding: 1rem;
 
   /** Allow to show line numbers */
   pre[class*="language-"] {
-    overflow-x: hidden;
+    word-break: break-word;
 
     /** Fix padding when a line wraps */
     .code-line.line-number {
-      text-indent: -2.6rem;
-      padding-left: 3.6rem !important;
+      position: relative;
+      /* 3 line number chars + 1rem padding right + 0.5rem padding left */
+      padding-left: calc(3ch + 1.5rem) !important;
     }
 
     .code-highlight {
@@ -21,17 +23,21 @@ export const prismTheme = css`
       min-width: 100%;
     }
 
-    .line-number::before {
+    .code-line.line-number::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+
       /* Line number color */
       color: ${theme.get("color.neutral.400")};
       /* Line number */
       content: attr(line);
 
       display: inline-block;
-      width: calc(3ch + 0.5rem);
+      width: calc(3ch + 1rem);
       text-align: right;
       padding-right: 0.5rem;
-      margin-right: 0.5rem;
       border-right: 1px solid ${theme.get("color.neutral.700")};
       white-space: nowrap;
     }

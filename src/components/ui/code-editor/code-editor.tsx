@@ -54,7 +54,6 @@ const sharedStyles = css`
   overflow-wrap: break-word;
 
   min-height: 3.5rem;
-  padding: 1rem;
   margin: 0;
 
   pre {
@@ -169,13 +168,12 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
           onChange={readOnly ? undefined : handleChange}
           onKeyDown={readOnly ? undefined : event => keyEvents.emit(event)}
           className={cn(
-            "placeholder:text-text-gentle absolute left-0 top-0 size-full resize-none overflow-hidden",
+            "placeholder:text-text-gentle absolute left-0 top-0 z-10 size-full resize-none overflow-hidden p-4",
             sharedStyles,
             textAreaStyles
           )}
           style={{
-            /* 3 line number chars + 1rem regular padding + 1rem negative margin */
-            paddingLeft: showLineNumbers ? "calc(3ch + 2rem)" : undefined,
+            paddingLeft: showLineNumbers ? "calc(3ch + 1.5rem)" : undefined,
           }}
         />
         <CodePreview
