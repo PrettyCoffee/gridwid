@@ -8,12 +8,12 @@ import { hstack } from "utils/styles"
 import { useEditorContext } from "./editor-context"
 import { MDEditor } from "../md-editor"
 
-const inputBorder = cva("rounded-sm border outline-none", {
+const inputBorder = cva("rounded-sm outline outline-1 -outline-offset-1", {
   variants: {
     status: {
-      default: "hover:border-stroke border-transparent",
-      editing: "border-stroke focus-within:border-stroke-focus",
-      error: "border-alert-error",
+      default: "hover:outline-stroke outline-transparent",
+      editing: "outline-stroke focus-within:outline-stroke-focus",
+      error: "outline-alert-error",
     },
   },
 })
