@@ -1,13 +1,12 @@
-import { Slot } from "@radix-ui/react-slot"
 import { css } from "goober"
 import { Code, LetterText, Maximize, Minimize } from "lucide-react"
-import { Dispatch, PropsWithChildren, useState } from "react"
+import { Dispatch, useState } from "react"
 
-import { AsChildProp, ClassNameProp, StyleProp } from "types/base-props"
 import { cn } from "utils/cn"
-import { hstack, vstack } from "utils/styles"
+import { hstack } from "utils/styles"
 
 import { KeyEventDispatcher } from "../../../utils/key-event-dispatcher"
+import { ScrollArea } from "../../utility/scroll-area"
 import { CodeEditor, CodeEditorProps } from "../code-editor"
 import { IconButton } from "../icon-button"
 import { MDPreview } from "../md-preview"
@@ -148,20 +147,6 @@ const ModeSlider = ({
           filter: `saturate(${value}%)`,
         }}
       />
-    </div>
-  )
-}
-
-const ScrollArea = ({
-  className,
-  children,
-  asChild,
-  style,
-}: PropsWithChildren<ClassNameProp & AsChildProp & StyleProp>) => {
-  const Inner = asChild ? Slot : "div"
-  return (
-    <div style={style} className={cn("overflow-hidden", vstack({}), className)}>
-      <Inner className="w-full flex-1 overflow-auto">{children}</Inner>
     </div>
   )
 }
