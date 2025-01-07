@@ -8,7 +8,7 @@ import { formatTime } from "utils/format"
 import { Checkbox, CheckboxProps } from "./checkbox"
 import { Icon } from "../icon"
 
-faker.seed(1334)
+faker.seed(1337)
 
 const meta: Meta<typeof Checkbox> = {
   title: "Inputs/Checkbox",
@@ -47,7 +47,7 @@ const SubLine = () => (
       size="xs"
       className="mr-1"
     />
-    {formatTime(new Date())}
+    {formatTime(faker.date.anytime())}
   </>
 )
 

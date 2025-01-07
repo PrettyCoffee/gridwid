@@ -6,6 +6,8 @@ import { argType, Meta, StoryObj } from "lib/storybook"
 import { List, ListItemProps } from "./list"
 import { IconButton } from "../icon-button"
 
+faker.seed(1337)
+
 const meta: Meta<typeof List.Item> = {
   title: "Primitives/List",
   component: List.Item,
