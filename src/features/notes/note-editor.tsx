@@ -1,11 +1,13 @@
-import { Trash, X } from "lucide-react"
+import { LockKeyhole, Trash, X, LockKeyholeOpen } from "lucide-react"
 import { useMemo } from "react"
 
 import { Divider } from "components/ui/divider"
 import { Editor } from "components/ui/editor"
 import { IconButton } from "components/ui/icon-button"
+import { MDPreview } from "components/ui/md-preview"
 import { NoData } from "components/ui/no-data"
 import { useHashRouter } from "components/utility/hash-router"
+import { ScrollArea } from "components/utility/scroll-area"
 import { useAtomValue } from "lib/yaasl"
 import { cn } from "utils/cn"
 import { formatDate } from "utils/format"
@@ -19,6 +21,7 @@ const emptyNote: Note = {
   title: "",
   text: "",
   createdAt: Date.now(),
+  locked: false,
 }
 
 interface NoteEditorProps {
@@ -57,14 +60,23 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
       }}
     >
       <div className={cn(hstack({ justify: "end" }), "mb-2")}>
-        <Editor.Save />
-        <Editor.Discard />
+        <Editor.Save disabled={note.locked} />
+        <Editor.Discard disabled={note.locked} />
         <IconButton
           icon={Trash}
-          className="justify-start"
           onClick={() => deleteNote(note.id, note.title)}
           title="Delete note"
+          disabled={note.locked}
         />
+        {note.id !== "new" && (
+          <IconButton
+            icon={note.locked ? LockKeyhole : LockKeyholeOpen}
+            title={note.locked ? "Allow changes" : "Lock from changes"}
+            onClick={() =>
+              notesData.actions.edit(note.id, { locked: !note.locked })
+            }
+          />
+        )}
         <IconButton icon={X} to="notes" title="Close note" />
       </div>
 
@@ -75,11 +87,15 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
           "flex-1 overflow-hidden"
         )}
       >
-        <Editor.TextInput
-          field="title"
-          className="w-full text-2xl"
-          placeholder="Note title"
-        />
+        {note.locked ? (
+          <h1 className={"py-1 pl-3 text-2xl"}>{note.title}</h1>
+        ) : (
+          <Editor.TextInput
+            field="title"
+            className="w-full text-2xl"
+            placeholder="Note title"
+          />
+        )}
 
         <div className="text-text-gentle mx-3 mb-0 text-sm">
           #{note.id}
@@ -91,11 +107,17 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
           <Divider color="gentle" />
         </div>
 
-        <Editor.Markdown
-          field="text"
-          placeholder="Start writing your note..."
-          className="flex-1"
-        />
+        {note.locked ? (
+          <ScrollArea>
+            <MDPreview value={note.text} />
+          </ScrollArea>
+        ) : (
+          <Editor.Markdown
+            field="text"
+            placeholder="Start writing your note..."
+            className="flex-1"
+          />
+        )}
       </div>
     </Editor.Provider>
   )

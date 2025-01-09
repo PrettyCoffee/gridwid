@@ -1,13 +1,12 @@
 import { Save, Undo } from "lucide-react"
 
-import { cn } from "utils/cn"
-
 import { IconButton } from "../icon-button"
 import { useEditorContext } from "./editor-context"
+import { DisableProp } from "../../../types/base-props"
 
-export const EditorSave = () => {
+export const EditorSave = ({ disabled: disabledProp }: DisableProp) => {
   const editor = useEditorContext()
-  const disabled = !editor.didChange || !editor.isValid
+  const disabled = !editor.didChange || !editor.isValid || disabledProp
 
   return (
     <IconButton
@@ -15,14 +14,13 @@ export const EditorSave = () => {
       title="Save changes"
       onClick={editor.save}
       disabled={disabled}
-      className={cn(disabled && "opacity-25")}
     />
   )
 }
 
-export const EditorDiscard = () => {
+export const EditorDiscard = ({ disabled: disabledProp }: DisableProp) => {
   const editor = useEditorContext()
-  const disabled = !editor.didChange
+  const disabled = !editor.didChange || !editor.isValid || disabledProp
 
   return (
     <IconButton
@@ -30,7 +28,6 @@ export const EditorDiscard = () => {
       title="Discard changes"
       onClick={editor.discard}
       disabled={disabled}
-      className={cn(disabled && "opacity-25")}
     />
   )
 }
