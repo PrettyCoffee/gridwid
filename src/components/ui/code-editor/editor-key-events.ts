@@ -32,8 +32,14 @@ const wrapValueEvent: EventListener = {
       "<": ">",
     }[open]
     const selectedValue = api.cursor.getSelectedValue()
-    const text = `${open}${selectedValue}${close ?? open}`
-    api.cursor.insertText(text)
+    const position = api.cursor.getPosition()
+    if (!selectedValue) {
+      api.cursor.insertText(open)
+    } else {
+      const text = `${open}${selectedValue}${close ?? open}`
+      api.cursor.insertText(text)
+    }
+    api.cursor.setPosition({ start: position.start + 1, end: position.end + 1 })
   },
 }
 
