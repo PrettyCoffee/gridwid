@@ -1,5 +1,6 @@
-import { LockKeyhole, Trash, X, LockKeyholeOpen } from "lucide-react"
 import { useMemo } from "react"
+
+import { LockKeyhole, Trash, X, LockKeyholeOpen } from "lucide-react"
 
 import { Divider } from "components/ui/divider"
 import { Editor } from "components/ui/editor"

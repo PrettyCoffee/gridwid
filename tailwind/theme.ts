@@ -1,6 +1,5 @@
 import { createTheme } from "./plugins/theme-vars-plugin"
 
-/* eslint-disable sonarjs/no-duplicate-string */
 export const theme = createTheme({
   theme: colors => ({
     mode: "dark",

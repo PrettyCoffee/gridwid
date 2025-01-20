@@ -1,5 +1,6 @@
-import { Cat, Dog, Turtle } from "lucide-react"
 import { Fragment } from "react"
+
+import { Cat, Dog, Turtle } from "lucide-react"
 
 import { argType, Meta, StoryObj } from "lib/storybook"
 

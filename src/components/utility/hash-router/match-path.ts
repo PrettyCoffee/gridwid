@@ -2,9 +2,9 @@ import { UrlParams } from "./types"
 
 const paramMatcher = /:[^/]+/g
 
-const hasParams = (path: string) => !!path.match(paramMatcher)
+const hasParams = (path: string) => paramMatcher.test(path)
 
-const getParams = (matcher: string, path: string) => {
+const getParams = (matcher: string, path: string): UrlParams | null => {
   if (!hasParams(matcher)) return null
 
   const pathSegments = matcher.split(paramMatcher)
@@ -18,9 +18,8 @@ const getParams = (matcher: string, path: string) => {
 
   if (!paramValues || !paramNames) return null
 
-  return paramNames.reduce<UrlParams>(
-    (params, name, index) => ({ ...params, [name]: paramValues[index] ?? "" }),
-    {}
+  return Object.fromEntries(
+    paramNames.map((name, index) => [name, paramValues[index] ?? ""])
   )
 }
 

@@ -1,5 +1,6 @@
-import { Cat, Dog, Turtle } from "lucide-react"
 import { useState } from "react"
+
+import { Cat, Dog, Turtle } from "lucide-react"
 
 import { action, argType, Meta, StoryObj } from "lib/storybook"
 

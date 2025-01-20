@@ -167,6 +167,6 @@ p(T | n, \\mu) = {n \\choose T} \\cdot \\mu^T \\cdot (1-\\mu)^{n-T}
 $$
 `
 
-export const Math: Story = {
+export const Katex: Story = {
   args: { value: mathTest },
 }

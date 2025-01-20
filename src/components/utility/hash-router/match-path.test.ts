@@ -1,6 +1,5 @@
 import { it } from "vitest"
 
-/* eslint-disable sonarjs/no-duplicate-string */
 import { matchPath } from "./match-path"
 
 describe("Test hash-router -> matchPath", () => {

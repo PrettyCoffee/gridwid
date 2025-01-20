@@ -89,7 +89,7 @@ export class SelectionText {
   public getLineIndentation() {
     const lineStart = this.cursor.getLineStart()
     const selectedValue = this.cursor.getSelectedValue({ start: lineStart })
-    const [, indent] = selectedValue.match(/(^(\s)+)/) ?? []
+    const [, indent] = /(^(\s)+)/.exec(selectedValue) ?? []
     return indent ?? ""
   }
 

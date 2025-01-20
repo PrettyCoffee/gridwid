@@ -1,7 +1,8 @@
+import { ReactNode } from "react"
+
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { Slot } from "@radix-ui/react-slot"
-import { ReactNode } from "react"
 
 import { AsChildProp } from "types/base-props"
 

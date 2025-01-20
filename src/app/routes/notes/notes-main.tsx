@@ -13,7 +13,7 @@ const NotesMainRoute = () => {
   return (
     <Layout.Multiple>
       <NotesSidebar />
-      {notes.length < 1 ? (
+      {notes.length === 0 ? (
         <Layout.Centered>
           <NoData label="There are no notes to display yet. Get started and creat some!" />
         </Layout.Centered>

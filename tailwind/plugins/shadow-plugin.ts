@@ -60,10 +60,9 @@ const defaultOptions: ShadePluginOptions = {
   },
 }
 
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export const shadowPlugin = plugin.withOptions<ShadePluginOptions | void>(
   ({ colors } = defaultOptions) =>
-    ({ matchUtilities }) => {
+    api => {
       const { lowElevation, mediumElevation, highElevation } = createColors(
         colors.default
       )
@@ -78,7 +77,7 @@ export const shadowPlugin = plugin.withOptions<ShadePluginOptions | void>(
       )
       */
 
-      matchUtilities(
+      api.matchUtilities(
         {
           "shade-color": value => ({
             [shadeColor]: value,
@@ -87,7 +86,7 @@ export const shadowPlugin = plugin.withOptions<ShadePluginOptions | void>(
         { values: colors }
       )
 
-      matchUtilities(
+      api.matchUtilities(
         {
           shade: value => ({
             boxShadow: value,

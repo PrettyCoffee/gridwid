@@ -6,13 +6,14 @@ export type Prettify<T> = {
 
 type Loose<T> = Prettify<Exclude<T, undefined>>
 
-export type ObjDeepPath<TObj> = Loose<TObj> extends Indexable
-  ? {
-      [K in keyof Loose<TObj>]: `${Exclude<K, symbol>}${
-        | ""
-        | `.${ObjDeepPath<Loose<TObj>[K]>}`}`
-    }[keyof Loose<TObj>]
-  : never
+export type ObjDeepPath<TObj> =
+  Loose<TObj> extends Indexable
+    ? {
+        [K in keyof Loose<TObj>]: `${Exclude<K, symbol>}${
+          | ""
+          | `.${ObjDeepPath<Loose<TObj>[K]>}`}`
+      }[keyof Loose<TObj>]
+    : never
 
 export type ObjDeepValue<TObj, TPath> = TObj extends Indexable
   ? TPath extends `${infer Current}.${infer Next}`

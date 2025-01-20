@@ -2,7 +2,7 @@ import { ObjDeepValue, ObjDeepPath } from "types/util-types"
 
 import { Indexable, isIndexable } from "./is-indexable"
 
-const deepGet = <TObj extends Indexable>(obj: TObj, path: string[]) => {
+const deepGet = (obj: Indexable, path: string[]) => {
   const [segment, ...rest] = path
   if (!segment) return obj
 

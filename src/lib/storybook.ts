@@ -1,6 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies, @typescript-eslint/no-explicit-any */
-import type { ReactRenderer } from "@storybook/react"
 import { ComponentType } from "react"
+
+import type { ReactRenderer } from "@storybook/react"
 import {
   ComponentAnnotations,
   ArgTypes,
@@ -9,11 +9,12 @@ import {
 
 type CompOrProps = ComponentType<any> | Record<string, any>
 
-type GetProps<T extends CompOrProps> = T extends ComponentType<infer TProps>
-  ? TProps
-  : T extends Record<string, any>
-  ? T
-  : never
+type GetProps<T extends CompOrProps> =
+  T extends ComponentType<infer TProps>
+    ? TProps
+    : T extends Record<string, any>
+      ? T
+      : never
 
 type SbMeta<T extends CompOrProps> = ComponentAnnotations<
   ReactRenderer,
@@ -25,7 +26,7 @@ type DefaultOmittedProps = "className"
 
 export interface Meta<
   T extends CompOrProps,
-  OmittedProps extends keyof GetProps<T> = DefaultOmittedProps
+  OmittedProps extends keyof GetProps<T> = DefaultOmittedProps,
 > extends Omit<SbMeta<T>, "argTypes" | "args"> {
   /**
    * Make argtypes required to ensure that the meta is always up to date

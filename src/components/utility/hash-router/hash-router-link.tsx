@@ -18,3 +18,4 @@ export const HashRouterLink = forwardRef<
     </a>
   )
 })
+HashRouterLink.displayName = "HashRouterLink"

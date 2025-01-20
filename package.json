@@ -11,7 +11,7 @@
     "storybook:build": "storybook build -c ./storybook -o dist/storybook",
     "test": "vitest",
     "test:all": "vitest --watch=false",
-    "lint": "eslint ./ --ext .ts,.tsx --ignore-path .gitignore",
+    "lint": "eslint --cache src tailwind storybook",
     "lint:fix": "bun run lint -- --fix"
   },
   "dependencies": {
@@ -22,8 +22,8 @@
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.3",
-    "@yaasl/devtools": "^0.11.0-alpha.0",
-    "@yaasl/react": "^0.11.0-alpha.0",
+    "@yaasl/devtools": "^0.11.0-alpha.2",
+    "@yaasl/react": "^0.11.0-alpha.2",
     "class-variance-authority": "^0.7.0",
     "framer-motion": "^11.11.11",
     "goober": "^2.1.16",
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.2.0",
-    "@pretty-cozy/eslint-config": "^0.4.0",
+    "@pretty-cozy/eslint-config": "^0.5.1",
     "@storybook/addon-a11y": "^8.4.2",
     "@storybook/addon-actions": "^8.4.2",
     "@storybook/addon-essentials": "^8.4.2",
@@ -63,7 +63,6 @@
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
     "chromatic": "^11.22.0",
-    "eslint": "8.57.0",
     "jsdom": "^25.0.1",
     "postcss": "^8.4.47",
     "storybook": "^8.4.2",

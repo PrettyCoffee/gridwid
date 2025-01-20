@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+
 // eslint-disable-next-line import/no-extraneous-dependencies -- installed via rehype-katex
 import "katex/dist/katex.css"
 import rehypeKatex from "rehype-katex"
@@ -15,7 +16,7 @@ import { cn } from "utils/cn"
 import { prismTheme } from "utils/prism-theme"
 
 const adjustForRender = (text: string) => {
-  return text.replace(/^(#+)/gm, "#$1")
+  return text.replaceAll(/^(#+)/gm, "#$1")
 }
 
 const parse = (markdown: string) =>

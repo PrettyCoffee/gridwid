@@ -1,6 +1,7 @@
+import { Dispatch, useState } from "react"
+
 import { css } from "goober"
 import { Code, LetterText, Maximize, Minimize } from "lucide-react"
-import { Dispatch, useState } from "react"
 
 import { cn } from "utils/cn"
 import { hstack } from "utils/styles"

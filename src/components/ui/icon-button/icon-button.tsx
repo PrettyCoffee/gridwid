@@ -1,5 +1,6 @@
-import { cva, VariantProps } from "class-variance-authority"
 import { forwardRef } from "react"
+
+import { cva, VariantProps } from "class-variance-authority"
 
 import { VisuallyHidden } from "components/utility/visually-hidden"
 import { StyleProp } from "types/base-props"

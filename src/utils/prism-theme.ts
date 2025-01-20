@@ -2,7 +2,6 @@ import { css } from "goober"
 
 import { theme } from "../../tailwind/theme"
 
-/* eslint-disable sonarjs/no-duplicate-string */
 export const prismTheme = css`
   color: ${theme.get("color.neutral.200")};
   padding: 1rem;

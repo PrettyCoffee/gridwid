@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 import {
   PropsWithChildren,
   RefObject,
@@ -6,6 +5,8 @@ import {
   useRef,
   useState,
 } from "react"
+
+import { motion } from "framer-motion"
 
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"

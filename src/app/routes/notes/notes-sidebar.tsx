@@ -1,6 +1,7 @@
+import { forwardRef } from "react"
+
 import { useAtomValue } from "@yaasl/react"
 import { GripHorizontal, Plus, Trash } from "lucide-react"
-import { forwardRef } from "react"
 
 import { Layout } from "components/layouts"
 import { Button } from "components/ui/button"
@@ -45,6 +46,7 @@ const ListItem = forwardRef<
     />
   </List.Item>
 ))
+ListItem.displayName = "NotesSidebarListItem"
 
 const getNoteById = (notes: Note[], id?: string) =>
   !id ? undefined : notes.find(note => note.id === id)

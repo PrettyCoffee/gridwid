@@ -1,7 +1,8 @@
+import { Dispatch, ReactNode } from "react"
+
 import * as Primitive from "@radix-ui/react-checkbox"
 import { css, keyframes } from "goober"
 import { Check, Minus } from "lucide-react"
-import { Dispatch, ReactNode } from "react"
 
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"

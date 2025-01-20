@@ -1,6 +1,4 @@
-interface ObjectItem {
-  [key: string]: unknown | ObjectItem
-}
+type ObjectItem = Record<string, unknown>
 
 type ObjDeepValue<T> = T extends ObjectItem
   ? {

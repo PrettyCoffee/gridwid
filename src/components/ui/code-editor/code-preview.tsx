@@ -1,4 +1,5 @@
 import { useMemo, useRef } from "react"
+
 import rehypePrism from "rehype-prism-plus/all"
 import type { Pluggable, PluggableList } from "unified"
 
@@ -70,7 +71,7 @@ export const CodePreview = ({
     const code = htmlEncode(value)
 
     // Add a new empty line in preview, if the last line is only whitespace
-    const end = value.match(/\n\s*$/) ? "<br />&nbsp;" : ""
+    const end = /\n\s*$/.test(value) ? "<br />&nbsp;" : ""
 
     return processHtml(
       `<pre aria-hidden=true><code class="${languageClass}">${code}</code>${end}</pre>`,

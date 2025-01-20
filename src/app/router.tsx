@@ -1,3 +1,5 @@
+import { lazy } from "react"
+
 import {
   Bookmark,
   Cog,
@@ -11,7 +13,6 @@ import {
   PanelBottom,
   Layers,
 } from "lucide-react"
-import { lazy } from "react"
 
 import { SettingsLayout, ToolsLayout } from "components/layouts"
 import { createRoutes, HashRouter } from "components/utility/hash-router"

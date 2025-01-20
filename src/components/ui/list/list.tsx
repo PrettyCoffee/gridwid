@@ -53,6 +53,7 @@ const Label = forwardRef<
     </Button>
   )
 })
+Label.displayName = "List.Label"
 
 const Action = forwardRef<HTMLButtonElement, IconButtonProps>(
   ({ className, ...props }, ref) => (
@@ -74,7 +75,7 @@ const Root = forwardRef<HTMLUListElement, PropsWithChildren<ClassNameProp>>(
     </ul>
   )
 )
-Action.displayName = "List.Root"
+Root.displayName = "List.Root"
 
 export const List = {
   Root,

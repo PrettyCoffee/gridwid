@@ -1,6 +1,7 @@
+import { PropsWithChildren, useEffect, useRef, useState } from "react"
+
 import { Slot } from "@radix-ui/react-slot"
 import { motion } from "framer-motion"
-import { PropsWithChildren, useEffect, useRef, useState } from "react"
 
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"

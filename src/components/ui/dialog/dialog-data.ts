@@ -1,5 +1,6 @@
-import { createAtom } from "@yaasl/react"
 import { JSX } from "react"
+
+import { createAtom } from "@yaasl/react"
 
 import { ButtonProps } from "../button"
 

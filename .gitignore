@@ -4,6 +4,9 @@
 # dependencies
 /node_modules
 
+# eslint
+.eslintcache
+
 # testing
 /coverage
 /test-results/

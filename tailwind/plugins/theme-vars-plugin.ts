@@ -42,7 +42,7 @@ interface CreateThemeResult<TTheme, TTokens> {
 
 export const createTheme = <
   TTheme extends ThemeItem,
-  TTokens extends Partial<CustomThemeConfig>
+  TTokens extends Partial<CustomThemeConfig>,
 >({
   prefix = "tw",
   theme: getTheme,
@@ -94,7 +94,6 @@ export const createTheme = <
   }
 }
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export const themeVarsPlugin = plugin.withOptions<{
   /** The theme that should be used. Must be created with `createTheme`. */
   theme: CreateThemeResult<any, any>
@@ -105,8 +104,8 @@ export const themeVarsPlugin = plugin.withOptions<{
   strategy?: "replace" | "extend"
 }>(
   ({ theme }) =>
-    ({ addBase }) => {
-      addBase({
+    api => {
+      api.addBase({
         ":root": theme.getCssVars(),
       })
     },

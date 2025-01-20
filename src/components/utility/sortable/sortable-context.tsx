@@ -1,3 +1,5 @@
+import { Dispatch, PropsWithChildren, ReactNode, useState } from "react"
+
 import {
   DndContext,
   closestCenter,
@@ -16,7 +18,6 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable"
 import { css } from "goober"
-import { Dispatch, PropsWithChildren, useState } from "react"
 
 import { Sortable } from "./types"
 import { getId, getItem } from "./utils"
@@ -33,7 +34,7 @@ const removePointer = () => document.body.classList.remove(forceGrabbingPointer)
 interface SortableContextProps<T extends Sortable> {
   items: T[]
   onSort: Dispatch<(items: T[]) => T[]>
-  OverlayItem: (props: { item: T }) => JSX.Element
+  OverlayItem: (props: { item: T }) => ReactNode
 }
 
 export const SortableContext = <T extends Sortable>({

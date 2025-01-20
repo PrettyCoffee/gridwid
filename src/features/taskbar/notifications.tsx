@@ -1,7 +1,8 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { useEffect, useRef, useState } from "react"
+
+// eslint-disable-next-line import/no-extraneous-dependencies -- faker should be deleted later on
 import { faker } from "@faker-js/faker"
 import { Bell } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
 
 import { AlertBadge } from "components/ui/alert-badge"
 import { Button } from "components/ui/button"
@@ -13,10 +14,10 @@ import { formatDate, formatTime } from "utils/format"
 
 const Clock = () => {
   const [date, setDate] = useState(new Date())
-  const interval = useRef<Timer>()
+  const interval = useRef<number>()
 
   useEffect(() => {
-    interval.current = setInterval(() => {
+    interval.current = window.setInterval(() => {
       setDate(new Date())
     }, 1000)
 

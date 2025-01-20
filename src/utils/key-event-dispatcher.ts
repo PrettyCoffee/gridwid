@@ -50,7 +50,7 @@ interface KeyEventProps<TElement extends HTMLElement> {
 
 export interface KeyEventListener<
   TElement extends HTMLElement,
-  Extension extends object = {}
+  Extension extends object = {},
 > {
   key?: string | string[]
   filter?: (event: KeyboardEvent<TElement>) => boolean
@@ -59,14 +59,14 @@ export interface KeyEventListener<
 
 interface KeyEventsProps<
   TElement extends HTMLElement,
-  TExtension extends object
+  TExtension extends object,
 > {
   getHandlerProps?: (event: KeyboardEvent<TElement>) => TExtension
 }
 
 export class KeyEventDispatcher<
   TElement extends HTMLElement,
-  TExtension extends object = {}
+  TExtension extends object = {},
 > extends Dispatcher<
   KeyboardEvent<TElement>,
   KeyEventProps<TElement> & TExtension

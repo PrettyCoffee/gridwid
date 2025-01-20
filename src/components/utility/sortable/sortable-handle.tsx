@@ -1,6 +1,7 @@
+import { PropsWithChildren } from "react"
+
 import { useSortable } from "@dnd-kit/sortable"
 import { Slot } from "@radix-ui/react-slot"
-import { PropsWithChildren } from "react"
 
 import { AsChildProp } from "types/base-props"
 

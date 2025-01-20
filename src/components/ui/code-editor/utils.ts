@@ -1,4 +1,5 @@
 import { KeyboardEvent } from "react"
+
 import { rehype } from "rehype"
 import type { PluggableList } from "unified"
 
@@ -10,17 +11,17 @@ export const processHtml = (html: string, plugins: PluggableList) =>
     .toString()
 
 export const htmlEncode = (text: string) =>
-  text.replace(
+  text.replaceAll(
     /[<&"]/g,
     (char: string) =>
-      ((
-        {
+      (
+        ({
           "<": "&lt;",
           ">": "&gt;",
           "&": "&amp;",
           '"': "&quot;",
-        } as Record<string, string>
-      )[char] ?? char)
+        }) as Record<string, string>
+      )[char] ?? char
   )
 
 export const stopPropagation = (event: KeyboardEvent<HTMLTextAreaElement>) => {

@@ -1,6 +1,7 @@
+import { forwardRef } from "react"
+
 import { VariantProps, cva } from "class-variance-authority"
 import { LucideProps } from "lucide-react"
-import { forwardRef } from "react"
 
 import { ClassNameProp, IconProp } from "types/base-props"
 import { cn } from "utils/cn"

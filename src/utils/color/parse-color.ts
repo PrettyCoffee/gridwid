@@ -19,18 +19,18 @@ const HSL = new RegExp(
 )
 
 const parseHex = (value: string): ColorValue | null => {
-  const match = value
-    .replace(SHORT_HEX, (_, r, g, b, a) => {
+  const match = HEX.exec(
+    value.replace(SHORT_HEX, (_, r, g, b, a) => {
       const hex = ["#", r, r, g, g, b, b]
       if (a) hex.push(a, a)
       return hex.join("")
     })
-    .match(HEX)
+  )
 
   if (!match) return null
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_full, r, g, b, a] = match.map(value => parseInt(value, 16))
+  const [_full, r, g, b, a] = match.map(value => Number.parseInt(value, 16))
   return {
     mode: "rgb",
     color: [r ?? 0, g ?? 0, b ?? 0],
@@ -39,11 +39,11 @@ const parseHex = (value: string): ColorValue | null => {
 }
 
 const parseRgb = (value: string): ColorValue | null => {
-  const match = value.match(RGB)
+  const match = RGB.exec(value)
   if (!match) return null
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_full, _mode, r, g, b, a] = match.map(parseInt)
+  const [_full, _mode, r, g, b, a] = match.map(Number.parseInt)
   return {
     mode: "rgb",
     color: [r ?? 0, g ?? 0, b ?? 0],
@@ -52,11 +52,11 @@ const parseRgb = (value: string): ColorValue | null => {
 }
 
 const parseHsl = (value: string): ColorValue | null => {
-  const match = value.match(HSL)
+  const match = HSL.exec(value)
   if (!match) return null
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_full, _mode, h, s, l, a] = match.map(parseInt)
+  const [_full, _mode, h, s, l, a] = match.map(Number.parseInt)
   return {
     mode: "hsl",
     color: [h ?? 0, s ?? 0, l ?? 0],

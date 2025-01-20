@@ -1,6 +1,7 @@
+import { PropsWithChildren, useState } from "react"
+
 import { faker } from "@faker-js/faker"
 import { Clock } from "lucide-react"
-import { PropsWithChildren, useState } from "react"
 
 import { action, argType, Meta, StoryObj } from "lib/storybook"
 import { formatTime } from "utils/format"

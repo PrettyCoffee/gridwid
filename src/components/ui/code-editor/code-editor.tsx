@@ -1,4 +1,3 @@
-import { css } from "goober"
 import {
   Dispatch,
   TextareaHTMLAttributes,
@@ -6,6 +5,8 @@ import {
   forwardRef,
   useMemo,
 } from "react"
+
+import { css } from "goober"
 import type { PluggableList } from "unified"
 
 import { ClassNameProp, DisableProp } from "types/base-props"
@@ -188,3 +189,4 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
     )
   }
 )
+CodeEditor.displayName = "CodeEditor"

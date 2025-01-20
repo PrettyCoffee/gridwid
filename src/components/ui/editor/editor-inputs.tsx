@@ -1,5 +1,6 @@
-import { cva } from "class-variance-authority"
 import { useState } from "react"
+
+import { cva } from "class-variance-authority"
 
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"

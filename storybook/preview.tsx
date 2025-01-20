@@ -1,7 +1,8 @@
 import "../src/index.css"
+import { PropsWithChildren, useEffect } from "react"
+
 import type { Preview } from "@storybook/react"
 import { glob } from "goober"
-import { PropsWithChildren, useEffect } from "react"
 
 import { DialogProvider } from "components/ui/dialog"
 import { Toaster } from "components/ui/toaster"

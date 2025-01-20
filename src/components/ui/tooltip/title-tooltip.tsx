@@ -1,5 +1,6 @@
-import { TooltipContentProps } from "@radix-ui/react-tooltip"
 import { PropsWithChildren } from "react"
+
+import { TooltipContentProps } from "@radix-ui/react-tooltip"
 
 import { AsChildProp, TitleProp } from "types/base-props"
 
