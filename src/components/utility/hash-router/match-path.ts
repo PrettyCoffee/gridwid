@@ -1,6 +1,6 @@
 import { UrlParams } from "./types"
 
-const paramMatcher = /:[^/]+/g
+const paramMatcher = /:[^/]+/
 
 const hasParams = (path: string) => paramMatcher.test(path)
 
