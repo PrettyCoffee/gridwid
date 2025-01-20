@@ -1,10 +1,12 @@
-import { ReactNode } from "react"
+import { PropsWithChildren, ReactNode } from "react"
 
 import { keyframes, css } from "goober"
 import { Ghost } from "lucide-react"
 
 import { Icon } from "components/ui/icon"
 import { cn } from "utils/cn"
+
+import { hstack, vstack } from "../../../utils/styles"
 
 const rotate = keyframes`
   0%, 100% {
@@ -49,9 +51,17 @@ const animate = css`
   animation: ${rotate} 2.5s infinite ease-in-out;
 `
 
-export const NoData = ({ label }: { label: string | ReactNode }) => (
-  <div className="flex flex-col items-center gap-8 py-4">
-    <div className="relative flex size-20 items-center justify-center">
+interface NoDataProps {
+  label: string | ReactNode
+}
+export const NoData = ({ label, children }: PropsWithChildren<NoDataProps>) => (
+  <div className={cn(vstack({ align: "center", gap: 4 }), "py-4")}>
+    <div
+      className={cn(
+        hstack({ align: "center", justify: "center" }),
+        "relative mb-4 size-20"
+      )}
+    >
       <Icon
         icon={Ghost}
         color="gentle"
@@ -64,5 +74,6 @@ export const NoData = ({ label }: { label: string | ReactNode }) => (
     <span className="text-md text-text block max-w-80 text-center font-bold">
       {label}
     </span>
+    <div className={hstack({ gap: 2 })}>{children}</div>
   </div>
 )
