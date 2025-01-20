@@ -1,4 +1,4 @@
-import { it } from "vitest"
+import { it, describe, expect } from "vitest"
 
 import { matchPath } from "./match-path"
 
