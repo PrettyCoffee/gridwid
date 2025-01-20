@@ -7,26 +7,33 @@ import { notesData } from "features/notes"
 import { NotePreview } from "features/notes/note-preview"
 
 import { NotesSidebar } from "./notes-sidebar"
+import { Button } from "../../../components/ui/button"
 
 const NotesMainRoute = () => {
   const notes = useAtomValue(notesData)
   return (
     <Layout.Multiple>
-      <NotesSidebar />
       {notes.length === 0 ? (
         <Layout.Centered>
-          <NoData label="There are no notes to display yet. Get started and creat some!" />
+          <NoData label="There are no notes to display yet. Get started and creat some!">
+            <Button look="key" to={"notes/new"}>
+              Write a note!
+            </Button>
+          </NoData>
         </Layout.Centered>
       ) : (
-        <div className="-m-2 -mr-3 flex h-[calc(100%+theme(height.2))] flex-1 flex-col overflow-auto pr-1">
-          <Masonry.Grid minItemWidth={20} className="flex-1">
-            {notes.map(note => (
-              <Masonry.Item key={note.id} maxHeight={40} className="p-2">
-                <NotePreview {...note} />
-              </Masonry.Item>
-            ))}
-          </Masonry.Grid>
-        </div>
+        <>
+          <NotesSidebar />
+          <div className="-m-2 -mr-3 flex h-[calc(100%+theme(height.2))] flex-1 flex-col overflow-auto pr-1">
+            <Masonry.Grid minItemWidth={20} className="flex-1">
+              {notes.map(note => (
+                <Masonry.Item key={note.id} maxHeight={40} className="p-2">
+                  <NotePreview {...note} />
+                </Masonry.Item>
+              ))}
+            </Masonry.Grid>
+          </div>
+        </>
       )}
     </Layout.Multiple>
   )
