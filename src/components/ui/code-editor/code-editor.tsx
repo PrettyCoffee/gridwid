@@ -4,6 +4,7 @@ import {
   ChangeEvent,
   forwardRef,
   useMemo,
+  useEffect,
 } from "react"
 
 import { css } from "goober"
@@ -17,6 +18,7 @@ import { CodeLanguage, CodePreview } from "./code-preview"
 import { editorKeyEvents } from "./editor-key-events"
 import { ShortcutsInfo } from "./shortcuts-info"
 import { useChangeHistory } from "./use-change-history"
+import { KeyEventDispatcher } from "../../../utils/key-event-dispatcher"
 
 const textAreaStaticProps: TextareaHTMLAttributes<HTMLTextAreaElement> = {
   autoComplete: "off",
@@ -114,31 +116,41 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
     const keyEvents = useMemo(() => {
       const keyEvents = editorKeyEvents({})
 
-      keyEvents
+      keyEvents.listen({
+        key: "z",
+        filter: event => event.ctrlKey,
+        handler: ({ event, api }) => {
+          api.cursor.setPosition({
+            start: 0,
+            end: history.getCurrent().value.length,
+          })
+
+          const entry = event.shiftKey ? history.redo() : history.undo()
+
+          api.cursor.insertText(entry.value)
+          api.cursor.setPosition(entry.position)
+          onChange(entry.value)
+        },
+      })
+
+      return keyEvents
+    }, [history, onChange])
+
+    useEffect(() => {
+      if (!onSave || readOnly) return
+      const saveEvent = new KeyEventDispatcher({})
+        .beforeAll(({ event }) => event.preventDefault())
         .listen({
           key: "s",
           filter: event => event.ctrlKey,
-          handler: () => onSave?.(),
-        })
-        .listen({
-          key: "z",
-          filter: event => event.ctrlKey,
-          handler: ({ event, api }) => {
-            api.cursor.setPosition({
-              start: 0,
-              end: history.getCurrent().value.length,
-            })
-
-            const entry = event.shiftKey ? history.redo() : history.undo()
-
-            api.cursor.insertText(entry.value)
-            api.cursor.setPosition(entry.position)
-            onChange(entry.value)
-          },
+          handler: onSave,
         })
 
-      return keyEvents
-    }, [history, onChange, onSave])
+      // @ts-expect-error -- React event vs native event should not be an issue here
+      const handler = (event: KeyboardEvent) => saveEvent.emit(event)
+      window.addEventListener("keydown", handler)
+      return () => window.removeEventListener("keydown", handler)
+    })
 
     const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
       history.push(target.value, {

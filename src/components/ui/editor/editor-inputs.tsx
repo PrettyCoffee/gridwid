@@ -90,7 +90,7 @@ export const EditorMarkdown = ({ field, ...props }: InputProps) => {
       onChange={input.set}
       onFocus={() => setHasFocus(true)}
       onBlur={() => setHasFocus(false)}
-      onSave={() => editor.save()}
+      onSave={isEditing ? editor.save : undefined}
       inputClassName={cn(
         inputBorder({
           status: hasError ? "error" : isEditing ? "editing" : "default",
