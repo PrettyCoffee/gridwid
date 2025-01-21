@@ -48,6 +48,6 @@ export const NotePreview = ({
     <div className="w-full py-2">
       <Divider color="gentle" />
     </div>
-    <MDPreview value={text} />
+    <MDPreview value={text} className="overflow-hidden" />
   </div>
 )
