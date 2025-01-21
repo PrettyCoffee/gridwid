@@ -20,7 +20,10 @@ const MainNavigation = () => {
           key={path}
           to={path}
           icon={meta?.icon ?? Circle}
-          active={currentRoute?.path === path}
+          active={
+            currentRoute?.path === path ||
+            currentRoute?.path.startsWith(path + "/")
+          }
           title={meta?.title ?? ""}
         />
       ))}
