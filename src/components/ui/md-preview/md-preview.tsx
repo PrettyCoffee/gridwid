@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 
 // eslint-disable-next-line import/no-extraneous-dependencies -- installed via rehype-katex
 import "katex/dist/katex.css"
+import { css } from "goober"
 import rehypeKatex from "rehype-katex"
 import rehypePrism from "rehype-prism-plus/all"
 import rehypeStringify from "rehype-stringify"
@@ -14,6 +15,41 @@ import { unified } from "unified"
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"
 import { prismTheme } from "utils/prism-theme"
+
+const markdownStyles = css`
+  max-width: none;
+  > :where(p, ul, ol) {
+    max-width: 80ch;
+  }
+
+  li,
+  li * {
+    margin: 0;
+  }
+  ul,
+  ol {
+    padding-left: 1rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  ul {
+    list-style: disc;
+    ul {
+      list-style: square;
+      ul {
+        list-style: circle;
+      }
+    }
+  }
+
+  ol {
+    list-style: decimal;
+    > li > ol {
+      list-style: upper-roman;
+    }
+  }
+`
 
 const adjustForRender = (text: string) => {
   return text.replaceAll(/^(#+)/gm, "#$1")
@@ -47,8 +83,9 @@ export const MDPreview = ({ value = "", className }: MDPreviewProps) => {
   return (
     <div
       className={cn(
-        "prose dark:prose-invert prose-zinc max-w-[80ch] break-words [&_li>p]:m-0 [&_li]:my-1",
+        "prose dark:prose-invert prose-zinc break-words",
         prismTheme,
+        markdownStyles,
         className
       )}
       dangerouslySetInnerHTML={{ __html: html }}
