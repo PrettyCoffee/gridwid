@@ -12,13 +12,13 @@ import type { PluggableList } from "unified"
 
 import { ClassNameProp, DisableProp } from "types/base-props"
 import { cn } from "utils/cn"
+import { globalEvents } from "utils/global-events"
 import { prismTheme } from "utils/prism-theme"
 
 import { CodeLanguage, CodePreview } from "./code-preview"
 import { editorKeyEvents } from "./editor-key-events"
 import { ShortcutsInfo } from "./shortcuts-info"
 import { useChangeHistory } from "./use-change-history"
-import { KeyEventDispatcher } from "../../../utils/key-event-dispatcher"
 
 const textAreaStaticProps: TextareaHTMLAttributes<HTMLTextAreaElement> = {
   autoComplete: "off",
@@ -138,18 +138,8 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
 
     useEffect(() => {
       if (!onSave || readOnly) return
-      const saveEvent = new KeyEventDispatcher({})
-        .beforeAll(({ event }) => event.preventDefault())
-        .listen({
-          key: "s",
-          filter: event => event.ctrlKey,
-          handler: onSave,
-        })
-
-      // @ts-expect-error -- React event vs native event should not be an issue here
-      const handler = (event: KeyboardEvent) => saveEvent.emit(event)
-      window.addEventListener("keydown", handler)
-      return () => window.removeEventListener("keydown", handler)
+      const unsubscribe = globalEvents.onSave.subscribe(onSave)
+      return () => unsubscribe()
     })
 
     const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
