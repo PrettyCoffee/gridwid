@@ -48,6 +48,7 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
 
   return (
     <Editor.Provider
+      subject="Note"
       state={state}
       validateFields={{ title: Boolean }}
       setState={state => {

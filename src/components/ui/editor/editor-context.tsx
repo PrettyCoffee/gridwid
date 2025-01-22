@@ -3,6 +3,7 @@ import { Dispatch, PropsWithChildren, useState } from "react"
 import { createContext } from "utils/create-context"
 
 import { EditorState } from "./types"
+import { showToast } from "../toaster"
 
 const mapKeys = <T extends EditorState, Result>(
   obj: T,
@@ -35,6 +36,7 @@ const { Provider, useRequiredValue } = createContext<ContextState>("Editor")
 export const useEditorContext = useRequiredValue
 
 interface EditorProviderProps<TState extends EditorState> {
+  subject: string
   state: TState
   setState: Dispatch<TState>
   validateFields?: {
@@ -43,13 +45,20 @@ interface EditorProviderProps<TState extends EditorState> {
 }
 export const EditorProvider = <TState extends EditorState>({
   children,
+  subject,
   state,
   setState,
   validateFields = {},
 }: PropsWithChildren<EditorProviderProps<TState>>) => {
   const [draft, setDraft] = useState(state)
 
-  const save = () => setState(draft)
+  const save = () => {
+    setState(draft)
+    showToast({
+      kind: "success",
+      title: `${subject} was saved!`,
+    })
+  }
   const discard = () => setDraft(state)
 
   const valid = mapKeys(
