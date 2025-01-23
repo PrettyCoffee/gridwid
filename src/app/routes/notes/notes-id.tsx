@@ -1,3 +1,5 @@
+import { useEffect } from "react"
+
 import { Layout } from "components/layouts"
 import { useHashRouter } from "components/utility/hash-router"
 import { Note, notesData } from "features/notes"
@@ -17,9 +19,11 @@ const NotesIdRoute = () => {
   const noteId = params["id"] ?? ""
   const currentNote = getNoteById(notes, noteId)
 
-  if (!currentNote && noteId !== "new") {
-    setPath("notes")
-  }
+  useEffect(() => {
+    if (!currentNote && noteId !== "new") {
+      setPath("notes")
+    }
+  }, [currentNote, noteId, setPath])
 
   return (
     <Layout.Multiple>
