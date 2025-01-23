@@ -1,6 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { faker } from "@faker-js/faker"
-
 import { createSlice, localStorage } from "lib/yaasl"
 import { getNextId } from "utils/get-next-id"
 
@@ -12,14 +9,6 @@ export interface Note {
   text: string
   locked: boolean
 }
-
-export const createRandomNote = (): Omit<
-  Note,
-  "id" | "createdAt" | "locked"
-> => ({
-  title: faker.lorem.words({ min: 2, max: 4 }),
-  text: faker.lorem.paragraph({ min: 5, max: 15 }),
-})
 
 export const notesData = createSlice({
   name: "notes",
@@ -37,11 +26,3 @@ export const notesData = createSlice({
     remove: (state, id: string) => state.filter(note => note.id !== id),
   },
 })
-
-if (notesData.get().length === 0) {
-  notesData.actions.add(createRandomNote())
-  notesData.actions.add(createRandomNote())
-  notesData.actions.add(createRandomNote())
-  notesData.actions.add(createRandomNote())
-  notesData.actions.add(createRandomNote())
-}
