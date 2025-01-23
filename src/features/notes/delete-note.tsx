@@ -1,4 +1,5 @@
 import { showDialog } from "components/ui/dialog"
+import { showToast } from "components/ui/toaster"
 
 import { notesData } from "./notes-data"
 
@@ -15,7 +16,13 @@ export const deleteNote = (id: string, title: string) =>
     confirm: {
       look: "destructive",
       caption: "Delete note",
-      onClick: () => notesData.actions.remove(id),
+      onClick: () => {
+        notesData.actions.remove(id)
+        showToast({
+          kind: "success",
+          title: "Deleted Note",
+        })
+      },
     },
     cancel: {
       caption: "Keep note",

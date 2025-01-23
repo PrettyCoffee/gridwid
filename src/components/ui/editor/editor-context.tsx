@@ -56,7 +56,7 @@ export const EditorProvider = <TState extends EditorState>({
     setState(draft)
     showToast({
       kind: "success",
-      title: `${subject} was saved!`,
+      title: `Saved ${subject}`,
     })
   }
   const discard = () => setDraft(state)
