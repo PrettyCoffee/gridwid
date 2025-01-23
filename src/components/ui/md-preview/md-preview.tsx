@@ -22,7 +22,15 @@ const markdownStyles = css`
     max-width: 80ch;
   }
 
-  li,
+  p {
+    margin-top: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  li {
+    margin: 0;
+    padding-left: 0.5rem;
+  }
   li * {
     margin: 0;
   }
@@ -48,6 +56,50 @@ const markdownStyles = css`
     > li > ol {
       list-style: upper-roman;
     }
+  }
+
+  ul > li:has(> input[type="checkbox"]) {
+    list-style: none;
+  }
+
+  input[type="checkbox"] {
+    appearance: none;
+    display: inline-block;
+    height: 1rem;
+    width: 1rem;
+    position: relative;
+    border: 0.0625rem solid hsla(from currentColor h s l / 50%);
+    border-radius: 0.25rem;
+    margin-left: -1.5rem;
+    margin-right: 0.25rem;
+    translate: 0 0.125rem;
+  }
+  input[type="checkbox"]:checked:before,
+  input[type="checkbox"]:checked:after {
+    content: "";
+  }
+  input[type="checkbox"]:before,
+  input[type="checkbox"]:after {
+    display: inline-block;
+    background-color: currentColor;
+    position: absolute;
+    width: 0.125rem;
+    border-radius: 0.25rem;
+
+    top: 0.15rem;
+    left: 0.0825rem;
+  }
+  input[type="checkbox"]:before {
+    height: 0.3rem;
+    rotate: -45deg;
+    translate: 0.125rem 0.25rem;
+    transform-origin: center;
+  }
+  input[type="checkbox"]:checked:after {
+    height: 0.6rem;
+    rotate: 45deg;
+    translate: 0.375rem 0rem;
+    transform-origin: center;
   }
 `
 
