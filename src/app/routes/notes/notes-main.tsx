@@ -1,16 +1,20 @@
 import { useAtomValue } from "@yaasl/react"
 
 import { Layout } from "components/layouts"
+import { Button } from "components/ui/button"
 import { NoData } from "components/ui/no-data"
 import { Masonry } from "components/utility/masonry"
-import { notesData } from "features/notes"
+import { notesSearch, notesData } from "features/notes"
 import { NotePreview } from "features/notes/note-preview"
+import { cn } from "utils/cn"
+import { vstack } from "utils/styles"
 
 import { NotesSidebar } from "./notes-sidebar"
-import { Button } from "../../../components/ui/button"
 
 const NotesMainRoute = () => {
   const notes = useAtomValue(notesData)
+  const searchResult = useAtomValue(notesSearch)
+
   return (
     <Layout.Multiple>
       {notes.length === 0 ? (
@@ -24,9 +28,14 @@ const NotesMainRoute = () => {
       ) : (
         <>
           <NotesSidebar />
-          <div className="-m-2 -mr-3 flex h-[calc(100%+theme(height.2))] flex-1 flex-col overflow-auto pr-1">
+          <div
+            className={cn(
+              vstack({}),
+              "-m-2 -mr-3 h-[calc(100%+theme(height.2))] flex-1 overflow-auto pr-1"
+            )}
+          >
             <Masonry.Grid minItemWidth={23} className="flex-1">
-              {notes.map(note => (
+              {searchResult.map(note => (
                 <Masonry.Item key={note.id} maxHeight={40} className="p-2">
                   <NotePreview {...note} />
                 </Masonry.Item>

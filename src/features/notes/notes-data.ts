@@ -1,3 +1,5 @@
+import { createSelector } from "@yaasl/react"
+
 import { createSlice, localStorage } from "lib/yaasl"
 import { getNextId } from "utils/get-next-id"
 
@@ -26,3 +28,26 @@ export const notesData = createSlice({
     remove: (state, id: string) => state.filter(note => note.id !== id),
   },
 })
+
+interface NotesSearch {
+  filter: string
+}
+export const notesSearchData = createSlice({
+  name: "notes-filter",
+  defaultValue: { filter: "" } satisfies NotesSearch as NotesSearch,
+  reducers: {
+    setFilter: (state, filter: string) => ({ ...state, filter }),
+  },
+})
+
+const noteFilter = (note: Note, filterText: string) => {
+  const title = note.title.toLowerCase()
+  const text = note.text.toLowerCase()
+  const filter = filterText.toLowerCase()
+  return title.includes(filter) || text.includes(filter)
+}
+
+export const notesSearch = createSelector(
+  [notesData, notesSearchData],
+  (notes, { filter }) => notes.filter(note => noteFilter(note, filter))
+)

@@ -8,43 +8,60 @@ import { Button } from "components/ui/button"
 import { Divider } from "components/ui/divider"
 import { IconButton } from "components/ui/icon-button"
 import { List } from "components/ui/list"
+import { TextInput } from "components/ui/text-input"
 import { useHashRouter } from "components/utility/hash-router"
 import { Sortable } from "components/utility/sortable"
-import { Note, notesData } from "features/notes"
+import { Note, notesData, notesSearch, notesSearchData } from "features/notes"
 import { deleteNote } from "features/notes/delete-note"
 import { cn } from "utils/cn"
+
+const SearchBar = () => {
+  const { filter } = useAtomValue(notesSearchData)
+  return (
+    <TextInput
+      type="search"
+      placeholder="Filter notes"
+      value={filter}
+      onChange={notesSearchData.actions.setFilter}
+    />
+  )
+}
 
 const ListItem = forwardRef<
   HTMLLIElement,
   {
     note: Note
     active?: boolean
-    isPlaceholder?: boolean
+    disableSortable?: boolean
   }
->(({ active, isPlaceholder, note, ...props }, ref) => (
-  <List.Item
-    {...props}
-    ref={ref}
-    active={active}
-    className={cn(isPlaceholder && "bg-background [&_*]:opacity-0")}
-  >
-    <Sortable.Handle item={note} asChild>
-      <IconButton
-        icon={GripHorizontal}
-        title="Re-order note"
-        hideTitle
-        className="cursor-grab active:cursor-grabbing"
-      />
-    </Sortable.Handle>
-
-    <List.Label to={`notes/${note.id}`}>{note.title}</List.Label>
-    <List.Action
-      icon={Trash}
-      title="Delete note"
-      hideTitle
-      onClick={() => deleteNote(note.id, note.title)}
-    />
-  </List.Item>
+>(({ active, note, disableSortable, ...props }, ref) => (
+  <Sortable.Item<Note> key={note.id} item={note} asChild>
+    {({ isDragging }) => (
+      <List.Item
+        {...props}
+        ref={ref}
+        active={active}
+        className={cn(isDragging && "bg-background [&_*]:opacity-0")}
+      >
+        <Sortable.Handle item={note} asChild>
+          <IconButton
+            icon={GripHorizontal}
+            title="Re-order note"
+            hideTitle
+            className="cursor-grab active:cursor-grabbing"
+            disabled={disableSortable}
+          />
+        </Sortable.Handle>
+        <List.Label to={`notes/${note.id}`}>{note.title}</List.Label>
+        <List.Action
+          icon={Trash}
+          title="Delete note"
+          hideTitle
+          onClick={() => deleteNote(note.id, note.title)}
+        />
+      </List.Item>
+    )}
+  </Sortable.Item>
 ))
 ListItem.displayName = "NotesSidebarListItem"
 
@@ -53,13 +70,14 @@ const getNoteById = (notes: Note[], id?: string) =>
 
 export const NotesSidebar = () => {
   const { params } = useHashRouter()
-  const notes = useAtomValue(notesData)
+  const notes = useAtomValue(notesSearch)
+  const notesFilter = useAtomValue(notesSearchData).filter
   const currentNote = getNoteById(notes, params["id"])
 
   return (
     <Layout.Side
       back={
-        !currentNote
+        !params["id"]
           ? undefined
           : { path: "notes", caption: "Back to overview" }
       }
@@ -69,6 +87,8 @@ export const NotesSidebar = () => {
       </Button>
 
       <Divider color="gentle" />
+
+      <SearchBar />
 
       <div className="-m-1 flex-1 overflow-auto p-1">
         <Sortable.Context<Note>
@@ -86,15 +106,12 @@ export const NotesSidebar = () => {
         >
           <List.Root>
             {notes.map(note => (
-              <Sortable.Item<Note> key={note.id} item={note} asChild>
-                {({ isDragging }) => (
-                  <ListItem
-                    note={note}
-                    isPlaceholder={isDragging}
-                    active={note.id === currentNote?.id}
-                  />
-                )}
-              </Sortable.Item>
+              <ListItem
+                key={note.id}
+                note={note}
+                active={note.id === currentNote?.id}
+                disableSortable={!!notesFilter}
+              />
             ))}
           </List.Root>
         </Sortable.Context>
