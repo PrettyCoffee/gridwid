@@ -16,6 +16,8 @@ import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"
 import { prismTheme } from "utils/prism-theme"
 
+import { interactive } from "../../../utils/styles"
+
 const markdownStyles = css`
   max-width: none;
   > :where(p, ul, ol) {
@@ -27,6 +29,9 @@ const markdownStyles = css`
     margin-bottom: 0.25rem;
   }
 
+  /**
+   * List
+   **/
   li {
     margin: 0;
     padding-left: 0.5rem;
@@ -61,6 +66,10 @@ const markdownStyles = css`
   ul > li:has(> input[type="checkbox"]) {
     list-style: none;
   }
+
+  /**
+   * Checkbox
+   **/
 
   input[type="checkbox"] {
     appearance: none;
@@ -98,7 +107,7 @@ const markdownStyles = css`
   input[type="checkbox"]:checked:after {
     height: 0.6rem;
     rotate: 45deg;
-    translate: 0.375rem 0rem;
+    translate: 0.375rem 0;
     transform-origin: center;
   }
 `
@@ -117,7 +126,30 @@ const parse = (markdown: string) =>
     .use(rehypePrism, { ignoreMissing: true })
     .use(rehypeStringify)
     .process(adjustForRender(markdown))
-    .then(result => result.toString())
+    .then(result =>
+      result
+        .toString()
+        .replaceAll("<pre", "<div style='position: relative;'><pre")
+        .replaceAll("</pre>", "</pre></div>")
+    )
+
+const addCopyButton = (pre: HTMLPreElement) => {
+  pre.querySelectorAll("button").forEach(button => button.remove())
+
+  const button = document.createElement("button")
+  button.innerText = "Copy"
+  button.addEventListener("click", () => {
+    const code = pre.querySelector("code")?.innerText.replaceAll("\n\n", "\n")
+    void navigator.clipboard.writeText(code ?? "").catch()
+  })
+
+  button.className = cn(
+    interactive({ look: "flat" }),
+    "absolute right-1 top-1 inline-block rounded-md px-2 py-1 [pre:not(:hover)_&]:hidden"
+  )
+
+  pre.appendChild(button)
+}
 
 export interface MDPreviewProps extends ClassNameProp {
   value: string
@@ -132,8 +164,16 @@ export const MDPreview = ({ value = "", className }: MDPreviewProps) => {
       .catch(() => setHtml("Error: Markdown could not be parsed..."))
   }, [value])
 
+  const initPreview = (element: HTMLDivElement | null) => {
+    const pres = element?.querySelectorAll("pre")
+    pres?.forEach(pre => {
+      addCopyButton(pre)
+    })
+  }
+
   return (
     <div
+      ref={initPreview}
       className={cn(
         "prose dark:prose-invert prose-zinc break-words",
         prismTheme,
