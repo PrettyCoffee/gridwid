@@ -1,4 +1,4 @@
-import { forwardRef, PropsWithChildren } from "react"
+import { forwardRef, HTMLAttributeAnchorTarget, PropsWithChildren } from "react"
 
 import { ClassNameProp, IconProp } from "types/base-props"
 import { RoutePath } from "types/routes"
@@ -34,6 +34,8 @@ Item.displayName = "List.Item"
 export interface ListItemLabelProps extends ClassNameProp, IconProp {
   onClick?: () => void
   to?: RoutePath
+  href?: string
+  target?: HTMLAttributeAnchorTarget
 }
 
 const Label = forwardRef<
