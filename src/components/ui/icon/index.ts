@@ -1,3 +1,3 @@
 export * from "./icon"
 
-export { Github } from "./icons/github"
+export * from "./icons/github"
