@@ -1,4 +1,9 @@
-import { ButtonHTMLAttributes, forwardRef, PropsWithChildren } from "react"
+import {
+  ButtonHTMLAttributes,
+  forwardRef,
+  HTMLAttributeAnchorTarget,
+  PropsWithChildren,
+} from "react"
 
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -46,6 +51,8 @@ export interface ButtonProps
     VariantProps<typeof button>,
     InteractiveProps {
   isLoading?: boolean
+  href?: string
+  target?: HTMLAttributeAnchorTarget
 }
 
 const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
@@ -60,18 +67,22 @@ const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
       icon,
       active,
       disabled,
-      to,
       ...props
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : to != null ? HashRouter.Link : "button"
+    const Comp = asChild
+      ? Slot
+      : props.to != null
+        ? HashRouter.Link
+        : props.href != null
+          ? "a"
+          : "button"
     return (
       <Comp
         {...props}
         // @ts-expect-error -- the ref type shouldn't matter too much here
         ref={ref}
-        to={to}
         disabled={disabled}
         aria-selected={active}
         className={cn(
