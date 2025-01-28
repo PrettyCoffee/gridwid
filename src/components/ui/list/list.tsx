@@ -1,11 +1,12 @@
 import { forwardRef, PropsWithChildren } from "react"
 
-import { ClassNameProp } from "types/base-props"
+import { ClassNameProp, IconProp } from "types/base-props"
 import { RoutePath } from "types/routes"
 import { cn } from "utils/cn"
 import { hstack } from "utils/styles"
 
 import { Button } from "../button"
+import { Icon } from "../icon"
 import { IconButton, IconButtonProps } from "../icon-button"
 
 export interface ListItemProps extends ClassNameProp {
@@ -30,7 +31,7 @@ const Item = forwardRef<HTMLLIElement, PropsWithChildren<ListItemProps>>(
 )
 Item.displayName = "List.Item"
 
-export interface ListItemLabelProps extends ClassNameProp {
+export interface ListItemLabelProps extends ClassNameProp, IconProp {
   onClick?: () => void
   to?: RoutePath
 }
@@ -38,7 +39,7 @@ export interface ListItemLabelProps extends ClassNameProp {
 const Label = forwardRef<
   HTMLButtonElement,
   PropsWithChildren<ListItemLabelProps>
->(({ className, children, ...props }, ref) => {
+>(({ className, children, icon, ...props }, ref) => {
   return (
     <Button
       {...props}
@@ -49,6 +50,7 @@ const Label = forwardRef<
         className
       )}
     >
+      {icon && <Icon icon={icon} className="-ml-1 mr-2" />}
       <span className="truncate">{children}</span>
     </Button>
   )

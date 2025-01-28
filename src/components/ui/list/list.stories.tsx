@@ -1,9 +1,10 @@
 import { faker } from "@faker-js/faker"
-import { GripHorizontal, SquarePen, Trash } from "lucide-react"
+import { Circle, GripHorizontal, SquarePen, Trash } from "lucide-react"
 
 import { argType, Meta, StoryObj } from "lib/storybook"
 
 import { List, ListItemProps } from "./list"
+import { IconProp } from "../../../types/base-props"
 import { IconButton } from "../icon-button"
 
 faker.seed(1337)
@@ -23,7 +24,7 @@ export default meta
 
 type Story = StoryObj<typeof List.Item>
 
-const Item = (props: ListItemProps) => (
+const Item = ({ icon, ...props }: ListItemProps & IconProp) => (
   <List.Item {...props}>
     <IconButton
       icon={GripHorizontal}
@@ -31,7 +32,7 @@ const Item = (props: ListItemProps) => (
       hideTitle
       className="cursor-grab active:cursor-grabbing"
     />
-    <List.Label>{faker.lorem.words({ min: 2, max: 3 })}</List.Label>
+    <List.Label icon={icon}>{faker.lorem.words({ min: 2, max: 3 })}</List.Label>
     <List.Action icon={SquarePen} title="Edit" />
     <List.Action icon={Trash} title="Delete" />
   </List.Item>
@@ -42,6 +43,7 @@ export const Default: Story = {
     <List.Root className="max-w-64">
       <Item {...args} />
       <Item {...args} active />
+      <Item {...args} icon={Circle} />
     </List.Root>
   ),
 }
