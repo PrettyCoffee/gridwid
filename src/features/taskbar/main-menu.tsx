@@ -89,7 +89,7 @@ export const Menu = ({
   trigger,
   children,
 }: PropsWithChildren<MenuProps>) => {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const animate = useAnimateState(open, [300, 200])
 
   return (
