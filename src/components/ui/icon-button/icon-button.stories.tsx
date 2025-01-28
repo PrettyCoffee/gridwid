@@ -13,6 +13,8 @@ const meta: Meta<typeof IconButton> = {
     icon: argType.disabled(),
     title: argType.string(),
     to: argType.string(),
+    href: argType.string(),
+    target: argType.enum(),
     size: argType.enum(),
     look: argType.enum(),
     active: argType.boolean(),

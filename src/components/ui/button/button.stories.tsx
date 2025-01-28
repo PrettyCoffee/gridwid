@@ -13,6 +13,8 @@ const meta: Meta<typeof Button> = {
     icon: argType.disabled(),
     active: argType.boolean(),
     to: argType.string(),
+    href: argType.string(),
+    target: argType.enum(),
     isLoading: argType.boolean(),
     look: argType.enum(),
     size: argType.enum(),
