@@ -7,6 +7,7 @@ import { cn } from "utils/cn"
 import { hstack } from "utils/styles"
 
 import { KeyEventDispatcher } from "../../../utils/key-event-dispatcher"
+import { zIndex } from "../../../utils/z-index"
 import { ScrollArea } from "../../utility/scroll-area"
 import { CodeEditor, CodeEditorProps } from "../code-editor"
 import { IconButton } from "../icon-button"
@@ -184,14 +185,17 @@ export const MDEditor = ({
         "flex-1 overflow-hidden pt-10",
         viewMode === "inline"
           ? "relative size-full"
-          : "bg-background fixed inset-0 z-50 h-screen w-screen p-4 pt-14",
+          : cn(
+              "bg-background fixed inset-0 h-screen w-screen p-4 pt-14",
+              zIndex.fullscreenEditor
+            ),
         className
       )}
     >
       <div
         className={cn(
           hstack({ gap: 1, align: "center", justify: "end" }),
-          "absolute inset-x-0 top-0 z-50 w-full",
+          "absolute inset-x-0 top-0 w-full",
           viewMode === "inline"
             ? ""
             : "shade-low border-stroke-gentle border-b p-1"

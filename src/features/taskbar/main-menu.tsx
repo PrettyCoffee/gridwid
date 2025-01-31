@@ -25,6 +25,8 @@ import { RoutePath } from "types/routes"
 import { cn } from "utils/cn"
 import { hstack, interactive, surface } from "utils/styles"
 
+import { zIndex } from "../../utils/z-index"
+
 const enter = keyframes`
   from {
     transform: translateX(-50%) translateY(75%);
@@ -100,9 +102,10 @@ export const Menu = ({
         <Dialog.Content
           className={cn(
             surface({ look: "overlay", size: "lg" }),
-            "fill-mode-forwards fixed bottom-16 left-1/2 z-40 outline-none",
+            "fill-mode-forwards fixed bottom-16 left-1/2 outline-none",
             animate.state !== "open" && "pointer-events-none",
-            animate.leaving ? "duration-200 ease-in" : "duration-300 ease-out"
+            animate.leaving ? "duration-200 ease-in" : "duration-300 ease-out",
+            zIndex.mainMenu
           )}
           style={{
             animationName: animate.leaving ? leave : enter,
