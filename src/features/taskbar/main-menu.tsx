@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactNode, useEffect, useState } from "react"
+import { PropsWithChildren, ReactNode, useState } from "react"
 
 import * as Dialog from "@radix-ui/react-dialog"
 import { keyframes } from "goober"
@@ -21,7 +21,7 @@ import {
   HashRouterLinkProps,
   useHashRouter,
 } from "components/utility/hash-router"
-import { useRenderState } from "hooks/use-render-state"
+import { useMountAnimation } from "hooks/use-mount-animation"
 import { RoutePath } from "types/routes"
 import { cn } from "utils/cn"
 import { hstack, interactive, surface } from "utils/styles"
@@ -49,41 +49,6 @@ const leave = keyframes`
   }
 `
 
-const useAnimateState = (
-  open: boolean,
-  duration: number | [number, number]
-) => {
-  const renderState = useRenderState()
-  const [state, setState] = useState<"to-open" | "open" | "to-close" | "close">(
-    open ? "open" : "close"
-  )
-
-  const durations = [duration].flat()
-  const enterDuration = durations[0]
-  const leaveDuration = durations[1] ?? durations[0]
-
-  useEffect(() => {
-    if (renderState.current === "initial") return
-    let timeout: number
-    if (open) {
-      setState("to-open")
-      timeout = window.setTimeout(() => setState("open"), enterDuration)
-    } else {
-      setState("to-close")
-      timeout = window.setTimeout(() => setState("close"), leaveDuration)
-    }
-
-    return () => clearTimeout(timeout)
-  }, [enterDuration, leaveDuration, open])
-
-  return {
-    state,
-    entering: state.includes("open"),
-    leaving: state.includes("close"),
-    mounted: state !== "close",
-  }
-}
-
 interface MenuProps {
   title: ReactNode
   trigger: ReactNode
@@ -94,7 +59,7 @@ export const Menu = ({
   children,
 }: PropsWithChildren<MenuProps>) => {
   const [open, setOpen] = useState(false)
-  const animate = useAnimateState(open, [300, 200])
+  const animate = useMountAnimation(open, [300, 200])
 
   return (
     <Dialog.Root modal={false} open={animate.mounted} onOpenChange={setOpen}>
