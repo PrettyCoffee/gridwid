@@ -3,6 +3,8 @@ import { createSelector } from "@yaasl/react"
 import { createSlice, localStorage } from "lib/yaasl"
 import { getNextId } from "utils/get-next-id"
 
+import { notesInitialData } from "./notes-initial-data"
+
 export interface Note {
   id: string
   createdAt: number
@@ -14,7 +16,7 @@ export interface Note {
 
 export const notesData = createSlice({
   name: "notes",
-  defaultValue: [] as Note[],
+  defaultValue: [notesInitialData] as Note[],
   effects: [localStorage()],
   reducers: {
     add: (state, note: Omit<Note, "id" | "createdAt" | "locked">) => [
