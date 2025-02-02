@@ -111,7 +111,7 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
 
         {note.locked ? (
           <ScrollArea>
-            <MDPreview value={note.text} />
+            <MDPreview value={note.text} className="ml-4" />
           </ScrollArea>
         ) : (
           <Editor.Markdown

@@ -15,13 +15,16 @@ import { unified } from "unified"
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"
 import { prismTheme } from "utils/prism-theme"
-
-import { interactive } from "../../../utils/styles"
+import { interactive } from "utils/styles"
 
 const markdownStyles = css`
   max-width: none;
   > :where(p, ul, ol) {
     max-width: 80ch;
+  }
+
+  > *:first-child {
+    margin-top: 0;
   }
 
   p {

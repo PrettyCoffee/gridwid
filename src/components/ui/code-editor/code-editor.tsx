@@ -153,7 +153,7 @@ export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
       <div
         style={style}
         className={cn(
-          "bg-background relative overflow-hidden rounded-sm text-left font-mono text-sm font-normal selection:bg-white/15",
+          "bg-background relative overflow-hidden rounded-sm p-4 text-left font-mono text-sm font-normal selection:bg-white/15",
           prismTheme,
           className
         )}

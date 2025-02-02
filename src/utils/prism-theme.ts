@@ -4,7 +4,6 @@ import { theme } from "../../tailwind/theme"
 
 export const prismTheme = css`
   color: ${theme.get("color.neutral.200")};
-  padding: 1rem;
 
   /** Allow to show line numbers */
   pre[class*="language-"] {
