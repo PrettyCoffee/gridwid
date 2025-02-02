@@ -21,11 +21,11 @@ import {
   HashRouterLinkProps,
   useHashRouter,
 } from "components/utility/hash-router"
+import { useRenderState } from "hooks/use-render-state"
 import { RoutePath } from "types/routes"
 import { cn } from "utils/cn"
 import { hstack, interactive, surface } from "utils/styles"
-
-import { zIndex } from "../../utils/z-index"
+import { zIndex } from "utils/z-index"
 
 const enter = keyframes`
   from {
@@ -53,6 +53,7 @@ const useAnimateState = (
   open: boolean,
   duration: number | [number, number]
 ) => {
+  const renderState = useRenderState()
   const [state, setState] = useState<"to-open" | "open" | "to-close" | "close">(
     open ? "open" : "close"
   )
@@ -62,6 +63,7 @@ const useAnimateState = (
   const leaveDuration = durations[1] ?? durations[0]
 
   useEffect(() => {
+    if (renderState.current === "initial") return
     let timeout: number
     if (open) {
       setState("to-open")
