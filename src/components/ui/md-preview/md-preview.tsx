@@ -17,6 +17,8 @@ import { cn } from "utils/cn"
 import { prismTheme } from "utils/prism-theme"
 import { interactive } from "utils/styles"
 
+import { theme } from "../../../../tailwind/theme"
+
 const markdownStyles = css`
   max-width: none;
   > :where(p, ul, ol) {
@@ -30,6 +32,18 @@ const markdownStyles = css`
   p {
     margin-top: 1.25rem;
     margin-bottom: 0.25rem;
+  }
+
+  p > code {
+    background-color: ${theme.getTokens().colors.background.page};
+    color: ${theme.getTokens().colors.text.priority};
+    font-weight: 500;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    &::before,
+    &::after {
+      color: ${theme.getTokens().colors.text.gentle};
+    }
   }
 
   /**
