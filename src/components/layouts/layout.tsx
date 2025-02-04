@@ -55,6 +55,7 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
         isOpen
           ? "min-w-60 max-w-60 [&>*:not(:first-child)]:opacity-100"
           : "min-w-14 max-w-14 [&>*:not(:first-child)]:opacity-0",
+        animate.state !== "open" && "overflow-x-hidden [&_*]:overflow-x-hidden",
         className
       )}
     >
