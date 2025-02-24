@@ -51,22 +51,15 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
       className={cn(
         vstack({ gap: 2, align: "stretch" }),
         "relative -m-2 h-[calc(100%+theme(spacing.4))] overflow-hidden p-2",
-        "transition-[max-width,min-width] duration-300 ease-in-out [&>*:not(:first-child)]:transition-opacity [&>*:not(:first-child)]:duration-300",
+        "transition-[max-width,min-width] duration-300 ease-in-out [&>*:not(:last-child)]:transition-opacity [&>*:not(:last-child)]:duration-300",
         isOpen
-          ? "min-w-60 max-w-60 [&>*:not(:first-child)]:opacity-100"
-          : "min-w-14 max-w-14 [&>*:not(:first-child)]:opacity-0",
+          ? "min-w-64 max-w-64 [&>*:not(:last-child)]:opacity-100"
+          : "min-w-16 max-w-16 [&>*:not(:last-child)]:opacity-0",
         animate.state !== "open" && "overflow-x-hidden [&_*]:overflow-x-hidden",
+        "border-stroke-gentle mr-0 border-r pr-4",
         className
       )}
     >
-      <IconButton
-        title={isOpen ? "Collapse side menu" : "Expand side menu"}
-        titleSide="right"
-        onClick={isOpen ? close : open}
-        icon={isOpen ? ArrowLeftFromLine : ArrowRightToLine}
-        className={cn("ml-auto")}
-      />
-
       {animate.mounted && back && (
         <>
           <Button to={back.path} icon={ArrowLeft} className="justify-start">
@@ -77,6 +70,16 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
       )}
 
       {animate.mounted && children}
+
+      <div className="flex-1" />
+
+      <IconButton
+        title={isOpen ? "Collapse side menu" : "Expand side menu"}
+        titleSide="right"
+        onClick={isOpen ? close : open}
+        icon={isOpen ? ArrowLeftFromLine : ArrowRightToLine}
+        className="ml-auto"
+      />
     </div>
   )
 }
