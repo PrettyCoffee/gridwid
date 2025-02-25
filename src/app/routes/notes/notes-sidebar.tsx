@@ -30,20 +30,26 @@ const SearchBar = () => {
 const ListItem = forwardRef<
   HTMLLIElement,
   {
+    index: number
     note: Note
     active?: boolean
     disableSortable?: boolean
+    isOverlayItem?: boolean
   }
->(({ active, note, disableSortable, ...props }, ref) => (
-  <Sortable.Item<Note> key={note.id} item={note} asChild>
-    {({ isDragging }) => (
+>(({ active, note, disableSortable, index, isOverlayItem, ...props }, ref) => (
+  <Sortable.Item<Note> index={index} item={note} asChild>
+    {({ isDragging, isDropping }) => (
       <List.Item
         {...props}
         ref={ref}
         active={active}
-        className={cn(isDragging && "bg-background [&_*]:opacity-0")}
+        className={cn(
+          !isOverlayItem &&
+            (isDragging || isDropping) &&
+            "bg-background pointer-events-none [&_*]:opacity-0"
+        )}
       >
-        <Sortable.Handle item={note} asChild>
+        <Sortable.Handle asChild>
           <IconButton
             icon={GripHorizontal}
             title="Re-order note"
@@ -94,20 +100,24 @@ export const NotesSidebar = () => {
         <Sortable.Context<Note>
           items={notes}
           onSort={sort => notesData.set(sort(notesData.get()))}
-          OverlayItem={({ item }) => (
-            <div className="bg-background shade-medium [&_*]:!bgl-base-transparent [&_*]:!bgl-layer-transparent rounded-sm">
-              <ListItem
-                note={item}
-                key={item.id}
-                active={item.id === currentNote?.id}
-              />
-            </div>
-          )}
+          OverlayItem={({ source }) => {
+            return (
+              <div className="bg-background shade-medium [&_*]:!bgl-base-transparent [&_*]:!bgl-layer-transparent rounded-sm">
+                <ListItem
+                  index={notes.findIndex(note => note.id === source.id)}
+                  note={source.data as Note}
+                  active={source.id === currentNote?.id}
+                  isOverlayItem
+                />
+              </div>
+            )
+          }}
         >
           <List.Root>
-            {notes.map(note => (
+            {notes.map((note, index) => (
               <ListItem
                 key={note.id}
+                index={index}
                 note={note}
                 active={note.id === currentNote?.id}
                 disableSortable={!!notesFilter}

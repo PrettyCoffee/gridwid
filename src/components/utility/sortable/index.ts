@@ -1,9 +1,9 @@
 import { SortableContext } from "./sortable-context"
-import { SortableHandle } from "./sortable-handle"
 import { SortableItem } from "./sortable-item"
+import { SortableItemHandle } from "./sortable-item-handle"
 
 export const Sortable = {
   Context: SortableContext,
   Item: SortableItem,
-  Handle: SortableHandle,
+  Handle: SortableItemHandle,
 }

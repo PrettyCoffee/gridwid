@@ -1,1 +1,3 @@
-export type Sortable = string | { id: string }
+export interface Sortable {
+  id: string
+}
