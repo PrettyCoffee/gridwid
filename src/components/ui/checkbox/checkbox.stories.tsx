@@ -48,7 +48,7 @@ const SubLine = () => (
       size="xs"
       className="mr-1"
     />
-    {formatTime(faker.date.anytime())}
+    {formatTime(new Date("2025-01-01T13:37:00"))}
   </>
 )
 
