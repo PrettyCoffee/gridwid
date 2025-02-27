@@ -1,15 +1,24 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import { useMediaQuery } from "./use-media-query"
 import { useRenderState } from "./use-render-state"
 
-export const useMountAnimation = (
-  open: boolean,
+export type MountAnimationState = "to-open" | "open" | "to-close" | "close"
+
+interface MountAnimationProps {
+  open: boolean
   duration: number | [number, number]
-) => {
+  onChange?: (state: MountAnimationState) => void
+}
+
+export const useMountAnimation = ({
+  open,
+  duration,
+  onChange,
+}: MountAnimationProps) => {
   const allowMotion = useMediaQuery("(prefers-reduced-motion: no-preference)")
   const renderState = useRenderState()
-  const [state, setState] = useState<"to-open" | "open" | "to-close" | "close">(
+  const [state, setState] = useState<MountAnimationState>(
     open ? "open" : "close"
   )
 
@@ -17,25 +26,40 @@ export const useMountAnimation = (
   const enterDuration = durations[0]
   const leaveDuration = durations[1] ?? durations[0]
 
+  const updateState = useCallback(
+    (state: MountAnimationState) => {
+      onChange?.(state)
+      setState(state)
+    },
+    [onChange]
+  )
+
   useEffect(() => {
     if (renderState.current === "initial") return
 
     if (!allowMotion) {
-      setState(open ? "open" : "close")
+      updateState(open ? "open" : "close")
       return
     }
 
     let timeout: number
     if (open) {
-      setState("to-open")
-      timeout = window.setTimeout(() => setState("open"), enterDuration)
+      updateState("to-open")
+      timeout = window.setTimeout(() => updateState("open"), enterDuration)
     } else {
-      setState("to-close")
-      timeout = window.setTimeout(() => setState("close"), leaveDuration)
+      updateState("to-close")
+      timeout = window.setTimeout(() => updateState("close"), leaveDuration)
     }
 
     return () => clearTimeout(timeout)
-  }, [enterDuration, leaveDuration, open, allowMotion, renderState])
+  }, [
+    allowMotion,
+    enterDuration,
+    leaveDuration,
+    open,
+    renderState,
+    updateState,
+  ])
 
   return {
     state,

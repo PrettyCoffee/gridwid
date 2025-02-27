@@ -59,7 +59,7 @@ export const Menu = ({
   children,
 }: PropsWithChildren<MenuProps>) => {
   const [open, setOpen] = useState(false)
-  const animate = useMountAnimation(open, [300, 200])
+  const animate = useMountAnimation({ open, duration: [300, 200] })
 
   return (
     <Dialog.Root modal={false} open={animate.mounted} onOpenChange={setOpen}>

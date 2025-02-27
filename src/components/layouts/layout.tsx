@@ -44,7 +44,7 @@ interface LayoutSideProps extends PropsWithChildren, ClassNameProp {
 }
 const Side = ({ children, back, className }: LayoutSideProps) => {
   const { isOpen, open, close } = useDisclosure(true)
-  const animate = useMountAnimation(isOpen, 300)
+  const animate = useMountAnimation({ open: isOpen, duration: 300 })
 
   return (
     <div
