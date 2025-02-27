@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
 
+import { useMediaQuery } from "./use-media-query"
 import { useRenderState } from "./use-render-state"
 
 export const useMountAnimation = (
   open: boolean,
   duration: number | [number, number]
 ) => {
+  const allowMotion = useMediaQuery("(prefers-reduced-motion: no-preference)")
   const renderState = useRenderState()
   const [state, setState] = useState<"to-open" | "open" | "to-close" | "close">(
     open ? "open" : "close"
@@ -17,6 +19,12 @@ export const useMountAnimation = (
 
   useEffect(() => {
     if (renderState.current === "initial") return
+
+    if (!allowMotion) {
+      setState(open ? "open" : "close")
+      return
+    }
+
     let timeout: number
     if (open) {
       setState("to-open")
@@ -27,7 +35,7 @@ export const useMountAnimation = (
     }
 
     return () => clearTimeout(timeout)
-  }, [enterDuration, leaveDuration, open, renderState])
+  }, [enterDuration, leaveDuration, open, allowMotion, renderState])
 
   return {
     state,
