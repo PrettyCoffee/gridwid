@@ -50,20 +50,20 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
     <div
       className={cn(
         vstack(),
-        "relative -m-2 h-[calc(100%+theme(spacing.4))] p-2",
-        "transition-[max-width,min-width] duration-300 ease-in-out [&>*:not(:last-child)]:transition-opacity [&>*:not(:last-child)]:duration-300",
+        "relative mr-7 h-[calc(100%+theme(spacing.4))] pr-7",
+        "transition-[max-width,min-width,padding] duration-300 ease-in-out [&>*:not(:last-child)]:transition-opacity [&>*:not(:last-child)]:duration-300",
+        "border-stroke-gentle border-r",
         isOpen
           ? "min-w-64 max-w-64 [&>*:not(:last-child)]:opacity-100"
-          : "min-w-16 max-w-16 [&>*:not(:last-child)]:opacity-0",
-        animate.state !== "open" && "overflow-hidden [&_*]:overflow-hidden",
-        "border-stroke-gentle mr-0 border-r pr-4",
+          : "min-w-0 max-w-0 pr-3 [&>*:not(:last-child)]:opacity-0",
         className
       )}
     >
       <div
         className={cn(
           vstack({ gap: 2, align: "stretch" }),
-          "-m-2 flex-1 overflow-hidden p-2"
+          "-m-2 flex-1 p-2",
+          animate.state !== "open" && "overflow-hidden [&_*]:overflow-hidden"
         )}
       >
         {animate.mounted && back && (
@@ -80,10 +80,10 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
 
       <IconButton
         title={isOpen ? "Collapse side menu" : "Expand side menu"}
-        titleSide="right"
+        hideTitle
         onClick={isOpen ? close : open}
         icon={isOpen ? ArrowLeftFromLine : ArrowRightToLine}
-        className="ml-auto mt-4"
+        className="border-stroke-gentle bgl-base-background-page absolute -right-5 bottom-2 rounded-full border"
       />
     </div>
   )
@@ -93,9 +93,7 @@ const Multiple = ({
   children,
   className,
 }: PropsWithChildren & ClassNameProp) => (
-  <div className={cn(hstack({ gap: 4 }), "size-full", className)}>
-    {children}
-  </div>
+  <div className={cn(hstack({}), "size-full", className)}>{children}</div>
 )
 
 export const Layout = {
