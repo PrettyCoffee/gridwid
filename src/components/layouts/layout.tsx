@@ -50,9 +50,9 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
     <div
       className={cn(
         vstack(),
-        "relative mr-7 h-[calc(100%+theme(spacing.4))] pr-7",
+        "relative -ml-4 mr-7 h-full pl-3 pr-7",
         "transition-[max-width,min-width,padding] duration-0 ease-in-out motion-safe:duration-300 [&>*:not(:last-child)]:transition-opacity [&>*:not(:last-child)]:duration-0 [&>*:not(:last-child)]:motion-safe:duration-300",
-        "border-stroke-gentle border-r",
+        "border-stroke-gentle rounded-r-lg border-y border-r pt-3",
         isOpen
           ? "min-w-64 max-w-64 [&>*:not(:last-child)]:opacity-100"
           : "min-w-0 max-w-0 pr-3 [&>*:not(:last-child)]:opacity-0",
@@ -83,7 +83,7 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
         hideTitle
         onClick={isOpen ? close : open}
         icon={Menu}
-        className="border-stroke-gentle bgl-base-background-page absolute -right-5 bottom-2 rounded-full border"
+        className="border-stroke-gentle bgl-base-background-page absolute -right-5 top-3 rounded-full border"
       />
     </div>
   )
