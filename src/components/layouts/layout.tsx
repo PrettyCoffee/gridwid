@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react"
 
-import { ArrowLeft, ArrowLeftFromLine, ArrowRightToLine } from "lucide-react"
+import { ArrowLeft, Menu } from "lucide-react"
 
 import { Button } from "components/ui/button"
 import { Divider } from "components/ui/divider"
@@ -82,7 +82,7 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
         title={isOpen ? "Collapse side menu" : "Expand side menu"}
         hideTitle
         onClick={isOpen ? close : open}
-        icon={isOpen ? ArrowLeftFromLine : ArrowRightToLine}
+        icon={Menu}
         className="border-stroke-gentle bgl-base-background-page absolute -right-5 bottom-2 rounded-full border"
       />
     </div>
