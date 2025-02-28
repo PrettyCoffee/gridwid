@@ -43,27 +43,26 @@ interface LayoutSideProps extends PropsWithChildren, ClassNameProp {
   }
 }
 const Side = ({ children, back, className }: LayoutSideProps) => {
-  const { isOpen, open, close } = useDisclosure(true)
+  const { isOpen, toggle } = useDisclosure(true)
   const animate = useMountAnimation({ open: isOpen, duration: 300 })
 
   return (
     <div
       className={cn(
         vstack(),
-        "relative -ml-4 mr-7 h-full pl-3 pr-7",
-        "transition-[max-width,min-width,padding] duration-0 ease-in-out motion-safe:duration-300 [&>*:not(:last-child)]:transition-opacity [&>*:not(:last-child)]:duration-0 [&>*:not(:last-child)]:motion-safe:duration-300",
-        "border-stroke-gentle rounded-r-lg border-y border-r pt-3",
-        isOpen
-          ? "min-w-64 max-w-64 [&>*:not(:last-child)]:opacity-100"
-          : "min-w-0 max-w-0 pr-3 [&>*:not(:last-child)]:opacity-0",
+        "relative -ml-4 mr-7 h-full pl-3 pr-7 pt-3",
+        "border-stroke-gentle rounded-r-lg border-y border-r",
+        "transition-[max-width,min-width,padding] duration-0 ease-in-out motion-safe:duration-300",
+        isOpen ? "min-w-64 max-w-64" : "min-w-0 max-w-0 pr-3",
         className
       )}
     >
       <div
         className={cn(
           vstack({ gap: 2, align: "stretch" }),
-          "-m-2 flex-1 p-2",
-          animate.state !== "open" && "overflow-hidden [&_*]:overflow-hidden"
+          "-m-2 flex-1 p-2 transition-opacity duration-0 motion-safe:duration-300",
+          animate.state !== "open" && "overflow-hidden [&_*]:overflow-hidden",
+          isOpen ? "opacity-100" : "opacity-0"
         )}
       >
         {animate.mounted && back && (
@@ -78,13 +77,20 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
         {animate.mounted && children}
       </div>
 
-      <IconButton
-        title={isOpen ? "Collapse side menu" : "Expand side menu"}
-        hideTitle
-        onClick={isOpen ? close : open}
-        icon={Menu}
-        className="border-stroke-gentle bgl-base-background-page absolute -right-5 top-3 rounded-full border"
-      />
+      <div
+        className={cn(
+          vstack({ gap: 2 }),
+          "absolute -right-5 top-3",
+          "[&>*]:border-stroke-gentle [&>*]:bgl-base-background-page [&>*]:rounded-full [&>*]:border"
+        )}
+      >
+        <IconButton
+          title={isOpen ? "Collapse side menu" : "Expand side menu"}
+          titleSide="right"
+          onClick={toggle}
+          icon={Menu}
+        />
+      </div>
     </div>
   )
 }
