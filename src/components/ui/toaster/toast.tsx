@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef } from "react"
 
+import { useAnimate } from "framer-motion"
 import { keyframes } from "goober"
 import { X } from "lucide-react"
 
 import { Icon } from "components/ui/icon"
 import { cn } from "utils/cn"
+import { ease } from "utils/ease"
 import { alertStyles, hstack, surface } from "utils/styles"
 
 import { ToastProps } from "./toaster-data"
@@ -27,30 +29,12 @@ const shrinkTimeBar = keyframes`
   }
 `
 
-enum TRANSITION {
-  IDLE,
-  SWIPE,
-  SHRINK,
-}
-
 const noSize = { height: 0, width: 0, padding: 0, margin: 0, border: "none" }
-const swipeOut = cn("translate-x-full opacity-0 transition-all")
-const getTransition = (ref: HTMLDivElement | null, state: TRANSITION) => {
-  switch (state) {
-    case TRANSITION.IDLE:
-      return {}
-    case TRANSITION.SWIPE:
-      return {
-        className: cn(swipeOut, "duration-150 ease-in"),
-        style: { height: ref?.offsetHeight },
-      }
-    case TRANSITION.SHRINK:
-      return {
-        className: cn(swipeOut, "ease-bounce duration-200"),
-        style: noSize,
-      }
-  }
-}
+const swipeOut = (element: HTMLDivElement) => ({
+  opacity: 0,
+  transform: "translateX(100%)",
+  height: element.offsetHeight,
+})
 
 export const Toast = ({
   id,
@@ -60,45 +44,40 @@ export const Toast = ({
   duration,
   onClose,
 }: ExtendedToastProps) => {
-  const ref = useRef<HTMLDivElement>(null)
+  const [scope, animate] = useAnimate<HTMLDivElement>()
   const timeout = useRef<Timer | undefined>(undefined)
-  const [transitionState, setTransitionState] = useState(TRANSITION.IDLE)
 
-  const handleTransitionEnd = () => {
-    const next = {
-      [TRANSITION.IDLE]: () => null,
-      [TRANSITION.SWIPE]: () => setTransitionState(TRANSITION.SHRINK),
-      [TRANSITION.SHRINK]: () => onClose(id),
-    }
-    next[transitionState]()
-  }
-
-  const startClose = useCallback(() => {
+  const exit = useCallback(async () => {
     clearTimeout(timeout.current)
-    setTransitionState(TRANSITION.SWIPE)
-  }, [])
+
+    await animate(scope.current, swipeOut(scope.current), {
+      duration: 0.15,
+      ease: ease.in,
+    })
+    await animate(scope.current, noSize, {
+      duration: 0.2,
+      ease: ease.bounce,
+    })
+
+    onClose(id)
+  }, [animate, id, onClose, scope])
 
   useEffect(() => {
     if (duration) {
-      timeout.current = setTimeout(startClose, duration)
+      timeout.current = setTimeout(() => void exit(), duration)
     }
     return () => clearTimeout(timeout.current)
-  }, [duration, startClose])
-
-  const transition = getTransition(ref.current, transitionState)
+  }, [duration, exit])
 
   return (
     <div
-      ref={ref}
-      onTransitionEnd={handleTransitionEnd}
+      ref={scope}
       className={cn(
         hstack(),
         surface({ look: "overlay", size: "md" }),
         "relative my-1 w-72 overflow-hidden border-2 p-1",
-        alertStyles[kind].borderGentle,
-        transition.className
+        alertStyles[kind].borderGentle
       )}
-      style={transition.style}
     >
       <div
         className={cn(
@@ -111,14 +90,16 @@ export const Toast = ({
       <div className="my-2 flex-1 overflow-hidden">
         <div className="text-text-priority truncate">{title}</div>
         {message && (
-          <div className="text-text mt-1 line-clamp-3 text-sm">{message}</div>
+          <div className="text-text ease- mt-1 line-clamp-3 text-sm">
+            {message}
+          </div>
         )}
       </div>
       <IconButton
         icon={X}
         title="Close toast"
         look="flat"
-        onClick={startClose}
+        onClick={() => void exit()}
       />
       <span
         className={cn("absolute h-0.5 rounded-sm", alertStyles[kind].bg)}
