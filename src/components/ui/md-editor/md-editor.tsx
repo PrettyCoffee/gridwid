@@ -1,4 +1,4 @@
-import { Dispatch, useState } from "react"
+import { Dispatch, useRef, useState } from "react"
 
 import { css } from "goober"
 import { Code, LetterText, Maximize, Minimize } from "lucide-react"
@@ -168,6 +168,9 @@ export const MDEditor = ({
   previewClassName,
   ...inputProps
 }: MDEditorProps) => {
+  const inputScrollRef = useRef<HTMLDivElement>(null)
+  const previewScrollRef = useRef<HTMLDivElement>(null)
+
   const { value } = inputProps
   const [modeValue, setModeValue] = useState(50)
   const [viewMode, setViewMode] = useState<"inline" | "fullscreen">("inline")
@@ -177,6 +180,38 @@ export const MDEditor = ({
 
   const showCode = modeValue > 0
   const showPreview = modeValue < 100
+
+  const scrollTrigger = useRef<number | null>(null)
+  const createScrollUpdater = (activeElement: "input" | "preview") => () => {
+    const { active, other } =
+      activeElement === "input"
+        ? {
+            active: inputScrollRef.current,
+            other: previewScrollRef.current,
+          }
+        : {
+            active: previewScrollRef.current,
+            other: inputScrollRef.current,
+          }
+
+    if (!active || !other || scrollTrigger.current) return
+
+    const id = Date.now()
+    scrollTrigger.current = id
+
+    const activeScrollTop = active.scrollTop ?? 0
+    const activeScrollMax = active.scrollHeight - active.clientHeight
+
+    const scrollPercent = activeScrollTop / activeScrollMax
+
+    const otherScrollMax = other.scrollHeight - other.clientHeight
+    const otherScrollTop = otherScrollMax * scrollPercent
+    other.scrollTo({ top: otherScrollTop, behavior: "instant" })
+
+    setTimeout(() => {
+      if (scrollTrigger.current === id) scrollTrigger.current = null
+    }, 10)
+  }
 
   return (
     <div
@@ -217,6 +252,8 @@ export const MDEditor = ({
       </div>
 
       <ScrollArea
+        ref={inputScrollRef}
+        onScroll={createScrollUpdater("input")}
         className={cn(!showCode && "hidden")}
         style={{ flex: `1 1 ${codeWidth}%` }}
       >
@@ -229,6 +266,8 @@ export const MDEditor = ({
       </ScrollArea>
 
       <ScrollArea
+        ref={previewScrollRef}
+        onScroll={createScrollUpdater("preview")}
         className={cn(!showPreview && "hidden")}
         style={{ flex: `1 1 ${previewWidth}%` }}
       >
