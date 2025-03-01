@@ -1,5 +1,3 @@
-import { forwardRef } from "react"
-
 import { cva, VariantProps } from "class-variance-authority"
 
 import { VisuallyHidden } from "components/utility/visually-hidden"
@@ -33,36 +31,27 @@ export interface IconButtonProps
   hideTitle?: boolean
 }
 
-export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  (
-    {
-      icon,
-      filled,
-      title,
-      look = "flat",
-      size = "md",
-      className,
-      hideTitle,
-      titleSide,
-      ...delegated
-    },
-    ref
-  ) => (
-    <TitleTooltip
-      title={hideTitle ? undefined : title}
-      side={titleSide}
-      asChild
+export const IconButton = ({
+  ref,
+  icon,
+  filled,
+  title,
+  look = "flat",
+  size = "md",
+  className,
+  hideTitle,
+  titleSide,
+  ...delegated
+}: IconButtonProps) => (
+  <TitleTooltip title={hideTitle ? undefined : title} side={titleSide} asChild>
+    <Button
+      ref={ref}
+      look={look}
+      className={cn(iconButton({ size }), className)}
+      {...delegated}
     >
-      <Button
-        ref={ref}
-        look={look}
-        className={cn(iconButton({ size }), className)}
-        {...delegated}
-      >
-        <VisuallyHidden>{title}</VisuallyHidden>
-        <Icon icon={icon} size={size} color="current" filled={filled} />
-      </Button>
-    </TitleTooltip>
-  )
+      <VisuallyHidden>{title}</VisuallyHidden>
+      <Icon icon={icon} size={size} color="current" filled={filled} />
+    </Button>
+  </TitleTooltip>
 )
-IconButton.displayName = "IconButton"

@@ -1,6 +1,5 @@
 import {
   ButtonHTMLAttributes,
-  forwardRef,
   HTMLAttributeAnchorTarget,
   PropsWithChildren,
 } from "react"
@@ -14,6 +13,7 @@ import {
   ClassNameProp,
   DisableProp,
   IconProp,
+  RefProp,
 } from "types/base-props"
 import { cn } from "utils/cn"
 import { focusRing, interactive, InteractiveProps } from "utils/styles"
@@ -43,7 +43,8 @@ type ButtonHtmlProps = ButtonHTMLAttributes<HTMLButtonElement>
 
 export interface ButtonProps
   extends Pick<ButtonHtmlProps, "onClick" | "onFocus" | "onBlur">,
-    HashRouterLinkProps,
+    RefProp<HTMLButtonElement>,
+    Omit<HashRouterLinkProps, "ref">,
     IconProp,
     ClassNameProp,
     AsChildProp,
@@ -55,55 +56,50 @@ export interface ButtonProps
   target?: HTMLAttributeAnchorTarget
 }
 
-const Button = forwardRef<HTMLButtonElement, PropsWithChildren<ButtonProps>>(
-  (
-    {
-      className,
-      look = "flat",
-      size = "md",
-      asChild = false,
-      children,
-      isLoading,
-      icon,
-      active,
-      disabled,
-      ...props
-    },
-    ref
-  ) => {
-    const Comp = asChild
-      ? Slot
-      : props.to != null
-        ? HashRouter.Link
-        : props.href != null
-          ? "a"
-          : "button"
-    return (
-      <Comp
-        {...props}
-        // @ts-expect-error -- the ref type shouldn't matter too much here
-        ref={ref}
-        disabled={disabled}
-        aria-selected={active}
-        className={cn(
-          interactive({ look, active, disabled }),
-          button({ size, className })
-        )}
-      >
-        {isLoading ? (
-          <Spinner size={"sm"} color="current" className="mr-2" />
-        ) : icon ? (
-          <Icon
-            icon={icon}
-            size={size === "sm" ? "sm" : "md"}
-            className="mr-2 text-current"
-          />
-        ) : null}
-        {children}
-      </Comp>
-    )
-  }
-)
-Button.displayName = "Button"
+const Button = ({
+  ref,
+  className,
+  look = "flat",
+  size = "md",
+  asChild = false,
+  children,
+  isLoading,
+  icon,
+  active,
+  disabled,
+  ...props
+}: PropsWithChildren<ButtonProps>) => {
+  const Comp = asChild
+    ? Slot
+    : props.to != null
+      ? HashRouter.Link
+      : props.href != null
+        ? "a"
+        : "button"
+  return (
+    <Comp
+      {...props}
+      // @ts-expect-error -- the ref type shouldn't matter too much here
+      ref={ref}
+      disabled={disabled}
+      aria-selected={active}
+      className={cn(
+        interactive({ look, active, disabled }),
+        button({ size, className })
+      )}
+    >
+      {isLoading ? (
+        <Spinner size={"sm"} color="current" className="mr-2" />
+      ) : icon ? (
+        <Icon
+          icon={icon}
+          size={size === "sm" ? "sm" : "md"}
+          className="mr-2 text-current"
+        />
+      ) : null}
+      {children}
+    </Comp>
+  )
+}
 
 export { Button, button }

@@ -1,5 +1,3 @@
-import { forwardRef } from "react"
-
 import { useAtomValue } from "@yaasl/react"
 import { GripHorizontal, Plus, Trash } from "lucide-react"
 
@@ -13,6 +11,7 @@ import { useHashRouter } from "components/utility/hash-router"
 import { Sortable } from "components/utility/sortable"
 import { Note, notesData, notesSearch, notesSearchData } from "features/notes"
 import { deleteNote } from "features/notes/delete-note"
+import { RefProp } from "types/base-props"
 import { cn } from "utils/cn"
 
 const SearchBar = () => {
@@ -27,16 +26,22 @@ const SearchBar = () => {
   )
 }
 
-const ListItem = forwardRef<
-  HTMLLIElement,
-  {
-    index: number
-    note: Note
-    active?: boolean
-    disableSortable?: boolean
-    isOverlayItem?: boolean
-  }
->(({ active, note, disableSortable, index, isOverlayItem, ...props }, ref) => (
+interface ListElementProps extends RefProp<HTMLLIElement> {
+  index: number
+  note: Note
+  active?: boolean
+  disableSortable?: boolean
+  isOverlayItem?: boolean
+}
+const ListItem = ({
+  active,
+  note,
+  disableSortable,
+  index,
+  isOverlayItem,
+  ref,
+  ...props
+}: ListElementProps) => (
   <Sortable.Item<Note> index={index} item={note} asChild>
     {({ isDragging, isDropping }) => (
       <List.Item
@@ -68,8 +73,7 @@ const ListItem = forwardRef<
       </List.Item>
     )}
   </Sortable.Item>
-))
-ListItem.displayName = "NotesSidebarListItem"
+)
 
 const getNoteById = (notes: Note[], id?: string) =>
   !id ? undefined : notes.find(note => note.id === id)

@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react"
+import { ComponentProps } from "react"
 
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 
@@ -6,10 +6,13 @@ import { cn } from "utils/cn"
 import { surface } from "utils/styles"
 import { zIndex } from "utils/z-index"
 
-const PopoverContent = forwardRef<
-  ElementRef<typeof PopoverPrimitive.Content>,
-  ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
->(({ className, align = "center", sideOffset = 4, ...props }, ref) => (
+const PopoverContent = ({
+  ref,
+  className,
+  align = "center",
+  sideOffset = 4,
+  ...props
+}: ComponentProps<typeof PopoverPrimitive.Content>) => (
   <PopoverPrimitive.Portal>
     <PopoverPrimitive.Content
       ref={ref}
@@ -25,8 +28,7 @@ const PopoverContent = forwardRef<
       {...props}
     />
   </PopoverPrimitive.Portal>
-))
-PopoverContent.displayName = PopoverPrimitive.Content.displayName
+)
 
 const Popover = {
   Root: PopoverPrimitive.Root,

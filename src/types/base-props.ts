@@ -1,4 +1,4 @@
-import { CSSProperties } from "react"
+import { CSSProperties, Ref } from "react"
 
 import { LucideIcon } from "lucide-react"
 
@@ -32,4 +32,9 @@ export interface TitleProp {
 export interface StyleProp {
   /** Add custom CSS styles to the component */
   style?: CSSProperties
+}
+
+export interface RefProp<T> {
+  /** Create references to native html elements */
+  ref?: Ref<T>
 }

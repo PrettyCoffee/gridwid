@@ -1,4 +1,4 @@
-import { forwardRef, ElementRef, ComponentPropsWithoutRef } from "react"
+import { ComponentProps } from "react"
 
 import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
@@ -6,10 +6,12 @@ import { cn } from "utils/cn"
 import { surface } from "utils/styles"
 import { zIndex } from "utils/z-index"
 
-const Content = forwardRef<
-  ElementRef<typeof TooltipPrimitive.Content>,
-  ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
+const Content = ({
+  ref,
+  className,
+  sideOffset = 4,
+  ...props
+}: ComponentProps<typeof TooltipPrimitive.Content>) => (
   <TooltipPrimitive.Content
     ref={ref}
     sideOffset={sideOffset}
@@ -22,8 +24,7 @@ const Content = forwardRef<
     )}
     {...props}
   />
-))
-Content.displayName = TooltipPrimitive.Content.displayName
+)
 
 const { Root, Trigger, Portal, Provider } = TooltipPrimitive
 

@@ -1,19 +1,32 @@
-import { forwardRef, PropsWithChildren } from "react"
+import { PropsWithChildren } from "react"
 
 import { Slot } from "@radix-ui/react-slot"
 
-import { AsChildProp, ClassNameProp, StyleProp } from "types/base-props"
+import {
+  AsChildProp,
+  ClassNameProp,
+  RefProp,
+  StyleProp,
+} from "types/base-props"
 import { cn } from "utils/cn"
 import { vstack } from "utils/styles"
 
-interface ScrollAreaProps extends ClassNameProp, AsChildProp, StyleProp {
+interface ScrollAreaProps
+  extends RefProp<HTMLDivElement>,
+    ClassNameProp,
+    AsChildProp,
+    StyleProp {
   onScroll?: () => void
 }
 
-export const ScrollArea = forwardRef<
-  HTMLDivElement,
-  PropsWithChildren<ScrollAreaProps>
->(({ className, children, asChild, style, onScroll }, ref) => {
+export const ScrollArea = ({
+  ref,
+  className,
+  children,
+  asChild,
+  style,
+  onScroll,
+}: PropsWithChildren<ScrollAreaProps>) => {
   const Inner = asChild ? Slot : "div"
   return (
     <div style={style} className={cn("overflow-hidden", vstack({}), className)}>
@@ -26,5 +39,4 @@ export const ScrollArea = forwardRef<
       </Inner>
     </div>
   )
-})
-ScrollArea.displayName = "ScrollArea"
+}

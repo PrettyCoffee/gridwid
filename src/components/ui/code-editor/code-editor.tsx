@@ -2,7 +2,6 @@ import {
   Dispatch,
   TextareaHTMLAttributes,
   ChangeEvent,
-  forwardRef,
   useMemo,
   useEffect,
 } from "react"
@@ -10,7 +9,7 @@ import {
 import { css } from "goober"
 import type { PluggableList } from "unified"
 
-import { ClassNameProp, DisableProp } from "types/base-props"
+import { ClassNameProp, DisableProp, RefProp } from "types/base-props"
 import { cn } from "utils/cn"
 import { globalEvents } from "utils/global-events"
 import { prismTheme } from "utils/prism-theme"
@@ -76,6 +75,7 @@ type NativeTextAreaProps = Pick<
 
 export interface CodeEditorProps
   extends NativeTextAreaProps,
+    RefProp<HTMLTextAreaElement>,
     ClassNameProp,
     DisableProp {
   /** The current code to display */
@@ -94,101 +94,96 @@ export interface CodeEditorProps
   showLineNumbers?: boolean
 }
 
-export const CodeEditor = forwardRef<HTMLTextAreaElement, CodeEditorProps>(
-  (
-    {
-      value,
-      placeholder = "Type here...",
-      language,
-      className,
-      style,
-      rehypePlugins,
-      onChange,
-      readOnly,
-      onSave,
-      showLineNumbers,
-      ...textAreaProps
-    },
-    textAreaRef
-  ) => {
-    const history = useChangeHistory(value)
+export const CodeEditor = ({
+  ref: textAreaRef,
+  value,
+  placeholder = "Type here...",
+  language,
+  className,
+  style,
+  rehypePlugins,
+  onChange,
+  readOnly,
+  onSave,
+  showLineNumbers,
+  ...textAreaProps
+}: CodeEditorProps) => {
+  const history = useChangeHistory(value)
 
-    const keyEvents = useMemo(() => {
-      const keyEvents = editorKeyEvents({})
+  const keyEvents = useMemo(() => {
+    const keyEvents = editorKeyEvents({})
 
-      keyEvents.listen({
-        key: "z",
-        filter: event => event.ctrlKey,
-        handler: ({ event, api }) => {
-          api.cursor.setPosition({
-            start: 0,
-            end: history.getCurrent().value.length,
-          })
+    keyEvents.listen({
+      key: "z",
+      filter: event => event.ctrlKey,
+      handler: ({ event, api }) => {
+        api.cursor.setPosition({
+          start: 0,
+          end: history.getCurrent().value.length,
+        })
 
-          const entry = event.shiftKey ? history.redo() : history.undo()
+        const entry = event.shiftKey ? history.redo() : history.undo()
 
-          api.cursor.insertText(entry.value)
-          api.cursor.setPosition(entry.position)
-          onChange(entry.value)
-        },
-      })
-
-      return keyEvents
-    }, [history, onChange])
-
-    useEffect(() => {
-      if (!onSave || readOnly) return
-      const unsubscribe = globalEvents.onSave.subscribe(onSave)
-      return () => unsubscribe()
+        api.cursor.insertText(entry.value)
+        api.cursor.setPosition(entry.position)
+        onChange(entry.value)
+      },
     })
 
-    const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
-      history.push(target.value, {
-        start: target.selectionStart,
-        end: target.selectionEnd,
-      })
-      onChange(target.value)
-    }
-    return (
-      <div
-        style={style}
-        className={cn(
-          "bg-background relative overflow-hidden rounded-sm p-4 text-left font-mono text-sm font-normal selection:bg-white/15",
-          prismTheme,
-          className
-        )}
-      >
-        <div className={"absolute right-0 top-0 z-[2]"}>
-          <ShortcutsInfo />
-        </div>
-        <textarea
-          ref={textAreaRef}
-          {...textAreaStaticProps}
-          {...textAreaProps}
-          value={value}
-          readOnly={readOnly}
-          placeholder={placeholder}
-          onChange={readOnly ? undefined : handleChange}
-          onKeyDown={readOnly ? undefined : event => keyEvents.emit(event)}
-          className={cn(
-            "placeholder:text-text-gentle absolute left-0 top-0 z-[1] size-full resize-none overflow-hidden p-4",
-            sharedStyles,
-            textAreaStyles
-          )}
-          style={{
-            paddingLeft: showLineNumbers ? "calc(3ch + 1.5rem)" : undefined,
-          }}
-        />
-        <CodePreview
-          key={String(showLineNumbers)}
-          rehypePlugins={rehypePlugins}
-          language={language}
-          value={value}
-          className={sharedStyles}
-          showLineNumbers={showLineNumbers}
-        />
-      </div>
-    )
+    return keyEvents
+  }, [history, onChange])
+
+  useEffect(() => {
+    if (!onSave || readOnly) return
+    const unsubscribe = globalEvents.onSave.subscribe(onSave)
+    return () => unsubscribe()
+  })
+
+  const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
+    history.push(target.value, {
+      start: target.selectionStart,
+      end: target.selectionEnd,
+    })
+    onChange(target.value)
   }
-)
-CodeEditor.displayName = "CodeEditor"
+  return (
+    <div
+      style={style}
+      className={cn(
+        "bg-background relative overflow-hidden rounded-sm p-4 text-left font-mono text-sm font-normal selection:bg-white/15",
+        prismTheme,
+        className
+      )}
+    >
+      <div className={"absolute right-0 top-0 z-[2]"}>
+        <ShortcutsInfo />
+      </div>
+      <textarea
+        ref={textAreaRef}
+        {...textAreaStaticProps}
+        {...textAreaProps}
+        value={value}
+        readOnly={readOnly}
+        placeholder={placeholder}
+        onChange={readOnly ? undefined : handleChange}
+        onKeyDown={readOnly ? undefined : event => keyEvents.emit(event)}
+        className={cn(
+          "placeholder:text-text-gentle absolute left-0 top-0 z-[1] size-full resize-none overflow-hidden p-4",
+          sharedStyles,
+          textAreaStyles
+        )}
+        style={{
+          paddingLeft: showLineNumbers ? "calc(3ch + 1.5rem)" : undefined,
+        }}
+      />
+      <CodePreview
+        key={String(showLineNumbers)}
+        rehypePlugins={rehypePlugins}
+        language={language}
+        value={value}
+        className={sharedStyles}
+        showLineNumbers={showLineNumbers}
+      />
+    </div>
+  )
+}
