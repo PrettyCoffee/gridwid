@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from "react"
 
-import { useAnimate } from "framer-motion"
 import { keyframes } from "goober"
 import { X } from "lucide-react"
+import { useAnimate } from "motion/react"
 
 import { Icon } from "components/ui/icon"
 import { cn } from "utils/cn"

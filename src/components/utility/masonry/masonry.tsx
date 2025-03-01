@@ -6,7 +6,7 @@ import {
   useState,
 } from "react"
 
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"
@@ -24,7 +24,7 @@ const getContentHeight = (element: HTMLElement | null) => {
   }
 }
 
-const useResizeObserver = (ref: RefObject<HTMLElement>) => {
+const useResizeObserver = (ref: RefObject<HTMLElement | null>) => {
   const [rect, setRect] = useState<DOMRectReadOnly | null>(null)
   const observer = useRef(
     new ResizeObserver(entries => {
@@ -49,7 +49,10 @@ const roundUp = (value: number) => {
   return floored === value ? floored : floored + 1
 }
 
-const useContentHeight = (ref: RefObject<HTMLElement>, maxHeight?: number) => {
+const useContentHeight = (
+  ref: RefObject<HTMLElement | null>,
+  maxHeight?: number
+) => {
   const element = ref.current
   const [height, setHeight] = useState({ value: 0, hasOverflow: false })
   const { width } = useResizeObserver(ref) ?? {}

@@ -58,8 +58,14 @@ export const Option = ({ value, label, icon }: StateSwitchOptionProps) => {
 
 const isStateOption = (
   child: ReactNode
-): child is ReactElement<StateSwitchOptionProps> =>
-  isValidElement(child) && "props" in child && "value" in child.props
+): child is ReactElement<StateSwitchOptionProps> => {
+  if (!isValidElement(child) || !("props" in child)) return false
+
+  const { props } = child
+  if (typeof props !== "object" || !props) return false
+
+  return "value" in props
+}
 
 const getValues = (children: ReactNode) =>
   Children.toArray(children).flatMap(child =>

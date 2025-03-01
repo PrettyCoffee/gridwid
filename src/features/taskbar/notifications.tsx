@@ -14,7 +14,7 @@ import { formatDate, formatTime } from "utils/format"
 
 const Clock = () => {
   const [date, setDate] = useState(new Date())
-  const interval = useRef<number>()
+  const interval = useRef<number>(undefined)
 
   useEffect(() => {
     interval.current = window.setInterval(() => {

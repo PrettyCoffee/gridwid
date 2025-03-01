@@ -12,7 +12,6 @@ const mergeRefs = <T>(
       if (typeof ref === "function") {
         ref(value)
       } else if (ref != null) {
-        // @ts-expect-error readonly ref must be reassigned here
         ref.current = value
       }
     })
