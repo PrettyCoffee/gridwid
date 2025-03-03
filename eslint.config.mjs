@@ -6,6 +6,19 @@ export default ts.config(
   prettyCozy.react,
   prettyCozy.tailwind,
   {
+    name: "config-migration",
+    rules: {
+      "react-compiler/react-compiler": "off",
+    },
+  },
+  {
+    name: "situational-rules",
+    rules: {
+      // activate for temporary testing
+      // "import/no-cycle": "error",
+    },
+  },
+  {
     ignores: ["dist", "node_modules"],
     settings: {
       "import/resolver": {
@@ -24,7 +37,6 @@ export default ts.config(
         { "*/**": "KEBAB_CASE" },
         { ignoreMiddleExtensions: true },
       ],
-      "import/no-cycle": "error",
       "import/no-restricted-paths": [
         "error",
         {

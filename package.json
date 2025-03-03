@@ -1,5 +1,5 @@
 {
-  "name": "bulletproof-react-vite",
+  "name": "gridwid",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -11,8 +11,10 @@
     "storybook:build": "storybook build -c ./storybook -o dist/storybook",
     "test": "vitest",
     "test:all": "vitest --watch=false",
-    "lint": "eslint --cache src tailwind storybook",
-    "lint:fix": "bun run lint -- --fix"
+    "lint": "eslint src tailwind storybook",
+    "lint:fix": "bun run lint -- --fix",
+    "lint:time": "TIMING=1 npm run lint",
+    "lint:inspect": "eslint --inspect-config"
   },
   "dependencies": {
     "@dnd-kit/abstract": "^0.0.9",
@@ -43,12 +45,11 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.1",
     "tailwind-merge": "^2.6.0",
-    "tailwindcss-animate": "^1.0.7",
     "unified": "^11.0.5"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.5.1",
-    "@pretty-cozy/eslint-config": "^0.5.1",
+    "@pretty-cozy/eslint-config": "^0.6.0",
     "@storybook/addon-a11y": "^8.6.2",
     "@storybook/addon-actions": "^8.6.2",
     "@storybook/addon-essentials": "^8.6.2",
@@ -68,6 +69,7 @@
     "postcss": "^8.5.3",
     "storybook": "^8.6.2",
     "tailwindcss": "^3.4.17",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.8.2",
     "vite": "^6.2.0",
     "vite-tsconfig-paths": "^5.1.4",
