@@ -1,12 +1,14 @@
 import { Dispatch, PropsWithChildren, ReactNode, useState } from "react"
 
-import { Draggable, DragOperation } from "@dnd-kit/abstract"
+import type { DragOperation } from "@dnd-kit/abstract"
+import type { Draggable } from "@dnd-kit/dom"
 import { arrayMove } from "@dnd-kit/helpers"
 import { DragDropProvider, DragOverlay } from "@dnd-kit/react"
+import { isSortable } from "@dnd-kit/react/sortable"
 import { css } from "goober"
 
 import { Sortable } from "./types"
-import { getId, getItem } from "./utils"
+import { getItem } from "./utils"
 
 const forceGrabbingPointer = css`
   * {
@@ -16,6 +18,18 @@ const forceGrabbingPointer = css`
 
 const addPointer = () => document.body.classList.add(forceGrabbingPointer)
 const removePointer = () => document.body.classList.remove(forceGrabbingPointer)
+
+const getOperationIndex = (source: Draggable | null) => {
+  if (!isSortable(source)) return { prev: null, next: null }
+
+  // No clue why this naming is being used, "previousIndex" seems to be the new index?
+  const initial = Number(source.sortable.initialIndex)
+  const previous = Number(source.sortable.previousIndex)
+  return {
+    prev: Number.isNaN(initial) ? null : initial,
+    next: Number.isNaN(previous) ? null : previous,
+  }
+}
 
 interface SortableContextProps<T extends Sortable> {
   items: T[]
@@ -38,15 +52,11 @@ export const SortableContext = <T extends Sortable>({
     setActive(getItem(items, String(operation.source?.id)))
   }
 
-  const handleDragEnd = ({ source, target }: DragOperation) => {
+  const handleDragEnd = (operation: DragOperation) => {
     setActive(null)
-    if (!target || !source || source?.id === target.id) return
-
-    onSort(items => {
-      const oldIndex = items.findIndex(item => getId(item) === source.id)
-      const newIndex = items.findIndex(item => getId(item) === target.id)
-      return arrayMove(items, oldIndex, newIndex)
-    })
+    const { prev, next } = getOperationIndex(operation.source as Draggable)
+    if (prev == null || next == null) return
+    onSort(items => arrayMove(items, prev, next))
   }
 
   return (
