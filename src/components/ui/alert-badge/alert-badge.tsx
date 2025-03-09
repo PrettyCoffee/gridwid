@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react"
+
 import { VariantProps, cva } from "class-variance-authority"
 
 import { cn } from "utils/cn"
@@ -28,8 +30,23 @@ const alertBadge = cva(
 )
 
 export const AlertBadge = ({
-  kind,
+  kind: kindProp,
+  hidden,
   ...props
-}: VariantProps<typeof alertBadge>) => (
-  <span className={cn(alertBadge({ kind, ...props }))} />
-)
+}: VariantProps<typeof alertBadge>) => {
+  const [safeKind, setSafeKind] = useState(kindProp)
+  useEffect(() => {
+    if (kindProp) setSafeKind(kindProp)
+  }, [kindProp])
+
+  // Allows fade out animation if hidden is enabled and kind changed to undefined
+  const kind = kindProp ?? safeKind
+
+  return (
+    <span
+      className={cn(
+        alertBadge({ kind, hidden: hidden ?? kindProp == null, ...props })
+      )}
+    />
+  )
+}
