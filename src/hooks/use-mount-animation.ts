@@ -3,7 +3,13 @@ import { useCallback, useEffect, useState } from "react"
 import { useMediaQuery } from "./use-media-query"
 import { useRenderState } from "./use-render-state"
 
-export type MountAnimationState = "to-open" | "open" | "to-close" | "close"
+export type MountAnimationState =
+  | "init-open"
+  | "to-open"
+  | "open"
+  | "init-close"
+  | "to-close"
+  | "close"
 
 interface MountAnimationProps {
   open: boolean
@@ -34,6 +40,7 @@ export const useMountAnimation = ({
     [onChange]
   )
 
+  // eslint-disable-next-line sonarjs/cyclomatic-complexity -- extracting anything here would resolve in too much argument passing
   useEffect(() => {
     if (renderState.current === "initial") return
 
@@ -43,20 +50,36 @@ export const useMountAnimation = ({
     }
 
     let timeout: number
-    if (open) {
-      updateState("to-open")
-      timeout = window.setTimeout(() => updateState("open"), enterDuration)
-    } else {
-      updateState("to-close")
-      timeout = window.setTimeout(() => updateState("close"), leaveDuration)
+
+    switch (state) {
+      case "open":
+        if (!open) updateState("init-close")
+        break
+      case "init-close":
+        timeout = window.setTimeout(() => updateState("to-close"), 1)
+        break
+      case "to-close":
+        timeout = window.setTimeout(() => updateState("close"), leaveDuration)
+        break
+
+      case "close":
+        if (open) updateState("init-open")
+        break
+      case "init-open":
+        timeout = window.setTimeout(() => updateState("to-open"), 1)
+        break
+      case "to-open":
+        timeout = window.setTimeout(() => updateState("open"), enterDuration)
+        break
     }
 
     return () => clearTimeout(timeout)
   }, [
+    open,
+    state,
     allowMotion,
     enterDuration,
     leaveDuration,
-    open,
     renderState,
     updateState,
   ])
