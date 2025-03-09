@@ -6,12 +6,6 @@ export default ts.config(
   prettyCozy.react,
   prettyCozy.tailwind,
   {
-    name: "config-migration",
-    rules: {
-      "react-compiler/react-compiler": "off",
-    },
-  },
-  {
     name: "situational-rules",
     rules: {
       // activate for temporary testing

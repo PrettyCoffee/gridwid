@@ -49,15 +49,13 @@ const roundUp = (value: number) => {
   return floored === value ? floored : floored + 1
 }
 
-const useContentHeight = (
-  ref: RefObject<HTMLElement | null>,
-  maxHeight?: number
-) => {
-  const element = ref.current
+const useContentHeight = (maxHeight?: number) => {
+  const ref = useRef<HTMLDivElement>(null)
   const [height, setHeight] = useState({ value: 0, hasOverflow: false })
   const { width } = useResizeObserver(ref) ?? {}
 
   useEffect(() => {
+    const element = ref.current
     if (element) element.style.gridRowEnd = `span 1`
 
     const newHeight = roundUp(getContentHeight(element).inRem)
@@ -66,9 +64,9 @@ const useContentHeight = (
     if (element) element.style.gridRowEnd = `span ${itemHeight}`
 
     setHeight({ value: itemHeight, hasOverflow: itemHeight !== newHeight })
-  }, [element, maxHeight, width])
+  }, [maxHeight, width])
 
-  return height
+  return { ref, height }
 }
 
 interface MasonryItemProps extends ClassNameProp {
@@ -81,15 +79,19 @@ const Item = ({
   maxHeight,
   ...props
 }: PropsWithChildren<MasonryItemProps>) => {
-  const ref = useRef<HTMLDivElement>(null)
-  const height = useContentHeight(ref, maxHeight)
+  const { ref, height } = useContentHeight(maxHeight)
 
   // Skip initial layout animation
-  const Div = height.value < 1 ? "div" : motion.div
+  const isInitialLayout = height.value <= 8
+  const Div = isInitialLayout ? "div" : motion.div
 
   return (
     <Div
-      className={cn("relative overflow-hidden", className)}
+      className={cn(
+        "relative overflow-hidden",
+        isInitialLayout && "opacity-0",
+        className
+      )}
       layout="position"
       ref={ref}
       style={{ gridRowEnd: `span ${height.value}` }}

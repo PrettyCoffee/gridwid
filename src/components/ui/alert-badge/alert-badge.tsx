@@ -1,5 +1,3 @@
-import { useRef } from "react"
-
 import { VariantProps, cva } from "class-variance-authority"
 
 import { cn } from "utils/cn"
@@ -32,12 +30,6 @@ const alertBadge = cva(
 export const AlertBadge = ({
   kind,
   ...props
-}: VariantProps<typeof alertBadge>) => {
-  const lastKind = useRef(kind)
-  if (kind) {
-    lastKind.current = kind
-  }
-  return (
-    <span className={cn(alertBadge({ kind: lastKind.current, ...props }))} />
-  )
-}
+}: VariantProps<typeof alertBadge>) => (
+  <span className={cn(alertBadge({ kind, ...props }))} />
+)

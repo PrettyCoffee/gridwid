@@ -18,7 +18,7 @@ export const useLocationHash = () => {
   const setPath = useCallback((path: RoutePath) => {
     startTransition(() => {
       setCurrent(path)
-      window.location.hash = path
+      window.location.assign(path)
     })
   }, [])
 

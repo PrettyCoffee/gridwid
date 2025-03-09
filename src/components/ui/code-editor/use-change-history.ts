@@ -70,12 +70,13 @@ const getNextItem = (
 }
 
 export const useChangeHistory = (initialValue: string) => {
-  const start = useRef<HistoryItem>({
+  const initial: HistoryItem = {
     value: initialValue,
     position: { start: 0, end: 0 },
     index: 0,
-  })
-  const history = useRef<HistoryItem>(start.current)
+  }
+  const start = useRef(initial)
+  const history = useRef(initial)
 
   const getCurrent = () => ({
     value: history.current.value,

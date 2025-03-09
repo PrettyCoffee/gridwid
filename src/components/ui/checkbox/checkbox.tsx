@@ -4,11 +4,11 @@ import * as Primitive from "@radix-ui/react-checkbox"
 import { css, keyframes } from "goober"
 import { Check, Minus } from "lucide-react"
 
+import { useRenderState } from "hooks/use-render-state"
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"
 import { hstack, interactive, vstack } from "utils/styles"
 
-import { useRenderState } from "../../../hooks/use-render-state"
 import { AutoAnimateHeight } from "../../utility/auto-animate-height"
 import { Divider } from "../divider"
 import { Icon } from "../icon"
