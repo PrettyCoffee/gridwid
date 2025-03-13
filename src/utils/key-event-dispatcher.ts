@@ -48,11 +48,13 @@ interface KeyEventProps<TElement extends HTMLElement> {
   event: KeyboardEvent<TElement>
 }
 
+type KeyEventType = "keydown" | "keyup"
 export interface KeyEventListener<
   TElement extends HTMLElement,
   Extension extends object = {},
 > {
   key?: string | string[]
+  type?: KeyEventType
   filter?: (event: KeyboardEvent<TElement>) => boolean
   handler: Dispatch<KeyEventProps<TElement> & Extension>
 }
@@ -80,17 +82,29 @@ export class KeyEventDispatcher<
     })
   }
 
-  private matchKey(keys: string | string[] = [], eventKey: string) {
+  private matchKey(
+    event: KeyboardEvent<TElement>,
+    keys: string | string[] = []
+  ) {
     const keysArray = [keys].flat().map(key => key.toLowerCase())
     return keysArray.length === 0
       ? true
-      : keysArray.map(key => key.toLowerCase()).includes(eventKey.toLowerCase())
+      : keysArray
+          .map(key => key.toLowerCase())
+          .includes(event.key.toLowerCase())
+  }
+
+  private matchType(event: KeyboardEvent<TElement>, type?: KeyEventType) {
+    return !type || event.type === type
   }
 
   public listen(...listener: KeyEventListener<TElement, TExtension>[]) {
-    listener.forEach(({ key, filter = () => true, handler }) =>
+    listener.forEach(({ key, type, filter = () => true, handler }) =>
       super.listen({
-        filter: event => this.matchKey(key, event.key) && filter(event),
+        filter: event =>
+          this.matchKey(event, key) &&
+          this.matchType(event, type) &&
+          filter(event),
         handler,
       })
     )
