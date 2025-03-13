@@ -10,6 +10,7 @@ import { motion } from "motion/react"
 
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"
+import { createDebounce } from "utils/create-debounce"
 
 const getContentHeight = (element: HTMLElement | null) => {
   if (!element) return { inPx: 0, inRem: 0 }
@@ -81,15 +82,22 @@ const Item = ({
 }: PropsWithChildren<MasonryItemProps>) => {
   const { ref, height } = useContentHeight(maxHeight)
 
+  const [didInit, setDidInit] = useState(false)
+  const debounce = useRef(createDebounce(100))
+  useEffect(() => {
+    // Ugly hack to hide masonry items initially, to ignore flickering and initial animations
+    if (didInit || height.value === 0) return
+    debounce.current(() => setDidInit(true))
+  }, [didInit, height.value])
+
   // Skip initial layout animation
-  const isInitialLayout = height.value <= 8
-  const Div = isInitialLayout ? "div" : motion.div
+  const Div = !didInit ? "div" : motion.div
 
   return (
     <Div
       className={cn(
         "relative overflow-hidden",
-        isInitialLayout && "opacity-0",
+        !didInit && "opacity-0",
         className
       )}
       layout="position"
@@ -109,7 +117,7 @@ const Item = ({
           className={
             "from-background-page absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-15% to-transparent"
           }
-        ></div>
+        />
       )}
     </Div>
   )
