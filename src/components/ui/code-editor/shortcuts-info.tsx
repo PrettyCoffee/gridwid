@@ -6,13 +6,12 @@ import { vstack } from "../../../utils/styles"
 import { Icon } from "../icon"
 import { Tooltip } from "../tooltip"
 
-const Shortcut = ({
-  keys,
-  description,
-}: {
+interface Shortcut {
   keys: string[]
   description: string
-}) => (
+}
+
+const Shortcut = ({ keys, description }: Shortcut) => (
   <div>
     <span className="bg-background-invert/10 text-text-gentle my-0.5 inline-block rounded-sm px-1 py-0.5 font-mono text-xs">
       {keys.join(" + ")}
@@ -21,7 +20,12 @@ const Shortcut = ({
   </div>
 )
 
-export const ShortcutsInfo = () => (
+export interface ShortcutsInfoProps {
+  /** Additional shortcuts, besides the default code editor shortcuts */
+  shortcuts?: Shortcut[]
+}
+
+export const ShortcutsInfo = ({ shortcuts = [] }: ShortcutsInfoProps) => (
   <Tooltip.Root>
     <Tooltip.Trigger asChild>
       <span
@@ -40,6 +44,9 @@ export const ShortcutsInfo = () => (
         <Shortcut keys={["ctrl", "d"]} description="Delete line(s)" />
         <Shortcut keys={["ctrl", "insrt"]} description="Duplicate line(s)" />
         <Shortcut keys={["alt", "↑/↓"]} description="Move line(s)" />
+        {shortcuts.map(item => (
+          <Shortcut key={item.description} {...item} />
+        ))}
       </Tooltip.Content>
     </Tooltip.Portal>
   </Tooltip.Root>

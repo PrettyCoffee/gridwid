@@ -6,6 +6,7 @@ import { Code, LetterText, Maximize, Minimize } from "lucide-react"
 import { cn } from "utils/cn"
 import { hstack } from "utils/styles"
 
+import { globalEvents } from "../../../utils/global-events"
 import { KeyEventDispatcher } from "../../../utils/key-event-dispatcher"
 import { zIndex } from "../../../utils/z-index"
 import { ScrollArea } from "../../utility/scroll-area"
@@ -183,6 +184,8 @@ export const MDEditor = ({
 
   const scrollTrigger = useRef<number | null>(null)
   const createScrollUpdater = (activeElement: "input" | "preview") => () => {
+    if (globalEvents.keys.alt.get()) return
+
     const { active, other } =
       activeElement === "input"
         ? {
@@ -236,7 +239,11 @@ export const MDEditor = ({
             : "shade-low border-stroke-gentle border-b p-1"
         )}
       >
-        <ShortcutsInfo />
+        <ShortcutsInfo
+          shortcuts={[
+            { keys: ["alt", "scroll"], description: "Scroll w/o sync" },
+          ]}
+        />
         <ModeSlider
           value={modeValue}
           onChange={setModeValue}
