@@ -53,7 +53,9 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
         "relative -ml-4 mr-7 h-full pl-3 pr-7 pt-3",
         "border-stroke-gentle rounded-r-lg border-y border-r",
         "transition-[max-width,min-width,padding] duration-0 ease-in-out motion-safe:duration-300",
-        isOpen ? "min-w-64 max-w-64" : "min-w-0 max-w-0 pr-3",
+        isOpen
+          ? "min-w-[clamp(theme(width.64),20vw,theme(width.80))] max-w-[clamp(theme(width.64),20vw,theme(width.80))]"
+          : "min-w-0 max-w-0 pr-3",
         className
       )}
     >
