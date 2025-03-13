@@ -9,7 +9,7 @@ import { hstack } from "utils/styles"
 import { KeyEventDispatcher } from "../../../utils/key-event-dispatcher"
 import { zIndex } from "../../../utils/z-index"
 import { ScrollArea } from "../../utility/scroll-area"
-import { CodeEditor, CodeEditorProps } from "../code-editor"
+import { CodeEditor, CodeEditorProps, ShortcutsInfo } from "../code-editor"
 import { IconButton } from "../icon-button"
 import { MDPreview } from "../md-preview"
 
@@ -156,7 +156,7 @@ const ModeSlider = ({
 export interface MDEditorProps
   extends Omit<
     CodeEditorProps,
-    "rehypePlugins" | "language" | "style" | "showLineNumbers"
+    "rehypePlugins" | "language" | "style" | "showLineNumbers" | "hideShortcuts"
   > {
   inputClassName?: string
   previewClassName?: string
@@ -236,6 +236,7 @@ export const MDEditor = ({
             : "shade-low border-stroke-gentle border-b p-1"
         )}
       >
+        <ShortcutsInfo />
         <ModeSlider
           value={modeValue}
           onChange={setModeValue}
@@ -262,6 +263,7 @@ export const MDEditor = ({
           language="markdown"
           className={inputClassName}
           showLineNumbers
+          hideShortcuts
         />
       </ScrollArea>
 

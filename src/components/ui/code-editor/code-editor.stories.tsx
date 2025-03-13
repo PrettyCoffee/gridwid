@@ -12,6 +12,7 @@ const meta: Meta<typeof CodeEditor> = {
     language: argType.string(),
     rehypePlugins: argType.disabled(),
     showLineNumbers: argType.boolean(),
+    hideShortcuts: argType.boolean(),
 
     id: argType.string(),
     placeholder: argType.string(),
@@ -30,6 +31,7 @@ const meta: Meta<typeof CodeEditor> = {
     disabled: false,
     readOnly: false,
     showLineNumbers: false,
+    hideShortcuts: false,
     language: "markdown",
     placeholder: "Type some demo code here...",
     onChange: action("onChange"),

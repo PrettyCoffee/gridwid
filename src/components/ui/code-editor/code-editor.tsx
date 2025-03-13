@@ -92,6 +92,8 @@ export interface CodeEditorProps
   onSave?: () => void
   /** Display code line numbers */
   showLineNumbers?: boolean
+  /** Hide shortcuts tooltip, to render it somewhere else */
+  hideShortcuts?: boolean
 }
 
 export const CodeEditor = ({
@@ -106,6 +108,7 @@ export const CodeEditor = ({
   readOnly,
   onSave,
   showLineNumbers,
+  hideShortcuts,
   ...textAreaProps
 }: CodeEditorProps) => {
   const history = useChangeHistory(value)
@@ -155,9 +158,12 @@ export const CodeEditor = ({
         className
       )}
     >
-      <div className={"absolute right-0 top-0 z-[2]"}>
-        <ShortcutsInfo />
-      </div>
+      {!hideShortcuts && (
+        <div className={"absolute right-0 top-0 z-[2]"}>
+          <ShortcutsInfo />
+        </div>
+      )}
+
       <textarea
         ref={textAreaRef}
         {...textAreaStaticProps}
