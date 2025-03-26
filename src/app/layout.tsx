@@ -7,20 +7,18 @@ import { Taskbar } from "features/taskbar"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
 
-export const AppLayout = ({ children }: PropsWithChildren) => {
-  return (
-    <div className={cn(vstack(), "bg-background-page size-full")}>
-      <div
-        className={cn(
-          hstack({ gap: 4, align: "center", justify: "center" }),
-          "w-full flex-grow overflow-auto p-4"
-        )}
-      >
-        <Suspense fallback={<Spinner size="xl" />}>
-          <ErrorBoundary Fallback={MainErrorFallback}>{children}</ErrorBoundary>
-        </Suspense>
-      </div>
-      <Taskbar />
+export const AppLayout = ({ children }: PropsWithChildren) => (
+  <div className={cn(vstack(), "bg-background-page size-full")}>
+    <div
+      className={cn(
+        hstack({ gap: 4, align: "center", justify: "center" }),
+        "w-full flex-grow overflow-auto p-4"
+      )}
+    >
+      <Suspense fallback={<Spinner size="xl" />}>
+        <ErrorBoundary Fallback={MainErrorFallback}>{children}</ErrorBoundary>
+      </Suspense>
     </div>
-  )
-}
+    <Taskbar />
+  </div>
+)

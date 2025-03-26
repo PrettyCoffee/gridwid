@@ -16,18 +16,16 @@ export const Link = ({
   children,
   disabled,
   ...props
-}: PropsWithChildren<LinkProps>) => {
-  return (
-    <HashRouter.Link
-      className={cn(
-        interactive({ look: "link", disabled }),
-        "text-highlight font-semibold hover:underline",
-        className
-      )}
-      disabled={disabled}
-      {...props}
-    >
-      {children}
-    </HashRouter.Link>
-  )
-}
+}: PropsWithChildren<LinkProps>) => (
+  <HashRouter.Link
+    className={cn(
+      interactive({ look: "link", disabled }),
+      "text-highlight font-semibold hover:underline",
+      className
+    )}
+    disabled={disabled}
+    {...props}
+  >
+    {children}
+  </HashRouter.Link>
+)

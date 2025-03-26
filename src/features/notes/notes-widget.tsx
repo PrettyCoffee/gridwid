@@ -1,3 +1,1 @@
-export const NotesWidget = () => {
-  return <div className="">Notes widget</div>
-}
+export const NotesWidget = () => <div className="">Notes widget</div>

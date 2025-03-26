@@ -202,7 +202,7 @@ export const MDEditor = ({
     const id = Date.now()
     scrollTrigger.current = id
 
-    const activeScrollTop = active.scrollTop ?? 0
+    const activeScrollTop = active.scrollTop
     const activeScrollMax = active.scrollHeight - active.clientHeight
 
     const scrollPercent = activeScrollTop / activeScrollMax

@@ -42,7 +42,7 @@ const CheckboxLabel = ({
         {!isChecked && subLine && (
           <>
             <Divider color="gentle" className="my-0.5" />
-            <div className={"text-text-gentle text-xs"}>{subLine}</div>
+            <div className="text-text-gentle text-xs">{subLine}</div>
           </>
         )}
       </div>

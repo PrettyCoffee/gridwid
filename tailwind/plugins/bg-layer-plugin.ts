@@ -11,19 +11,17 @@ interface Nested {
   [key: string]: string | Nested
 }
 type Flattened = Record<string, string>
-const flattenObject = (value: Nested, prefix?: string) => {
-  return Object.entries(value).reduce((result, [name, value]): Flattened => {
+const flattenObject = (value: Nested, prefix?: string) =>
+  Object.entries(value).reduce((result, [name, value]): Flattened => {
     const key = getKey(name, prefix)
     return Object.assign(
       result,
       typeof value === "string" ? { [key]: value } : flattenObject(value, key)
     )
   }, {})
-}
 
-const alphaMix = (color: string, alpha: number) => {
-  return `color-mix(in srgb, ${color} ${alpha}%, transparent)`
-}
+const alphaMix = (color: string, alpha: number) =>
+  `color-mix(in srgb, ${color} ${alpha}%, transparent)`
 
 const createSteps = (name: string, color: string, steps: number) => {
   const step = 100 / steps
@@ -57,7 +55,7 @@ export const bgLayerPlugin = plugin.withOptions<BgLayerPluginOptions | void>(
   ({ colors = { b: "black", w: "white" }, steps = 20 } = {}) =>
     api => {
       const twConfig = api.config()
-      const themeColors = flattenObject(api.theme("colors") ?? {})
+      const themeColors = flattenObject(api.theme("colors"))
       const transparencies = createTransparencies({ colors, steps })
 
       const baseVar = getVarName("base", twConfig)

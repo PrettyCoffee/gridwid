@@ -89,7 +89,7 @@ const Button = ({
       )}
     >
       {isLoading ? (
-        <Spinner size={"sm"} color="current" className="mr-2" />
+        <Spinner size="sm" color="current" className="mr-2" />
       ) : icon ? (
         <Icon
           icon={icon}

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react"
 
-// eslint-disable-next-line import/no-extraneous-dependencies -- faker should be deleted later on
 import { faker } from "@faker-js/faker"
 import { Bell } from "lucide-react"
 

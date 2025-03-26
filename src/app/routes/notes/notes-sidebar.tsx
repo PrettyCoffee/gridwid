@@ -104,18 +104,16 @@ export const NotesSidebar = () => {
         <Sortable.Context<Note>
           items={notes}
           onSort={sort => notesData.set(sort(notesData.get()))}
-          OverlayItem={({ source }) => {
-            return (
-              <div className="bg-background shade-medium [&_*]:!bgl-base-transparent [&_*]:!bgl-layer-transparent rounded-sm">
-                <ListItem
-                  index={notes.findIndex(note => note.id === source.id)}
-                  note={source.data as Note}
-                  active={source.id === currentNote?.id}
-                  isOverlayItem
-                />
-              </div>
-            )
-          }}
+          OverlayItem={({ source }) => (
+            <div className="bg-background shade-medium [&_*]:!bgl-base-transparent [&_*]:!bgl-layer-transparent rounded-sm">
+              <ListItem
+                index={notes.findIndex(note => note.id === source.id)}
+                note={source.data as Note}
+                active={source.id === currentNote?.id}
+                isOverlayItem
+              />
+            </div>
+          )}
         >
           <List.Root>
             {notes.map((note, index) => (

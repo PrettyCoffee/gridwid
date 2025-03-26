@@ -175,32 +175,30 @@ const ExternalLinks = () => (
   </>
 )
 
-export const MainMenu = () => {
-  return (
-    <Menu
-      title="Main Menu"
-      trigger={<IconButton title="Menu" hideTitle icon={EllipsisVertical} />}
-    >
-      <div className={hstack({})}>
-        <IconButton title={"Light mode"} hideTitle icon={Sun} />
-        <IconButton title={"Changelog"} icon={FileClock} />
-        <IconButton
-          title={"Go to search"}
-          icon={ChevronRight}
-          className="ml-auto"
-        />
-      </div>
-      <div className={cn(hstack({ gap: 4 }), "mt-4")}>
-        <Dialog.Close>
-          <div>
-            <SettingsNavigation />
-          </div>
-        </Dialog.Close>
-
+export const MainMenu = () => (
+  <Menu
+    title="Main Menu"
+    trigger={<IconButton title="Menu" hideTitle icon={EllipsisVertical} />}
+  >
+    <div className={hstack({})}>
+      <IconButton title="Light mode" hideTitle icon={Sun} />
+      <IconButton title="Changelog" icon={FileClock} />
+      <IconButton
+        title="Go to search"
+        icon={ChevronRight}
+        className="ml-auto"
+      />
+    </div>
+    <div className={cn(hstack({ gap: 4 }), "mt-4")}>
+      <Dialog.Close>
         <div>
-          <ExternalLinks />
+          <SettingsNavigation />
         </div>
+      </Dialog.Close>
+
+      <div>
+        <ExternalLinks />
       </div>
-    </Menu>
-  )
-}
+    </div>
+  </Menu>
+)

@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react"
 
-export const ToolsLayout = ({ children }: PropsWithChildren) => {
-  return <div className="">{children}</div>
-}
+export const ToolsLayout = ({ children }: PropsWithChildren) => (
+  <div className="">{children}</div>
+)

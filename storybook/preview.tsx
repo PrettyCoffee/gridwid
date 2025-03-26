@@ -46,6 +46,7 @@ const preview: Preview = {
   decorators: [
     Story => {
       useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         glob`
           body {
             overflow: auto!important;

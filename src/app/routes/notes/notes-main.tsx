@@ -20,7 +20,7 @@ const NotesMainRoute = () => {
       {notes.length === 0 ? (
         <Layout.Centered>
           <NoData label="There are no notes to display yet. Get started and creat some!">
-            <Button look="key" to={"notes/new"}>
+            <Button look="key" to="notes/new">
               Write a note!
             </Button>
           </NoData>

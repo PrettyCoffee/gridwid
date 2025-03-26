@@ -29,7 +29,7 @@ describe("Test objectPath", () => {
       const testObj = {
         missing: undefined as { deep: string } | undefined,
       }
-      expect(objectPath.get(testObj, "missing.deep")).toBe(undefined)
+      expect(objectPath.get(testObj, "missing.deep")).toBeUndefined()
     })
   })
 

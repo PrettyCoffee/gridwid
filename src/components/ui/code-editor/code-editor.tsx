@@ -159,7 +159,7 @@ export const CodeEditor = ({
       )}
     >
       {!hideShortcuts && (
-        <div className={"absolute right-0 top-0 z-[2]"}>
+        <div className="absolute right-0 top-0 z-[2]">
           <ShortcutsInfo />
         </div>
       )}

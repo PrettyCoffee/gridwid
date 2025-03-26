@@ -1,10 +1,13 @@
 import prettyCozy from "@pretty-cozy/eslint-config"
-import ts from "typescript-eslint"
+import {defineConfig, globalIgnores} from "eslint/config"
 
-export default ts.config(
+export default defineConfig(
   prettyCozy.baseTs,
   prettyCozy.react,
   prettyCozy.tailwind,
+  prettyCozy.vitest,
+  globalIgnores(["dist", "node_modules"]),
+
   {
     name: "situational-rules",
     rules: {
@@ -12,8 +15,8 @@ export default ts.config(
       // "import/no-cycle": "error",
     },
   },
+
   {
-    ignores: ["dist", "node_modules"],
     settings: {
       "import/resolver": {
         node: {
@@ -22,11 +25,11 @@ export default ts.config(
       },
     },
     rules: {
-      "check-file/folder-naming-convention": [
+      "checkFile/folder-naming-convention": [
         "error",
         { "*/**": "KEBAB_CASE" },
       ],
-      "check-file/filename-naming-convention": [
+      "checkFile/filename-naming-convention": [
         "error",
         { "*/**": "KEBAB_CASE" },
         { ignoreMiddleExtensions: true },
@@ -66,6 +69,7 @@ export default ts.config(
       ],
     },
   },
+
   {
     files: [
       "tailwind/**",
@@ -77,6 +81,7 @@ export default ts.config(
       "import/no-extraneous-dependencies": "off",
     },
   },
+
   {
     files: ["**/*.test.*", "src/testing/**"],
     rules: {

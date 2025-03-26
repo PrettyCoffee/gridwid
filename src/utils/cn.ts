@@ -7,11 +7,12 @@ import {
   ClassNameValue,
 } from "tailwind-merge"
 
+const getAny = () => [validators.isAny] as const
+
 const withBgl = <ClassGroupIds extends string, ThemeGroupIds extends string>(
   prevConfig: Config<ClassGroupIds, ThemeGroupIds>
-) => {
-  const getAny = () => [validators.isAny] as const
-  return mergeConfigs(prevConfig, {
+) =>
+  mergeConfigs(prevConfig, {
     extend: {
       classGroups: {
         "bgl-base": [{ "bgl-base": getAny() }],
@@ -22,7 +23,6 @@ const withBgl = <ClassGroupIds extends string, ThemeGroupIds extends string>(
       },
     },
   })
-}
 
 const twMerge = extendTailwindMerge(withBgl)
 

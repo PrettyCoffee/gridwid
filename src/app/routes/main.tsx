@@ -1,5 +1,3 @@
-const MainRoute = () => {
-  return <div>Home</div>
-}
+const MainRoute = () => <div>Home</div>
 
 export default MainRoute

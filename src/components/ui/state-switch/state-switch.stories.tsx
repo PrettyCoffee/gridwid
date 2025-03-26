@@ -35,9 +35,9 @@ const ControlledStateSwitch = (args: StateSwitchGroupProps) => {
 
   return (
     <StateSwitch.Group {...args} current={current} onChange={handleChange}>
-      <StateSwitch.Option label={"Dog"} value={"cat"} icon={Cat} />
-      <StateSwitch.Option label={"Cat"} value={"dog"} icon={Dog} />
-      <StateSwitch.Option label={"Turtle"} value={"turtle"} icon={Turtle} />
+      <StateSwitch.Option label="Dog" value="cat" icon={Cat} />
+      <StateSwitch.Option label="Cat" value="dog" icon={Dog} />
+      <StateSwitch.Option label="Turtle" value="turtle" icon={Turtle} />
     </StateSwitch.Group>
   )
 }

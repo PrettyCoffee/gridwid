@@ -129,9 +129,7 @@ const markdownStyles = css`
   }
 `
 
-const adjustForRender = (text: string) => {
-  return text.replaceAll(/^(#+)/gm, "#$1")
-}
+const adjustForRender = (text: string) => text.replaceAll(/^(#+)/gm, "#$1")
 
 const parse = (markdown: string) =>
   unified()
@@ -172,6 +170,13 @@ export interface MDPreviewProps extends ClassNameProp {
   value: string
 }
 
+const initPreview = (element: HTMLDivElement | null) => {
+  const pres = element?.querySelectorAll("pre")
+  pres?.forEach(pre => {
+    addCopyButton(pre)
+  })
+}
+
 export const MDPreview = ({ value = "", className }: MDPreviewProps) => {
   const [html, setHtml] = useState("")
 
@@ -180,13 +185,6 @@ export const MDPreview = ({ value = "", className }: MDPreviewProps) => {
       .then(setHtml)
       .catch(() => setHtml("Error: Markdown could not be parsed..."))
   }, [value])
-
-  const initPreview = (element: HTMLDivElement | null) => {
-    const pres = element?.querySelectorAll("pre")
-    pres?.forEach(pre => {
-      addCopyButton(pre)
-    })
-  }
 
   return (
     <div

@@ -90,7 +90,7 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
         )}
       >
         {note.locked ? (
-          <h1 className={"py-1 pl-3 text-2xl"}>{note.title}</h1>
+          <h1 className="py-1 pl-3 text-2xl">{note.title}</h1>
         ) : (
           <Editor.TextInput
             field="title"

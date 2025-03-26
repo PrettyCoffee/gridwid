@@ -40,7 +40,7 @@ export const useMountAnimation = ({
     [onChange]
   )
 
-  // eslint-disable-next-line sonarjs/cyclomatic-complexity -- extracting anything here would resolve in too much argument passing
+  // eslint-disable-next-line complexity -- extracting anything here would resolve in too much argument passing
   useEffect(() => {
     if (renderState.current === "initial") return
 
