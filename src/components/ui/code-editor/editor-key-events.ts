@@ -11,31 +11,32 @@ interface EventExtension {
 
 type EventListener = KeyEventListener<HTMLTextAreaElement, EventExtension>
 
-const getNextLineStart = (line: string) => {
+const getNextLineStart = (line: string, indentWidth: number) => {
   // All kinds of list items (unordered, ordered, checked)
-  const lineStartRegex = /^(\s)*(- \[ ]|- \[x]|-|>|\d+\.)?/
-  let lineStart = lineStartRegex.exec(line)?.[0]
+  const lineStartRegex = /^(\s*)(- \[ ]|- \[x]|-|>|\d+\.)?/
+  const match = lineStartRegex.exec(line) ?? []
+  const indent = match[1] ?? ""
+  let list = match[2]
 
-  if (!lineStart) return ""
+  if (!list) {
+    const amount = indent.length - (indent.length % indentWidth)
+    return " ".repeat(amount)
+  }
 
-  const number = /\d+/.exec(line)?.[0]
+  const number = /\d+/.exec(list)?.[0]
   if (number) {
-    lineStart = lineStart.replace(number, String(Number(number) + 1))
+    list = list.replace(number, String(Number(number) + 1))
   }
 
-  if (!lineStart.endsWith(" ")) {
-    lineStart = lineStart + " "
-  }
-
-  return lineStart
+  return indent + list + " "
 }
 
 const enterEvent: EventListener = {
   key: "enter",
-  handler: ({ api }) => {
+  handler: ({ api, indentWidth }) => {
     const position = api.cursor.getPosition()
     const line = api.getLineContent()
-    const newLineStart = "\n" + getNextLineStart(line)
+    const newLineStart = "\n" + getNextLineStart(line, indentWidth)
 
     api.cursor.insertText(newLineStart)
     api.cursor.setPosition(position.start + newLineStart.length)
