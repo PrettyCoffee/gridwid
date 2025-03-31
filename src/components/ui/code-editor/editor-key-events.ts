@@ -11,13 +11,34 @@ interface EventExtension {
 
 type EventListener = KeyEventListener<HTMLTextAreaElement, EventExtension>
 
+const getNextLineStart = (line: string) => {
+  // All kinds of list items (unordered, ordered, checked)
+  const lineStartRegex = /^(\s)*(- \[ ]|- \[x]|-|>|\d+\.)?/
+  let lineStart = lineStartRegex.exec(line)?.[0]
+
+  if (!lineStart) return ""
+
+  const number = /\d+/.exec(line)?.[0]
+  if (number) {
+    lineStart = lineStart.replace(number, String(Number(number) + 1))
+  }
+
+  if (!lineStart.endsWith(" ")) {
+    lineStart = lineStart + " "
+  }
+
+  return lineStart
+}
+
 const enterEvent: EventListener = {
   key: "enter",
   handler: ({ api }) => {
     const position = api.cursor.getPosition()
-    const indent = `\n${api.getLineIndentation()}`
-    api.cursor.insertText(indent)
-    api.cursor.setPosition(position.start + indent.length)
+    const line = api.getLineContent()
+    const newLineStart = "\n" + getNextLineStart(line)
+
+    api.cursor.insertText(newLineStart)
+    api.cursor.setPosition(position.start + newLineStart.length)
   },
 }
 

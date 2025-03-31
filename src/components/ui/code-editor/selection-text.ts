@@ -86,6 +86,12 @@ export class SelectionText {
     this.cursor = new TextCursor(element)
   }
 
+  public getLineContent() {
+    const lineStart = this.cursor.getLineStart()
+    const lineEnd = this.cursor.getLineEnd()
+    return this.cursor.getSelectedValue({ start: lineStart, end: lineEnd })
+  }
+
   public getLineIndentation() {
     const lineStart = this.cursor.getLineStart()
     const selectedValue = this.cursor.getSelectedValue({ start: lineStart })
