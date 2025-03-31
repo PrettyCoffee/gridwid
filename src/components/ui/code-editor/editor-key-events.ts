@@ -6,37 +6,27 @@ import {
 
 interface EventExtension {
   api: SelectionText
+  getNewLine: (indent: string, text: string) => string
   indentWidth: number
 }
 
 type EventListener = KeyEventListener<HTMLTextAreaElement, EventExtension>
 
-const getNextLineStart = (line: string, indentWidth: number) => {
-  // All kinds of list items (unordered, ordered, checked)
-  const lineStartRegex = /^(\s*)(- \[ ]|- \[x]|-|>|\d+\.)?/
-  const match = lineStartRegex.exec(line) ?? []
-  const indent = match[1] ?? ""
-  let list = match[2]
+const getNewLineIndent = (line: string, indentWidth: number) => {
+  const lineStartRegex = /^(\s*)(.*)?/
+  const [, indent = "", text = ""] = lineStartRegex.exec(line) ?? []
 
-  if (!list) {
-    const amount = indent.length - (indent.length % indentWidth)
-    return " ".repeat(amount)
-  }
-
-  const number = /\d+/.exec(list)?.[0]
-  if (number) {
-    list = list.replace(number, String(Number(number) + 1))
-  }
-
-  return indent + list + " "
+  const amount = indent.length - (indent.length % indentWidth)
+  return { indent: " ".repeat(amount), text }
 }
 
 const enterEvent: EventListener = {
   key: "enter",
-  handler: ({ api, indentWidth }) => {
+  handler: ({ api, indentWidth, getNewLine }) => {
     const position = api.cursor.getPosition()
     const line = api.getLineContent()
-    const newLineStart = "\n" + getNextLineStart(line, indentWidth)
+    const { indent, text } = getNewLineIndent(line, indentWidth)
+    const newLineStart = "\n" + getNewLine(indent, text)
 
     api.cursor.insertText(newLineStart)
     api.cursor.setPosition(position.start + newLineStart.length)
@@ -107,15 +97,19 @@ const moveEvent: EventListener = {
   },
 }
 
-interface CreateKeyEventsProps {
-  indentWidth?: number
-}
+type CreateKeyEventsProps = Partial<
+  Pick<EventExtension, "indentWidth" | "getNewLine">
+>
 
-export const editorKeyEvents = ({ indentWidth = 2 }: CreateKeyEventsProps) => {
+export const editorKeyEvents = ({
+  indentWidth = 2,
+  getNewLine = indent => indent,
+}: CreateKeyEventsProps) => {
   const keyEvents = new KeyEventDispatcher<HTMLTextAreaElement, EventExtension>(
     {
       getHandlerProps: event => ({
         indentWidth,
+        getNewLine,
         api: new SelectionText(event.currentTarget),
       }),
     }

@@ -154,6 +154,21 @@ const ModeSlider = ({
   )
 }
 
+const getNextLineStart = (indent: string, text: string) => {
+  // All kinds of list items (unordered, ordered, checked)
+  const lineStartRegex = /^(- \[ ]|- \[x]|-|>|\d+\.)?/
+  let [, list] = lineStartRegex.exec(text) ?? []
+
+  if (!list) return indent
+
+  const number = /\d+/.exec(list)?.[0]
+  if (number) {
+    list = list.replace(number, String(Number(number) + 1))
+  }
+
+  return indent + list + " "
+}
+
 export interface MDEditorProps
   extends Omit<
     CodeEditorProps,
@@ -269,6 +284,7 @@ export const MDEditor = ({
           {...inputProps}
           language="markdown"
           className={inputClassName}
+          getNewLine={getNextLineStart}
           showLineNumbers
           hideShortcuts
         />

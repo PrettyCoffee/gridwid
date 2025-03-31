@@ -94,6 +94,8 @@ export interface CodeEditorProps
   showLineNumbers?: boolean
   /** Hide shortcuts tooltip, to render it somewhere else */
   hideShortcuts?: boolean
+  /** Alter the content of a new line when pressing enter */
+  getNewLine?: (indent: string, text: string) => string
 }
 
 export const CodeEditor = ({
@@ -109,12 +111,13 @@ export const CodeEditor = ({
   onSave,
   showLineNumbers,
   hideShortcuts,
+  getNewLine,
   ...textAreaProps
 }: CodeEditorProps) => {
   const history = useChangeHistory(value)
 
   const keyEvents = useMemo(() => {
-    const keyEvents = editorKeyEvents({})
+    const keyEvents = editorKeyEvents({ getNewLine })
 
     keyEvents.listen({
       key: "z",
