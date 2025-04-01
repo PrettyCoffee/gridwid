@@ -12,13 +12,15 @@ import { createContext } from "utils/create-context"
 
 const getLocationHash = () => window.location.hash.slice(1)
 
+const setLocationHash = (hash: string) => (window.location.hash = hash)
+
 export const useLocationHash = () => {
   const [current, setCurrent] = useState(getLocationHash() as RoutePath)
 
   const setPath = useCallback((path: RoutePath) => {
     startTransition(() => {
       setCurrent(path)
-      window.location.assign(path)
+      setLocationHash(path)
     })
   }, [])
 
