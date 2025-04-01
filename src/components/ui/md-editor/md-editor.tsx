@@ -3,6 +3,7 @@ import { Dispatch, useRef, useState } from "react"
 import { css } from "goober"
 import { Code, LetterText, Maximize, Minimize } from "lucide-react"
 
+import { createAtom, useAtom } from "lib/yaasl"
 import { cn } from "utils/cn"
 import { hstack } from "utils/styles"
 
@@ -65,6 +66,11 @@ const slider = css`
 
 const snapOffset = 15
 
+const modeSliderValue = createAtom({
+  name: "md-editor/mode-slider-value",
+  defaultValue: 50,
+})
+
 const ModeSlider = ({
   value,
   onChange,
@@ -76,15 +82,16 @@ const ModeSlider = ({
 }) => {
   const handleChange = (stringValue: string) => {
     const value = Number(stringValue)
-    if (value < snapOffset) {
-      onChange(0)
-    } else if (value > 50 - snapOffset / 2 && value < 50 + snapOffset / 2) {
-      onChange(50)
-    } else if (value > 100 - snapOffset) {
-      onChange(100)
-    } else {
-      onChange(value)
+
+    const getSnappedValue = () => {
+      if (value < snapOffset) return 0
+      if (value > 100 - snapOffset) return 100
+      if (value > 50 - snapOffset / 2 && value < 50 + snapOffset / 2) return 50
+
+      return value
     }
+
+    onChange(getSnappedValue())
   }
 
   const keyEvents = new KeyEventDispatcher({})
@@ -188,7 +195,7 @@ export const MDEditor = ({
   const previewScrollRef = useRef<HTMLDivElement>(null)
 
   const { value } = inputProps
-  const [modeValue, setModeValue] = useState(50)
+  const [modeValue, setModeValue] = useAtom(modeSliderValue)
   const [viewMode, setViewMode] = useState<"inline" | "fullscreen">("inline")
 
   const codeWidth = modeValue
@@ -239,7 +246,7 @@ export const MDEditor = ({
         viewMode === "inline"
           ? "relative size-full"
           : cn(
-              "bg-background fixed inset-0 h-screen w-screen p-4 pt-14",
+              "bg-background fixed inset-0 h-screen w-screen p-4 pt-16",
               zIndex.fullscreenEditor
             ),
         className
