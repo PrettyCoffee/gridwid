@@ -247,11 +247,11 @@ export const MDEditor = ({
     <div
       className={cn(
         hstack({}),
-        "flex-1 overflow-hidden pt-10",
+        "flex-1 overflow-hidden",
         viewMode === "inline"
-          ? "relative size-full"
+          ? "relative size-full pt-12"
           : cn(
-              "bg-background fixed inset-0 h-screen w-screen p-4 pt-16",
+              "bg-background fixed inset-0 h-screen w-screen p-4 pt-20",
               zIndex.fullscreenEditor
             ),
         className
