@@ -3,6 +3,7 @@ import { Dispatch, PropsWithChildren, useState } from "react"
 import { createContext } from "utils/create-context"
 
 import { EditorState } from "./types"
+import { useBlocker } from "../../utility/hash-router"
 import { showToast } from "../toaster"
 
 const mapKeys = <T extends EditorState, Result>(
@@ -80,6 +81,8 @@ export const EditorProvider = <TState extends EditorState>({
   const didChange =
     Object.keys(draft).length !== Object.keys(state).length ||
     Object.keys(draft).some(field => draft[field] !== state[field])
+
+  useBlocker(didChange)
 
   return (
     <Provider value={{ getContext, save, discard, didChange, isValid }}>

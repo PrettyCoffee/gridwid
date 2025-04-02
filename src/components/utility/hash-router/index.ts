@@ -8,6 +8,7 @@ import {
 } from "./hash-router-router"
 
 export { createRoutes } from "./create-routes"
+export { useBlocker } from "./hash-router-context"
 export { type HashRouterLinkProps } from "./hash-router-link"
 
 export const HashRouter = {
