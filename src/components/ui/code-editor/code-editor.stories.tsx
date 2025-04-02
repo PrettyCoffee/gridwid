@@ -24,6 +24,7 @@ const meta: Meta<typeof CodeEditor> = {
     onBlur: argType.callback(),
     onFocus: argType.callback(),
     onSave: argType.callback(),
+    getNewLine: argType.callback(),
   },
   args: {
     id: "",

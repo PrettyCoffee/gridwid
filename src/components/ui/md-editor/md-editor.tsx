@@ -179,7 +179,12 @@ const getNextLineStart = (indent: string, text: string) => {
 export interface MDEditorProps
   extends Omit<
     CodeEditorProps,
-    "rehypePlugins" | "language" | "style" | "showLineNumbers" | "hideShortcuts"
+    | "rehypePlugins"
+    | "language"
+    | "style"
+    | "showLineNumbers"
+    | "hideShortcuts"
+    | "getNewLine"
   > {
   inputClassName?: string
   previewClassName?: string

@@ -137,13 +137,13 @@ export const CodeEditor = ({
     })
 
     return keyEvents
-  }, [history, onChange])
+  }, [getNewLine, history, onChange])
 
   useEffect(() => {
     if (!onSave || readOnly) return
     const unsubscribe = globalEvents.onSave.subscribe(onSave)
     return () => unsubscribe()
-  })
+  }, [onSave, readOnly])
 
   const handleChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
     history.push(target.value, {
