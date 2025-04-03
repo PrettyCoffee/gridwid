@@ -43,9 +43,11 @@ interface ContextState {
   removeBlocker: (id: string) => void
 }
 
-const { Provider, useRequiredValue } = createContext<ContextState>("HashRouter")
+const { Provider, useRequiredValue, useOptionalValue } =
+  createContext<ContextState>("HashRouter")
 
 export const useHashRouterContext = useRequiredValue
+export const useOptionalHashRouterContext = useOptionalValue
 
 const useChangeBlocker = () => {
   const [blockers, setBlockers] = useState<string[]>([])

@@ -2,7 +2,7 @@ import { HTMLProps, PropsWithChildren } from "react"
 
 import { RoutePath } from "types/routes"
 
-import { useHashRouterContext } from "./hash-router-context"
+import { useOptionalHashRouterContext } from "./hash-router-context"
 import { RefProp } from "../../../types/base-props"
 
 export interface HashRouterLinkProps extends RefProp<HTMLAnchorElement> {
@@ -17,7 +17,7 @@ export const HashRouterLink = ({
   href,
   ...props
 }: PropsWithChildren<HTMLProps<HTMLAnchorElement> & HashRouterLinkProps>) => {
-  const { setPath } = useHashRouterContext()
+  const { setPath } = useOptionalHashRouterContext() ?? {}
   const link = to != null ? `#${to}` : href
   return (
     <a
@@ -25,7 +25,7 @@ export const HashRouterLink = ({
       href={link}
       {...props}
       onClick={e => {
-        if (to == null) return
+        if (!setPath || to == null) return
         e.preventDefault()
         setPath(to)
       }}
