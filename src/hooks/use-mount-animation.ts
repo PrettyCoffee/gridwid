@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import { useMediaQuery } from "./use-media-query"
-import { useRenderState } from "./use-render-state"
 
 export type MountAnimationState =
   | "init-open"
@@ -23,7 +22,7 @@ export const useMountAnimation = ({
   onChange,
 }: MountAnimationProps) => {
   const allowMotion = useMediaQuery("(prefers-reduced-motion: no-preference)")
-  const renderState = useRenderState()
+  const didMount = useRef(false)
   const [state, setState] = useState<MountAnimationState>(
     open ? "open" : "close"
   )
@@ -42,7 +41,10 @@ export const useMountAnimation = ({
 
   // eslint-disable-next-line complexity -- extracting anything here would resolve in too much argument passing
   useEffect(() => {
-    if (renderState.current === "initial") return
+    if (!didMount.current) {
+      didMount.current = true
+      return
+    }
 
     if (!allowMotion) {
       updateState(open ? "open" : "close")
@@ -74,15 +76,7 @@ export const useMountAnimation = ({
     }
 
     return () => clearTimeout(timeout)
-  }, [
-    open,
-    state,
-    allowMotion,
-    enterDuration,
-    leaveDuration,
-    renderState,
-    updateState,
-  ])
+  }, [open, state, allowMotion, enterDuration, leaveDuration, updateState])
 
   return {
     state,
