@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from "react"
 
 import { keyframes } from "goober"
 import { X } from "lucide-react"
+import { AnimationSequence } from "motion"
 import { useAnimate } from "motion/react"
 
 import { Icon } from "components/ui/icon"
@@ -10,7 +11,7 @@ import { ease } from "utils/ease"
 import { alertStyles, hstack, surface } from "utils/styles"
 
 import { ToastProps } from "./toaster-data"
-import { IconButton } from "../icon-button/icon-button"
+import { IconButton } from "../icon-button"
 
 interface ExtendedToastProps extends ToastProps {
   onClose: (id: string) => void
@@ -29,12 +30,24 @@ const shrinkTimeBar = keyframes`
   }
 `
 
-const noSize = { height: 0, width: 0, padding: 0, margin: 0, border: "none" }
-const swipeOut = (element: HTMLDivElement) => ({
-  opacity: 0,
-  transform: "translateX(100%)",
-  height: element.offsetHeight,
-})
+const enterAnimation = (element: HTMLElement): AnimationSequence => [
+  [element, { opacity: 0, scale: 0 }, { duration: 0, type: "spring" }],
+  [
+    element,
+    { opacity: 1, scale: 1 },
+    { duration: 0.2, type: "spring", bounce: 0.25 },
+  ],
+]
+
+const exitAnimation = (element: HTMLElement): AnimationSequence => {
+  const noSize = { height: 0, width: 0, padding: 0, margin: 0, border: "none" }
+  const swipeOut = { opacity: 0, transform: "translateX(100%)" }
+
+  return [
+    [element, swipeOut, { duration: 0.2, ease: ease.in }],
+    [element, noSize, { at: 0.15, duration: 0.15, ease: ease.bounce }],
+  ]
+}
 
 export const Toast = ({
   id,
@@ -47,18 +60,13 @@ export const Toast = ({
   const [scope, animate] = useAnimate<HTMLDivElement>()
   const timeout = useRef<Timer | undefined>(undefined)
 
+  useEffect(() => {
+    animate(enterAnimation(scope.current))
+  }, [animate, scope])
+
   const exit = useCallback(async () => {
     clearTimeout(timeout.current)
-
-    await animate(scope.current, swipeOut(scope.current), {
-      duration: 0.15,
-      ease: ease.in,
-    })
-    await animate(scope.current, noSize, {
-      duration: 0.2,
-      ease: ease.bounce,
-    })
-
+    await animate(exitAnimation(scope.current))
     onClose(id)
   }, [animate, id, onClose, scope])
 
