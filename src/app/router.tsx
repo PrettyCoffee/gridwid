@@ -99,7 +99,7 @@ const routes = createRoutes([
       },
       {
         path: "settings/data",
-        Component: LazyPlaceholder,
+        Component: lazy(() => import("./routes/settings/settings-data")),
         Layout: SettingsLayout.Catagory,
         meta: { title: "Data", icon: Database },
       },
