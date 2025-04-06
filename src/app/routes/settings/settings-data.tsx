@@ -1,3 +1,4 @@
+import { createDerived } from "@yaasl/react"
 import { Download, Trash } from "lucide-react"
 
 import { Layout } from "components/layouts"
@@ -5,8 +6,30 @@ import { Button } from "components/ui/button"
 import { Card } from "components/ui/card"
 import { showDialog } from "components/ui/dialog"
 import { FileInput } from "components/ui/file-input/file-input"
+import { showToast } from "components/ui/toaster"
+import { notesData } from "features/notes"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
+
+const allData = createDerived(
+  ({ get }) => {
+    const notes = get(notesData)
+    return { notes }
+  },
+
+  ({ value, set }) => {
+    set(notesData, value.notes)
+  }
+)
+
+const resetData = () => {
+  allData.set({ notes: notesData.defaultValue })
+  showToast({
+    kind: "success",
+    title: "Deleted data",
+  })
+  window.location.hash = ""
+}
 
 const BackupData = () => (
   <Card
@@ -45,7 +68,7 @@ const requestDeletion = () =>
     confirm: {
       caption: "Confirm deletion",
       look: "destructive",
-      onClick: console.log,
+      onClick: resetData,
     },
     cancel: {
       caption: "Cancel",
