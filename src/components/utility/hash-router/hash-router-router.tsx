@@ -16,21 +16,6 @@ interface ContextState {
   allRoutes: BaseRoute[]
 }
 
-const RenderLayouts = ({
-  children,
-  layouts,
-}: PropsWithChildren<{
-  layouts: LazyOrFunctionComponent<PropsWithChildren>[]
-}>) => {
-  const [Parent, ...rest] = layouts
-  if (!Parent) return children
-  return (
-    <Parent>
-      <RenderLayouts layouts={rest}>{children}</RenderLayouts>
-    </Parent>
-  )
-}
-
 const { Provider, useOptionalValue } =
   createContext<ContextState>("HashRouterRouter")
 
@@ -62,9 +47,9 @@ export const HashRouterRouter = ({
     <Provider value={contextState}>
       <Layout>
         {match ? (
-          <RenderLayouts layouts={match.layouts}>
+          <match.Layout>
             <match.Component />
-          </RenderLayouts>
+          </match.Layout>
         ) : Fallback ? (
           <Fallback />
         ) : null}

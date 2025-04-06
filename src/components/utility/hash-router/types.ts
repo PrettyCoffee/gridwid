@@ -26,6 +26,6 @@ export type Route = Omit<BaseRoute, "subroutes"> & {
 
 export interface FlatRoute {
   route: Required<BaseRoute> & { parent: Required<BaseRoute> | null }
-  layouts: LazyOrFunctionComponent<PropsWithChildren>[]
+  Layout: LazyOrFunctionComponent<PropsWithChildren>
   Component: LazyOrFunctionComponent
 }

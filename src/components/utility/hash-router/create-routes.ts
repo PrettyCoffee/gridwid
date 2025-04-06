@@ -1,20 +1,17 @@
+import { Fragment } from "react"
+
 import { FlatRoute, Route } from "./types"
 
-const flattenRoute = (route: Route, parent: FlatRoute | null): FlatRoute => {
-  const layouts = [...(parent?.layouts ?? [])]
-  if (route.Layout) layouts.push(route.Layout)
-
-  return {
-    route: {
-      path: route.path,
-      meta: route.meta ?? {},
-      parent: parent?.route ?? null,
-      subroutes: [],
-    },
-    layouts,
-    Component: route.Component,
-  }
-}
+const flattenRoute = (route: Route, parent: FlatRoute | null): FlatRoute => ({
+  route: {
+    path: route.path,
+    meta: route.meta ?? {},
+    parent: parent?.route ?? null,
+    subroutes: [],
+  },
+  Layout: route.Layout ?? parent?.Layout ?? Fragment,
+  Component: route.Component,
+})
 
 const flattenRoutes = (
   routes: Route[],
