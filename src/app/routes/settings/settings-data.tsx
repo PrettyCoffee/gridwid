@@ -11,6 +11,8 @@ import { createDerived } from "lib/yaasl"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
 
+import { download } from "../../../utils/download"
+
 const allData = createDerived(
   ({ get }) => {
     const notes = get(notesData)
@@ -29,6 +31,11 @@ const resetData = () => {
     title: "Deleted data",
   })
   window.location.hash = ""
+}
+
+const exportData = () => {
+  const date = new Date().toISOString().slice(0, 10)
+  download(`gridwid-export_${date}.json`, allData.get())
 }
 
 const BackupData = () => (
@@ -51,7 +58,7 @@ const BackupData = () => (
         "text-nowrap"
       )}
     >
-      <Button look="key" icon={Download}>
+      <Button look="key" icon={Download} onClick={exportData}>
         Export data
       </Button>
       -or-
