@@ -71,7 +71,7 @@ const routes = createRoutes([
     path: "settings",
     meta: { title: "Settings", icon: Cog, isMainRoute: false },
     Layout: SettingsLayout,
-    Component: lazy(() => import("./routes/settings")),
+    Component: lazy(() => import("./routes/settings/settings-main")),
     subroutes: [
       {
         path: "settings/general",

@@ -33,7 +33,7 @@ const BigButton = ({ icon, label, className, ...props }: BigButtonProps) => (
   </HashRouter.Link>
 )
 
-const SettingsRoute = () => {
+const SettingsMainRoute = () => {
   const { route } = useHashRouter()
   return (
     <>
@@ -54,4 +54,4 @@ const SettingsRoute = () => {
   )
 }
 
-export default SettingsRoute
+export default SettingsMainRoute
