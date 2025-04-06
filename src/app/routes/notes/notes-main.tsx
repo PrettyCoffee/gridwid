@@ -1,11 +1,10 @@
-import { useAtomValue } from "@yaasl/react"
-
 import { Layout } from "components/layouts"
 import { Button } from "components/ui/button"
 import { NoData } from "components/ui/no-data"
 import { Masonry } from "components/utility/masonry"
 import { notesSearch, notesData } from "features/notes"
 import { NotePreview } from "features/notes/note-preview"
+import { useAtomValue } from "lib/yaasl"
 import { cn } from "utils/cn"
 import { vstack } from "utils/styles"
 

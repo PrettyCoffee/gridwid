@@ -1,4 +1,3 @@
-import { useAtomValue } from "@yaasl/react"
 import { GripHorizontal, Plus, Trash } from "lucide-react"
 
 import { Layout } from "components/layouts"
@@ -11,6 +10,7 @@ import { useHashRouter } from "components/utility/hash-router"
 import { Sortable } from "components/utility/sortable"
 import { Note, notesData, notesSearch, notesSearchData } from "features/notes"
 import { deleteNote } from "features/notes/delete-note"
+import { useAtomValue } from "lib/yaasl"
 import { RefProp } from "types/base-props"
 import { cn } from "utils/cn"
 

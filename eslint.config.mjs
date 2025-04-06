@@ -9,6 +9,24 @@ export default defineConfig(
   globalIgnores(["dist", "node_modules"]),
 
   {
+    name: "local-rules/lib-imports",
+    ignores: ["storybook/**", "src/lib/**"],
+    rules: {
+      "no-restricted-imports": ["error", {
+        patterns: [{
+          group: ["@yaasl/*"],
+          importNamePattern: "^",
+          message: "Import from lib/yaasl instead."
+        }, {
+          group: ["@storybook/*"],
+          importNamePattern: "^",
+          message: "Import from lib/storybook instead."
+        }]
+      }],
+    },
+  },
+
+  {
     name: "situational-rules",
     rules: {
       // activate for temporary testing

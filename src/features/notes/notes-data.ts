@@ -1,6 +1,4 @@
-import { createSelector } from "@yaasl/react"
-
-import { createSlice, localStorage } from "lib/yaasl"
+import { createSelector, createSlice, localStorage } from "lib/yaasl"
 import { getNextId } from "utils/get-next-id"
 
 import { notesInitialData } from "./notes-initial-data"

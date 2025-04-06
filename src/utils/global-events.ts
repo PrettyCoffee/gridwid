@@ -1,4 +1,4 @@
-import { createAtom } from "@yaasl/react"
+import { createAtom } from "lib/yaasl"
 
 import { KeyEventDispatcher } from "./key-event-dispatcher"
 

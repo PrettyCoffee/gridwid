@@ -1,4 +1,4 @@
-import { createAtom, localStorage } from "@yaasl/react"
+import { createAtom, localStorage } from "lib/yaasl"
 
 const counter = createAtom({
   name: "id-counter",

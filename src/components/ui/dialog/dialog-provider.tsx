@@ -1,4 +1,4 @@
-import { useAtomValue } from "@yaasl/react"
+import { useAtomValue } from "lib/yaasl"
 
 import { Dialog } from "./dialog"
 import { dialogState } from "./dialog-data"
