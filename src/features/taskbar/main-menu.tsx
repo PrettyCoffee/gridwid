@@ -24,6 +24,7 @@ import {
 import { useMountAnimation } from "hooks/use-mount-animation"
 import { RoutePath } from "types/routes"
 import { cn } from "utils/cn"
+import { createContext } from "utils/create-context"
 import { hstack, interactive, surface } from "utils/styles"
 import { zIndex } from "utils/z-index"
 
@@ -49,6 +50,10 @@ const leave = keyframes`
   }
 `
 
+const { Provider, useRequiredValue } = createContext<{ closeMenu: () => void }>(
+  "MainMenu"
+)
+
 interface MenuProps {
   title: ReactNode
   trigger: ReactNode
@@ -62,53 +67,59 @@ export const Menu = ({
   const animate = useMountAnimation({ open, duration: [300, 200] })
 
   return (
-    <Dialog.Root modal={false} open={animate.mounted} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
+    <Provider value={{ closeMenu: () => setOpen(false) }}>
+      <Dialog.Root modal={false} open={animate.mounted} onOpenChange={setOpen}>
+        <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
 
-      <Dialog.Portal>
-        <Dialog.Content
-          className={cn(
-            surface({ look: "overlay", size: "lg" }),
-            "fill-mode-forwards fixed bottom-16 left-1/2 outline-none duration-0",
-            animate.state !== "open" && "pointer-events-none",
-            animate.leaving
-              ? "ease-in motion-safe:duration-200"
-              : "ease-out motion-safe:duration-300",
-            zIndex.mainMenu
-          )}
-          style={{
-            animationName: animate.leaving ? leave : enter,
-          }}
-        >
-          <Dialog.Title className="sr-only">{title}</Dialog.Title>
-          {children}
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        <Dialog.Portal>
+          <Dialog.Content
+            className={cn(
+              surface({ look: "overlay", size: "lg" }),
+              "fill-mode-forwards fixed bottom-16 left-1/2 outline-none duration-0",
+              animate.state !== "open" && "pointer-events-none",
+              animate.leaving
+                ? "ease-in motion-safe:duration-200"
+                : "ease-out motion-safe:duration-300",
+              zIndex.mainMenu
+            )}
+            style={{
+              animationName: animate.leaving ? leave : enter,
+            }}
+          >
+            <Dialog.Title className="sr-only">{title}</Dialog.Title>
+            {children}
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+    </Provider>
   )
 }
 
 const CategoryLink = ({
   to,
   children,
-}: PropsWithChildren<HashRouterLinkProps>) => (
-  <HashRouter.Link
-    to={to}
-    className={cn(
-      hstack({ justify: "between", align: "center" }),
-      interactive({ look: "flat" }),
-      "w-full rounded-md px-2 py-1"
-    )}
-  >
-    {children}
-    <Icon
-      icon={ChevronRight}
-      size="sm"
-      color="gentle"
-      className="[*:not(:hover)>&]:hidden"
-    />
-  </HashRouter.Link>
-)
+}: PropsWithChildren<HashRouterLinkProps>) => {
+  const { closeMenu } = useRequiredValue()
+  return (
+    <HashRouter.Link
+      to={to}
+      onClick={closeMenu}
+      className={cn(
+        hstack({ justify: "between", align: "center" }),
+        interactive({ look: "flat" }),
+        "w-full rounded-md px-2 py-1"
+      )}
+    >
+      {children}
+      <Icon
+        icon={ChevronRight}
+        size="sm"
+        color="gentle"
+        className="[*:not(:hover)>&]:hidden"
+      />
+    </HashRouter.Link>
+  )
+}
 
 const quickSettings = new Set<RoutePath>([
   "settings/general",
@@ -118,6 +129,7 @@ const quickSettings = new Set<RoutePath>([
 ])
 const SettingsNavigation = () => {
   const { allRoutes } = useHashRouter()
+  const { closeMenu } = useRequiredValue()
   return (
     <>
       <CategoryLink to="settings">Settings</CategoryLink>
@@ -127,7 +139,7 @@ const SettingsNavigation = () => {
           .filter(({ path }) => quickSettings.has(path))
           .map(({ path, meta }) => (
             <List.Item key={path}>
-              <List.Label to={path} icon={meta?.icon}>
+              <List.Label to={path} icon={meta?.icon} onClick={closeMenu}>
                 {meta?.title}
               </List.Label>
             </List.Item>
@@ -190,11 +202,9 @@ export const MainMenu = () => (
       />
     </div>
     <div className={cn(hstack({ gap: 4 }), "mt-4")}>
-      <Dialog.Close>
-        <div>
-          <SettingsNavigation />
-        </div>
-      </Dialog.Close>
+      <div>
+        <SettingsNavigation />
+      </div>
 
       <div>
         <ExternalLinks />

@@ -15,6 +15,7 @@ export const HashRouterLink = ({
   children,
   to,
   href,
+  onClick,
   ...props
 }: PropsWithChildren<HTMLProps<HTMLAnchorElement> & HashRouterLinkProps>) => {
   const { setPath } = useOptionalHashRouterContext() ?? {}
@@ -25,9 +26,12 @@ export const HashRouterLink = ({
       href={link}
       {...props}
       onClick={e => {
-        if (!setPath || to == null) return
-        e.preventDefault()
-        setPath(to)
+        if (setPath && to != null) {
+          // prevent default link behavior to allow blocking redirections with useBlocker
+          e.preventDefault()
+          setPath(to)
+        }
+        onClick?.(e)
       }}
     >
       {children}
