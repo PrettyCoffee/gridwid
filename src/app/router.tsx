@@ -70,37 +70,43 @@ const routes = createRoutes([
   {
     path: "settings",
     meta: { title: "Settings", icon: Cog, isMainRoute: false },
-    Layout: SettingsLayout,
+    Layout: SettingsLayout.Main,
     Component: lazy(() => import("./routes/settings/settings-main")),
     subroutes: [
       {
         path: "settings/general",
         Component: LazyPlaceholder,
+        Layout: SettingsLayout.Catagory,
         meta: { title: "General", icon: Cog },
       },
       {
         path: "settings/taskbar",
         Component: LazyPlaceholder,
+        Layout: SettingsLayout.Catagory,
         meta: { title: "Taskbar", icon: PanelBottom },
       },
       {
         path: "settings/widgets",
         Component: LazyPlaceholder,
+        Layout: SettingsLayout.Catagory,
         meta: { title: "Widgets", icon: LayoutDashboard },
       },
       {
         path: "settings/theming",
         Component: LazyPlaceholder,
+        Layout: SettingsLayout.Catagory,
         meta: { title: "Theming", icon: Palette },
       },
       {
         path: "settings/data",
         Component: LazyPlaceholder,
+        Layout: SettingsLayout.Catagory,
         meta: { title: "Data", icon: Database },
       },
       {
         path: "settings/workspaces",
         Component: LazyPlaceholder,
+        Layout: SettingsLayout.Catagory,
         meta: { title: "Workspaces", icon: Layers },
       },
     ],
