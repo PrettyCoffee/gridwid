@@ -17,6 +17,7 @@ export interface FileInputProps extends ClassNameProp {
   label?: string
   alert?: { kind: AlertKind; text: string }
   onChange?: (value: File) => void
+  accept?: string
 }
 
 export const FileInput = ({
@@ -24,6 +25,7 @@ export const FileInput = ({
   onChange,
   alert,
   className,
+  accept,
 }: FileInputProps) => {
   const id = useId()
   const [dragging, setDragging] = useState(false)
@@ -60,6 +62,7 @@ export const FileInput = ({
       >
         <input
           type="file"
+          accept={accept}
           id={id}
           className="sr-only"
           onChange={handleChange}

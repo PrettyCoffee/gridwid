@@ -10,6 +10,7 @@ const meta: Meta<typeof FileInput> = {
     label: argType.string(),
     alert: argType.disabled(),
     onChange: argType.callback(),
+    accept: argType.string(),
   },
   args: {
     label: "Upload file",
