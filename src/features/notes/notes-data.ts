@@ -1,16 +1,21 @@
+import { z } from "zod"
+
 import { createSelector, createSlice, localStorage } from "lib/yaasl"
 import { getNextId } from "utils/get-next-id"
 
 import { notesInitialData } from "./notes-initial-data"
+import { Resolve } from "../../types/util-types"
 
-export interface Note {
-  id: string
-  createdAt: number
-  changedAt?: number
-  title: string
-  text: string
-  locked: boolean
-}
+export const noteSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  text: z.string(),
+  changedAt: z.optional(z.number()),
+  createdAt: z.number(),
+  locked: z.boolean(),
+})
+
+export type Note = Resolve<z.infer<typeof noteSchema>>
 
 export const notesData = createSlice({
   name: "notes",

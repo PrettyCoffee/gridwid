@@ -1,10 +1,10 @@
 import { Indexable } from "../utils/is-indexable"
 
-export type Prettify<T> = {
+export type Resolve<T> = {
   [K in keyof T]: T[K]
 } & {}
 
-type Loose<T> = Prettify<Exclude<T, undefined>>
+type Loose<T> = Resolve<Exclude<T, undefined>>
 
 export type ObjDeepPath<TObj> =
   Loose<TObj> extends Indexable
