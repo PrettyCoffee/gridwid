@@ -7,9 +7,10 @@ import {
   ChevronRight,
   EllipsisVertical,
   FileClock,
-  Sun,
   ExternalLink,
   Bug,
+  Moon,
+  Sun,
 } from "lucide-react"
 
 import { Divider } from "components/ui/divider"
@@ -21,12 +22,35 @@ import {
   HashRouterLinkProps,
   useHashRouter,
 } from "components/utility/hash-router"
+// TODO: Adjust taskbar to pass props down here
+// eslint-disable-next-line import/no-restricted-paths
+import { themePreferences } from "features/theming/theme-data"
 import { useMountAnimation } from "hooks/use-mount-animation"
+import { useAtomValue } from "lib/yaasl"
 import { RoutePath } from "types/routes"
 import { cn } from "utils/cn"
 import { createContext } from "utils/create-context"
 import { hstack, interactive, surface } from "utils/styles"
 import { zIndex } from "utils/z-index"
+
+const ThemeModeToggle = () => {
+  const mode = useAtomValue(themePreferences.selectors.getMode)
+  return mode === "dark" ? (
+    <IconButton
+      title="Light mode"
+      hideTitle
+      icon={Sun}
+      onClick={() => themePreferences.actions.setMode("light")}
+    />
+  ) : (
+    <IconButton
+      title="Dark mode"
+      hideTitle
+      icon={Moon}
+      onClick={() => themePreferences.actions.setMode("dark")}
+    />
+  )
+}
 
 const enter = keyframes`
   from {
@@ -193,7 +217,7 @@ export const MainMenu = () => (
     trigger={<IconButton title="Menu" hideTitle icon={EllipsisVertical} />}
   >
     <div className={hstack({})}>
-      <IconButton title="Light mode" hideTitle icon={Sun} />
+      <ThemeModeToggle />
       <IconButton title="Changelog" icon={FileClock} />
       <IconButton
         title="Go to search"

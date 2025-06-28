@@ -10,6 +10,7 @@ import { themeVarsPlugin } from "./plugins/theme-vars-plugin"
 import { theme } from "./theme"
 
 export default {
+  darkMode: "selector",
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     fontFamily: {

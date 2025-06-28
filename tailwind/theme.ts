@@ -2,7 +2,7 @@ import { createTheme } from "./plugins/theme-vars-plugin"
 
 export const theme = createTheme({
   theme: colors => ({
-    mode: "dark",
+    mode: "dark" as "dark" | "light",
     radius: 8,
     color: {
       neutral: {
