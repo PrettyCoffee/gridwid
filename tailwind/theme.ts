@@ -3,7 +3,7 @@ import { createTheme } from "./plugins/theme-vars-plugin"
 export const theme = createTheme({
   theme: colors => ({
     mode: "dark",
-    radius: 1,
+    radius: 8,
     color: {
       neutral: colors.zinc,
       accent: colors.rose[300],
@@ -27,9 +27,9 @@ export const theme = createTheme({
 
   tokens: get => ({
     borderRadius: {
-      lg: get("radius", "calc(<var> * 0.5rem)"),
-      md: get("radius", "calc(<var> * 0.375rem)"),
-      sm: get("radius", "calc(<var> * 0.25rem)"),
+      lg: get("radius", "calc(<var> / 16 * 1rem)"), // 0.5rem
+      md: get("radius", "calc(<var> / 24 * 1rem)"), // 0.375rem
+      sm: get("radius", "calc(<var> / 32 * 1rem)"), // 0.25rem
       full: "9999px",
       none: "0px",
     },
