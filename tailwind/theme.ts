@@ -5,7 +5,11 @@ export const theme = createTheme({
     mode: "dark",
     radius: 8,
     color: {
-      neutral: colors.zinc,
+      neutral: {
+        "0": "#000",
+        ...colors.zinc,
+        "1000": "#fff",
+      },
       accent: colors.rose[300],
       alert: {
         error: colors.red[300],
@@ -34,11 +38,11 @@ export const theme = createTheme({
       none: "0px",
     },
     colors: {
-      black: { DEFAULT: "black" },
-      white: { DEFAULT: "white" },
-      transparent: { DEFAULT: "transparent" },
-      current: { DEFAULT: "currentColor" },
-      inherit: { DEFAULT: "inherit" },
+      black: get("color.neutral.0"),
+      white: get("color.neutral.1000"),
+      transparent: "transparent",
+      current: "currentColor",
+      inherit: "inherit",
 
       highlight: get("color.accent"),
       background: {

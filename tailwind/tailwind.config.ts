@@ -33,7 +33,12 @@ export default {
     themeVarsPlugin({ theme, strategy: "replace" }),
     typographyPlugin(),
     animatePlugin,
-    bgLayerPlugin(),
+    bgLayerPlugin({
+      colors: {
+        b: theme.get("color.neutral.0"),
+        w: theme.get("color.neutral.1000"),
+      },
+    }),
     shadowPlugin(),
   ],
 } satisfies Config
