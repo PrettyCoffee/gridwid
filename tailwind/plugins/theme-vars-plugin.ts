@@ -11,6 +11,16 @@ interface ThemeItem {
   [key: string]: ThemeItem | string | number
 }
 
+type LoosenTheme<T> = T extends object
+  ? {
+      [K in keyof T]: LoosenTheme<T[K]>
+    }
+  : T extends string
+    ? string
+    : T extends number
+      ? number
+      : T
+
 type ReadValue<T> = (
   path: ObjDeepPath<T>,
   extra?: `${string}<var>${string}`
@@ -22,7 +32,7 @@ interface CreateThemeProps<TTheme, TTokens> {
   /** The underlying css theme with all possible values.
    *  Will be used to write css variables.
    **/
-  theme: TTheme | ((colors: DefaultColors) => TTheme)
+  theme: TTheme | ((colors: LoosenTheme<DefaultColors>) => TTheme)
   /** Paths pointing to values that should be handled as colors */
   colorPath?: ObjDeepPath<TTheme> | ObjDeepPath<TTheme>[]
   /** Function to retrieve the tokens which are used in tailwind */
@@ -33,7 +43,9 @@ interface CreateThemeResult<TTheme, TTokens> {
   /** Returns the theme that was initially passed to `createTheme` */
   getDefaultTheme: () => TTheme
   /** Returns all css vars and their values */
-  getCssVars: (theme?: TTheme) => Record<string, string>
+  getCssVars: (
+    theme?: CreateThemeProps<TTheme, TTokens>["theme"]
+  ) => Record<string, string>
   /** Returns all tokens with the theme's css vars applied */
   getTokens: () => TTokens
   /** Returns a string which applies the according css var */
@@ -57,10 +69,13 @@ export const createTheme = <
     return `${varPrefix}-${path.replaceAll(".", "-")}`
   }
 
-  const getCssVars = (theme = defaultTheme) => {
+  const getCssVars = (
+    theme: CreateThemeProps<TTheme, TTokens>["theme"] = defaultTheme
+  ) => {
     const cssVars: Record<string, string> = {}
+    const newTheme = typeof theme === "function" ? theme(defaultColors) : theme
 
-    deepLoop(theme, (itemPath, value) => {
+    deepLoop(newTheme, (itemPath, value) => {
       const varName = getCssVar(itemPath.join("-") as ObjDeepPath<TTheme>)
       try {
         const { color } = new Color(value as string).toHsl().getValue()
