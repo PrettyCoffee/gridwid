@@ -2,29 +2,38 @@ import { createTheme } from "./plugins/theme-vars-plugin"
 
 export const theme = createTheme({
   theme: colors => ({
-    mode: "dark" as "dark" | "light",
     radius: 8,
     color: {
       neutral: {
-        "0": "#000",
-        ...colors.zinc,
-        "1000": "#fff",
+        "0": "#fff",
+        "50": colors.zinc["950"],
+        "100": colors.zinc["900"],
+        "200": colors.zinc["800"],
+        "300": colors.zinc["700"],
+        "400": colors.zinc["600"],
+        "500": colors.zinc["500"],
+        "600": colors.zinc["400"],
+        "700": colors.zinc["300"],
+        "800": colors.zinc["200"],
+        "900": colors.zinc["100"],
+        "950": colors.zinc["50"],
+        "1000": "#000",
       },
-      accent: colors.rose[300],
+      accent: colors.rose[500],
       alert: {
-        error: colors.red[300],
-        warn: colors.yellow[300],
-        info: colors.blue[300],
-        success: colors.green[300],
+        error: colors.red[500],
+        warn: colors.yellow[500],
+        info: colors.blue[500],
+        success: colors.green[500],
       },
       category: {
-        red: colors.pink[300],
-        orange: colors.orange[300],
-        yellow: colors.amber[300],
-        green: colors.lime[300],
-        cyan: colors.sky[300],
-        blue: colors.blue[300],
-        violet: colors.violet[300],
+        red: colors.pink[500],
+        orange: colors.orange[500],
+        yellow: colors.amber[500],
+        green: colors.lime[500],
+        cyan: colors.sky[500],
+        blue: colors.blue[500],
+        violet: colors.violet[500],
       },
     },
   }),
@@ -85,3 +94,30 @@ export const theme = createTheme({
     },
   }),
 })
+
+theme.addVariant("dark", colors => ({
+  radius: 8,
+  color: {
+    neutral: {
+      "0": "#000",
+      ...colors.zinc,
+      "1000": "#fff",
+    },
+    accent: colors.rose[300],
+    alert: {
+      error: colors.red[300],
+      warn: colors.yellow[300],
+      info: colors.blue[300],
+      success: colors.green[300],
+    },
+    category: {
+      red: colors.pink[300],
+      orange: colors.orange[300],
+      yellow: colors.amber[300],
+      green: colors.lime[300],
+      cyan: colors.sky[300],
+      blue: colors.blue[300],
+      violet: colors.violet[300],
+    },
+  },
+}))

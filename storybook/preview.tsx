@@ -12,7 +12,7 @@ import { argType } from "lib/storybook"
 import { cusomtBlocks } from "./custom-blocks"
 import { theme } from "../tailwind/theme"
 
-const themeTokens = theme.getTokens()
+const themeTokens = theme.tokens
 
 const parameters: Preview["parameters"] = {
   docs: { ...cusomtBlocks },

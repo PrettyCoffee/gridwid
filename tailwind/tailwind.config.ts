@@ -36,8 +36,8 @@ export default {
     animatePlugin,
     bgLayerPlugin({
       colors: {
-        b: theme.get("color.neutral.0"),
-        w: theme.get("color.neutral.1000"),
+        b: theme.read("color.neutral.0"),
+        w: theme.read("color.neutral.1000"),
       },
     }),
     shadowPlugin(),

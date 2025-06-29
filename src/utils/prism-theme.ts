@@ -3,7 +3,7 @@ import { css } from "goober"
 import { theme } from "../../tailwind/theme"
 
 export const prismTheme = css`
-  color: ${theme.get("color.neutral.200")};
+  color: ${theme.read("color.neutral.200")};
 
   /** Allow to show line numbers */
   pre[class*="language-"] {
@@ -28,7 +28,7 @@ export const prismTheme = css`
       bottom: 0;
 
       /* Line number color */
-      color: ${theme.get("color.neutral.400")};
+      color: ${theme.read("color.neutral.400")};
       /* Line number */
       content: attr(line);
 
@@ -36,7 +36,7 @@ export const prismTheme = css`
       width: calc(3ch + 1rem);
       text-align: right;
       padding-right: 0.5rem;
-      border-right: 1px solid ${theme.get("color.neutral.700")};
+      border-right: 1px solid ${theme.read("color.neutral.700")};
       white-space: nowrap;
     }
   }
@@ -48,11 +48,11 @@ export const prismTheme = css`
     .token.prolog,
     .token.doctype,
     .token.cdata {
-      color: ${theme.get("color.neutral.400")};
+      color: ${theme.read("color.neutral.400")};
     }
 
     .token.punctuation {
-      color: ${theme.get("color.neutral.500")};
+      color: ${theme.read("color.neutral.500")};
     }
 
     .namespace {
@@ -60,55 +60,55 @@ export const prismTheme = css`
     }
 
     .token.keyword {
-      color: ${theme.get("color.category.violet")};
+      color: ${theme.read("color.category.violet")};
     }
 
     .token.tag,
     .token.builtin,
     .token.constant {
-      color: ${theme.get("color.category.red")};
+      color: ${theme.read("color.category.red")};
     }
     .token.boolean {
-      color: ${theme.get("color.category.violet")};
+      color: ${theme.read("color.category.violet")};
     }
 
     .token.class-name,
     .token.maybe-class-name {
-      color: ${theme.get("color.category.orange")};
+      color: ${theme.read("color.category.orange")};
     }
 
     .token.number {
-      color: ${theme.get("color.category.orange")};
+      color: ${theme.read("color.category.orange")};
     }
 
     .token.string,
     .token.char,
     .token.attr-value {
-      color: ${theme.get("color.category.green")};
+      color: ${theme.read("color.category.green")};
     }
 
     .token.symbol {
-      color: ${theme.get("color.category.red")};
+      color: ${theme.read("color.category.red")};
     }
 
     .token.attr-name {
-      color: ${theme.get("color.category.orange")};
+      color: ${theme.read("color.category.orange")};
     }
 
     .token.variable {
-      color: ${theme.get("color.category.red")};
+      color: ${theme.read("color.category.red")};
     }
 
     .token.operator {
-      color: ${theme.get("color.category.cyan")};
+      color: ${theme.read("color.category.cyan")};
     }
 
     .token.entity {
-      color: ${theme.get("color.category.red")};
+      color: ${theme.read("color.category.red")};
     }
 
     .token.function {
-      color: ${theme.get("color.category.blue")};
+      color: ${theme.read("color.category.blue")};
     }
 
     /** Highlighted lines (rehype-prism-plus specific) */
@@ -122,68 +122,68 @@ export const prismTheme = css`
     }
 
     .highlight-line {
-      background-color: ${theme.get("color.neutral.900")};
-      box-shadow: inset 0.25rem 00 0 ${theme.get("color.accent")};
+      background-color: ${theme.read("color.neutral.900")};
+      box-shadow: inset 0.25rem 00 0 ${theme.read("color.accent")};
     }
 
     /** Git diff specific */
 
     .token.coord {
       /* diff meta info */
-      color: ${theme.get("color.neutral.500")};
+      color: ${theme.read("color.neutral.500")};
     }
     .token.inserted {
-      color: ${theme.get("color.alert.success")};
+      color: ${theme.read("color.alert.success")};
     }
     .token.deleted {
-      color: ${theme.get("color.alert.error")};
+      color: ${theme.read("color.alert.error")};
     }
     .code-line.inserted {
       /* inserted line (+) color */
-      color: ${theme.get("color.alert.success")};
+      color: ${theme.read("color.alert.success")};
       background-color: hsla(
-        from ${theme.get("color.alert.success")} h s l / 0.1
+        from ${theme.read("color.alert.success")} h s l / 0.1
       );
     }
     .code-line.deleted {
       /* deleted line (-) color */
-      color: ${theme.get("color.alert.error")};
+      color: ${theme.read("color.alert.error")};
       background-color: hsla(
-        from ${theme.get("color.alert.error")} h s l / 0.1
+        from ${theme.read("color.alert.error")} h s l / 0.1
       );
     }
 
     /** Regex specific */
 
     .token.regex {
-      color: ${theme.get("color.category.red")};
+      color: ${theme.read("color.category.red")};
       .token.quantifier.number {
-        color: ${theme.get("color.category.cyan")};
+        color: ${theme.read("color.category.cyan")};
       }
       .token.char-set.class-name {
-        color: ${theme.get("color.category.violet")};
+        color: ${theme.read("color.category.violet")};
       }
       .token.regex-delimiter,
       .token.punctuation {
-        color: ${theme.get("color.neutral.500")};
+        color: ${theme.read("color.neutral.500")};
       }
       .token.regex-flags {
-        color: ${theme.get("color.category.orange")};
+        color: ${theme.read("color.category.orange")};
       }
     }
 
     /** Css specific */
 
     .token.selector {
-      color: ${theme.get("color.category.cyan")};
+      color: ${theme.read("color.category.cyan")};
     }
 
     .token.property {
-      color: ${theme.get("color.category.violet")};
+      color: ${theme.read("color.category.violet")};
     }
 
     .token.atrule {
-      color: ${theme.get("color.category.red")};
+      color: ${theme.read("color.category.red")};
     }
 
     /** Markdown specific */
@@ -193,9 +193,9 @@ export const prismTheme = css`
     }
 
     .token.title {
-      color: ${theme.get("color.neutral.100")};
+      color: ${theme.read("color.neutral.100")};
       .token.punctuation {
-        color: ${theme.get("color.neutral.500")};
+        color: ${theme.read("color.neutral.500")};
       }
     }
 
@@ -209,21 +209,21 @@ export const prismTheme = css`
     }
 
     .token.url {
-      color: ${theme.get("color.neutral.500")};
+      color: ${theme.read("color.neutral.500")};
       .token.content {
-        color: ${theme.get("color.category.red")};
+        color: ${theme.read("color.category.red")};
       }
       .token.url {
-        color: ${theme.get("color.category.blue")};
+        color: ${theme.read("color.category.blue")};
       }
     }
 
     .language-markdown {
       .token.punctuation {
-        color: ${theme.get("color.neutral.500")};
+        color: ${theme.read("color.neutral.500")};
       }
       .token.list.punctuation {
-        color: ${theme.get("color.category.blue")};
+        color: ${theme.read("color.category.blue")};
       }
     }
   }
