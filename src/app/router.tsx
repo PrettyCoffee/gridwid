@@ -93,7 +93,7 @@ const routes = createRoutes([
       },
       {
         path: "settings/theming",
-        Component: LazyPlaceholder,
+        Component: lazy(() => import("./routes/settings/settings-theming")),
         Layout: SettingsLayout.Catagory,
         meta: { title: "Theming", icon: Palette },
       },

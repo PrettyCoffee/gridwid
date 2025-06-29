@@ -1,28 +1,41 @@
 import { createSlice } from "lib/yaasl"
 
+import { theme } from "../../../tailwind/theme"
+
 export interface ThemePreferences {
   mode: "dark" | "light"
+  radius: number
+}
+
+const defaultValue: ThemePreferences = {
+  radius: theme.defaultTheme.radius,
+  mode: "dark",
 }
 
 export const themePreferences = createSlice({
   name: "user-theme",
-  defaultValue: {
-    mode: "dark",
-  } as ThemePreferences,
+  defaultValue,
 
   reducers: {
     setMode: (state, mode: ThemePreferences["mode"]) => ({ ...state, mode }),
+    setRadius: (state, radius: ThemePreferences["radius"]) => ({
+      ...state,
+      radius,
+    }),
   },
   selectors: {
     getMode: state => state.mode,
+    getRadius: state => state.radius,
   },
 })
 
 const updateTheme = () => {
-  const isDark = themePreferences.get().mode === "dark"
+  const { mode, radius } = themePreferences.get()
+  const isDark = mode === "dark"
   const root = document.documentElement
 
   root.classList.toggle("dark", isDark)
+  root.style.setProperty(...theme.write("radius", radius))
 }
 
 updateTheme()
