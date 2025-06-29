@@ -3,7 +3,7 @@ import plugin from "tailwindcss/plugin"
 import type { CSSRuleObject, CustomThemeConfig } from "tailwindcss/types/config"
 import type { DefaultColors } from "tailwindcss/types/generated/colors"
 
-import { ObjDeepPath } from "../../src/types/util-types"
+import { ObjDeepPath, ObjDeepValue } from "../../src/types/util-types"
 import { Color } from "../../src/utils/color"
 import { deepLoop } from "../../src/utils/deep-loop"
 
@@ -110,6 +110,14 @@ class Theme<
 
   public read(path: ObjDeepPath<TTheme>, extra?: `${string}<var>${string}`) {
     return readVar<TTheme>(this.options, path, extra)
+  }
+
+  public write<TPath extends ObjDeepPath<TTheme>>(
+    path: TPath,
+    value: ObjDeepValue<TTheme, TPath>
+  ) {
+    const cssVar = getCssVar<TTheme>(this.options.prefix, path)
+    return [cssVar, String(value)] as const
   }
 }
 
