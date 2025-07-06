@@ -3,10 +3,12 @@ import { css } from "goober"
 import { theme } from "../../tailwind/theme"
 
 export const prismTheme = css`
-  color: ${theme.read("color.neutral.200")};
+  color: ${theme.read("color.text.default")};
 
   /** Allow to show line numbers */
   pre[class*="language-"] {
+    color: ${theme.read("color.text.default")};
+    background: ${theme.read("color.background.page")};
     word-break: break-word;
 
     /** Fix padding when a line wraps */
@@ -28,7 +30,7 @@ export const prismTheme = css`
       bottom: 0;
 
       /* Line number color */
-      color: ${theme.read("color.neutral.400")};
+      color: ${theme.read("color.text.gentle")};
       /* Line number */
       content: attr(line);
 
@@ -36,7 +38,7 @@ export const prismTheme = css`
       width: calc(3ch + 1rem);
       text-align: right;
       padding-right: 0.5rem;
-      border-right: 1px solid ${theme.read("color.neutral.700")};
+      border-right: 1px solid ${theme.read("color.stroke.gentle")};
       white-space: nowrap;
     }
   }
@@ -48,11 +50,11 @@ export const prismTheme = css`
     .token.prolog,
     .token.doctype,
     .token.cdata {
-      color: ${theme.read("color.neutral.400")};
+      color: ${theme.read("color.text.gentle")};
     }
 
     .token.punctuation {
-      color: ${theme.read("color.neutral.500")};
+      color: ${theme.read("color.text.muted")};
     }
 
     .namespace {
@@ -122,7 +124,7 @@ export const prismTheme = css`
     }
 
     .highlight-line {
-      background-color: ${theme.read("color.neutral.900")};
+      background-color: ${theme.read("color.background.default")};
       box-shadow: inset 0.25rem 00 0 ${theme.read("color.accent")};
     }
 
@@ -130,7 +132,7 @@ export const prismTheme = css`
 
     .token.coord {
       /* diff meta info */
-      color: ${theme.read("color.neutral.500")};
+      color: ${theme.read("color.text.muted")};
     }
     .token.inserted {
       color: ${theme.read("color.alert.success")};
@@ -165,7 +167,7 @@ export const prismTheme = css`
       }
       .token.regex-delimiter,
       .token.punctuation {
-        color: ${theme.read("color.neutral.500")};
+        color: ${theme.read("color.text.muted")};
       }
       .token.regex-flags {
         color: ${theme.read("color.category.orange")};
@@ -193,9 +195,9 @@ export const prismTheme = css`
     }
 
     .token.title {
-      color: ${theme.read("color.neutral.100")};
+      color: ${theme.read("color.text.priority")};
       .token.punctuation {
-        color: ${theme.read("color.neutral.500")};
+        color: ${theme.read("color.text.muted")};
       }
     }
 
@@ -209,7 +211,7 @@ export const prismTheme = css`
     }
 
     .token.url {
-      color: ${theme.read("color.neutral.500")};
+      color: ${theme.read("color.text.muted")};
       .token.content {
         color: ${theme.read("color.category.red")};
       }
@@ -220,7 +222,7 @@ export const prismTheme = css`
 
     .language-markdown {
       .token.punctuation {
-        color: ${theme.read("color.neutral.500")};
+        color: ${theme.read("color.text.muted")};
       }
       .token.list.punctuation {
         color: ${theme.read("color.category.blue")};
