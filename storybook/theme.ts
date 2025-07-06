@@ -2,7 +2,7 @@ import { create } from "@storybook/theming"
 
 import { theme as appTheme } from "../tailwind/theme"
 
-const color = appTheme.defaultTheme.color
+const color = appTheme.defaultTokens.color
 
 const background = color.neutral[900]
 const page = color.neutral[950]

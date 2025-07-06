@@ -35,14 +35,14 @@ const markdownStyles = css`
   }
 
   p > code {
-    background-color: ${theme.tokens.colors.background.page};
-    color: ${theme.tokens.colors.text.priority};
+    background-color: ${theme.twTheme.colors.background.page};
+    color: ${theme.twTheme.colors.text.priority};
     font-weight: 500;
     padding: 0.125rem 0.25rem;
     border-radius: 0.25rem;
     &::before,
     &::after {
-      color: ${theme.tokens.colors.text.gentle};
+      color: ${theme.twTheme.colors.text.gentle};
     }
   }
 

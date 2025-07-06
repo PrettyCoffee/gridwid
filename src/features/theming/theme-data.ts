@@ -8,7 +8,7 @@ export interface ThemePreferences {
 }
 
 const defaultValue: ThemePreferences = {
-  radius: theme.defaultTheme.radius,
+  radius: theme.defaultTokens.radius,
   mode: "dark",
 }
 

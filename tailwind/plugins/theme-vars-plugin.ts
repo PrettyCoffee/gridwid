@@ -7,8 +7,8 @@ import { ObjDeepPath, ObjDeepValue } from "../../src/types/util-types"
 import { Color } from "../../src/utils/color"
 import { deepLoop } from "../../src/utils/deep-loop"
 
-interface ThemeItem {
-  [key: string]: ThemeItem | string | number
+interface TokenItem {
+  [key: string]: TokenItem | string | number
 }
 
 type LoosenValues<T> = T extends object
@@ -26,39 +26,39 @@ type ReadValue<T> = (
   extra?: `${string}<var>${string}`
 ) => string
 
-type CreateTheme<TTheme> =
-  | TTheme
-  | ((colors: LoosenValues<DefaultColors>) => TTheme)
+type CreateTokens<TTokens> =
+  | TTokens
+  | ((colors: LoosenValues<DefaultColors>) => TTokens)
 
-type CreateTokens<TTheme, TTokens> = (get: ReadValue<TTheme>) => TTokens
+type CreateTwTheme<TTokens, TTwTheme> = (get: ReadValue<TTokens>) => TTwTheme
 
-interface CreateThemeVariant<TTheme, TTokens> {
+interface CreateThemeVariant<TTokens, TTwTheme> {
   /** The underlying css theme with all possible values.
    *  Will be used to write css variables.
    **/
-  theme: CreateTheme<TTheme>
+  tokens: CreateTokens<TTokens>
   /** Function to retrieve the tokens which are used in tailwind */
-  tokens: CreateTokens<TTheme, TTokens>
+  twTheme: CreateTwTheme<TTokens, TTwTheme>
 }
 
-interface GeneralThemeOptions<TTheme> {
+interface GeneralThemeOptions<TTokens> {
   /** Prefix for css variables */
   prefix: string
   /** Paths pointing to values that should be handled as colors */
-  colorPath: ObjDeepPath<TTheme> | ObjDeepPath<TTheme>[]
+  colorPath: ObjDeepPath<TTokens> | ObjDeepPath<TTokens>[]
 }
-interface ThemeConstructorProps<TTheme, TTokens>
-  extends Partial<GeneralThemeOptions<TTheme>>,
-    CreateThemeVariant<TTheme, TTokens> {}
+interface ThemeConstructorProps<TTokens, TTwTheme>
+  extends Partial<GeneralThemeOptions<TTokens>>,
+    CreateThemeVariant<TTokens, TTwTheme> {}
 
 const getCssVar = <TTheme>(prefix: string, path: ObjDeepPath<TTheme>) => {
   const varPrefix = prefix ? `--${prefix}-theme` : "--theme"
   return `${varPrefix}-${path.replaceAll(".", "-")}`
 }
 
-const readVar = <TTheme>(
-  { prefix, colorPath }: GeneralThemeOptions<TTheme>,
-  path: ObjDeepPath<TTheme>,
+const readVar = <TTokens>(
+  { prefix, colorPath }: GeneralThemeOptions<TTokens>,
+  path: ObjDeepPath<TTokens>,
   extra?: `${string}<var>${string}`
 ) => {
   const isColor = [colorPath]
@@ -71,61 +71,61 @@ const readVar = <TTheme>(
   return cssVar
 }
 
-const resolveTheme = <TTheme>(createTheme: CreateTheme<TTheme>): TTheme =>
+const resolveTokens = <TTokens>(createTheme: CreateTokens<TTokens>): TTokens =>
   createTheme instanceof Function ? createTheme(defaultColors) : createTheme
 
-const resolveTokens = <TTheme, TTokens>(
-  options: GeneralThemeOptions<TTheme>,
-  createTokens: CreateTokens<TTheme, TTokens>
-): TTokens => createTokens((path, extra) => readVar(options, path, extra))
+const resolveTwTheme = <TTokens, TTwTheme>(
+  options: GeneralThemeOptions<TTokens>,
+  createTokens: CreateTwTheme<TTokens, TTwTheme>
+): TTwTheme => createTokens((path, extra) => readVar(options, path, extra))
 
 class Theme<
-  TTheme extends ThemeItem = ThemeItem,
-  TTokens extends Partial<CustomThemeConfig> = Partial<CustomThemeConfig>,
+  TTokens extends TokenItem = TokenItem,
+  TTwTheme extends Partial<CustomThemeConfig> = Partial<CustomThemeConfig>,
 > {
-  public readonly options: GeneralThemeOptions<TTheme>
+  public readonly options: GeneralThemeOptions<TTokens>
 
-  public readonly defaultTheme: TTheme
-  public readonly variants: Record<string, LoosenValues<TTheme>> = {}
-  public readonly tokens: TTokens
+  public readonly defaultTokens: TTokens
+  public readonly variants: Record<string, LoosenValues<TTokens>> = {}
+  public readonly twTheme: TTwTheme
 
   constructor({
     prefix = "tw",
-    colorPath = ["color", "colors"] as ObjDeepPath<TTheme>[],
-    theme,
+    colorPath = ["color", "colors"] as ObjDeepPath<TTokens>[],
     tokens,
-  }: ThemeConstructorProps<TTheme, TTokens>) {
+    twTheme,
+  }: ThemeConstructorProps<TTokens, TTwTheme>) {
     this.options = {
       prefix,
       colorPath,
     }
 
-    this.defaultTheme = resolveTheme(theme)
-    this.tokens = resolveTokens(this.options, tokens)
+    this.defaultTokens = resolveTokens(tokens)
+    this.twTheme = resolveTwTheme(this.options, twTheme)
   }
 
-  public addVariant(name: string, theme: CreateTheme<LoosenValues<TTheme>>) {
-    this.variants[name] = resolveTheme(theme)
+  public addVariant(name: string, tokens: CreateTokens<LoosenValues<TTokens>>) {
+    this.variants[name] = resolveTokens(tokens)
   }
 
-  public read(path: ObjDeepPath<TTheme>, extra?: `${string}<var>${string}`) {
-    return readVar<TTheme>(this.options, path, extra)
+  public read(path: ObjDeepPath<TTokens>, extra?: `${string}<var>${string}`) {
+    return readVar<TTokens>(this.options, path, extra)
   }
 
-  public write<TPath extends ObjDeepPath<TTheme>>(
+  public write<TPath extends ObjDeepPath<TTokens>>(
     path: TPath,
-    value: ObjDeepValue<TTheme, TPath>
+    value: ObjDeepValue<TTokens, TPath>
   ) {
-    const cssVar = getCssVar<TTheme>(this.options.prefix, path)
+    const cssVar = getCssVar<TTokens>(this.options.prefix, path)
     return [cssVar, String(value)] as const
   }
 }
 
 export const createTheme = <
-  TTheme extends ThemeItem,
-  TTokens extends Partial<CustomThemeConfig>,
+  TTokens extends TokenItem,
+  TTwTheme extends Partial<CustomThemeConfig>,
 >(
-  props: ThemeConstructorProps<TTheme, TTokens>
+  props: ThemeConstructorProps<TTokens, TTwTheme>
 ) => new Theme(props)
 
 const getCssVars = (theme: Theme, variantName?: string) => {
@@ -133,13 +133,13 @@ const getCssVars = (theme: Theme, variantName?: string) => {
 
   const themeVariant = variantName
     ? theme.variants[variantName]
-    : theme.defaultTheme
+    : theme.defaultTokens
 
   if (!themeVariant)
     throw new Error(`Theme variant "${variantName}" doesn't exist.`)
 
   deepLoop(themeVariant, (itemPath, value) => {
-    const varName = getCssVar<ThemeItem>(
+    const varName = getCssVar<TokenItem>(
       theme.options.prefix,
       itemPath.join(".")
     )
@@ -175,7 +175,7 @@ export const themeVarsPlugin = plugin.withOptions<{
     },
 
   ({ theme, strategy }) => {
-    if (strategy === "replace") return { theme: theme.tokens }
-    return { theme: { extend: theme.tokens } }
+    if (strategy === "replace") return { theme: theme.twTheme }
+    return { theme: { extend: theme.twTheme } }
   }
 )
