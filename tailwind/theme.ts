@@ -36,7 +36,7 @@ export const theme = createTheme({
       current: "currentColor",
       inherit: "inherit",
 
-      highlight: colors.accent["500"],
+      accent: colors.accent["500"],
       background: {
         page: colors.neutral["50"],
         default: colors.neutral["100"],
@@ -57,7 +57,6 @@ export const theme = createTheme({
         //muted: colors.neutral["800"],
         invert: colors.neutral["950"],
         button: colors.neutral["950"],
-        focus: colors.accent["500"],
       },
       alert: {
         error: colors.alert.error["500"],
@@ -92,7 +91,7 @@ export const theme = createTheme({
       current: "currentColor",
       inherit: "inherit",
 
-      highlight: get("color.highlight"),
+      highlight: get("color.accent"),
       // TODO: Add handler to convert whole objects, e.g. get("color.background")
       background: {
         page: get("color.background.page"),
@@ -114,7 +113,7 @@ export const theme = createTheme({
         //muted: get("color.neutral.800"),
         invert: get("color.stroke.invert"),
         button: get("color.stroke.button"),
-        focus: get("color.stroke.focus"),
+        focus: get("color.accent"),
       },
       alert: {
         error: get("color.alert.error"),
@@ -144,7 +143,7 @@ theme.addVariant("dark", {
     current: "currentColor",
     inherit: "inherit",
 
-    highlight: colors.accent["300"],
+    accent: colors.accent["300"],
     background: {
       page: colors.neutral["950"],
       default: colors.neutral["900"],
@@ -165,7 +164,6 @@ theme.addVariant("dark", {
       //muted: colors.neutral["800"],
       invert: colors.neutral["50"],
       button: colors.neutral["50"],
-      focus: colors.accent["300"],
     },
     alert: {
       error: colors.alert.error["300"],
