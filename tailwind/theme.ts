@@ -1,42 +1,81 @@
+import twColors from "tailwindcss/colors"
+
 import { createTheme } from "./plugins/theme-vars-plugin"
 
+const colors = {
+  neutral: {
+    "0": "#000",
+    ...twColors.zinc,
+    "1000": "#fff",
+  },
+  accent: twColors.rose,
+  alert: {
+    error: twColors.red,
+    warn: twColors.yellow,
+    info: twColors.blue,
+    success: twColors.green,
+  },
+  category: {
+    red: twColors.pink,
+    orange: twColors.orange,
+    yellow: twColors.amber,
+    green: twColors.lime,
+    cyan: twColors.sky,
+    blue: twColors.blue,
+    violet: twColors.violet,
+  },
+}
+
 export const theme = createTheme({
-  theme: colors => ({
+  theme: {
     radius: 8,
     color: {
-      neutral: {
-        "0": "#fff",
-        "50": colors.zinc["950"],
-        "100": colors.zinc["900"],
-        "200": colors.zinc["800"],
-        "300": colors.zinc["700"],
-        "400": colors.zinc["600"],
-        "500": colors.zinc["500"],
-        "600": colors.zinc["400"],
-        "700": colors.zinc["300"],
-        "800": colors.zinc["200"],
-        "900": colors.zinc["100"],
-        "950": colors.zinc["50"],
-        "1000": "#000",
+      black: colors.neutral["1000"],
+      white: colors.neutral["0"],
+      transparent: "transparent",
+      current: "currentColor",
+      inherit: "inherit",
+
+      highlight: colors.accent["500"],
+      background: {
+        page: colors.neutral["50"],
+        default: colors.neutral["100"],
+        invert: colors.neutral["950"],
+        button: colors.neutral["950"],
       },
-      accent: colors.rose[500],
+      text: {
+        priority: colors.neutral["950"],
+        default: colors.neutral["800"],
+        gentle: colors.neutral["600"],
+        //muted: colors.neutral["400"],
+        invert: colors.neutral["50"],
+        button: colors.neutral["50"],
+      },
+      stroke: {
+        default: colors.neutral["600"],
+        gentle: colors.neutral["200"],
+        //muted: colors.neutral["800"],
+        invert: colors.neutral["950"],
+        button: colors.neutral["950"],
+        focus: colors.accent["500"],
+      },
       alert: {
-        error: colors.red[500],
-        warn: colors.yellow[500],
-        info: colors.blue[500],
-        success: colors.green[500],
+        error: colors.alert.error["500"],
+        warn: colors.alert.warn["500"],
+        info: colors.alert.info["500"],
+        success: colors.alert.success["500"],
       },
       category: {
-        red: colors.pink[500],
-        orange: colors.orange[500],
-        yellow: colors.amber[500],
-        green: colors.lime[500],
-        cyan: colors.sky[500],
-        blue: colors.blue[500],
-        violet: colors.violet[500],
+        red: colors.category.red["500"],
+        orange: colors.category.orange["500"],
+        yellow: colors.category.yellow["500"],
+        green: colors.category.green["500"],
+        cyan: colors.category.cyan["500"],
+        blue: colors.category.blue["500"],
+        violet: colors.category.violet["500"],
       },
     },
-  }),
+  },
 
   tokens: get => ({
     borderRadius: {
@@ -47,34 +86,35 @@ export const theme = createTheme({
       none: "0px",
     },
     colors: {
-      black: get("color.neutral.0"),
-      white: get("color.neutral.1000"),
+      black: get("color.black"),
+      white: get("color.white"),
       transparent: "transparent",
       current: "currentColor",
       inherit: "inherit",
 
-      highlight: get("color.accent"),
+      highlight: get("color.highlight"),
+      // TODO: Add handler to convert whole objects, e.g. get("color.background")
       background: {
-        page: get("color.neutral.950"),
-        DEFAULT: get("color.neutral.900"),
-        invert: get("color.neutral.50"),
-        button: get("color.neutral.50"),
+        page: get("color.background.page"),
+        DEFAULT: get("color.background.default"),
+        invert: get("color.background.invert"),
+        button: get("color.background.button"),
       },
       text: {
-        priority: get("color.neutral.50"),
-        DEFAULT: get("color.neutral.200"),
-        gentle: get("color.neutral.400"),
-        //muted: get("color.neutral.400"),
-        invert: get("color.neutral.950"),
-        button: get("color.neutral.950"),
+        priority: get("color.text.priority"),
+        DEFAULT: get("color.text.default"),
+        gentle: get("color.text.gentle"),
+        //muted: get("color.text.muted"),
+        invert: get("color.text.invert"),
+        button: get("color.text.button"),
       },
       stroke: {
-        DEFAULT: get("color.neutral.400"),
-        gentle: get("color.neutral.800"),
+        DEFAULT: get("color.stroke.default"),
+        gentle: get("color.stroke.gentle"),
         //muted: get("color.neutral.800"),
-        invert: get("color.neutral.50"),
-        button: get("color.neutral.50"),
-        focus: get("color.accent"),
+        invert: get("color.stroke.invert"),
+        button: get("color.stroke.button"),
+        focus: get("color.stroke.focus"),
       },
       alert: {
         error: get("color.alert.error"),
@@ -95,29 +135,52 @@ export const theme = createTheme({
   }),
 })
 
-theme.addVariant("dark", colors => ({
+theme.addVariant("dark", {
   radius: 8,
   color: {
-    neutral: {
-      "0": "#000",
-      ...colors.zinc,
-      "1000": "#fff",
+    black: colors.neutral["0"],
+    white: colors.neutral["1000"],
+    transparent: "transparent",
+    current: "currentColor",
+    inherit: "inherit",
+
+    highlight: colors.accent["300"],
+    background: {
+      page: colors.neutral["950"],
+      default: colors.neutral["900"],
+      invert: colors.neutral["50"],
+      button: colors.neutral["50"],
     },
-    accent: colors.rose[300],
+    text: {
+      priority: colors.neutral["50"],
+      default: colors.neutral["200"],
+      gentle: colors.neutral["400"],
+      //muted: colors.neutral["400"],
+      invert: colors.neutral["950"],
+      button: colors.neutral["950"],
+    },
+    stroke: {
+      default: colors.neutral["400"],
+      gentle: colors.neutral["800"],
+      //muted: colors.neutral["800"],
+      invert: colors.neutral["50"],
+      button: colors.neutral["50"],
+      focus: colors.accent["300"],
+    },
     alert: {
-      error: colors.red[300],
-      warn: colors.yellow[300],
-      info: colors.blue[300],
-      success: colors.green[300],
+      error: colors.alert.error["300"],
+      warn: colors.alert.warn["300"],
+      info: colors.alert.info["300"],
+      success: colors.alert.success["300"],
     },
     category: {
-      red: colors.pink[300],
-      orange: colors.orange[300],
-      yellow: colors.amber[300],
-      green: colors.lime[300],
-      cyan: colors.sky[300],
-      blue: colors.blue[300],
-      violet: colors.violet[300],
+      red: colors.category.red["300"],
+      orange: colors.category.orange["300"],
+      yellow: colors.category.yellow["300"],
+      green: colors.category.green["300"],
+      cyan: colors.category.cyan["300"],
+      blue: colors.category.blue["300"],
+      violet: colors.category.violet["300"],
     },
   },
-}))
+})

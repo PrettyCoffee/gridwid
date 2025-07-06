@@ -86,7 +86,7 @@ class Theme<
   public readonly options: GeneralThemeOptions<TTheme>
 
   public readonly defaultTheme: TTheme
-  public readonly variants: Record<string, TTheme> = {}
+  public readonly variants: Record<string, LoosenValues<TTheme>> = {}
   public readonly tokens: TTokens
 
   constructor({
@@ -104,7 +104,7 @@ class Theme<
     this.tokens = resolveTokens(this.options, tokens)
   }
 
-  public addVariant(name: string, theme: CreateTheme<TTheme>) {
+  public addVariant(name: string, theme: CreateTheme<LoosenValues<TTheme>>) {
     this.variants[name] = resolveTheme(theme)
   }
 
