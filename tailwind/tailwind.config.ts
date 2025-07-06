@@ -40,6 +40,10 @@ export default {
         w: theme.read("color.white"),
       },
     }),
-    shadowPlugin(),
+    shadowPlugin({
+      colors: {
+        default: `color-mix(in srgb, ${theme.read("color.shadow")} 25%, transparent)`,
+      },
+    }),
   ],
 } satisfies Config

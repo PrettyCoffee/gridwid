@@ -4,9 +4,9 @@ import { createTheme } from "./plugins/theme-vars-plugin"
 
 const colors = {
   neutral: {
-    "0": "#000",
+    "0": "#fff",
     ...twColors.zinc,
-    "1000": "#fff",
+    "1000": "#000",
   },
   accent: twColors.rose,
   alert: {
@@ -30,18 +30,19 @@ export const theme = createTheme({
   theme: {
     radius: 8,
     color: {
-      black: colors.neutral["1000"],
-      white: colors.neutral["0"],
+      black: colors.neutral["0"],
+      white: colors.neutral["1000"],
       transparent: "transparent",
       current: "currentColor",
       inherit: "inherit",
 
       accent: colors.accent["500"],
+      shadow: colors.neutral["300"],
       background: {
-        page: colors.neutral["50"],
-        default: colors.neutral["100"],
+        page: colors.neutral["100"],
+        default: colors.neutral["50"],
         invert: colors.neutral["950"],
-        button: colors.neutral["950"],
+        button: colors.neutral["800"],
       },
       text: {
         priority: colors.neutral["950"],
@@ -56,7 +57,7 @@ export const theme = createTheme({
         gentle: colors.neutral["200"],
         //muted: colors.neutral["800"],
         invert: colors.neutral["950"],
-        button: colors.neutral["950"],
+        button: colors.neutral["800"],
       },
       alert: {
         error: colors.alert.error["500"],
@@ -92,6 +93,7 @@ export const theme = createTheme({
       inherit: "inherit",
 
       highlight: get("color.accent"),
+      shadow: get("color.shadow"),
       // TODO: Add handler to convert whole objects, e.g. get("color.background")
       background: {
         page: get("color.background.page"),
@@ -137,13 +139,14 @@ export const theme = createTheme({
 theme.addVariant("dark", {
   radius: 8,
   color: {
-    black: colors.neutral["0"],
-    white: colors.neutral["1000"],
+    black: colors.neutral["1000"],
+    white: colors.neutral["0"],
     transparent: "transparent",
     current: "currentColor",
     inherit: "inherit",
 
     accent: colors.accent["300"],
+    shadow: colors.neutral["1000"],
     background: {
       page: colors.neutral["950"],
       default: colors.neutral["900"],
