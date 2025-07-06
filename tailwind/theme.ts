@@ -94,7 +94,6 @@ export const theme = createTheme({
 
       highlight: get("color.accent"),
       shadow: get("color.shadow"),
-      // TODO: Add handler to convert whole objects, e.g. get("color.background")
       background: {
         page: get("color.background.page"),
         DEFAULT: get("color.background.default"),
