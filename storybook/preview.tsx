@@ -12,7 +12,7 @@ import { argType } from "lib/storybook"
 import { cusomtBlocks } from "./custom-blocks"
 import { theme } from "../tailwind/theme"
 
-const themeTokens = theme.twTheme
+const { color } = theme.variants["dark"] ?? theme.defaultTokens
 
 const parameters: Preview["parameters"] = {
   docs: { ...cusomtBlocks },
@@ -20,8 +20,8 @@ const parameters: Preview["parameters"] = {
   backgrounds: {
     default: "page",
     values: [
-      { name: "page", value: themeTokens.colors.background.page },
-      { name: "surface", value: themeTokens.colors.background.DEFAULT },
+      { name: "page", value: color.background.page },
+      { name: "surface", value: color.background.default },
     ],
   },
   options: {
