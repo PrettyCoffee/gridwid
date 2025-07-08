@@ -17,11 +17,13 @@ interface ScrollAreaProps
     AsChildProp,
     StyleProp {
   onScroll?: () => void
+  innerClassName?: string
 }
 
 export const ScrollArea = ({
   ref,
   className,
+  innerClassName,
   children,
   asChild,
   style,
@@ -33,7 +35,7 @@ export const ScrollArea = ({
       <Inner
         ref={ref}
         onScroll={onScroll}
-        className="w-full flex-1 overflow-auto"
+        className={cn("w-full flex-1 overflow-auto", innerClassName)}
       >
         {children}
       </Inner>
