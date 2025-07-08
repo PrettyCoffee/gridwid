@@ -1,4 +1,4 @@
-import { createSlice } from "lib/yaasl"
+import { createSlice, sessionStorage } from "lib/yaasl"
 
 import { theme } from "../../../tailwind/theme"
 
@@ -15,6 +15,7 @@ const defaultValue: ThemePreferences = {
 export const themePreferences = createSlice({
   name: "user-theme",
   defaultValue,
+  effects: [sessionStorage()],
 
   reducers: {
     setMode: (state, mode: ThemePreferences["mode"]) => ({ ...state, mode }),
