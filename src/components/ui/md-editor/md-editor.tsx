@@ -7,6 +7,7 @@ import { createAtom, useAtom } from "lib/yaasl"
 import { cn } from "utils/cn"
 import { hstack } from "utils/styles"
 
+import { theme } from "../../../../tailwind/theme"
 import { globalEvents } from "../../../utils/global-events"
 import { KeyEventDispatcher } from "../../../utils/key-event-dispatcher"
 import { zIndex } from "../../../utils/z-index"
@@ -16,25 +17,24 @@ import { IconButton } from "../icon-button"
 import { MDPreview } from "../md-preview"
 
 const trackStyles = `
-  color: inherit;
-  background: currentColor;
-  height: 0.25rem;
+  background: ${theme.read("color.stroke.default")};
+  height: var(--track-width);
   border-radius: 50vh;
 `
 
 const thumbStyles = `
-  color: inherit;
   appearance: none;
   height: var(--slider-size);
   width: var(--slider-size);
-  background: black;
-  outline: 2px solid currentColor;
+  background: ${theme.read("color.background.default")};
+  outline: var(--track-width) solid ${theme.read("color.stroke.button")};
   margin-top: -0.4rem;
   border-radius: 50%;
   border: none;
 `
 
 const slider = css`
+  --track-width: 0.125rem;
   --slider-size: 1rem;
 
   appearance: none;
@@ -141,7 +141,7 @@ const ModeSlider = ({
         max="100"
         value={value}
         onChange={({ target }) => handleChange(target.value)}
-        className={cn("text-stroke-button/75 hover:text-stroke-button", slider)}
+        className={cn("hover:text-stroke-button", slider)}
         onKeyDown={event => keyEvents.emit(event)}
         style={{
           width: size === "sm" ? "5rem" : "8rem",
