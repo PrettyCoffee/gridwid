@@ -108,16 +108,20 @@ class Theme<
     this.variants[name] = resolveTokens(tokens)
   }
 
+  public getCssVar(path: ObjDeepPath<TTokens>) {
+    return getCssVar<TTokens>(this.options.prefix, path)
+  }
+
   public read(path: ObjDeepPath<TTokens>, extra?: `${string}<var>${string}`) {
     return readVar<TTokens>(this.options, path, extra)
   }
 
   public write<TPath extends ObjDeepPath<TTokens>>(
     path: TPath,
-    value: ObjDeepValue<TTokens, TPath>
+    value: ObjDeepValue<LoosenValues<TTokens>, TPath>
   ) {
-    const cssVar = getCssVar<TTokens>(this.options.prefix, path)
-    return [cssVar, String(value)] as const
+    const cssVar = this.getCssVar(path)
+    return [cssVar, String(value as string)] as const
   }
 }
 
@@ -139,10 +143,7 @@ const getCssVars = (theme: Theme, variantName?: string) => {
     throw new Error(`Theme variant "${variantName}" doesn't exist.`)
 
   deepLoop(themeVariant, (itemPath, value) => {
-    const varName = getCssVar<TokenItem>(
-      theme.options.prefix,
-      itemPath.join(".")
-    )
+    const varName = theme.getCssVar(itemPath.join("."))
     try {
       const { color } = new Color(value as string).toHsl().getValue()
       cssVars[varName] = color.join(" ")

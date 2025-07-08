@@ -1,12 +1,13 @@
-import { useId } from "react"
-
 import { css } from "goober"
+import { Check } from "lucide-react"
 
 import { Card } from "components/ui/card"
+import { Icon } from "components/ui/icon"
+import { VisuallyHidden } from "components/utility/visually-hidden"
 import { themePreferences } from "features/theming/theme-data"
 import { useAtomValue } from "lib/yaasl"
 import { cn } from "utils/cn"
-import { vstack } from "utils/styles"
+import { hstack, vstack } from "utils/styles"
 
 import { theme } from "../../../../tailwind/theme"
 
@@ -56,7 +57,6 @@ const slider = css`
 `
 
 const BorderRadiusSlider = () => {
-  const id = "border-radius-" + useId()
   const radius = useAtomValue(themePreferences.selectors.getRadius)
   return (
     <Card
@@ -66,7 +66,6 @@ const BorderRadiusSlider = () => {
       <div className={vstack({})}>
         <input
           className={cn(slider, "text-text-priority")}
-          id={id}
           type="range"
           value={radius}
           min={0}
@@ -81,8 +80,54 @@ const BorderRadiusSlider = () => {
   )
 }
 
+const colors: Parameters<typeof theme.getCssVar>[0][] = [
+  "color.category.red",
+  "color.category.orange",
+  "color.category.yellow",
+  "color.category.green",
+  "color.category.cyan",
+  "color.category.blue",
+  "color.category.violet",
+  "color.text.priority",
+]
+
+interface ColorButtonProps {
+  color: (typeof colors)[number]
+  current: string
+}
+const ColorButton = ({ color, current }: ColorButtonProps) => (
+  <button
+    onClick={() => themePreferences.actions.setAccent(color)}
+    style={{ color: theme.read(color) }}
+    className={cn(
+      hstack({ align: "center", justify: "center", inline: true }),
+      "bgl-base-[currentColor] hover:bgl-layer-b/10 active:bgl-layer-b/20 size-8 rounded-md"
+    )}
+  >
+    <VisuallyHidden>{color}</VisuallyHidden>
+    {current === color && <Icon icon={Check} color="invert" size="sm" />}
+  </button>
+)
+
+const AccentColor = () => {
+  const accent = useAtomValue(themePreferences.selectors.getAccent)
+  return (
+    <Card
+      title="Accent color"
+      description="Change the accent color which highlights focused and active elements."
+    >
+      <div className={hstack({ gap: 2 })}>
+        {colors.map(color => (
+          <ColorButton key={color} color={color} current={accent} />
+        ))}
+      </div>
+    </Card>
+  )
+}
+
 const SettingsThemingRoute = () => (
   <div className={cn(vstack({ gap: 2 }))}>
+    <AccentColor />
     <BorderRadiusSlider />
   </div>
 )
