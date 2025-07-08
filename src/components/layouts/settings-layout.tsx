@@ -30,13 +30,13 @@ const SettingsCategoryLayout = ({ children }: PropsWithChildren) => {
       </Layout.Side>
 
       <Layout.Main>
-        <h1 className="mx-auto mb-3 mt-4 w-full max-w-2xl text-2xl font-bold">
+        <h1 className="mx-auto mb-3 mt-4 w-full max-w-2xl pl-2 text-2xl font-bold">
           Settings
           <span className="after:text-text-gentle after:mx-2 after:content-['>']" />
           {route?.meta?.title}
         </h1>
 
-        <ScrollArea>
+        <ScrollArea innerClassName="w-full">
           <div className="mx-auto w-full max-w-2xl">{children}</div>
         </ScrollArea>
       </Layout.Main>

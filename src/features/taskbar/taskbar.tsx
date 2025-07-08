@@ -34,7 +34,7 @@ const MainNavigation = () => {
 }
 
 export const Taskbar = () => (
-  <div className={cn(hstack({ gap: 4, align: "center" }), "w-full p-2 pt-0")}>
+  <div className={cn(hstack({ gap: 4, align: "center" }), "w-full p-2")}>
     <div
       className={cn(vstack({ align: "start", justify: "center" }), "flex-1")}
     />

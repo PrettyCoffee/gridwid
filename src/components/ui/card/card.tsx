@@ -17,11 +17,17 @@ export const Card = ({
   Headline = "h2",
   className,
 }: PropsWithChildren<CardProps>) => (
-  <div
-    className={cn(surface({ look: "card", size: "lg" }), "p-4 pt-2", className)}
-  >
-    <Headline className="text-text-priority mb-1 font-bold">{title}</Headline>
-    <p className="text-text-gentle mb-4 text-sm">{description}</p>
-    {children}
+  <div className="p-2">
+    <div
+      className={cn(
+        surface({ look: "card", size: "lg" }),
+        "p-4 pt-2",
+        className
+      )}
+    >
+      <Headline className="text-text-priority mb-1 font-bold">{title}</Headline>
+      <p className="text-text-gentle mb-4 text-sm">{description}</p>
+      {children}
+    </div>
   </div>
 )

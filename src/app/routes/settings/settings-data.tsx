@@ -1,7 +1,6 @@
 import { Download, Trash } from "lucide-react"
 import { z, ZodError } from "zod"
 
-import { Layout } from "components/layouts"
 import { Button } from "components/ui/button"
 import { Card } from "components/ui/card"
 import { showDialog } from "components/ui/dialog"
@@ -170,12 +169,10 @@ const DeleteData = () => (
 )
 
 const SettingsDataRoute = () => (
-  <Layout.Main>
-    <div className={cn(vstack({ gap: 4 }), "mx-auto w-full max-w-2xl")}>
-      <BackupData />
-      <DeleteData />
-    </div>
-  </Layout.Main>
+  <div className={cn(vstack({ gap: 2 }))}>
+    <BackupData />
+    <DeleteData />
+  </div>
 )
 
 export default SettingsDataRoute

@@ -12,7 +12,7 @@ export const AppLayout = ({ children }: PropsWithChildren) => (
     <div
       className={cn(
         hstack({ gap: 4, align: "center", justify: "center" }),
-        "w-full flex-grow overflow-auto p-4"
+        "w-full flex-grow overflow-auto p-4 pb-0"
       )}
     >
       <Suspense fallback={<Spinner size="xl" />}>

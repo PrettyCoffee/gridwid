@@ -30,7 +30,7 @@ const NotesMainRoute = () => {
           <div
             className={cn(
               vstack({}),
-              "-m-2 -mr-3 h-[calc(100%+theme(height.2))] flex-1 overflow-auto pr-1"
+              "-m-2 -mr-3 ml-2 h-[calc(100%+theme(height.2))] flex-1 overflow-auto pr-1"
             )}
           >
             <Masonry.Grid minItemWidth={23} className="flex-1">
