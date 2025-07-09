@@ -31,7 +31,7 @@
   }
 
   * {
-    scrollbar-color: theme(colors.background.invert) transparent;
+    scrollbar-color: theme(colors.stroke.DEFAULT) transparent;
   }
   
   *:focus-visible {
