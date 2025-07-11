@@ -198,6 +198,7 @@ const MdEditorHeader = ({
     )}
   >
     <ShortcutsInfo
+      size={viewMode === "inline" ? "sm" : "md"}
       shortcuts={[{ keys: ["alt", "scroll"], description: "Scroll w/o sync" }]}
     />
     <ModeSlider
@@ -289,7 +290,7 @@ export const MDEditor = ({
         hstack({}),
         "flex-1 overflow-hidden",
         viewMode === "inline"
-          ? "relative size-full pt-12"
+          ? "relative size-full pt-10"
           : cn(
               "bg-background fixed inset-0 h-screen w-screen p-4 pt-20",
               zIndex.fullscreenEditor

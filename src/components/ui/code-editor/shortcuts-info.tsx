@@ -23,15 +23,21 @@ const Shortcut = ({ keys, description }: Shortcut) => (
 export interface ShortcutsInfoProps {
   /** Additional shortcuts, besides the default code editor shortcuts */
   shortcuts?: Shortcut[]
+
+  size?: "md" | "sm"
 }
 
-export const ShortcutsInfo = ({ shortcuts = [] }: ShortcutsInfoProps) => (
+export const ShortcutsInfo = ({
+  shortcuts = [],
+  size = "md",
+}: ShortcutsInfoProps) => (
   <Tooltip.Root>
     <Tooltip.Trigger asChild>
       <span
         className={cn(
           vstack({ align: "center", justify: "center" }),
-          "size-10 cursor-default"
+          "cursor-default",
+          size === "sm" ? "size-8" : "size-10"
         )}
       >
         <Icon icon={Command} color="gentle" size="sm" />
