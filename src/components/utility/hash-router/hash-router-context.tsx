@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
   useId,
+  useRef,
 } from "react"
 
 import { RoutePath } from "types/routes"
@@ -50,21 +51,40 @@ export const useHashRouterContext = useRequiredValue
 export const useOptionalHashRouterContext = useOptionalValue
 
 const useChangeBlocker = () => {
-  const [blockers, setBlockers] = useState<string[]>([])
-  const blocked = blockers.length > 0
+  const handleUnload = useRef((event: BeforeUnloadEvent) =>
+    event.preventDefault()
+  )
+  const current = useRef<string[]>([])
+  const isBlocked = useRef(false)
 
-  useEffect(() => {
-    if (!blocked) return
+  const addBlocker = useCallback((id: string) => {
+    current.current = [...current.current, id]
 
-    const handleUnload = (event: BeforeUnloadEvent) => event.preventDefault()
-    window.addEventListener("beforeunload", handleUnload)
-    return () => window.removeEventListener("beforeunload", handleUnload)
-  }, [blocked])
+    if (!isBlocked.current) {
+      window.addEventListener("beforeunload", handleUnload.current)
+      isBlocked.current = true
+    }
+  }, [])
 
-  return useMemo(() => {
-    const requestChange = () =>
+  const removeBlocker = useCallback((id: string) => {
+    current.current = current.current.filter(blockerId => blockerId !== id)
+
+    if (current.current.length === 0) {
+      window.removeEventListener("beforeunload", handleUnload.current)
+      isBlocked.current = false
+    }
+  }, [])
+
+  useEffect(
+    () => () =>
+      window.removeEventListener("beforeunload", handleUnload.current),
+    []
+  )
+
+  const requestChange = useCallback(
+    () =>
       new Promise<boolean>(resolve => {
-        if (!blocked) return resolve(true)
+        if (!isBlocked.current) return resolve(true)
 
         showDialog({
           title: "Unsaved changes",
@@ -82,34 +102,38 @@ const useChangeBlocker = () => {
             onClick: () => resolve(false),
           },
         })
-      })
+      }),
+    []
+  )
 
-    const addBlocker = (id: string) => setBlockers(prev => [...prev, id])
-    const removeBlocker = (id: string) =>
-      setBlockers(prev => prev.filter(blockerId => blockerId !== id))
-
-    return { blocked, addBlocker, removeBlocker, requestChange }
-  }, [blocked])
+  return { isBlocked, addBlocker, removeBlocker, requestChange }
 }
 
 export const useBlocker = (blocked: boolean) => {
   const id = useId()
   const { addBlocker, removeBlocker } = useHashRouterContext()
+
   useEffect(() => {
-    if (!blocked) return
-    addBlocker(id)
+    if (blocked) addBlocker(id)
+    else removeBlocker(id)
+
     return () => removeBlocker(id)
   }, [addBlocker, blocked, id, removeBlocker])
+
+  return {
+    addBlocker: () => addBlocker(id),
+    removeBlocker: () => removeBlocker(id),
+  }
 }
 
 export const HashRouterProvider = ({ children }: PropsWithChildren) => {
-  const { blocked, addBlocker, removeBlocker, requestChange } =
+  const { isBlocked, addBlocker, removeBlocker, requestChange } =
     useChangeBlocker()
   const [path, setPath] = useLocationHash()
 
   const contextState = useMemo<ContextState>(() => {
     const extendedSetter = (path: RoutePath) => {
-      if (!blocked) setPath(path)
+      if (!isBlocked.current) setPath(path)
       void requestChange().then(confirmed => confirmed && setPath(path))
     }
     return {
@@ -118,7 +142,7 @@ export const HashRouterProvider = ({ children }: PropsWithChildren) => {
       addBlocker,
       removeBlocker,
     }
-  }, [blocked, path, requestChange, addBlocker, removeBlocker, setPath])
+  }, [isBlocked, path, requestChange, addBlocker, removeBlocker, setPath])
 
   return <Provider value={contextState}>{children}</Provider>
 }
