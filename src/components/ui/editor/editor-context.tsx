@@ -53,7 +53,14 @@ export const EditorProvider = <TState extends EditorState>({
 }: PropsWithChildren<EditorProviderProps<TState>>) => {
   const [draft, setDraft] = useState(state)
 
+  const didChange =
+    Object.keys(draft).length !== Object.keys(state).length ||
+    Object.keys(draft).some(field => draft[field] !== state[field])
+
+  const { removeBlocker } = useBlocker(didChange)
+
   const save = () => {
+    removeBlocker()
     setState(draft)
     showToast({
       kind: "success",
@@ -77,12 +84,6 @@ export const EditorProvider = <TState extends EditorState>({
       setDraft(prev => ({ ...prev, [field]: value }))
     },
   })
-
-  const didChange =
-    Object.keys(draft).length !== Object.keys(state).length ||
-    Object.keys(draft).some(field => draft[field] !== state[field])
-
-  useBlocker(didChange)
 
   return (
     <Provider value={{ getContext, save, discard, didChange, isValid }}>
