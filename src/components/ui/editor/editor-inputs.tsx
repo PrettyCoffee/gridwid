@@ -43,7 +43,7 @@ export const EditorTextInput = ({ field, className, ...props }: InputProps) => {
         inputBorder({
           status: hasError ? "error" : isEditing ? "editing" : "default",
         }),
-        "text-text text-md inline-flex h-10 justify-center truncate bg-transparent px-3",
+        "text-text text-md inline-flex h-10 justify-center truncate bg-transparent px-2.5",
         className
       )}
     />

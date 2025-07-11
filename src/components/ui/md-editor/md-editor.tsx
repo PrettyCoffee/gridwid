@@ -1,4 +1,4 @@
-import { Dispatch, useRef, useState } from "react"
+import { Dispatch, SetStateAction, useRef, useState } from "react"
 
 import { css } from "goober"
 import { Code, LetterText, Maximize, Minimize } from "lucide-react"
@@ -176,6 +176,46 @@ const getNextLineStart = (indent: string, text: string) => {
   return indent + list + " "
 }
 
+type ViewMode = "inline" | "fullscreen"
+interface MdEditorHeaderProps {
+  viewMode: ViewMode
+  setViewMode: Dispatch<SetStateAction<ViewMode>>
+  modeValue: number
+  setModeValue: Dispatch<SetStateAction<number>>
+}
+
+const MdEditorHeader = ({
+  viewMode,
+  setViewMode,
+  modeValue,
+  setModeValue,
+}: MdEditorHeaderProps) => (
+  <div
+    className={cn(
+      hstack({ gap: 1, align: "center", justify: "end" }),
+      "absolute inset-x-0 top-0 w-full",
+      viewMode === "inline" ? "" : "shade-low border-stroke-gentle border-b p-1"
+    )}
+  >
+    <ShortcutsInfo
+      shortcuts={[{ keys: ["alt", "scroll"], description: "Scroll w/o sync" }]}
+    />
+    <ModeSlider
+      value={modeValue}
+      onChange={setModeValue}
+      size={viewMode === "inline" ? "sm" : "md"}
+    />
+    <IconButton
+      title={viewMode === "inline" ? "Maximize Editor" : "Minimize Editor"}
+      size={viewMode === "inline" ? "sm" : "md"}
+      icon={viewMode === "inline" ? Maximize : Minimize}
+      onClick={() =>
+        setViewMode(mode => (mode === "inline" ? "fullscreen" : "inline"))
+      }
+    />
+  </div>
+)
+
 export interface MDEditorProps
   extends Omit<
     CodeEditorProps,
@@ -201,7 +241,7 @@ export const MDEditor = ({
 
   const { value } = inputProps
   const [modeValue, setModeValue] = useAtom(modeSliderValue)
-  const [viewMode, setViewMode] = useState<"inline" | "fullscreen">("inline")
+  const [viewMode, setViewMode] = useState<ViewMode>("inline")
 
   const codeWidth = modeValue
   const previewWidth = 100 - modeValue
@@ -257,34 +297,12 @@ export const MDEditor = ({
         className
       )}
     >
-      <div
-        className={cn(
-          hstack({ gap: 1, align: "center", justify: "end" }),
-          "absolute inset-x-0 top-0 w-full",
-          viewMode === "inline"
-            ? ""
-            : "shade-low border-stroke-gentle border-b p-1"
-        )}
-      >
-        <ShortcutsInfo
-          shortcuts={[
-            { keys: ["alt", "scroll"], description: "Scroll w/o sync" },
-          ]}
-        />
-        <ModeSlider
-          value={modeValue}
-          onChange={setModeValue}
-          size={viewMode === "inline" ? "sm" : "md"}
-        />
-        <IconButton
-          title={viewMode === "inline" ? "Maximize Editor" : "Minimize Editor"}
-          size={viewMode === "inline" ? "sm" : "md"}
-          icon={viewMode === "inline" ? Maximize : Minimize}
-          onClick={() =>
-            setViewMode(mode => (mode === "inline" ? "fullscreen" : "inline"))
-          }
-        />
-      </div>
+      <MdEditorHeader
+        modeValue={modeValue}
+        setModeValue={setModeValue}
+        viewMode={viewMode}
+        setViewMode={setViewMode}
+      />
 
       <ScrollArea
         ref={inputScrollRef}
