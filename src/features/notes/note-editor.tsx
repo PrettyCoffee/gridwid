@@ -1,5 +1,6 @@
 import { useMemo } from "react"
 
+import { css } from "goober"
 import { LockKeyhole, Trash, X, LockKeyholeOpen } from "lucide-react"
 
 import { Divider } from "components/ui/divider"
@@ -12,7 +13,7 @@ import { ScrollArea } from "components/utility/scroll-area"
 import { useAtomValue } from "lib/yaasl"
 import { cn } from "utils/cn"
 import { formatDate } from "utils/format"
-import { hstack, surface, vstack } from "utils/styles"
+import { surface, vstack } from "utils/styles"
 
 import { deleteNote } from "./delete-note"
 import { Note, notesData } from "./notes-data"
@@ -23,6 +24,59 @@ const emptyNote: Note = {
   text: "",
   createdAt: Date.now(),
   locked: false,
+}
+
+const NoteActions = ({ note }: { note: Note }) => (
+  <>
+    <Editor.Save disabled={note.locked} />
+    <Editor.Discard disabled={note.locked} />
+    <IconButton
+      icon={Trash}
+      onClick={() => deleteNote(note.id, note.title)}
+      title="Delete note"
+      disabled={note.locked}
+    />
+    {note.id !== "new" && (
+      <IconButton
+        icon={note.locked ? LockKeyhole : LockKeyholeOpen}
+        title={note.locked ? "Allow changes" : "Lock from changes"}
+        onClick={() =>
+          notesData.actions.edit(note.id, { locked: !note.locked })
+        }
+      />
+    )}
+    <IconButton icon={X} to="notes" title="Close note" />
+  </>
+)
+
+const headerSections = {
+  root: css`
+    display: grid;
+    gap: 0.5rem;
+    grid-template:
+      "title actions" auto
+      "subtitle subtitle" auto / 1fr auto;
+
+    @media (max-width: 800px) {
+      grid-template:
+        "title" auto
+        "actions" auto
+        "subtitle" auto
+        / 1fr auto;
+    }
+  `,
+  title: css`
+    grid-area: title;
+  `,
+  actions: css`
+    grid-area: actions;
+    justify-self: end;
+    white-space: nowrap;
+  `,
+  subtitle: css`
+    grid-area: subtitle;
+    align-self: end;
+  `,
 }
 
 interface NoteEditorProps {
@@ -61,51 +115,43 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
         }
       }}
     >
-      <div className={cn(hstack({ justify: "end" }), "mb-2")}>
-        <Editor.Save disabled={note.locked} />
-        <Editor.Discard disabled={note.locked} />
-        <IconButton
-          icon={Trash}
-          onClick={() => deleteNote(note.id, note.title)}
-          title="Delete note"
-          disabled={note.locked}
-        />
-        {note.id !== "new" && (
-          <IconButton
-            icon={note.locked ? LockKeyhole : LockKeyholeOpen}
-            title={note.locked ? "Allow changes" : "Lock from changes"}
-            onClick={() =>
-              notesData.actions.edit(note.id, { locked: !note.locked })
-            }
-          />
-        )}
-        <IconButton icon={X} to="notes" title="Close note" />
-      </div>
-
       <div
         className={cn(
           surface({ look: "card", size: "lg" }),
           vstack({}),
-          "flex-1 overflow-hidden"
+          "flex-1 overflow-hidden p-2"
         )}
       >
-        {note.locked ? (
-          <h1 className="py-1 pl-3 text-2xl">{note.title}</h1>
-        ) : (
-          <Editor.TextInput
-            field="title"
-            className="w-full text-2xl"
-            placeholder="Note title"
-          />
-        )}
-
-        <div className="text-text-gentle mx-3 mb-0 text-sm">
-          #{note.id}
-          {note.id !== "new" && <> | Created {formatDate(note.createdAt)}</>}
-          {note.changedAt && <> | Last changed {formatDate(note.changedAt)}</>}
+        <div className={cn(headerSections.root)}>
+          {note.locked ? (
+            <h1 className={cn(headerSections.title, "py-1 pl-2.5 text-2xl")}>
+              {note.title}
+            </h1>
+          ) : (
+            <Editor.TextInput
+              field="title"
+              placeholder="Note title"
+              className={cn(headerSections.title, "w-full text-2xl")}
+            />
+          )}
+          <div className={cn(headerSections.actions)}>
+            <NoteActions note={note} />
+          </div>
+          <div
+            className={cn(
+              headerSections.subtitle,
+              "text-text-gentle pl-2.5 text-sm"
+            )}
+          >
+            #{note.id}
+            {note.id !== "new" && <> | Created {formatDate(note.createdAt)}</>}
+            {note.changedAt && (
+              <> | Last changed {formatDate(note.changedAt)}</>
+            )}
+          </div>
         </div>
 
-        <div className="w-full px-3 py-2">
+        <div className="w-full px-2.5 py-2">
           <Divider color="gentle" />
         </div>
 
