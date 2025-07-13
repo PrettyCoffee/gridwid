@@ -28,14 +28,18 @@ const emptyNote: Note = {
 
 const NoteActions = ({ note }: { note: Note }) => (
   <>
-    <Editor.Save disabled={note.locked} />
-    <Editor.Discard disabled={note.locked} />
-    <IconButton
-      icon={Trash}
-      onClick={() => deleteNote(note.id, note.title)}
-      title="Delete note"
-      disabled={note.locked}
-    />
+    {!note.locked && (
+      <>
+        <Editor.Save disabled={note.locked} />
+        <Editor.Discard disabled={note.locked} />
+        <IconButton
+          icon={Trash}
+          onClick={() => deleteNote(note.id, note.title)}
+          title="Delete note"
+          disabled={note.locked}
+        />
+      </>
+    )}
     {note.id !== "new" && (
       <IconButton
         icon={note.locked ? LockKeyhole : LockKeyholeOpen}
