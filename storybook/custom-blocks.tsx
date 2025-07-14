@@ -1,5 +1,5 @@
-import * as DocBlocks from "@storybook/blocks"
-import { DocsContainer } from "@storybook/blocks"
+import * as DocBlocks from "@storybook/addon-docs/blocks"
+import { DocsContainer } from "@storybook/addon-docs/blocks"
 
 const container: typeof DocsContainer = ({ children, ...props }) => (
   <DocsContainer {...props}>{children}</DocsContainer>
@@ -15,7 +15,7 @@ const Page: typeof DocBlocks.DocsPage = () => (
   </>
 )
 
-export const cusomtBlocks = {
+export const customBlocks = {
   page: Page,
   container,
 }

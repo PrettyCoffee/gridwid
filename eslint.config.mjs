@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import prettyCozy from "@pretty-cozy/eslint-config"
 import {defineConfig, globalIgnores} from "eslint/config"
 
@@ -6,6 +9,7 @@ export default defineConfig(
   prettyCozy.react,
   prettyCozy.tailwind,
   prettyCozy.vitest,
+  storybook.configs["flat/recommended"],
   globalIgnores(["dist", "node_modules"]),
 
   {
@@ -18,7 +22,7 @@ export default defineConfig(
           importNamePattern: "^",
           message: "Import from lib/yaasl instead."
         }, {
-          group: ["@storybook/*"],
+          group: ["storybook", "@storybook/*", "!lib/storybook"],
           importNamePattern: "^",
           message: "Import from lib/storybook instead."
         }]

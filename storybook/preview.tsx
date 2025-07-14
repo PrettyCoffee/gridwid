@@ -1,7 +1,7 @@
 import "../src/index.css"
 import { PropsWithChildren, useEffect } from "react"
 
-import type { Preview } from "@storybook/react"
+import type { Preview } from "@storybook/react-vite"
 import { glob } from "goober"
 
 import { DialogProvider } from "components/ui/dialog"
@@ -9,17 +9,16 @@ import { Toaster } from "components/ui/toaster"
 import { Tooltip } from "components/ui/tooltip"
 import { argType } from "lib/storybook"
 
-import { cusomtBlocks } from "./custom-blocks"
+import { customBlocks } from "./custom-blocks"
 import { theme } from "../tailwind/theme"
 
 const { color } = theme.variants["dark"] ?? theme.defaultTokens
 
 const parameters: Preview["parameters"] = {
-  docs: { ...cusomtBlocks },
+  docs: { ...customBlocks },
   actions: { argTypesRegex: "^on[A-Z].*" },
   backgrounds: {
-    default: "page",
-    values: [
+    options: [
       { name: "page", value: color.background.page },
       { name: "surface", value: color.background.default },
     ],
