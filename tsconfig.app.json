@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     
     /* Language and Environment */
     "target": "esnext",
-    "lib": ["esnext"],
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "react-jsx",
+    "baseUrl": "./src",
 
     /* Modules */
     "module": "esnext",
@@ -35,5 +37,5 @@
     /* Completeness */
     "skipLibCheck": true,
   },
-  "include": ["*"]
+  "include": ["src", "tailwind", "storybook"]
 }

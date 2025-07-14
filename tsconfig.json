@@ -1,38 +1,7 @@
 {
-  "compilerOptions": {
-    /* Language and Environment */
-    "target": "esnext",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "jsx": "react-jsx",
-    "baseUrl": "./src",
-
-    /* Modules */
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-
-    /* JavaScript Support */
-    "allowJs": true,
-
-    /* Emit */
-    "noEmit": true,
-
-    /* Interop Constraints */
-    "isolatedModules": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-
-    /* Type Checking */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "noPropertyAccessFromIndexSignature": true,
-
-    /* Completeness */
-    "skipLibCheck": true,
-  }
+  "files": [],
+  "references": [
+    { "path": "tsconfig.app.json" },
+    { "path": "tsconfig.node.json" }
+  ]
 }
