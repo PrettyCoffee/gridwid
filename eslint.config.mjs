@@ -1,8 +1,9 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-import storybook from "eslint-plugin-storybook";
 
 import prettyCozy from "@pretty-cozy/eslint-config"
-import {defineConfig, globalIgnores} from "eslint/config"
+import { defineConfig, globalIgnores } from "eslint/config"
+import checkFile from "eslint-plugin-check-file"
+import storybook from "eslint-plugin-storybook"
 
 export default defineConfig(
   prettyCozy.baseTs,
@@ -10,23 +11,29 @@ export default defineConfig(
   prettyCozy.tailwind,
   prettyCozy.vitest,
   storybook.configs["flat/recommended"],
-  globalIgnores(["dist", "node_modules"]),
+  globalIgnores(["dist", "node_modules", "!.storybook"]),
 
   {
     name: "local-rules/lib-imports",
-    ignores: ["storybook/**", "src/lib/**"],
+    ignores: [".storybook/**", "src/lib/**"],
     rules: {
-      "no-restricted-imports": ["error", {
-        patterns: [{
-          group: ["@yaasl/*"],
-          importNamePattern: "^",
-          message: "Import from lib/yaasl instead."
-        }, {
-          group: ["storybook", "@storybook/*", "!lib/storybook"],
-          importNamePattern: "^",
-          message: "Import from lib/storybook instead."
-        }]
-      }],
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@yaasl/*"],
+              importNamePattern: "^",
+              message: "Import from lib/yaasl instead.",
+            },
+            {
+              group: ["storybook", "@storybook/*", "!lib/storybook"],
+              importNamePattern: "^",
+              message: "Import from lib/storybook instead.",
+            },
+          ],
+        },
+      ],
     },
   },
 
@@ -46,11 +53,9 @@ export default defineConfig(
         },
       },
     },
+    plugins: { checkFile },
     rules: {
-      "checkFile/folder-naming-convention": [
-        "error",
-        { "*/**": "KEBAB_CASE" },
-      ],
+      "checkFile/folder-naming-convention": ["error", { "*/**": "KEBAB_CASE" }],
       "checkFile/filename-naming-convention": [
         "error",
         { "*/**": "KEBAB_CASE" },
@@ -94,8 +99,8 @@ export default defineConfig(
 
   {
     files: [
+      ".storybook/**",
       "tailwind/**",
-      "storybook/**",
       "src/lib/storybook.ts",
       "**/*.stories.*",
     ],
@@ -109,6 +114,14 @@ export default defineConfig(
     rules: {
       "import/no-extraneous-dependencies": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
+    },
+  },
+
+  {
+    files: [".storybook/**"],
+    plugins: { checkFile },
+    rules: {
+      "checkFile/folder-naming-convention": "off",
     },
   },
 

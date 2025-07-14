@@ -4,12 +4,11 @@ import { PropsWithChildren, useEffect } from "react"
 import type { Preview } from "@storybook/react-vite"
 import { glob } from "goober"
 
-import { DialogProvider } from "components/ui/dialog"
-import { Toaster } from "components/ui/toaster"
-import { Tooltip } from "components/ui/tooltip"
-import { argType } from "lib/storybook"
-
 import { customBlocks } from "./custom-blocks"
+import { DialogProvider } from "../src/components/ui/dialog"
+import { Toaster } from "../src/components/ui/toaster"
+import { Tooltip } from "../src/components/ui/tooltip"
+import { argType } from "../src/lib/storybook"
 import { theme } from "../tailwind/theme"
 
 const { color } = theme.variants["dark"] ?? theme.defaultTokens

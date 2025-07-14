@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    
+
     /* Language and Environment */
     "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -37,5 +37,5 @@
     /* Completeness */
     "skipLibCheck": true,
   },
-  "include": ["src", "tailwind", "storybook"]
+  "include": ["src", "tailwind", ".storybook/*"]
 }
