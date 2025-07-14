@@ -8,7 +8,6 @@ export const prismTheme = css`
   /** Allow to show line numbers */
   pre[class*="language-"] {
     color: ${theme.read("color.text.default")};
-    background: ${theme.read("color.background.page")};
     word-break: break-word;
 
     /** Fix padding when a line wraps */
