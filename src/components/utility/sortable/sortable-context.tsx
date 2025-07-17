@@ -22,12 +22,11 @@ const removePointer = () => document.body.classList.remove(forceGrabbingPointer)
 const getOperationIndex = (source: Draggable | null) => {
   if (!isSortable(source)) return { prev: null, next: null }
 
-  // No clue why this naming is being used, "previousIndex" seems to be the new index?
   const initial = Number(source.sortable.initialIndex)
-  const previous = Number(source.sortable.previousIndex)
+  const current = Number(source.sortable.index)
   return {
     prev: Number.isNaN(initial) ? null : initial,
-    next: Number.isNaN(previous) ? null : previous,
+    next: Number.isNaN(current) ? null : current,
   }
 }
 

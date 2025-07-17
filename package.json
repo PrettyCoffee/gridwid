@@ -17,10 +17,10 @@
     "lint:inspect": "eslint --inspect-config"
   },
   "dependencies": {
-    "@dnd-kit/abstract": "^0.0.9",
-    "@dnd-kit/collision": "^0.0.9",
-    "@dnd-kit/helpers": "^0.0.9",
-    "@dnd-kit/react": "^0.0.9",
+    "@dnd-kit/abstract": "^0.1.20",
+    "@dnd-kit/collision": "^0.1.20",
+    "@dnd-kit/helpers": "^0.1.20",
+    "@dnd-kit/react": "^0.1.20",
     "@radix-ui/react-checkbox": "^1.3.2",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-popover": "^1.1.14",
