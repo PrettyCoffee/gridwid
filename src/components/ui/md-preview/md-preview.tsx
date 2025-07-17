@@ -175,6 +175,7 @@ const initPreview = (element: HTMLDivElement | null) => {
   const pres = element?.querySelectorAll("pre")
   pres?.forEach(pre => {
     addCopyButton(pre)
+    pre.classList.add("bg-background-page")
   })
 }
 
