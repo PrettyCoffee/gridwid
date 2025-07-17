@@ -123,7 +123,7 @@ export const prismTheme = css`
     }
 
     .highlight-line {
-      background-color: ${theme.read("color.background.default")};
+      background-color: hsla(from ${theme.read("color.accent")} h s l / 5%);
       box-shadow: inset 0.25rem 00 0 ${theme.read("color.accent")};
     }
 
