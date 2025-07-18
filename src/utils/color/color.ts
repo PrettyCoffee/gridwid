@@ -1,6 +1,6 @@
-import { hslToRgb } from "./hsl-to-rgb"
+import { hslToRgb, rgbToHsl } from "./hsl-rgb"
+import { oklchToRgb, rgbToOklch } from "./oklch-rgb"
 import { parseColor } from "./parse-color"
-import { rgbToHsl } from "./rgb-to-hsl"
 import { ColorValue } from "./types"
 
 export class Color {
@@ -14,22 +14,71 @@ export class Color {
 
   public toRgb() {
     const { mode, color, alpha } = this.value
-    if (mode === "rgb") return this
-    return new Color({
-      mode: "rgb",
-      color: hslToRgb(...color),
-      alpha,
-    })
+
+    switch (mode) {
+      case "hsl":
+        return new Color({
+          mode: "rgb",
+          color: hslToRgb(...color),
+          alpha,
+        })
+
+      case "oklch":
+        return new Color({
+          mode: "rgb",
+          color: oklchToRgb(...color),
+          alpha,
+        })
+
+      default:
+        return this
+    }
   }
 
   public toHsl() {
     const { mode, color, alpha } = this.value
-    if (mode === "hsl") return this
-    return new Color({
-      mode: "hsl",
-      color: rgbToHsl(...color),
-      alpha,
-    })
+
+    switch (mode) {
+      case "rgb":
+        return new Color({
+          mode: "hsl",
+          color: rgbToHsl(...color),
+          alpha,
+        })
+
+      case "oklch":
+        return new Color({
+          mode: "hsl",
+          color: oklchToRgb(...rgbToHsl(...color)),
+          alpha,
+        })
+
+      default:
+        return this
+    }
+  }
+
+  public toOklch() {
+    const { mode, color, alpha } = this.value
+
+    switch (mode) {
+      case "rgb":
+        return new Color({
+          mode: "oklch",
+          color: rgbToOklch(...color),
+          alpha,
+        })
+
+      case "hsl":
+        return new Color({
+          mode: "oklch",
+          color: rgbToOklch(...hslToRgb(...color)),
+          alpha,
+        })
+
+      default:
+        return this
+    }
   }
 
   public getValue() {
@@ -53,6 +102,11 @@ export class Color {
         return alpha === 1
           ? `rgb(${color[0]} ${color[1]} ${color[2]})`
           : `rgba(${color[0]} ${color[1]} ${color[2]} / ${alpha})`
+
+      case "oklch":
+        return alpha === 1
+          ? `oklch(${color[0] * 100}% ${color[1]} ${color[2]})`
+          : `oklcha(${color[0] * 100}% ${color[1]} ${color[2]} / ${alpha})`
     }
   }
 }
