@@ -8,11 +8,11 @@ import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
 
 export const AppLayout = ({ children }: PropsWithChildren) => (
-  <div className={cn(vstack(), "bg-background-page size-full")}>
+  <div className={cn(vstack(), "size-full")}>
     <div
       className={cn(
         hstack({ gap: 4, align: "center", justify: "center" }),
-        "w-full flex-grow overflow-auto p-4 pb-0"
+        "w-full grow overflow-auto p-4 pb-0"
       )}
     >
       <Suspense fallback={<Spinner size="xl" />}>

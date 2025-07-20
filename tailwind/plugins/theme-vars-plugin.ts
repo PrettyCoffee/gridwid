@@ -1,11 +1,13 @@
 import defaultColors from "tailwindcss/colors"
 import plugin from "tailwindcss/plugin"
-import type { CSSRuleObject, CustomThemeConfig } from "tailwindcss/types/config"
-import type { DefaultColors } from "tailwindcss/types/generated/colors"
+import type { ThemeConfig } from "tailwindcss/plugin.js"
 
 import { ObjDeepPath, ObjDeepValue } from "../../src/types/util-types"
 import { Color } from "../../src/utils/color"
 import { deepLoop } from "../../src/utils/deep-loop"
+
+type CustomThemeConfig = ThemeConfig["extend"]
+type DefaultColors = typeof defaultColors
 
 interface TokenItem {
   [key: string]: TokenItem | string | number
@@ -66,7 +68,7 @@ const readVar = <TTokens>(
     .some(colorPath => path.startsWith(`${colorPath}.`) || path === colorPath)
 
   let cssVar = `var(${getCssVar(prefix, path)})`
-  if (isColor) cssVar = `hsl(${cssVar})`
+  if (isColor) cssVar = `oklch(${cssVar})`
   if (extra) cssVar = extra.replaceAll("<var>", cssVar)
   return cssVar
 }
@@ -145,7 +147,7 @@ const getCssVars = (theme: Theme, variantName?: string) => {
   deepLoop(themeVariant, (itemPath, value) => {
     const varName = theme.getCssVar(itemPath.join("."))
     try {
-      const { color } = new Color(value as string).toHsl().getValue()
+      const { color } = new Color(value as string).toOklch().getValue()
       cssVars[varName] = color.join(" ")
     } catch {
       cssVars[varName] = String(value)
@@ -155,7 +157,7 @@ const getCssVars = (theme: Theme, variantName?: string) => {
   return cssVars
 }
 
-export const themeVarsPlugin = plugin.withOptions<{
+interface ThemeVarsPluginOptions {
   /** The theme that should be used. Must be created with `createTheme`. */
   theme: Theme
   /** Merging strategy of the theme tokens.
@@ -163,10 +165,21 @@ export const themeVarsPlugin = plugin.withOptions<{
    *  - "extend" will add the tokens alongside to the tailwind theme tokens
    **/
   strategy?: "replace" | "extend"
-}>(
-  ({ theme }) =>
+}
+
+const fallbackOptions: ThemeVarsPluginOptions = {
+  theme: createTheme({ tokens: {}, twTheme: () => ({}) }),
+  strategy: "extend",
+}
+
+interface NestedStringObject {
+  [k: string]: NestedStringObject | string
+}
+
+export const themeVarsPlugin = plugin.withOptions<ThemeVarsPluginOptions>(
+  ({ theme } = fallbackOptions) =>
     api => {
-      const css: Record<string, CSSRuleObject> = {
+      const css: NestedStringObject = {
         ":root": getCssVars(theme),
       }
       Object.keys(theme.variants).forEach(variantName => {
@@ -175,7 +188,7 @@ export const themeVarsPlugin = plugin.withOptions<{
       api.addBase(css)
     },
 
-  ({ theme, strategy }) => {
+  ({ theme, strategy } = fallbackOptions) => {
     if (strategy === "replace") return { theme: theme.twTheme }
     return { theme: { extend: theme.twTheme } }
   }

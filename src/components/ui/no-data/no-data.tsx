@@ -65,7 +65,7 @@ export const NoData = ({ label, children }: PropsWithChildren<NoDataProps>) => (
       <Icon
         icon={Ghost}
         color="gentle"
-        className={cn("absolute size-[4.5rem]", animate)}
+        className={cn("absolute size-18", animate)}
       />
       <div
         className={cn("absolute -bottom-4 rounded-[50%] bg-black", shadow)}

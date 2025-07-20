@@ -64,7 +64,7 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
           className={cn(
             vstack({ gap: 2, align: "stretch" }),
             "-m-2 flex-1 p-2 transition-opacity duration-0 motion-safe:duration-300",
-            animate.state !== "open" && "overflow-hidden [&_*]:overflow-hidden",
+            animate.state !== "open" && "overflow-hidden **:overflow-hidden",
             isOpen ? "opacity-100" : "opacity-0"
           )}
         >
@@ -84,7 +84,7 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
           className={cn(
             vstack({ gap: 2 }),
             "absolute -right-5 top-3",
-            "[&>*]:border-stroke-gentle [&>*]:bgl-base-background-page [&>*]:rounded-full [&>*]:border"
+            "*:border-stroke-gentle *:bgl-base-background-page *:rounded-full *:border"
           )}
         >
           <IconButton

@@ -1,6 +1,6 @@
 import typographyPlugin from "@tailwindcss/typography"
 import { Config } from "tailwindcss"
-import { fontFamily } from "tailwindcss/defaultTheme"
+import twTheme from "tailwindcss/defaultTheme.js"
 import animatePlugin from "tailwindcss-animate"
 
 import { screens } from "./breakpoints"
@@ -14,9 +14,9 @@ export default {
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     fontFamily: {
-      sans: ["Quicksand", ...fontFamily.sans],
-      body: ["Quicksand", ...fontFamily.sans],
-      mono: ["Fira Code", ...fontFamily.mono],
+      sans: ["Quicksand", ...twTheme.fontFamily.sans],
+      body: ["Quicksand", ...twTheme.fontFamily.sans],
+      mono: ["Fira Code", ...twTheme.fontFamily.mono],
     },
     screens,
 

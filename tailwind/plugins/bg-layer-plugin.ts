@@ -54,8 +54,8 @@ const getVarName = (name: string, { prefix }: Config) =>
 export const bgLayerPlugin = plugin.withOptions<BgLayerPluginOptions | void>(
   ({ colors = { b: "black", w: "white" }, steps = 20 } = {}) =>
     api => {
-      const twConfig = api.config()
-      const themeColors = flattenObject(api.theme("colors"))
+      const twConfig = api.config() as Config
+      const themeColors = flattenObject(api.theme("colors") as Nested)
       const transparencies = createTransparencies({ colors, steps })
 
       const baseVar = getVarName("base", twConfig)

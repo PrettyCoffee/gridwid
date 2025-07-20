@@ -101,7 +101,7 @@ const ColorButton = ({ color, current }: ColorButtonProps) => (
     style={{ color: theme.read(color) }}
     className={cn(
       hstack({ align: "center", justify: "center", inline: true }),
-      "bgl-base-[currentColor] hover:bgl-layer-b/10 active:bgl-layer-b/20 size-8 rounded-md"
+      "bgl-base-current hover:bgl-layer-b/10 active:bgl-layer-b/20 size-8 rounded-md"
     )}
   >
     <VisuallyHidden>{color}</VisuallyHidden>

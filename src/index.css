@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@config '../tailwind/tailwind.config.ts';
 
 @layer base {
   :root {
@@ -23,18 +23,19 @@
 
 @layer components {
   * {
+    @apply outline-none;
     @apply focus-visible:outline-stroke-focus;
     @apply focus-visible:outline-2;
     @apply focus-visible:outline-offset-2;
-    @apply focus-visible:outline;
+    @apply focus-visible:outline-solid;
     @apply border-stroke;
   }
 
   * {
-    scrollbar-color: theme(colors.stroke.DEFAULT) transparent;
+    scrollbar-color: var(--tw-theme-color-stroke) transparent;
   }
   
   *:focus-visible {
-    scrollbar-color: theme(colors.highlight) transparent;
+    scrollbar-color: var(--tw-theme-color-highlight) transparent;
   }
 }

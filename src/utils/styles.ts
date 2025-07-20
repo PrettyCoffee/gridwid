@@ -46,10 +46,10 @@ export const alertStyles: Record<AlertKind, AlertStyle> = {
 }
 
 export const focusRing = cn(
-  "outline-stroke-focus bgl-layer-transparent outline-2 outline-offset-2 focus-visible:outline [&:has(*:focus-visible)]:outline"
+  "outline-stroke-focus bgl-layer-transparent outline-2 outline-offset-2 focus-visible:outline-solid [&:has(*:focus-visible)]:outline-solid"
 )
 
-export const interactive = cva("", {
+export const interactive = cva("cursor-pointer", {
   variants: {
     look: {
       key: "bgl-base-background-button text-text-button hover:bgl-layer-b/15 active:bgl-layer-b/20",

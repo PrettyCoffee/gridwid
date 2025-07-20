@@ -51,7 +51,7 @@ const ListItem = ({
         className={cn(
           !isOverlayItem &&
             (isDragging || isDropping) &&
-            "bg-background pointer-events-none [&_*]:opacity-0"
+            "bg-background pointer-events-none **:opacity-0"
         )}
       >
         <Sortable.Handle asChild>
@@ -105,7 +105,7 @@ export const NotesSidebar = () => {
           items={notes}
           onSort={sort => notesData.set(sort(notesData.get()))}
           OverlayItem={({ source }) => (
-            <div className="bg-background shade-medium [&_*]:!bgl-base-transparent [&_*]:!bgl-layer-transparent rounded-sm">
+            <div className="bg-background shade-medium **:bgl-base-transparent! **:bgl-layer-transparent! rounded-sm">
               <ListItem
                 index={notes.findIndex(note => note.id === source.id)}
                 note={source.data as Note}

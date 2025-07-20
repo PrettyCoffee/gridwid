@@ -162,7 +162,7 @@ export const CodeEditor = ({
       )}
     >
       {!hideShortcuts && (
-        <div className="absolute right-0 top-0 z-[2]">
+        <div className="absolute right-0 top-0 z-2">
           <ShortcutsInfo />
         </div>
       )}
@@ -177,7 +177,7 @@ export const CodeEditor = ({
         onChange={readOnly ? undefined : handleChange}
         onKeyDown={readOnly ? undefined : event => keyEvents.emit(event)}
         className={cn(
-          "placeholder:text-text-gentle absolute left-0 top-0 z-[1] size-full resize-none overflow-hidden p-4",
+          "placeholder:text-text-gentle absolute left-0 top-0 z-1 size-full resize-none overflow-hidden p-4",
           sharedStyles,
           textAreaStyles
         )}
