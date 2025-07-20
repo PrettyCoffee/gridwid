@@ -81,13 +81,18 @@ const BorderRadiusSlider = () => {
 }
 
 const colors: Parameters<typeof theme.getCssVar>[0][] = [
+  "color.category.pink",
   "color.category.red",
   "color.category.orange",
   "color.category.yellow",
+  "color.category.lime",
   "color.category.green",
+  "color.category.teal",
   "color.category.cyan",
   "color.category.blue",
+  "color.category.indigo",
   "color.category.violet",
+  "color.category.fuchsia",
   "color.text.priority",
 ]
 
@@ -116,7 +121,7 @@ const AccentColor = () => {
       title="Accent color"
       description="Change the accent color which highlights focused and active elements."
     >
-      <div className={hstack({ gap: 2 })}>
+      <div className={hstack({ gap: 2, wrap: true })}>
         {colors.map(color => (
           <ColorButton key={color} color={color} current={accent} />
         ))}

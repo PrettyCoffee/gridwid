@@ -67,7 +67,7 @@ export const prismTheme = css`
     .token.tag,
     .token.builtin,
     .token.constant {
-      color: ${theme.read("color.category.red")};
+      color: ${theme.read("color.category.pink")};
     }
     .token.boolean {
       color: ${theme.read("color.category.violet")};
@@ -85,11 +85,11 @@ export const prismTheme = css`
     .token.string,
     .token.char,
     .token.attr-value {
-      color: ${theme.read("color.category.green")};
+      color: ${theme.read("color.category.lime")};
     }
 
     .token.symbol {
-      color: ${theme.read("color.category.red")};
+      color: ${theme.read("color.category.pink")};
     }
 
     .token.attr-name {
@@ -97,7 +97,7 @@ export const prismTheme = css`
     }
 
     .token.variable {
-      color: ${theme.read("color.category.red")};
+      color: ${theme.read("color.category.pink")};
     }
 
     .token.operator {
@@ -105,7 +105,7 @@ export const prismTheme = css`
     }
 
     .token.entity {
-      color: ${theme.read("color.category.red")};
+      color: ${theme.read("color.category.pink")};
     }
 
     .token.function {
@@ -157,7 +157,7 @@ export const prismTheme = css`
     /** Regex specific */
 
     .token.regex {
-      color: ${theme.read("color.category.red")};
+      color: ${theme.read("color.category.pink")};
       .token.quantifier.number {
         color: ${theme.read("color.category.cyan")};
       }
@@ -184,7 +184,7 @@ export const prismTheme = css`
     }
 
     .token.atrule {
-      color: ${theme.read("color.category.red")};
+      color: ${theme.read("color.category.pink")};
     }
 
     /** Markdown specific */
@@ -212,7 +212,7 @@ export const prismTheme = css`
     .token.url {
       color: ${theme.read("color.text.muted")};
       .token.content {
-        color: ${theme.read("color.category.red")};
+        color: ${theme.read("color.category.pink")};
       }
       .token.url {
         color: ${theme.read("color.category.blue")};
