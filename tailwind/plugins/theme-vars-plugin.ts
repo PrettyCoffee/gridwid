@@ -3,7 +3,7 @@ import plugin from "tailwindcss/plugin"
 import type { ThemeConfig } from "tailwindcss/plugin.js"
 
 import { ObjDeepPath, ObjDeepValue } from "../../src/types/util-types"
-import { Color } from "../../src/utils/color"
+import { parseColor, toOklch } from "../../src/utils/color"
 import { deepLoop } from "../../src/utils/deep-loop"
 
 type CustomThemeConfig = ThemeConfig["extend"]
@@ -147,7 +147,7 @@ const getCssVars = (theme: Theme, variantName?: string) => {
   deepLoop(themeVariant, (itemPath, value) => {
     const varName = theme.getCssVar(itemPath.join("."))
     try {
-      const { color } = new Color(value as string).toOklch().getValue()
+      const { color } = toOklch(parseColor(String(value)))
       cssVars[varName] = color.join(" ")
     } catch {
       cssVars[varName] = String(value)
