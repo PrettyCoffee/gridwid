@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.9.0",
-    "@pretty-cozy/eslint-config": "^0.7.1",
+    "@pretty-cozy/eslint-config": "^0.9.0-alpha.2",
     "@storybook/addon-a11y": "^9.0.17",
     "@storybook/addon-docs": "^9.0.17",
     "@storybook/addon-links": "^9.0.17",

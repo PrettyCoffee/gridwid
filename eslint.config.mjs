@@ -1,5 +1,3 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
-
 import prettyCozy from "@pretty-cozy/eslint-config"
 import { defineConfig, globalIgnores } from "eslint/config"
 import checkFile from "eslint-plugin-check-file"
@@ -8,7 +6,8 @@ import storybook from "eslint-plugin-storybook"
 export default defineConfig(
   prettyCozy.baseTs,
   prettyCozy.react,
-  prettyCozy.tailwind,
+  // TODO: Enable after tailwind v4 migration
+  // prettyCozy.tailwind({ tailwindConfig: "./tailwind/tailwind.config.ts" }),
   prettyCozy.vitest,
   storybook.configs["flat/recommended"],
   globalIgnores(["dist", "node_modules", "!.storybook"]),
