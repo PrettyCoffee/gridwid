@@ -11,7 +11,7 @@
     "storybook:build": "storybook build -o dist/storybook",
     "test": "vitest",
     "test:all": "vitest --watch=false",
-    "lint": "eslint",
+    "lint": "eslint .",
     "lint:fix": "bun run lint -- --fix",
     "lint:time": "TIMING=15 bun run lint",
     "lint:inspect": "eslint --inspect-config"
