@@ -31,7 +31,7 @@ const CheckboxLabel = ({
         >
           <span
             className={cn(
-              "bg-text-gentle absolute top-2.5 h-0.5 w-full rounded-sm",
+              "absolute top-2.5 h-0.5 w-full rounded-sm bg-text-gentle",
               "origin-left scale-x-0 transition-transform duration-300 ease-out",
               isChecked && "scale-x-100 delay-150"
             )}
@@ -42,7 +42,7 @@ const CheckboxLabel = ({
         {!isChecked && subLine && (
           <>
             <Divider color="gentle" className="my-0.5" />
-            <div className="text-text-gentle text-xs">{subLine}</div>
+            <div className="text-xs text-text-gentle">{subLine}</div>
           </>
         )}
       </div>
@@ -111,7 +111,7 @@ export const Checkbox = ({
       <div
         className={cn(
           hstack({ align: "center", justify: "center", inline: true }),
-          "shade-low border-stroke/50 [:hover>&]:border-stroke size-6 shrink-0 rounded-sm border"
+          "size-6 shrink-0 rounded-sm border border-stroke/50 shade-low [:hover>&]:border-stroke"
         )}
       >
         <Primitive.Indicator asChild>

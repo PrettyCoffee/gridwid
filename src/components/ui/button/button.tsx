@@ -24,7 +24,7 @@ import { Spinner } from "../spinner"
 const button = cva(
   cn(
     focusRing,
-    "relative inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium"
+    "relative inline-flex shrink-0 items-center justify-center rounded-md text-sm font-medium whitespace-nowrap"
   ),
   {
     variants: {

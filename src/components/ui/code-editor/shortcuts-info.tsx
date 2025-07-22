@@ -13,7 +13,7 @@ interface Shortcut {
 
 const Shortcut = ({ keys, description }: Shortcut) => (
   <div>
-    <span className="bg-background-invert/10 text-text-gentle my-0.5 inline-block rounded-sm px-1 py-0.5 font-mono text-xs">
+    <span className="my-0.5 inline-block rounded-sm bg-background-invert/10 px-1 py-0.5 font-mono text-xs text-text-gentle">
       {keys.join(" + ")}
     </span>
     : {description}

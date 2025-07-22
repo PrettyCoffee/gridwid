@@ -13,7 +13,7 @@ export const Toaster = () => {
     <Portal>
       <div
         className={cn(
-          "absolute bottom-10 right-0 flex flex-col p-2",
+          "absolute right-0 bottom-10 flex flex-col p-2",
           zIndex.toast
         )}
       >

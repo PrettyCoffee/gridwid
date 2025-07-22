@@ -24,7 +24,7 @@ const BigButton = ({ icon, label, className, ...props }: BigButtonProps) => (
       interactive({ look: "flat" }),
       vstack({ inline: true, align: "center", justify: "center", gap: 2 }),
       surface({ look: "card", size: "lg" }),
-      "shade-low bgl-base-background h-32 w-48",
+      "h-32 w-48 shade-low bgl-base-background",
       className
     )}
   >
@@ -37,7 +37,7 @@ const SettingsMainRoute = () => {
   const { route } = useHashRouter()
   return (
     <>
-      <h1 className="text-text-gentle mx-auto mb-10 w-max text-3xl">
+      <h1 className="mx-auto mb-10 w-max text-3xl text-text-gentle">
         Settings
       </h1>
       <div className="grid grid-cols-3 gap-6">

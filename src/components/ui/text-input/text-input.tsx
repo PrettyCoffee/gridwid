@@ -47,7 +47,7 @@ export const TextInput = ({
     <div
       className={cn(
         hstack({ inline: true, align: "center", justify: "center" }),
-        "bg-background-page border-stroke-gentle relative w-full rounded-md border",
+        "relative w-full rounded-md border border-stroke-gentle bg-background-page",
         alert && alertStyles[alert.kind].border,
         focusRing,
         className
@@ -66,7 +66,7 @@ export const TextInput = ({
         onChange={({ currentTarget }) => onChange?.(currentTarget.value)}
         onKeyDown={({ key }) => onKeyDown?.(key)}
         className={cn(
-          "placeholder:text-text-gentle text-text h-10 w-full flex-1 bg-transparent px-3 text-sm outline-none",
+          "h-10 w-full flex-1 bg-transparent px-3 text-sm text-text outline-none placeholder:text-text-gentle",
           (isSearch || alert) && "pr-0"
         )}
       />

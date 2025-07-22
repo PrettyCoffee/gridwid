@@ -113,7 +113,7 @@ const Item = ({
     >
       {children}
       {height.hasOverflow && (
-        <div className="from-background-page absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-15% to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-background-page from-15% to-transparent" />
       )}
     </Div>
   )

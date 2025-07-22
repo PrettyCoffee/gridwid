@@ -77,7 +77,7 @@ export const Menu = ({
           <Dialog.Content
             className={cn(
               surface({ look: "overlay", size: "lg" }),
-              "fill-mode-forwards fixed bottom-16 left-1/2 outline-none duration-0",
+              "fixed bottom-16 left-1/2 duration-0 outline-none fill-mode-forwards",
               animate.state !== "open" && "pointer-events-none",
               animate.leaving
                 ? "ease-in motion-safe:duration-200"

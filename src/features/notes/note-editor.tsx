@@ -144,7 +144,7 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
           <div
             className={cn(
               headerSections.subtitle,
-              "text-text-gentle pl-2.5 text-sm"
+              "pl-2.5 text-sm text-text-gentle"
             )}
           >
             #{note.id}

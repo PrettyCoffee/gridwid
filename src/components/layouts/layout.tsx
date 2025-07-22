@@ -47,12 +47,12 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
   const animate = useMountAnimation({ open: isOpen, duration: 300 })
 
   return (
-    <div className="pb-2 pr-5">
+    <div className="pr-5 pb-2">
       <div
         className={cn(
           vstack(),
-          "relative -ml-4 h-full pl-3 pr-7 pt-3",
-          "border-stroke-gentle rounded-r-lg border-y border-r",
+          "relative -ml-4 h-full pt-3 pr-7 pl-3",
+          "rounded-r-lg border-y border-r border-stroke-gentle",
           "transition-[max-width,min-width,padding] duration-0 ease-in-out motion-safe:duration-300",
           isOpen
             ? "min-w-[clamp(theme(width.64),20vw,theme(width.80))] max-w-[clamp(theme(width.64),20vw,theme(width.80))]"
@@ -83,8 +83,8 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
         <div
           className={cn(
             vstack({ gap: 2 }),
-            "absolute -right-5 top-3",
-            "*:border-stroke-gentle *:bgl-base-background-page *:rounded-full *:border"
+            "absolute top-3 -right-5",
+            "*:rounded-full *:border *:border-stroke-gentle *:bgl-base-background-page"
           )}
         >
           <IconButton

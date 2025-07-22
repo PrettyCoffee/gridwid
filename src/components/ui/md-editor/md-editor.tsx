@@ -292,7 +292,7 @@ export const MDEditor = ({
         viewMode === "inline"
           ? "relative size-full pt-10"
           : cn(
-              "bg-background fixed inset-0 h-screen w-screen p-4 pt-20",
+              "fixed inset-0 h-screen w-screen bg-background p-4 pt-20",
               zIndex.fullscreenEditor
             ),
         className

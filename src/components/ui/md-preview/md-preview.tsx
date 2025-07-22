@@ -160,7 +160,7 @@ const addCopyButton = (pre: HTMLPreElement) => {
 
   button.className = cn(
     interactive({ look: "flat" }),
-    "absolute right-1 top-1 inline-block rounded-md px-2 py-1",
+    "absolute top-1 right-1 inline-block rounded-md px-2 py-1",
     "opacity-0 [pre:focus-within_&]:opacity-100 [pre:hover_&]:opacity-100"
   )
 
@@ -194,7 +194,7 @@ export const MDPreview = ({ value = "", className }: MDPreviewProps) => {
         initPreview(element)
       }}
       className={cn(
-        "prose dark:prose-invert prose-zinc break-words",
+        "prose break-words prose-zinc dark:prose-invert",
         prismTheme,
         markdownStyles,
         className

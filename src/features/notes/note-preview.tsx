@@ -20,11 +20,11 @@ export const NotePreview = ({
   <div
     className={cn(
       surface({ look: "card", size: "lg" }),
-      "hover:border-stroke/50 size-full [&:not(:hover)>*]:opacity-80"
+      "size-full hover:border-stroke/50 [&:not(:hover)>*]:opacity-80"
     )}
   >
     <HashRouter.Link to={`notes/${id}`}>
-      <h2 className="text-text-priority text-2xl underline-offset-4 hover:underline">
+      <h2 className="text-2xl text-text-priority underline-offset-4 hover:underline">
         {title}
         <span className="relative [*:not(:hover)>*>*>&]:hidden">
           <Icon
@@ -32,12 +32,12 @@ export const NotePreview = ({
             size="xs"
             color="gentle"
             strokeWidth={2.5}
-            className="absolute -right-3 top-0"
+            className="absolute top-0 -right-3"
           />
         </span>
       </h2>
     </HashRouter.Link>
-    <span className="text-text-gentle text-sm">
+    <span className="text-sm text-text-gentle">
       #{id}
       {changedAt ? (
         <> | Last changed {formatDate(changedAt)}</>

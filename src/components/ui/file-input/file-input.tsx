@@ -74,7 +74,7 @@ export const FileInput = ({
             interactive({ look: "flat" }),
             focusRing,
             "cursor-pointer rounded-md p-6",
-            "border-stroke border-2 border-dashed [*:focus-visible+&]:outline",
+            "border-2 border-dashed border-stroke [*:focus-visible+&]:outline",
             alert && alert.kind !== "info" && alertStyles[alert.kind].border,
             dragging && "border-stroke-focus bgl-layer-w/10",
             className

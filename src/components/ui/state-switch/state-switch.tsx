@@ -131,7 +131,7 @@ const Group = ({
       {currentOptionRef && (
         <div
           className={cn(
-            "border-highlight absolute size-10 rounded-md border transition-[translate] duration-150 ease-out",
+            "absolute size-10 rounded-md border border-highlight transition-[translate] duration-150 ease-out",
             { md: "size-10", sm: "size-8" }[size]
           )}
           style={{ translate: currentOptionRef.offsetLeft }}

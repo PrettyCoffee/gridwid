@@ -25,8 +25,8 @@ export const Card = ({
         className
       )}
     >
-      <Headline className="text-text-priority mb-1 font-bold">{title}</Headline>
-      <p className="text-text-gentle mb-4 text-sm">{description}</p>
+      <Headline className="mb-1 font-bold text-text-priority">{title}</Headline>
+      <p className="mb-4 text-sm text-text-gentle">{description}</p>
       {children}
     </div>
   </div>

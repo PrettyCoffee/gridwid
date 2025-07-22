@@ -43,7 +43,7 @@ export const EditorTextInput = ({ field, className, ...props }: InputProps) => {
         inputBorder({
           status: hasError ? "error" : isEditing ? "editing" : "default",
         }),
-        "text-text inline-flex h-10 justify-center truncate bg-transparent px-2.5",
+        "inline-flex h-10 justify-center truncate bg-transparent px-2.5 text-text",
         className
       )}
     />
@@ -68,7 +68,7 @@ export const EditorTextArea = ({ field, className, ...props }: InputProps) => {
         inputBorder({
           status: hasError ? "error" : isEditing ? "editing" : "default",
         }),
-        "text-text block w-full resize-none bg-transparent px-3 py-1",
+        "block w-full resize-none bg-transparent px-3 py-1 text-text",
         className
       )}
     />

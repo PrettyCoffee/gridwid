@@ -105,7 +105,7 @@ export const NotesSidebar = () => {
           items={notes}
           onSort={sort => notesData.set(sort(notesData.get()))}
           OverlayItem={({ source }) => (
-            <div className="bg-background shade-medium **:bgl-base-transparent! **:bgl-layer-transparent! rounded-sm">
+            <div className="rounded-sm bg-background shade-medium **:bgl-base-transparent! **:bgl-layer-transparent!">
               <ListItem
                 index={notes.findIndex(note => note.id === source.id)}
                 note={source.data as Note}

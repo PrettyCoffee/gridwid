@@ -96,9 +96,9 @@ export const Toast = ({
         <Icon icon={alertStyles[kind].icon} color={kind} size="lg" />
       </div>
       <div className="my-2 flex-1 overflow-hidden">
-        <div className="text-text-priority truncate">{title}</div>
+        <div className="truncate text-text-priority">{title}</div>
         {message && (
-          <div className="text-text mt-1 line-clamp-3 text-sm">{message}</div>
+          <div className="mt-1 line-clamp-3 text-sm text-text">{message}</div>
         )}
       </div>
       <IconButton

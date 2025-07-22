@@ -24,7 +24,7 @@ const Item = ({
     className={cn(
       hstack({}),
       active ? "border-highlight/50" : "border-text-gentle/10",
-      "bgl-base-b/10 hover:bgl-layer-w/5 h-10 list-none rounded-sm border *:h-full *:rounded-none [&>:first-child]:rounded-l-sm [&>:last-child]:rounded-e-sm",
+      "h-10 list-none rounded-sm border bgl-base-b/10 *:h-full *:rounded-none hover:bgl-layer-w/5 [&>:first-child]:rounded-l-sm [&>:last-child]:rounded-e-sm",
       className
     )}
   >
@@ -56,7 +56,7 @@ const Label = ({
       className
     )}
   >
-    {icon && <Icon icon={icon} className="-ml-1 mr-2" />}
+    {icon && <Icon icon={icon} className="mr-2 -ml-1" />}
     <span className="truncate">{children}</span>
   </Button>
 )

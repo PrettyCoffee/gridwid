@@ -71,7 +71,7 @@ export const NoData = ({ label, children }: PropsWithChildren<NoDataProps>) => (
         className={cn("absolute -bottom-4 rounded-[50%] bg-black", shadow)}
       />
     </div>
-    <span className="text-text block max-w-80 text-center font-bold">
+    <span className="block max-w-80 text-center font-bold text-text">
       {label}
     </span>
     {children && <div className={hstack({ gap: 2 })}>{children}</div>}

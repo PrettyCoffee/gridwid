@@ -156,13 +156,13 @@ export const CodeEditor = ({
     <div
       style={style}
       className={cn(
-        "bg-background relative overflow-hidden rounded-sm p-4 text-left font-mono text-sm font-normal selection:bg-white/15 selection:text-current",
+        "relative overflow-hidden rounded-sm bg-background p-4 text-left font-mono text-sm font-normal selection:bg-white/15 selection:text-current",
         prismTheme,
         className
       )}
     >
       {!hideShortcuts && (
-        <div className="absolute right-0 top-0 z-2">
+        <div className="absolute top-0 right-0 z-2">
           <ShortcutsInfo />
         </div>
       )}
@@ -177,7 +177,7 @@ export const CodeEditor = ({
         onChange={readOnly ? undefined : handleChange}
         onKeyDown={readOnly ? undefined : event => keyEvents.emit(event)}
         className={cn(
-          "placeholder:text-text-gentle absolute left-0 top-0 z-1 size-full resize-none overflow-hidden p-4",
+          "absolute top-0 left-0 z-1 size-full resize-none overflow-hidden p-4 placeholder:text-text-gentle",
           sharedStyles,
           textAreaStyles
         )}

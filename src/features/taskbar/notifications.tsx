@@ -29,7 +29,7 @@ const Clock = () => {
   return (
     <div>
       <div className="text-end text-xs">{time}</div>
-      <div className="text-text-gentle text-end text-xs">{day}</div>
+      <div className="text-end text-xs text-text-gentle">{day}</div>
     </div>
   )
 }

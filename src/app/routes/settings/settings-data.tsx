@@ -156,7 +156,7 @@ const DeleteData = () => (
       <>
         Delete all data and reset Gridwid to its initial state.
         <br />
-        <span className="text-text font-bold">Note: </span>
+        <span className="font-bold text-text">Note: </span>
         Make sure to create a backup before deleting your data, this cannot be
         undone!
       </>

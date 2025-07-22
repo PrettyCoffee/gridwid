@@ -26,7 +26,7 @@ export const Default: Story = {
   render: args => (
     <Card {...args} className="max-w-sm">
       <svg
-        className="stroke-stroke/50 h-40 w-full"
+        className="h-40 w-full stroke-stroke/50"
         strokeLinecap="round"
         fill="transparent"
         strokeWidth={2}

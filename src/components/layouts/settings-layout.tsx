@@ -30,9 +30,9 @@ const SettingsCategoryLayout = ({ children }: PropsWithChildren) => {
       </Layout.Side>
 
       <Layout.Main>
-        <h1 className="mx-auto mb-3 mt-4 w-full max-w-2xl pl-2 text-2xl font-bold">
+        <h1 className="mx-auto mt-4 mb-3 w-full max-w-2xl pl-2 text-2xl font-bold">
           Settings
-          <span className="after:text-text-gentle after:mx-2 after:content-['>']" />
+          <span className="after:mx-2 after:text-text-gentle after:content-['>']" />
           {route?.meta?.title}
         </h1>
 

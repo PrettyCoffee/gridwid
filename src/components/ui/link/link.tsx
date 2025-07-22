@@ -20,7 +20,7 @@ export const Link = ({
   <HashRouter.Link
     className={cn(
       interactive({ look: "link", disabled }),
-      "text-highlight font-semibold hover:underline",
+      "font-semibold text-highlight hover:underline",
       className
     )}
     disabled={disabled}

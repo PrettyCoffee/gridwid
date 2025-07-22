@@ -49,7 +49,7 @@ export const Dialog = ({
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           className={cn(
-            "bg-background-page/50 fixed inset-0 size-full",
+            "fixed inset-0 size-full bg-background-page/50",
             zIndex.dialog,
             transition.overlayClassName
           )}
@@ -57,7 +57,7 @@ export const Dialog = ({
 
         <DialogPrimitive.Content
           className={cn(
-            "bg-background-page border-stroke-gentle fixed inset-1/2 h-max w-96 -translate-1/2 rounded-lg border",
+            "fixed inset-1/2 h-max w-96 -translate-1/2 rounded-lg border border-stroke-gentle bg-background-page",
             zIndex.dialog,
             transition.contentClassName
           )}
@@ -65,12 +65,12 @@ export const Dialog = ({
           <DialogPrimitive.Title
             className={cn(
               hstack({ align: "center" }),
-              "text-text-priority h-12 truncate pl-4 pr-12 text-xl"
+              "h-12 truncate pr-12 pl-4 text-xl text-text-priority"
             )}
           >
             <span className="truncate">{title}</span>
           </DialogPrimitive.Title>
-          <DialogPrimitive.Description className="text-text-gentle px-4 text-sm">
+          <DialogPrimitive.Description className="px-4 text-sm text-text-gentle">
             {description}
           </DialogPrimitive.Description>
 
@@ -95,7 +95,7 @@ export const Dialog = ({
             </Button>
           </div>
 
-          <DialogPrimitive.Close asChild className="absolute right-1 top-1">
+          <DialogPrimitive.Close asChild className="absolute top-1 right-1">
             <IconButton
               title="Close"
               hideTitle
