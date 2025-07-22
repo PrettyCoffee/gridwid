@@ -98,9 +98,7 @@ export const Toast = ({
       <div className="my-2 flex-1 overflow-hidden">
         <div className="text-text-priority truncate">{title}</div>
         {message && (
-          <div className="text-text ease- mt-1 line-clamp-3 text-sm">
-            {message}
-          </div>
+          <div className="text-text mt-1 line-clamp-3 text-sm">{message}</div>
         )}
       </div>
       <IconButton

@@ -6,11 +6,17 @@ import storybook from "eslint-plugin-storybook"
 export default defineConfig(
   prettyCozy.baseTs,
   prettyCozy.react,
-  // TODO: Enable after tailwind v4 migration
-  // prettyCozy.tailwind({ tailwindConfig: "./tailwind/tailwind.config.ts" }),
+  prettyCozy.tailwind({ entryPoint: "src/index.css" }),
   prettyCozy.vitest,
   storybook.configs["flat/recommended"],
   globalIgnores(["dist", "node_modules", "!.storybook"]),
+
+  {
+    rules: {
+      "better-tailwindcss/enforce-consistent-class-order": "off",
+      "better-tailwindcss/enforce-consistent-line-wrapping": "off",
+    },
+  },
 
   {
     name: "local-rules/lib-imports",

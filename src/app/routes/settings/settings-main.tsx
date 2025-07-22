@@ -24,7 +24,7 @@ const BigButton = ({ icon, label, className, ...props }: BigButtonProps) => (
       interactive({ look: "flat" }),
       vstack({ inline: true, align: "center", justify: "center", gap: 2 }),
       surface({ look: "card", size: "lg" }),
-      "shade-sm bgl-base-background h-32 w-48",
+      "shade-low bgl-base-background h-32 w-48",
       className
     )}
   >

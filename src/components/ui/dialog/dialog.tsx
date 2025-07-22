@@ -57,7 +57,7 @@ export const Dialog = ({
 
         <DialogPrimitive.Content
           className={cn(
-            "bg-background-page border-stroke-gentle fixed inset-1/2 h-max w-96 -translate-x-1/2 -translate-y-1/2 rounded-lg border",
+            "bg-background-page border-stroke-gentle fixed inset-1/2 h-max w-96 -translate-1/2 rounded-lg border",
             zIndex.dialog,
             transition.contentClassName
           )}

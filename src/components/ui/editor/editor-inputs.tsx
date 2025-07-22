@@ -9,7 +9,7 @@ import { hstack } from "utils/styles"
 import { useEditorContext } from "./editor-context"
 import { MDEditor } from "../md-editor"
 
-const inputBorder = cva("rounded-sm outline outline-1 -outline-offset-1", {
+const inputBorder = cva("rounded-sm outline-1 -outline-offset-1", {
   variants: {
     status: {
       default: "hover:outline-stroke outline-transparent",
@@ -43,7 +43,7 @@ export const EditorTextInput = ({ field, className, ...props }: InputProps) => {
         inputBorder({
           status: hasError ? "error" : isEditing ? "editing" : "default",
         }),
-        "text-text text-md inline-flex h-10 justify-center truncate bg-transparent px-2.5",
+        "text-text inline-flex h-10 justify-center truncate bg-transparent px-2.5",
         className
       )}
     />
@@ -68,7 +68,7 @@ export const EditorTextArea = ({ field, className, ...props }: InputProps) => {
         inputBorder({
           status: hasError ? "error" : isEditing ? "editing" : "default",
         }),
-        "text-text text-md block w-full resize-none bg-transparent px-3 py-1",
+        "text-text block w-full resize-none bg-transparent px-3 py-1",
         className
       )}
     />
