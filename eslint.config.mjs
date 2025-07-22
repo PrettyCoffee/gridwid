@@ -12,12 +12,6 @@ export default defineConfig(
   globalIgnores(["dist", "node_modules", "!.storybook"]),
 
   {
-    rules: {
-      "better-tailwindcss/enforce-consistent-line-wrapping": "off",
-    },
-  },
-
-  {
     name: "local-rules/lib-imports",
     ignores: [".storybook/**", "src/lib/**"],
     rules: {
