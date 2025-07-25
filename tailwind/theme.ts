@@ -89,8 +89,9 @@ export const theme = createTheme({
 
   twTheme: get => ({
     borderRadius: {
+      xl: get("radius", "calc(<var> / 10.666 * 1rem)"), // 0.75rem
       lg: get("radius", "calc(<var> / 16 * 1rem)"), // 0.5rem
-      md: get("radius", "calc(<var> / 24 * 1rem)"), // 0.375rem
+      md: get("radius", "calc(<var> / 21.333 * 1rem)"), // 0.375rem
       sm: get("radius", "calc(<var> / 32 * 1rem)"), // 0.25rem
       full: "9999px",
       none: "0px",
