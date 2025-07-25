@@ -66,7 +66,7 @@ const BaseColors = () => {
       title="Base Colors"
       description="Choose between dark and light mode, and decide if neutral colors should have a hue."
     >
-      <div className={hstack({ justify: "start", gap: 4 })}>
+      <div className={hstack({ justify: "start", gap: 4, wrap: true })}>
         <Toggle
           label="Dark base colors"
           checked={mode === "dark"}

@@ -17,14 +17,14 @@ export const Toggle = ({ checked, onChange, label }: ToggleProps) => (
     className={cn(
       hstack({ gap: 2, align: "center", inline: true }),
       interactive({ look: "flat" }),
-      "h-10 cursor-pointer rounded-l-lg rounded-r-md p-1 pr-3 text-start text-sm"
+      "h-10 cursor-pointer truncate rounded-l-lg rounded-r-md p-1 pr-3 text-start text-sm"
     )}
   >
     <Primitive.Root
       checked={checked}
       onCheckedChange={onChange}
       className={cn(
-        "relative inline-block h-8 w-12 cursor-pointer rounded-xl",
+        "relative inline-block h-8 w-12 shrink-0 cursor-pointer rounded-xl",
         "bg-background-button/15 transition-[background-color] duration-100 ease-out",
         checked && "bg-highlight/50"
       )}
@@ -37,6 +37,6 @@ export const Toggle = ({ checked, onChange, label }: ToggleProps) => (
       />
     </Primitive.Root>
 
-    {label}
+    <span className="truncate">{label}</span>
   </label>
 )
