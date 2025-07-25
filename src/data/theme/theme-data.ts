@@ -1,21 +1,42 @@
+import { z } from "zod"
+
 import { createSlice, sessionStorage } from "lib/yaasl"
+import { Resolve } from "types/util-types"
 import { getCssVarValue } from "utils/get-css-var-value"
 
 import { theme } from "../../../tailwind/theme"
 
-export interface ThemePreferences {
-  mode: "dark" | "light"
-  radius: number
-  accent: Parameters<typeof theme.getCssVar>[0]
-}
+export const themeAccentColors = [
+  "color.category.pink",
+  "color.category.rose",
+  "color.category.orange",
+  "color.category.yellow",
+  "color.category.lime",
+  "color.category.green",
+  "color.category.teal",
+  "color.category.cyan",
+  "color.category.blue",
+  "color.category.indigo",
+  "color.category.violet",
+  "color.category.fuchsia",
+  "color.text.priority",
+] satisfies Parameters<typeof theme.getCssVar>[0][]
+
+export const themeSchema = z.object({
+  radius: z.number(),
+  mode: z.enum(["dark", "light"]),
+  accent: z.enum(themeAccentColors),
+})
+
+export type ThemePreferences = Resolve<z.infer<typeof themeSchema>>
 
 const defaultValue: ThemePreferences = {
   radius: theme.defaultTokens.radius,
   mode: "dark",
-  accent: "color.accent",
+  accent: "color.category.rose",
 }
 
-export const themePreferences = createSlice({
+export const themeData = createSlice({
   name: "user-theme",
   defaultValue,
   effects: [sessionStorage()],
@@ -39,7 +60,7 @@ export const themePreferences = createSlice({
 })
 
 const updateTheme = () => {
-  const { mode, radius, accent } = themePreferences.get()
+  const { mode, radius, accent } = themeData.get()
   const isDark = mode === "dark"
   const root = document.documentElement
 
@@ -51,4 +72,4 @@ const updateTheme = () => {
 }
 
 updateTheme()
-themePreferences.subscribe(updateTheme)
+themeData.subscribe(updateTheme)

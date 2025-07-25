@@ -7,7 +7,7 @@ import { Button } from "components/ui/button"
 import { Icon } from "components/ui/icon"
 import { TitleTooltip } from "components/ui/tooltip"
 import { VisuallyHidden } from "components/utility/visually-hidden"
-import { themePreferences } from "data/theme"
+import { themeData } from "data/theme"
 import { useAtomValue } from "lib/yaasl"
 import { cn } from "utils/cn"
 
@@ -66,10 +66,10 @@ const Axis = ({
 )
 
 export const ThemeModeToggle = () => {
-  const mode = useAtomValue(themePreferences.selectors.getMode)
+  const mode = useAtomValue(themeData.selectors.getMode)
   const title = mode === "dark" ? "Light mode" : "Dark mode"
   const toggleMode = () =>
-    themePreferences.actions.setMode(mode === "dark" ? "light" : "dark")
+    themeData.actions.setMode(mode === "dark" ? "light" : "dark")
 
   const initialMode = useRef(mode)
   const [modeChanged, setModeChanged] = useState(false)

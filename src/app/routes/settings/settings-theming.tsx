@@ -4,7 +4,7 @@ import { Check } from "lucide-react"
 import { Card } from "components/ui/card"
 import { Icon } from "components/ui/icon"
 import { VisuallyHidden } from "components/utility/visually-hidden"
-import { themePreferences } from "data/theme/theme-data"
+import { themeAccentColors, themeData } from "data/theme"
 import { useAtomValue } from "lib/yaasl"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
@@ -57,7 +57,7 @@ const slider = css`
 `
 
 const BorderRadiusSlider = () => {
-  const radius = useAtomValue(themePreferences.selectors.getRadius)
+  const radius = useAtomValue(themeData.selectors.getRadius)
   return (
     <Card
       title="Border Radius"
@@ -71,7 +71,7 @@ const BorderRadiusSlider = () => {
           min={0}
           max={24}
           onChange={({ currentTarget }) =>
-            themePreferences.actions.setRadius(Number(currentTarget.value))
+            themeData.actions.setRadius(Number(currentTarget.value))
           }
         />
         {radius}
@@ -80,29 +80,13 @@ const BorderRadiusSlider = () => {
   )
 }
 
-const colors: Parameters<typeof theme.getCssVar>[0][] = [
-  "color.category.pink",
-  "color.category.red",
-  "color.category.orange",
-  "color.category.yellow",
-  "color.category.lime",
-  "color.category.green",
-  "color.category.teal",
-  "color.category.cyan",
-  "color.category.blue",
-  "color.category.indigo",
-  "color.category.violet",
-  "color.category.fuchsia",
-  "color.text.priority",
-]
-
 interface ColorButtonProps {
-  color: (typeof colors)[number]
+  color: (typeof themeAccentColors)[number]
   current: string
 }
 const ColorButton = ({ color, current }: ColorButtonProps) => (
   <button
-    onClick={() => themePreferences.actions.setAccent(color)}
+    onClick={() => themeData.actions.setAccent(color)}
     style={{ color: theme.read(color) }}
     className={cn(
       hstack({ align: "center", justify: "center", inline: true }),
@@ -115,14 +99,14 @@ const ColorButton = ({ color, current }: ColorButtonProps) => (
 )
 
 const AccentColor = () => {
-  const accent = useAtomValue(themePreferences.selectors.getAccent)
+  const accent = useAtomValue(themeData.selectors.getAccent)
   return (
     <Card
       title="Accent color"
       description="Change the accent color which highlights focused and active elements."
     >
       <div className={hstack({ gap: 2, wrap: true })}>
-        {colors.map(color => (
+        {themeAccentColors.map(color => (
           <ColorButton key={color} color={color} current={accent} />
         ))}
       </div>

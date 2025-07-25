@@ -17,7 +17,7 @@ const colors = {
   },
   category: {
     pink: twColors.pink,
-    red: twColors.red,
+    rose: twColors.rose,
     orange: twColors.orange,
     yellow: twColors.amber,
     lime: twColors.lime,
@@ -71,7 +71,8 @@ export const theme = createTheme({
         success: colors.alert.success["500"],
       },
       category: {
-        red: colors.category.red[500],
+        pink: colors.category.pink[500],
+        rose: colors.category.rose[500],
         orange: colors.category.orange[500],
         yellow: colors.category.yellow[500],
         lime: colors.category.lime[500],
@@ -82,7 +83,6 @@ export const theme = createTheme({
         indigo: colors.category.indigo[500],
         violet: colors.category.violet[500],
         fuchsia: colors.category.fuchsia[500],
-        pink: colors.category.pink[500],
       },
     },
   },
@@ -133,7 +133,8 @@ export const theme = createTheme({
         success: get("color.alert.success"),
       },
       category: {
-        red: get("color.category.red"),
+        rose: get("color.category.rose"),
+        pink: get("color.category.pink"),
         orange: get("color.category.orange"),
         yellow: get("color.category.yellow"),
         lime: get("color.category.lime"),
@@ -144,7 +145,6 @@ export const theme = createTheme({
         indigo: get("color.category.indigo"),
         violet: get("color.category.violet"),
         fuchsia: get("color.category.fuchsia"),
-        pink: get("color.category.pink"),
       },
     },
   }),
@@ -189,7 +189,8 @@ theme.addVariant("dark", {
       success: colors.alert.success["300"],
     },
     category: {
-      red: twColors.red[300],
+      pink: twColors.pink[300],
+      rose: twColors.rose[300],
       orange: twColors.orange[300],
       yellow: twColors.yellow[300],
       lime: twColors.lime[300],
@@ -200,7 +201,6 @@ theme.addVariant("dark", {
       indigo: twColors.indigo[300],
       violet: twColors.violet[300],
       fuchsia: twColors.fuchsia[300],
-      pink: twColors.pink[300],
     },
   },
 })
