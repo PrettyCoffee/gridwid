@@ -12,6 +12,8 @@ import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
 
+// eslint-disable-next-line import/no-restricted-paths -- TODO: Move data in separate directory?
+import { notesData } from "features/notes"
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"
 import { prismTheme } from "utils/prism-theme"
@@ -129,7 +131,51 @@ const markdownStyles = css`
   }
 `
 
-const adjustForRender = (text: string) => text.replaceAll(/^(#+)/gm, "#$1")
+const noteReference = css`
+  --spacing: ${theme.read("radius", "calc(<var> * 0.0125rem + 0.25rem)")};
+  --radius: ${theme.read("radius", "calc(<var> * 0.025rem)")};
+
+  color: ${theme.read("color.text.priority")};
+  border-left: 0.25rem solid ${theme.read("color.accent")};
+  text-decoration: none;
+  border-radius: var(--radius);
+  background-color: ${theme.read(
+    "color.text.default",
+    "rgb(from <var> r g b / 0.125);"
+  )};
+  padding: 0.125rem 0;
+  :first-child,
+  :last-child {
+    padding-left: var(--spacing);
+    padding-right: var(--spacing);
+  }
+  :first-child {
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background-color: ${theme.read(
+      "color.text.default",
+      "rgb(from <var> r g b / 0.125);"
+    )};
+  }
+  &:hover {
+    background-color: ${theme.read(
+      "color.text.default",
+      "rgb(from <var> r g b / 0.25);"
+    )};
+  }
+`
+const createNoteLink = (id: string) => {
+  const note = notesData.get().find(note => note.id === id)
+  if (!note) return null
+  const link = `
+    <a href="#notes${id}" class="${noteReference}">
+      <span>#${id}</span>
+      <span>${note.title}</span>
+    </a>
+  `
+  return link.trim().replaceAll(/>\s+</gm, "><")
+}
+
+const adjustForRender = (text: string) => text.replaceAll(/^(#+\s)/gm, "#$1")
 
 const parse = (markdown: string) =>
   unified()
@@ -146,6 +192,10 @@ const parse = (markdown: string) =>
         .toString()
         .replaceAll("<pre", "<div style='position: relative;'><pre")
         .replaceAll("</pre>", "</pre></div>")
+        .replaceAll(
+          /#([\da-zA-Z-]+)/gm,
+          (fullMatch, id) => createNoteLink(String(id)) ?? fullMatch
+        )
     )
 
 const addCopyButton = (pre: HTMLPreElement) => {

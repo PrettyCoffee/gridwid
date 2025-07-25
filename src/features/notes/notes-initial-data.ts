@@ -12,6 +12,8 @@ This is a paragraph with **bold text**, *italicized text*, ~~strikethrough text~
 
 You can also create [labeled links](https://commonmark.org) or just place urls like https://commonmark.org.
 
+Additionally, you can reference existing notes by using their id: #md-sheet
+
 ---
 
 ## Lists
