@@ -25,6 +25,7 @@ export const themeAccentColors = [
 export const themeSchema = z.object({
   radius: z.number(),
   mode: z.enum(["dark", "light"]),
+  colored: z.boolean(),
   accent: z.enum(themeAccentColors),
 })
 
@@ -33,6 +34,7 @@ export type ThemePreferences = Resolve<z.infer<typeof themeSchema>>
 const defaultValue: ThemePreferences = {
   radius: theme.defaultTokens.radius,
   mode: "dark",
+  colored: false,
   accent: "color.category.rose",
 }
 
@@ -47,6 +49,7 @@ export const themeData = createSlice({
       accent,
     }),
     setMode: (state, mode: ThemePreferences["mode"]) => ({ ...state, mode }),
+    toggleColored: state => ({ ...state, colored: !state.colored }),
     setRadius: (state, radius: ThemePreferences["radius"]) => ({
       ...state,
       radius,
@@ -56,19 +59,25 @@ export const themeData = createSlice({
     getAccent: state => state.accent,
     getMode: state => state.mode,
     getRadius: state => state.radius,
+    getColored: state => state.colored,
   },
 })
 
 const updateTheme = () => {
-  const { mode, radius, accent } = themeData.get()
+  const { mode, colored, radius, accent } = themeData.get()
   const isDark = mode === "dark"
   const root = document.documentElement
 
   root.classList.toggle("dark", isDark)
+  root.classList.toggle("dark-with-accent", isDark && colored)
+  root.classList.toggle("light-with-accent", !isDark && colored)
   root.style.setProperty(...theme.write("radius", radius))
-  root.style.setProperty(
-    ...theme.write("color.accent", getCssVarValue(theme.getCssVar(accent)))
-  )
+
+  const accentValue = getCssVarValue(theme.getCssVar(accent))
+  root.style.setProperty(...theme.write("color.accent", accentValue))
+
+  const accentHue = Number(accentValue.split(" ")[2])
+  root.style.setProperty(...theme.write("color.accentHue", accentHue))
 }
 
 updateTheme()

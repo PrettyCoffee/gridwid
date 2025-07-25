@@ -3,6 +3,7 @@ import { Check } from "lucide-react"
 
 import { Card } from "components/ui/card"
 import { Icon } from "components/ui/icon"
+import { Toggle } from "components/ui/toggle"
 import { VisuallyHidden } from "components/utility/visually-hidden"
 import { themeAccentColors, themeData } from "data/theme"
 import { useAtomValue } from "lib/yaasl"
@@ -56,6 +57,31 @@ const slider = css`
   }
 `
 
+const BaseColors = () => {
+  const mode = useAtomValue(themeData.selectors.getMode)
+  const colored = useAtomValue(themeData.selectors.getColored)
+  return (
+    <Card
+      title="Base Colors"
+      description="Choose between dark and light mode, and decide if neutral colors should have a hue."
+    >
+      <div className={hstack({ justify: "start", gap: 4 })}>
+        <Toggle
+          label="Dark base colors"
+          checked={mode === "dark"}
+          onChange={() =>
+            themeData.actions.setMode(mode === "dark" ? "light" : "dark")
+          }
+        />
+        <Toggle
+          label="Colored base colors"
+          checked={colored}
+          onChange={() => themeData.actions.toggleColored()}
+        />
+      </div>
+    </Card>
+  )
+}
 const BorderRadiusSlider = () => {
   const radius = useAtomValue(themeData.selectors.getRadius)
   return (
@@ -116,6 +142,7 @@ const AccentColor = () => {
 
 const SettingsThemingRoute = () => (
   <div className={cn(vstack({ gap: 2 }))}>
+    <BaseColors />
     <AccentColor />
     <BorderRadiusSlider />
   </div>
