@@ -4,6 +4,7 @@ import { Check } from "lucide-react"
 import { Card } from "components/ui/card"
 import { Icon } from "components/ui/icon"
 import { Toggle } from "components/ui/toggle"
+import { TitleTooltip } from "components/ui/tooltip"
 import { VisuallyHidden } from "components/utility/visually-hidden"
 import { themeAccentColors, themeData } from "data/theme"
 import { useAtomValue } from "lib/yaasl"
@@ -82,6 +83,7 @@ const BaseColors = () => {
     </Card>
   )
 }
+
 const BorderRadiusSlider = () => {
   const radius = useAtomValue(themeData.selectors.getRadius)
   return (
@@ -110,19 +112,29 @@ interface ColorButtonProps {
   color: (typeof themeAccentColors)[number]
   current: string
 }
-const ColorButton = ({ color, current }: ColorButtonProps) => (
-  <button
-    onClick={() => themeData.actions.setAccent(color)}
-    style={{ color: theme.read(color) }}
-    className={cn(
-      hstack({ align: "center", justify: "center", inline: true }),
-      "size-8 cursor-pointer rounded-md bgl-base-current hover:bgl-layer-b/10 active:bgl-layer-b/20"
-    )}
-  >
-    <VisuallyHidden>{color}</VisuallyHidden>
-    {current === color && <Icon icon={Check} color="invert" size="sm" />}
-  </button>
-)
+const ColorButton = ({ color, current }: ColorButtonProps) => {
+  const colorName = ((): string => {
+    const name = color.split(".").at(-1)!
+    const [first, ...rest] = name === "priority" ? "neutral" : name
+    return first!.toUpperCase() + rest.join("")
+  })()
+
+  return (
+    <TitleTooltip asChild title={colorName} side="bottom">
+      <button
+        onClick={() => themeData.actions.setAccent(color)}
+        style={{ color: theme.read(color) }}
+        className={cn(
+          hstack({ align: "center", justify: "center", inline: true }),
+          "size-8 cursor-pointer rounded-md bgl-base-current hover:bgl-layer-b/10 active:bgl-layer-b/20"
+        )}
+      >
+        <VisuallyHidden>{colorName}</VisuallyHidden>
+        {current === color && <Icon icon={Check} color="invert" size="sm" />}
+      </button>
+    </TitleTooltip>
+  )
+}
 
 const AccentColor = () => {
   const accent = useAtomValue(themeData.selectors.getAccent)
