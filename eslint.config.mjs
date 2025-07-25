@@ -1,3 +1,5 @@
+import { readdirSync } from "node:fs"
+
 import prettyCozy from "@pretty-cozy/eslint-config"
 import { defineConfig, globalIgnores } from "eslint/config"
 import checkFile from "eslint-plugin-check-file"
@@ -10,6 +12,13 @@ export default defineConfig(
   prettyCozy.vitest,
   storybook.configs["flat/recommended"],
   globalIgnores(["dist", "node_modules", "!.storybook"]),
+
+  {
+    // For some unknown reason vscode detects this rule as "warn", even when being disabled by prettyCozy.tailwind
+    rules: {
+      "better-tailwindcss/enforce-consistent-line-wrapping": "off",
+    },
+  },
 
   {
     name: "local-rules/lib-imports",
@@ -44,13 +53,7 @@ export default defineConfig(
   },
 
   {
-    settings: {
-      "import/resolver": {
-        node: {
-          paths: ["src"],
-        },
-      },
-    },
+    name: "local-rules/check-file-naming",
     plugins: { checkFile },
     rules: {
       "checkFile/folder-naming-convention": ["error", { "*/**": "KEBAB_CASE" }],
@@ -59,26 +62,55 @@ export default defineConfig(
         { "*/**": "KEBAB_CASE" },
         { ignoreMiddleExtensions: true },
       ],
+    },
+  },
+
+  {
+    name: "local-rules/check-file-naming",
+    files: [".storybook/**"],
+    plugins: { checkFile },
+    rules: {
+      "checkFile/folder-naming-convention": "off",
+    },
+  },
+
+  {
+    settings: {
+      "import/resolver": {
+        node: {
+          paths: ["src"],
+        },
+      },
+    },
+    rules: {
       "import/no-restricted-paths": [
         "error",
         {
           zones: [
             // disables cross-feature imports:
-            // e.g. src/features/discussions should not import from src/features/comments, etc.
-            {
-              target: "./src/features/taskbar",
+            // e.g. src/features/notes should not import from src/features/taskbar, etc.
+            ...readdirSync("./src/features").map(feature => ({
+              target: `./src/features/${feature}`,
               from: "./src/features",
-              except: ["./taskbar"],
-            },
+              except: [`./${feature}`],
+            })),
+
             // enforce unidirectional codebase:
 
-            // e.g. src/app can import from src/features but not the other way around
+            // src/app can import from src/features but not the other way around
             {
               target: "./src/features",
               from: "./src/app",
             },
 
-            // e.g. src/features and src/app can import from these shared modules but not the other way around
+            // src/data can only import from self + utils + lib + types
+            {
+              target: "./src/data",
+              from: "./src",
+              except: ["./data", "./utils", "./lib", "./types"],
+            },
+
+            // src/features and src/app can import from these shared modules but not the other way around
             {
               target: [
                 "./src/components",
@@ -112,14 +144,6 @@ export default defineConfig(
     rules: {
       "import/no-extraneous-dependencies": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
-    },
-  },
-
-  {
-    files: [".storybook/**"],
-    plugins: { checkFile },
-    rules: {
-      "checkFile/folder-naming-convention": "off",
     },
   },
 
