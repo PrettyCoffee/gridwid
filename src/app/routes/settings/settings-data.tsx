@@ -1,44 +1,16 @@
 import { Download, Trash } from "lucide-react"
-import { z, ZodError } from "zod"
+import { ZodError } from "zod"
 
 import { Button } from "components/ui/button"
 import { Card } from "components/ui/card"
 import { showDialog } from "components/ui/dialog"
 import { FileInput } from "components/ui/file-input/file-input"
 import { showToast } from "components/ui/toaster"
-import { noteSchema, notesData } from "data/notes"
-import { createDerived } from "lib/yaasl"
+import { allData, AllData } from "data/all-data"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
 
-import { Resolve } from "../../../types/util-types"
 import { download } from "../../../utils/download"
-
-const allDataSchema = z.object({
-  notes: z.optional(z.array(noteSchema)),
-})
-
-type AllData = Resolve<z.infer<typeof allDataSchema>>
-
-const allData = createDerived<AllData>(
-  ({ get }) => {
-    const notes = get(notesData)
-    return { notes }
-  },
-
-  ({ value, set }) => {
-    if (value.notes) set(notesData, value.notes)
-  }
-)
-
-const resetData = () => {
-  allData.set({ notes: notesData.defaultValue })
-  showToast({
-    kind: "success",
-    title: "Deleted data",
-  })
-  window.location.hash = ""
-}
 
 const exportData = () => {
   const date = new Date().toISOString().slice(0, 10)
@@ -54,9 +26,9 @@ const parse = (content: string): unknown => {
   }
 }
 
-const validateSchema = (data: unknown) => {
+const validateData = (data: unknown) => {
   try {
-    return allDataSchema.parse(data)
+    return allData.validate(data)
   } catch (error) {
     if (!(error instanceof ZodError)) {
       throw error
@@ -80,15 +52,14 @@ const importData = async (file: File) => {
     const data = await file
       .text()
       .then(parse)
-      .then(validateSchema)
+      .then(validateData)
       .then(atLeastOneKey)
 
-    allData.set(prev => ({ ...prev, ...data }))
+    allData.patch(data)
     showToast({
       kind: "success",
       title: "Data imported",
     })
-    window.location.hash = ""
   } catch (error) {
     const message =
       error instanceof ImportError
@@ -141,7 +112,13 @@ const requestDeletion = () =>
     confirm: {
       caption: "Confirm deletion",
       look: "destructive",
-      onClick: resetData,
+      onClick: () => {
+        allData.reset()
+        showToast({
+          kind: "success",
+          title: "Deleted data",
+        })
+      },
     },
     cancel: {
       caption: "Cancel",
