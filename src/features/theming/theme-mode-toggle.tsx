@@ -7,10 +7,9 @@ import { Button } from "components/ui/button"
 import { Icon } from "components/ui/icon"
 import { TitleTooltip } from "components/ui/tooltip"
 import { VisuallyHidden } from "components/utility/visually-hidden"
+import { themePreferences } from "data/theme"
 import { useAtomValue } from "lib/yaasl"
 import { cn } from "utils/cn"
-
-import { themePreferences } from "./theme-data"
 
 const animateIn = keyframes`
   from {

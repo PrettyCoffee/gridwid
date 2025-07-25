@@ -2,11 +2,11 @@ import { PenBox } from "lucide-react"
 
 import { Icon } from "components/ui/icon"
 import { HashRouter } from "components/utility/hash-router"
+import { Note } from "data/notes"
 import { cn } from "utils/cn"
 import { formatDate } from "utils/format"
 import { surface } from "utils/styles"
 
-import { Note } from "./notes-data"
 import { Divider } from "../../components/ui/divider"
 import { MDPreview } from "../../components/ui/md-preview"
 

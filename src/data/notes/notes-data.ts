@@ -1,10 +1,10 @@
 import { z } from "zod"
 
 import { createSelector, createSlice, localStorage } from "lib/yaasl"
+import { Resolve } from "types/util-types"
 import { getNextId } from "utils/get-next-id"
 
 import { notesInitialData } from "./notes-initial-data"
-import { Resolve } from "../../types/util-types"
 
 export const noteSchema = z.object({
   id: z.string(),

@@ -12,8 +12,7 @@ import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
 import { unified } from "unified"
 
-// eslint-disable-next-line import/no-restricted-paths -- TODO: Move data in separate directory?
-import { notesData } from "features/notes"
+import { notesData } from "data/notes"
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"
 import { prismTheme } from "utils/prism-theme"

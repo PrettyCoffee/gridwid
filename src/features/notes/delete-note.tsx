@@ -1,7 +1,6 @@
 import { showDialog } from "components/ui/dialog"
 import { showToast } from "components/ui/toaster"
-
-import { notesData } from "./notes-data"
+import { notesData } from "data/notes"
 
 export const deleteNote = (id: string, title: string) =>
   showDialog({

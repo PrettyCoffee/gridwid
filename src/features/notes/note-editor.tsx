@@ -10,13 +10,13 @@ import { MDPreview } from "components/ui/md-preview"
 import { NoData } from "components/ui/no-data"
 import { useHashRouter } from "components/utility/hash-router"
 import { ScrollArea } from "components/utility/scroll-area"
+import { Note, notesData } from "data/notes"
 import { useAtomValue } from "lib/yaasl"
 import { cn } from "utils/cn"
 import { formatDate } from "utils/format"
 import { surface, vstack } from "utils/styles"
 
 import { deleteNote } from "./delete-note"
-import { Note, notesData } from "./notes-data"
 
 const emptyNote: Note = {
   id: "new",

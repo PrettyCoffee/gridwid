@@ -1,1 +1,2 @@
-export * from "./notes-data"
+export * from "./note-editor"
+export * from "./note-preview"
