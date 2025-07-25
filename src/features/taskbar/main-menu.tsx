@@ -20,15 +20,14 @@ import {
   HashRouterLinkProps,
   useHashRouter,
 } from "components/utility/hash-router"
-// TODO: Adjust taskbar to pass props down here
-// eslint-disable-next-line import/no-restricted-paths
-import { ThemeModeToggle } from "features/theming/theme-mode-toggle"
 import { useMountAnimation } from "hooks/use-mount-animation"
 import { RoutePath } from "types/routes"
 import { cn } from "utils/cn"
 import { createContext } from "utils/create-context"
 import { hstack, interactive, surface } from "utils/styles"
 import { zIndex } from "utils/z-index"
+
+import { ThemeModeToggle } from "./theme-mode-toggle"
 
 const enter = keyframes`
   from {
