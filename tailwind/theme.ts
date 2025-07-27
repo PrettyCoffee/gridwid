@@ -62,7 +62,7 @@ const colors = {
 
 export const theme = createTheme({
   tokens: {
-    radius: 8,
+    radius: 12,
     color: {
       black: colors.neutral["0"],
       white: colors.neutral["1000"],
@@ -119,6 +119,7 @@ export const theme = createTheme({
 
   twTheme: get => ({
     borderRadius: {
+      "2xl": get("radius", "calc(<var> / 8 * 1rem)"), // 1rem
       xl: get("radius", "calc(<var> / 10.666 * 1rem)"), // 0.75rem
       lg: get("radius", "calc(<var> / 16 * 1rem)"), // 0.5rem
       md: get("radius", "calc(<var> / 21.333 * 1rem)"), // 0.375rem

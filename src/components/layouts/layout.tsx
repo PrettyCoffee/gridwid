@@ -89,8 +89,8 @@ const Side = ({ children, back, actions = [], className }: LayoutSideProps) => {
         <div
           className={cn(
             vstack({}),
-            "absolute top-3 -right-5 rounded-full border border-stroke-gentle bg-background-page",
-            "*:rounded-full"
+            "absolute top-3 -right-5 rounded-2xl border border-stroke-gentle bg-background-page",
+            "*:rounded-2xl"
           )}
         >
           {allActions.map(action => (
