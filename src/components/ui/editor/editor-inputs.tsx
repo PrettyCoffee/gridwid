@@ -9,15 +9,18 @@ import { hstack } from "utils/styles"
 import { useEditorContext } from "./editor-context"
 import { MDEditor } from "../md-editor"
 
-const inputBorder = cva("rounded-sm outline-1 -outline-offset-1", {
-  variants: {
-    status: {
-      default: "hover:outline-stroke outline-transparent",
-      editing: "outline-stroke focus-within:outline-stroke-focus",
-      error: "outline-alert-error",
+const inputBorder = cva(
+  "rounded-sm outline-1 -outline-offset-1 outline-solid",
+  {
+    variants: {
+      status: {
+        default: "hover:outline-stroke outline-transparent",
+        editing: "outline-stroke focus-within:outline-stroke-focus",
+        error: "outline-alert-error",
+      },
     },
-  },
-})
+  }
+)
 
 interface InputProps extends ClassNameProp {
   field: string
