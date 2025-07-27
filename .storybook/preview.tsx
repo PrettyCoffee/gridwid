@@ -40,7 +40,6 @@ const Providers = ({ children }: PropsWithChildren) => (
 )
 
 const preview: Preview = {
-  tags: ["autodocs"],
   decorators: [
     Story => {
       useEffect(() => {
