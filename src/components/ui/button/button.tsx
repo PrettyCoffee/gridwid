@@ -16,14 +16,13 @@ import {
   RefProp,
 } from "types/base-props"
 import { cn } from "utils/cn"
-import { focusRing, interactive, InteractiveProps } from "utils/styles"
+import { interactive, InteractiveProps } from "utils/styles"
 
 import { Icon } from "../icon"
 import { Spinner } from "../spinner"
 
 const button = cva(
   cn(
-    focusRing,
     "relative inline-flex shrink-0 items-center justify-center rounded-md text-sm font-medium whitespace-nowrap"
   ),
   {

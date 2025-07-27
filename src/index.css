@@ -23,19 +23,19 @@
 
 @layer components {
   * {
-    @apply outline-none;
-    @apply focus-visible:outline-stroke-focus;
-    @apply focus-visible:outline-2;
-    @apply focus-visible:outline-offset-2;
-    @apply focus-visible:outline-solid;
     @apply border-stroke;
+    @apply outline-2;
+    @apply outline-offset-2;
+    @apply outline-stroke-focus;
+    @apply outline-none;
+    @apply focus-visible:outline-solid;
   }
-
+  
   * {
-    scrollbar-color: var(--tw-theme-color-stroke) transparent;
+    scrollbar-color: oklch(var(--tw-theme-color-stroke)) transparent;
   }
   
   *:focus-visible {
-    scrollbar-color: var(--tw-theme-color-highlight) transparent;
+    scrollbar-color: oklch(var(--tw-theme-color-accent)) transparent;
   }
 }

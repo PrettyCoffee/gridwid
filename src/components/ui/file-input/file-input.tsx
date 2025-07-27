@@ -6,7 +6,7 @@ import { AlertKind, ClassNameProp } from "../../../types/base-props"
 import { cn } from "../../../utils/cn"
 import {
   alertStyles,
-  focusRing,
+  focusWithinOutline,
   hstack,
   interactive,
 } from "../../../utils/styles"
@@ -60,26 +60,26 @@ export const FileInput = ({
         onDragOver={addDrag}
         onDragLeave={removeDrag}
       >
-        <input
-          type="file"
-          accept={accept}
-          id={id}
-          className="sr-only"
-          onChange={handleChange}
-        />
         <label
           htmlFor={id}
           className={cn(
             hstack({ gap: 2, align: "center", justify: "center" }),
             interactive({ look: "flat" }),
-            focusRing,
+            focusWithinOutline,
             "cursor-pointer rounded-md p-6",
-            "border-2 border-dashed border-stroke [*:focus-visible+&]:outline",
+            "border-2 border-dashed border-stroke",
             alert && alert.kind !== "info" && alertStyles[alert.kind].border,
             dragging && "border-stroke-focus bgl-layer-w/10",
             className
           )}
         >
+          <input
+            type="file"
+            accept={accept}
+            id={id}
+            className="sr-only"
+            onChange={handleChange}
+          />
           <Icon icon={Upload} color="current" />
           {label}
           {alert && (

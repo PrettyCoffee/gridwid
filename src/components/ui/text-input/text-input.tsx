@@ -10,7 +10,7 @@ import {
   RefProp,
 } from "types/base-props"
 import { cn } from "utils/cn"
-import { alertStyles, focusRing, hstack } from "utils/styles"
+import { alertStyles, focusWithinOutline, hstack } from "utils/styles"
 
 import { IconButton } from "../icon-button"
 import { TitleTooltip } from "../tooltip"
@@ -49,7 +49,7 @@ export const TextInput = ({
         hstack({ inline: true, align: "center", justify: "center" }),
         "relative w-full rounded-md border border-stroke-gentle bg-background-page",
         alert && alertStyles[alert.kind].border,
-        focusRing,
+        focusWithinOutline,
         className
       )}
     >
