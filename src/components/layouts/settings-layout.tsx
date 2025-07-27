@@ -15,7 +15,7 @@ const SettingsCategoryLayout = ({ children }: PropsWithChildren) => {
 
   return (
     <Layout.Multiple>
-      <Layout.Side back={{ path: "settings", caption: "Back to overview" }}>
+      <Layout.Side back={{ to: "settings", title: "Back to overview" }}>
         {getSettingsPages(allRoutes).map(route => (
           <Button
             key={route.path}

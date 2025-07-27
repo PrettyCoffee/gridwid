@@ -4,7 +4,7 @@ import { ArrowLeft, Menu } from "lucide-react"
 
 import { useDisclosure } from "hooks/use-disclosure"
 import { useMountAnimation } from "hooks/use-mount-animation"
-import { ClassNameProp } from "types/base-props"
+import { ClassNameProp, IconProp } from "types/base-props"
 import { RoutePath } from "types/routes"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
@@ -34,15 +34,32 @@ const Centered = ({
 
 const Grid = ({ children }: PropsWithChildren) => <>{children}</>
 
+interface SideAction extends Required<IconProp> {
+  title: string
+  to?: RoutePath
+  onClick?: () => void
+}
+
 interface LayoutSideProps extends PropsWithChildren, ClassNameProp {
   back?: {
-    path: RoutePath
-    caption: string
+    to: RoutePath
+    title: string
   }
+  actions?: (SideAction | false | null | undefined)[]
 }
-const Side = ({ children, back, className }: LayoutSideProps) => {
+const Side = ({ children, back, actions = [], className }: LayoutSideProps) => {
   const { isOpen, toggle } = useDisclosure(true)
   const animate = useMountAnimation({ open: isOpen, duration: 300 })
+
+  const allActions: SideAction[] = [
+    {
+      title: isOpen ? "Collapse side menu" : "Expand side menu",
+      onClick: toggle,
+      icon: Menu,
+    },
+    back && { icon: ArrowLeft, ...back },
+    ...actions,
+  ].filter(action => !!action)
 
   return (
     <div className="pr-5 pb-2">
@@ -76,20 +93,9 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
             "*:rounded-full"
           )}
         >
-          <IconButton
-            title={isOpen ? "Collapse side menu" : "Expand side menu"}
-            titleSide="right"
-            onClick={toggle}
-            icon={Menu}
-          />
-          {back && (
-            <IconButton
-              title={back.caption}
-              titleSide="right"
-              to={back.path}
-              icon={ArrowLeft}
-            />
-          )}
+          {allActions.map(action => (
+            <IconButton key={action.title} titleSide="right" {...action} />
+          ))}
         </div>
       </div>
     </div>
