@@ -2,8 +2,6 @@ import { PropsWithChildren } from "react"
 
 import { ArrowLeft, Menu } from "lucide-react"
 
-import { Button } from "components/ui/button"
-import { Divider } from "components/ui/divider"
 import { useDisclosure } from "hooks/use-disclosure"
 import { useMountAnimation } from "hooks/use-mount-animation"
 import { ClassNameProp } from "types/base-props"
@@ -63,28 +61,19 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
         <div
           className={cn(
             vstack({ gap: 2, align: "stretch" }),
-            "-m-2 flex-1 p-2 transition-opacity duration-0 motion-safe:duration-300",
+            "-m-2 flex-1 overflow-hidden p-2 transition-opacity duration-0 motion-safe:duration-300",
             animate.state !== "open" && "overflow-hidden **:overflow-hidden",
             isOpen ? "opacity-100" : "opacity-0"
           )}
         >
-          {animate.mounted && back && (
-            <>
-              <Button to={back.path} icon={ArrowLeft} className="justify-start">
-                {back.caption}
-              </Button>
-              <Divider color="gentle" />
-            </>
-          )}
-
           {animate.mounted && children}
         </div>
 
         <div
           className={cn(
-            vstack({ gap: 2 }),
-            "absolute top-3 -right-5",
-            "*:rounded-full *:border *:border-stroke-gentle *:bgl-base-background-page"
+            vstack({}),
+            "absolute top-3 -right-5 rounded-full border border-stroke-gentle bg-background-page",
+            "*:rounded-full"
           )}
         >
           <IconButton
@@ -93,6 +82,14 @@ const Side = ({ children, back, className }: LayoutSideProps) => {
             onClick={toggle}
             icon={Menu}
           />
+          {back && (
+            <IconButton
+              title={back.caption}
+              titleSide="right"
+              to={back.path}
+              icon={ArrowLeft}
+            />
+          )}
         </div>
       </div>
     </div>
