@@ -5,6 +5,7 @@ import { GripHorizontal, Trash } from "lucide-react"
 import { IconButton } from "components/ui/icon-button"
 import { List } from "components/ui/list"
 import { TextInput } from "components/ui/text-input"
+import { ScrollArea } from "components/utility/scroll-area"
 import { Sortable } from "components/utility/sortable"
 import { Note, notesData, notesSearch, notesSearchData } from "data/notes"
 import { deleteNote } from "features/notes/delete-note"
@@ -91,34 +92,36 @@ export const NotesList = ({ activeNoteId }: NotesListProps) => {
     <>
       <SearchBar />
 
-      <div className="-m-1 flex-1 overflow-auto p-1">
-        <Sortable.Context<Note>
-          items={notes}
-          onSort={sort => notesData.set(sort(notesData.get()))}
-          OverlayItem={({ source }) => (
-            <div className="rounded-sm bg-background shade-medium **:bgl-base-transparent! **:bgl-layer-transparent!">
-              <ListItem
-                index={notes.findIndex(note => note.id === source.id)}
-                note={source.data as Note}
-                active={source.id === active?.id}
-                isOverlayItem
-              />
-            </div>
-          )}
-        >
-          <List.Root>
-            {notes.map((note, index) => (
-              <ListItem
-                key={note.id}
-                index={index}
-                note={note}
-                active={note.id === active?.id}
-                disableSortable={!!filter}
-              />
-            ))}
-          </List.Root>
-        </Sortable.Context>
-      </div>
+      <ScrollArea className="-m-1 h-full">
+        <div className="flex-1 overflow-auto p-1">
+          <Sortable.Context<Note>
+            items={notes}
+            onSort={sort => notesData.set(sort(notesData.get()))}
+            OverlayItem={({ source }) => (
+              <div className="rounded-sm bg-background shade-medium **:bgl-base-transparent! **:bgl-layer-transparent!">
+                <ListItem
+                  index={notes.findIndex(note => note.id === source.id)}
+                  note={source.data as Note}
+                  active={source.id === active?.id}
+                  isOverlayItem
+                />
+              </div>
+            )}
+          >
+            <List.Root>
+              {notes.map((note, index) => (
+                <ListItem
+                  key={note.id}
+                  index={index}
+                  note={note}
+                  active={note.id === active?.id}
+                  disableSortable={!!filter}
+                />
+              ))}
+            </List.Root>
+          </Sortable.Context>
+        </div>
+      </ScrollArea>
     </>
   )
 }

@@ -66,7 +66,7 @@ const Side = ({ children, back, actions = [], className }: LayoutSideProps) => {
       <div
         className={cn(
           vstack(),
-          "relative -ml-4 h-full pt-3 pr-7 pl-3",
+          "relative -ml-4 h-full py-3 pr-7 pl-3",
           "rounded-r-lg border-y border-r border-stroke-gentle",
           "transition-[max-width,min-width,padding] duration-0 ease-in-out motion-safe:duration-300",
           isOpen
@@ -78,7 +78,7 @@ const Side = ({ children, back, actions = [], className }: LayoutSideProps) => {
         <div
           className={cn(
             vstack({ gap: 2, align: "stretch" }),
-            "-m-2 flex-1 overflow-hidden p-2 transition-opacity duration-0 motion-safe:duration-300",
+            "-m-2 flex-1 overflow-y-scroll p-2 transition-opacity duration-0 motion-safe:duration-300",
             animate.state !== "open" && "overflow-hidden **:overflow-hidden",
             isOpen ? "opacity-100" : "opacity-0"
           )}
