@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { createSelector, createSlice, localStorage } from "lib/yaasl"
+import { createSelector, createSlice, indexedDb } from "lib/yaasl"
 import { Resolve } from "types/util-types"
 import { getNextId } from "utils/get-next-id"
 
@@ -15,12 +15,26 @@ export const noteSchema = z.object({
   locked: z.boolean(),
 })
 
+// TODO: Delete migration
+const legacyKey = "gridwid/notes"
+const legacyValue = (() => {
+  const value = window.localStorage.getItem(legacyKey)
+  if (!value) return null
+  try {
+    const parsed = JSON.parse(value) as unknown
+    const valid = z.array(noteSchema).parse(parsed)
+    return valid
+  } catch {
+    return null
+  }
+})()
+
 export type Note = Resolve<z.infer<typeof noteSchema>>
 
 export const notesData = createSlice({
   name: "notes",
-  defaultValue: [notesInitialData] as Note[],
-  effects: [localStorage()],
+  defaultValue: legacyValue ?? ([notesInitialData] as Note[]),
+  effects: [indexedDb()],
   reducers: {
     add: (state, note: Omit<Note, "id" | "createdAt" | "locked">) => [
       ...state,
@@ -33,6 +47,11 @@ export const notesData = createSlice({
     remove: (state, id: string) => state.filter(note => note.id !== id),
   },
 })
+
+// TODO: Delete migration
+if (JSON.stringify(legacyValue) === JSON.stringify(notesData.get())) {
+  window.localStorage.removeItem(legacyKey)
+}
 
 interface NotesSearch {
   filter: string
