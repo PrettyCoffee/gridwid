@@ -166,7 +166,7 @@ const createNoteLink = (id: string) => {
   const note = notesData.get().find(note => note.id === id)
   if (!note) return null
   const link = `
-    <a href="#notes${id}" class="${noteReference}">
+    <a href="#notes/${id}" class="${noteReference}">
       <span>#${id}</span>
       <span>${note.title}</span>
     </a>
