@@ -2,8 +2,8 @@ import { PropsWithChildren } from "react"
 
 import { ArrowLeft, Menu } from "lucide-react"
 
-import { useDisclosure } from "hooks/use-disclosure"
 import { useMountAnimation } from "hooks/use-mount-animation"
+import { createAtom, useAtomValue } from "lib/yaasl"
 import { ClassNameProp, IconProp } from "types/base-props"
 import { RoutePath } from "types/routes"
 import { cn } from "utils/cn"
@@ -47,8 +47,10 @@ interface LayoutSideProps extends PropsWithChildren, ClassNameProp {
   }
   actions?: (SideAction | false | null | undefined)[]
 }
+const sideBarOpen = createAtom({ defaultValue: true })
 const Side = ({ children, back, actions = [], className }: LayoutSideProps) => {
-  const { isOpen, toggle } = useDisclosure(true)
+  const isOpen = useAtomValue(sideBarOpen)
+  const toggle = () => sideBarOpen.set(open => !open)
   const animate = useMountAnimation({ open: isOpen, duration: 300 })
 
   const allActions: SideAction[] = [
