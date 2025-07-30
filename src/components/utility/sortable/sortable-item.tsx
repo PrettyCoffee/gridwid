@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 
-import { closestCenter } from "@dnd-kit/collision"
+import { shapeIntersection } from "@dnd-kit/collision"
 import { useSortable } from "@dnd-kit/react/sortable"
 import { Slot } from "@radix-ui/react-slot"
 
@@ -29,7 +29,7 @@ export const SortableItem = <T extends Sortable>({
     index,
     disabled: draggable,
     data: item,
-    collisionDetector: closestCenter,
+    collisionDetector: shapeIntersection,
   })
 
   const Element = asChild ? Slot : "div"
