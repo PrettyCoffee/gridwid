@@ -1,14 +1,17 @@
 # Gridwid Concept
 
+## Roadmap
+
 - [⚪] not started
 - [🟡] in progress
 - [🟢] finished
-- [🔴] Removed
+- [🔴] Removed (for now)
 
-## General
+### General
+
 - [⚪] When swapping pages, swipe in direction + fade
 
-## Taskbar
+### Taskbar
 
 - Left:
   - [⚪] Workspaces
@@ -20,16 +23,17 @@
     - [⚪] version
     - [⚪] Visit Repo
   - [🟢] All pages (except settings)
-  - [⚪] GitHub access (Profile + recent repos vie API)
-  - [⚪] Custom iframe popups (e.g. lucide icons)
+  - [🔴] GitHub access (Profile + recent repos vie API)
+  - [🔴] Custom iframe popups (e.g. lucide icons)
 
 - Right:
   - [⚪] Calendar 
   - [🟢] toasts
 
-## Pages
+### Pages
 
-### Main
+#### Main
+
 - [⚪] Widgets from all pages
 - [⚪] Notes as list, open specific note with click on list item
 - [⚪] Bookmark previews based on link (e.g. GitHub repo preview)
@@ -41,17 +45,19 @@
   - [⚪] search / redirection input
     - [⚪] with commands, lookup etc
 
-### ToDos
+#### ToDos
+
 - [⚪] Checkable todos with Label
-- [⚪] due date (highlighted in calendar)
-  - [⚪] browser notifications?
+- [🔴] due date (highlighted in calendar)
+  - [🔴] browser notifications?
 - [⚪] Todo groups / collection (Tree)
 
 - Sub Pages:
   - [⚪] Overview (see all groups and check / uncheck items)
   - [⚪] Detailed view (edit groups)
 
-### Notes
+#### Notes
+
 - [🟢] Title, creation date, content
 - [🟢] With markdown support
 - Sub Pages: 
@@ -61,24 +67,28 @@
     - [🟢] All Notes list on the left (click to open, griplines with dnd reordering)
 - Additional Features:
   - [⚪] Categories / Groups for sidebar
-  - [⚪] Markdown cheatsheet (as initial first note)
-  - [⚪] show modal when leaving an unsaved note
+  - [🟢] Markdown cheatsheet (as initial first note)
+  - [🟢] show modal when leaving an unsaved note
 
-### Bookmarks
+#### Bookmarks
+
 - [⚪] Bookmarks with label and link
 - [⚪] Bookmark groups
 - [⚪] Import from browser
 - [⚪] Export for browser
 
-### Tools
-- [⚪] Color picker
+#### Tools
+
+- [⚪] Color palette picker / generator
   - [⚪] auto fill colors
 - [⚪] Theme preview
+- [⚪] Color Contrast checker
 
-### Settings
-- [⚪] Overview
-  - [⚪] All settings with big buttons / cards with icon and description
-  - [⚪] All other setting pages have a side navigation for settings
+#### Settings
+
+- [🟢] Overview
+  - [🟢] All settings with big buttons / cards with icon and description
+  - [🟢] All other setting pages have a side navigation for settings
 - [⚪] Taskbar
   - [⚪] Custom iframe popups
 - [⚪] Widget layout
@@ -87,8 +97,8 @@
   - [⚪] Add additional widgets
   - [⚪] Different widget sizes
 - [⚪] Theming
-  - [⚪] only few colors, auto generate additionals
-  - [⚪] Dark / light toggle for transparencies
+  - [🟢] only few colors, auto generate additionals
+  - [🟢] Dark / light toggle for transparencies
   - [⚪] Animations on / off?
-- [⚪] Export / Import data and data
+- [🟢] Export / Import data and data
 - [⚪] Workspaces
