@@ -30,7 +30,7 @@ const getOperationIndex = (source: Draggable | null) => {
   }
 }
 
-interface SortableContextProps<T extends Sortable> {
+export interface SortableContextProps<T extends Sortable> {
   items: T[]
   onSort: Dispatch<(items: T[]) => T[]>
   OverlayItem: (props: { source: Draggable<T> }) => ReactNode

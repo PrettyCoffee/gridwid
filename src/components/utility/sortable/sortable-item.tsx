@@ -10,7 +10,7 @@ import { SortableItemProvider } from "./sortable-item-context"
 import { Sortable } from "./types"
 import { getId } from "./utils"
 
-interface SortableItemProps<T extends Sortable> extends AsChildProp {
+export interface SortableItemProps<T extends Sortable> extends AsChildProp {
   item: T
   draggable?: boolean
   children: (props: { isDragging: boolean; isDropping: boolean }) => ReactNode
