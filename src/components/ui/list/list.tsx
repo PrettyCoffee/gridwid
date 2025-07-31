@@ -1,4 +1,4 @@
-import { HTMLAttributeAnchorTarget, PropsWithChildren } from "react"
+import { HTMLAttributeAnchorTarget, PropsWithChildren, ReactNode } from "react"
 
 import { ClassNameProp, IconProp, RefProp } from "types/base-props"
 import { RoutePath } from "types/routes"
@@ -40,12 +40,14 @@ export interface ListItemLabelProps
   to?: RoutePath
   href?: string
   target?: HTMLAttributeAnchorTarget
+  labelAttachment?: ReactNode
 }
 
 const Label = ({
   className,
   children,
   icon,
+  labelAttachment,
   ...props
 }: PropsWithChildren<ListItemLabelProps>) => (
   <Button
@@ -58,6 +60,7 @@ const Label = ({
   >
     {icon && <Icon icon={icon} className="mr-2 -ml-1" />}
     <span className="truncate">{children}</span>
+    {labelAttachment}
   </Button>
 )
 
