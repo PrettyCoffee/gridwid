@@ -1,7 +1,8 @@
 import { useEffect } from "react"
 
-import { GripHorizontal, Trash } from "lucide-react"
+import { GripHorizontal, LockKeyhole, Trash } from "lucide-react"
 
+import { Icon } from "components/ui/icon"
 import { IconButton } from "components/ui/icon-button"
 import { List } from "components/ui/list"
 import { TextInput } from "components/ui/text-input"
@@ -65,13 +66,29 @@ const ListItem = ({
             disabled={disableSortable}
           />
         </Sortable.Handle>
-        <List.Label to={`notes/${note.id}`}>{note.title}</List.Label>
-        <List.Action
-          icon={Trash}
-          title="Delete note"
-          hideTitle
-          onClick={() => deleteNote(note.id, note.title)}
-        />
+        <List.Label
+          to={`notes/${note.id}`}
+          labelAttachment={
+            note.locked && (
+              <Icon
+                icon={LockKeyhole}
+                color="muted"
+                size="sm"
+                className="ml-3 hidden [li:has(:where(:hover,:focus-visible,:active))_&]:inline-flex"
+              />
+            )
+          }
+        >
+          {note.title}
+        </List.Label>
+        {!note.locked && (
+          <List.Action
+            icon={Trash}
+            title="Delete note"
+            hideTitle
+            onClick={() => deleteNote(note.id, note.title)}
+          />
+        )}
       </List.Item>
     )}
   </Sortable.Item>
