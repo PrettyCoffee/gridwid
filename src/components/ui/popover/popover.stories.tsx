@@ -37,7 +37,7 @@ export const Default: Story = {
           {createRange(0, 4).map(value => (
             <List.Item key={value}>
               <Popover.Close asChild>
-                <List.Label>Item {value}</List.Label>
+                <List.Label label={"Item " + value} />
               </Popover.Close>
             </List.Item>
           ))}

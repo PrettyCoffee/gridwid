@@ -32,7 +32,7 @@ const Item = ({ icon, ...props }: ListItemProps & IconProp) => (
       hideTitle
       className="cursor-grab active:cursor-grabbing"
     />
-    <List.Label icon={icon}>{faker.lorem.words({ min: 2, max: 3 })}</List.Label>
+    <List.Label icon={icon} label={faker.lorem.words({ min: 2, max: 3 })} />
     <List.Action icon={SquarePen} title="Edit" />
     <List.Action icon={Trash} title="Delete" />
   </List.Item>

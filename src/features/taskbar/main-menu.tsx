@@ -140,9 +140,12 @@ const SettingsNavigation = () => {
           .filter(({ path }) => quickSettings.has(path))
           .map(({ path, meta }) => (
             <List.Item key={path}>
-              <List.Label to={path} icon={meta?.icon} onClick={closeMenu}>
-                {meta?.title}
-              </List.Label>
+              <List.Label
+                label={meta?.title}
+                to={path}
+                icon={meta?.icon}
+                onClick={closeMenu}
+              />
             </List.Item>
           ))}
       </List.Root>
@@ -179,9 +182,7 @@ const ExternalLinks = () => (
     <List.Root className="w-48">
       {links.map(({ title, href, icon }) => (
         <List.Item key={title}>
-          <List.Label icon={icon} href={href} target="_blank">
-            {title}
-          </List.Label>
+          <List.Label label={title} icon={icon} href={href} target="_blank" />
         </List.Item>
       ))}
     </List.Root>

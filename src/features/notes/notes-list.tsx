@@ -68,6 +68,7 @@ const ListItem = ({
         </Sortable.Handle>
         <List.Label
           to={`notes/${note.id}`}
+          label={note.title}
           labelAttachment={
             note.locked && (
               <Icon
@@ -78,9 +79,7 @@ const ListItem = ({
               />
             )
           }
-        >
-          {note.title}
-        </List.Label>
+        />
         {!note.locked && (
           <List.Action
             icon={Trash}

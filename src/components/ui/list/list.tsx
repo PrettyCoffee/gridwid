@@ -40,16 +40,17 @@ export interface ListItemLabelProps
   to?: RoutePath
   href?: string
   target?: HTMLAttributeAnchorTarget
+  label?: ReactNode
   labelAttachment?: ReactNode
 }
 
 const Label = ({
   className,
-  children,
-  icon,
+  label,
   labelAttachment,
+  icon,
   ...props
-}: PropsWithChildren<ListItemLabelProps>) => (
+}: ListItemLabelProps) => (
   <Button
     {...props}
     className={cn(
@@ -59,7 +60,7 @@ const Label = ({
     )}
   >
     {icon && <Icon icon={icon} className="mr-2 -ml-1" />}
-    <span className="truncate">{children}</span>
+    <span className="truncate">{label}</span>
     {labelAttachment}
   </Button>
 )
