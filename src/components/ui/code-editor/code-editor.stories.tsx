@@ -5,7 +5,7 @@ import { action, argType, Meta, StoryObj } from "lib/storybook"
 import { CodeEditor, CodeEditorProps } from "./code-editor"
 
 const meta: Meta<typeof CodeEditor> = {
-  title: "Inputs/CodeEditor",
+  title: "UI/Inputs/CodeEditor",
   component: CodeEditor,
   argTypes: {
     value: argType.disabled(),

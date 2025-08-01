@@ -3,7 +3,7 @@ import { argType, Meta, StoryObj } from "lib/storybook"
 import { Link } from "./link"
 
 const meta: Meta<typeof Link> = {
-  title: "Primitives/Link",
+  title: "UI/Primitives/Link",
   component: Link,
   argTypes: {
     to: argType.string(),

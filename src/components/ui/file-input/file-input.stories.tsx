@@ -4,7 +4,7 @@ import { FileInput } from "./file-input"
 import { vstack } from "../../../utils/styles"
 
 const meta: Meta<typeof FileInput> = {
-  title: "Inputs/FileInput",
+  title: "UI/Inputs/FileInput",
   component: FileInput,
   argTypes: {
     label: argType.string(),

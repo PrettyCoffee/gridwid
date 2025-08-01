@@ -6,7 +6,7 @@ import { Button } from "../button"
 import { List } from "../list"
 
 const meta: Meta<typeof Popover.Root> = {
-  title: "Overlay/Popover",
+  title: "UI/Overlay/Popover",
   component: Popover.Root,
   argTypes: {
     defaultOpen: argType.boolean(),

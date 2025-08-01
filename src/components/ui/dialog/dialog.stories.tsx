@@ -7,7 +7,7 @@ import { showDialog } from "./dialog-data"
 import { Button } from "../button"
 
 const meta: Meta<typeof Dialog> = {
-  title: "Overlay/Dialog",
+  title: "UI/Overlay/Dialog",
   component: Dialog,
   argTypes: {
     title: argType.string(),

@@ -25,7 +25,7 @@ const markdown = `
 `
 
 const meta: Meta<typeof MDEditor> = {
-  title: "Inputs/MDEditor",
+  title: "UI/Inputs/MDEditor",
   component: MDEditor,
   argTypes: {
     value: argType.disabled(),

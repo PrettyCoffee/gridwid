@@ -7,7 +7,7 @@ import { vstack } from "utils/styles"
 import { TextInput, TextInputProps } from "./text-input"
 
 const meta: Meta<typeof TextInput> = {
-  title: "Inputs/TextInput",
+  title: "UI/Inputs/TextInput",
   component: TextInput,
   argTypes: {
     type: argType.enum(),

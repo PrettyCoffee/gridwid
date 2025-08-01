@@ -25,7 +25,7 @@ const parameters: Preview["parameters"] = {
   options: {
     storySort: {
       method: "",
-      order: ["Primitives", "Buttons"],
+      order: ["UI", ["Primitives", "Buttons"], "Utility"],
       locales: "",
     },
   },

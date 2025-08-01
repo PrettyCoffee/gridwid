@@ -6,7 +6,7 @@ import { TitleTooltip } from "./title-tooltip"
 import { Button } from "../button"
 
 const meta: Meta<typeof TitleTooltip> = {
-  title: "Feedback/TitleTooltip",
+  title: "UI/Feedback/TitleTooltip",
   component: TitleTooltip,
   argTypes: {
     side: argType.enum(),

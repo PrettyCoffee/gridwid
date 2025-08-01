@@ -7,7 +7,7 @@ import { argType, Meta, StoryObj } from "lib/storybook"
 import { IconButton, IconButtonProps } from "./icon-button"
 
 const meta: Meta<typeof IconButton> = {
-  title: "Buttons/IconButton",
+  title: "UI/Buttons/IconButton",
   component: IconButton,
   argTypes: {
     icon: argType.disabled(),

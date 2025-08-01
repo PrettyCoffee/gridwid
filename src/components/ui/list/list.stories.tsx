@@ -10,7 +10,7 @@ import { IconButton } from "../icon-button"
 faker.seed(1337)
 
 const meta: Meta<typeof List.Item> = {
-  title: "Primitives/List",
+  title: "UI/Primitives/List",
   component: List.Item,
   argTypes: {
     active: argType.boolean(),

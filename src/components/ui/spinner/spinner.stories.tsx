@@ -3,7 +3,7 @@ import { argType, Meta, StoryObj } from "lib/storybook"
 import { Spinner } from "./spinner"
 
 const meta: Meta<typeof Spinner> = {
-  title: "Feedback/Spinner",
+  title: "UI/Feedback/Spinner",
   component: Spinner,
   argTypes: {
     size: argType.enum(),

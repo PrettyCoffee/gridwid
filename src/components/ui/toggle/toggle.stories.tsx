@@ -9,7 +9,7 @@ import { Toggle, ToggleProps } from "./toggle"
 faker.seed(1337)
 
 const meta: Meta<typeof Toggle> = {
-  title: "Inputs/Toggle",
+  title: "UI/Inputs/Toggle",
   component: Toggle,
   argTypes: {
     label: argType.string(),

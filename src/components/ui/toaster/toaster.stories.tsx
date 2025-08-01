@@ -7,7 +7,7 @@ import { Button } from "../button"
 import { showToast } from "./toaster-data"
 
 const meta: Meta<typeof Toast> = {
-  title: "Feedback/Toaster",
+  title: "UI/Feedback/Toaster",
   component: Toast,
   argTypes: {
     id: argType.string(),

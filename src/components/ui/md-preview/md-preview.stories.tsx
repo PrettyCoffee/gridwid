@@ -3,7 +3,7 @@ import { argType, Meta, StoryObj } from "lib/storybook"
 import { MDPreview } from "./md-preview"
 
 const meta: Meta<typeof MDPreview> = {
-  title: "Primitives/MDPreview",
+  title: "UI/Primitives/MDPreview",
   component: MDPreview,
   argTypes: {
     value: argType.string,

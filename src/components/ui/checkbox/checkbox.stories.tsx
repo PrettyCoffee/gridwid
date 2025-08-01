@@ -12,7 +12,7 @@ import { Icon } from "../icon"
 faker.seed(1337)
 
 const meta: Meta<typeof Checkbox> = {
-  title: "Inputs/Checkbox",
+  title: "UI/Inputs/Checkbox",
   component: Checkbox,
   argTypes: {
     label: argType.string(),

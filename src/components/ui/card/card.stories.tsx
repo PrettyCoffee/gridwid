@@ -3,7 +3,7 @@ import { argType, Meta, StoryObj } from "lib/storybook"
 import { Card } from "./card"
 
 const meta: Meta<typeof Card> = {
-  title: "Layout/Card",
+  title: "UI/Layout/Card",
   component: Card,
   argTypes: {
     title: argType.string(),

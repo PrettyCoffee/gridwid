@@ -5,7 +5,7 @@ import { hstack } from "utils/styles"
 import { Divider } from "./divider"
 
 const meta: Meta<typeof Divider> = {
-  title: "Primitives/Divider",
+  title: "UI/Primitives/Divider",
   component: Divider,
   argTypes: {
     orientation: argType.enum(),

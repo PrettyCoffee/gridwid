@@ -5,7 +5,7 @@ import { argType, Meta, StoryObj } from "lib/storybook"
 import { Icon } from "./icon"
 
 const meta: Meta<typeof Icon> = {
-  title: "Primitives/Icon",
+  title: "UI/Primitives/Icon",
   component: Icon,
   argTypes: {
     icon: argType.disabled(),

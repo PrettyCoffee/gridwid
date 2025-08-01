@@ -4,7 +4,7 @@ import { NoData } from "./no-data"
 import { Button } from "../button"
 
 const meta: Meta<typeof NoData> = {
-  title: "Feedback/NoData",
+  title: "UI/Feedback/NoData",
   component: NoData,
   argTypes: {
     label: argType.string(),

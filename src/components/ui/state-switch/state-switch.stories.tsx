@@ -7,7 +7,7 @@ import { action, argType, Meta, StoryObj } from "lib/storybook"
 import { StateSwitch, StateSwitchGroupProps } from "./state-switch"
 
 const meta: Meta<typeof StateSwitch.Group> = {
-  title: "Buttons/StateSwitch",
+  title: "UI/Buttons/StateSwitch",
   component: StateSwitch.Group,
   argTypes: {
     size: argType.enum("radio", ["md", "sm"]),

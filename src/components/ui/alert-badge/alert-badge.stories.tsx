@@ -5,7 +5,7 @@ import { AlertBadge } from "./alert-badge"
 import { Button } from "../button"
 
 const meta: Meta<typeof AlertBadge> = {
-  title: "Feedback/AlertBadge",
+  title: "UI/Feedback/AlertBadge",
   component: AlertBadge,
   argTypes: {
     kind: argType.enum(),
