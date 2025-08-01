@@ -66,6 +66,7 @@ const ListItem = ({
           />
         </Sortable.Handle>
         <List.Label
+          className="justify-between"
           to={`notes/${note.id}`}
           label={note.title}
           labelAttachment={
