@@ -1,4 +1,4 @@
-import { Dispatch, useEffect } from "react"
+import { Dispatch } from "react"
 
 import { GripHorizontal, LockKeyhole, Trash } from "lucide-react"
 
@@ -17,18 +17,14 @@ interface SearchBarProps {
   filter: string
   onFilterChange: Dispatch<string>
 }
-const SearchBar = ({ filter, onFilterChange }: SearchBarProps) => {
-  useEffect(() => () => onFilterChange(""), [onFilterChange])
-
-  return (
-    <TextInput
-      type="search"
-      placeholder="Filter notes"
-      value={filter}
-      onChange={onFilterChange}
-    />
-  )
-}
+const SearchBar = ({ filter, onFilterChange }: SearchBarProps) => (
+  <TextInput
+    type="search"
+    placeholder="Filter notes"
+    value={filter}
+    onChange={onFilterChange}
+  />
+)
 
 interface ListElementProps extends RefProp<HTMLLIElement> {
   index: number

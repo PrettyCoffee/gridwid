@@ -1,3 +1,5 @@
+import { useEffect } from "react"
+
 import { Plus } from "lucide-react"
 
 import { Layout } from "components/layouts"
@@ -10,6 +12,8 @@ export const NotesSidebar = () => {
   const { params } = useHashRouter()
   const filteredNotes = useAtomValue(notesSearch)
   const { filter } = useAtomValue(notesSearchData)
+
+  useEffect(() => () => notesSearchData.actions.setFilter(""), [])
 
   return (
     <Layout.Side
