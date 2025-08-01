@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { Dispatch, useEffect } from "react"
 
 import { GripHorizontal, LockKeyhole, Trash } from "lucide-react"
 
@@ -8,23 +8,24 @@ import { List } from "components/ui/list"
 import { TextInput } from "components/ui/text-input"
 import { ScrollArea } from "components/utility/scroll-area"
 import { Sortable } from "components/utility/sortable"
-import { Note, notesData, notesSearch, notesSearchData } from "data/notes"
+import { Note } from "data/notes"
 import { deleteNote } from "features/notes/delete-note"
-import { useAtomValue } from "lib/yaasl"
 import { RefProp } from "types/base-props"
 import { cn } from "utils/cn"
 
-const SearchBar = () => {
-  const { filter } = useAtomValue(notesSearchData)
-
-  useEffect(() => () => notesSearchData.actions.setFilter(""), [])
+interface SearchBarProps {
+  filter: string
+  onFilterChange: Dispatch<string>
+}
+const SearchBar = ({ filter, onFilterChange }: SearchBarProps) => {
+  useEffect(() => () => onFilterChange(""), [onFilterChange])
 
   return (
     <TextInput
       type="search"
       placeholder="Filter notes"
       value={filter}
-      onChange={notesSearchData.actions.setFilter}
+      onChange={onFilterChange}
     />
   )
 }
@@ -35,6 +36,7 @@ interface ListElementProps extends RefProp<HTMLLIElement> {
   active?: boolean
   disableSortable?: boolean
   isOverlayItem?: boolean
+  onDelete?: Dispatch<string>
 }
 const ListItem = ({
   active,
@@ -43,6 +45,7 @@ const ListItem = ({
   index,
   isOverlayItem,
   ref,
+  onDelete,
   ...props
 }: ListElementProps) => (
   <Sortable.Item<Note> index={index} item={note} asChild>
@@ -80,12 +83,12 @@ const ListItem = ({
             )
           }
         />
-        {!note.locked && (
+        {!note.locked && onDelete && (
           <List.Action
             icon={Trash}
             title="Delete note"
             hideTitle
-            onClick={() => deleteNote(note.id, note.title)}
+            onClick={() => deleteNote({ note, onDelete })}
           />
         )}
       </List.Item>
@@ -97,22 +100,32 @@ const getNoteById = (notes: Note[], id?: string) =>
   !id ? undefined : notes.find(note => note.id === id)
 
 interface NotesListProps {
+  notes: Note[]
+  filter?: string
   activeNoteId?: string
+  onSort: Dispatch<Note[]>
+  onDelete: Dispatch<string>
+  onFilterChange: Dispatch<string>
 }
-export const NotesList = ({ activeNoteId }: NotesListProps) => {
-  const notes = useAtomValue(notesSearch)
-  const filter = useAtomValue(notesSearchData).filter
+export const NotesList = ({
+  notes,
+  filter = "",
+  activeNoteId,
+  onSort,
+  onDelete,
+  onFilterChange,
+}: NotesListProps) => {
   const active = getNoteById(notes, activeNoteId)
 
   return (
     <>
-      <SearchBar />
+      <SearchBar filter={filter} onFilterChange={onFilterChange} />
 
       <ScrollArea className="-m-1 h-full">
         <div className="flex-1 overflow-auto p-1">
           <Sortable.Context<Note>
             items={notes}
-            onSort={sort => notesData.set(sort(notesData.get()))}
+            onSort={sort => onSort(sort(notes))}
             OverlayItem={({ source }) => (
               <div className="rounded-sm bg-background shade-medium **:bgl-base-transparent! **:bgl-layer-transparent!">
                 <ListItem
@@ -132,6 +145,7 @@ export const NotesList = ({ activeNoteId }: NotesListProps) => {
                   note={note}
                   active={note.id === active?.id}
                   disableSortable={!!filter}
+                  onDelete={onDelete}
                 />
               ))}
             </List.Root>

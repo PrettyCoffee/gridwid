@@ -34,7 +34,9 @@ const NoteActions = ({ note }: { note: Note }) => (
         <Editor.Discard disabled={note.locked} />
         <IconButton
           icon={Trash}
-          onClick={() => deleteNote(note.id, note.title)}
+          onClick={() =>
+            deleteNote({ note, onDelete: notesData.actions.remove })
+          }
           title="Delete note"
           disabled={note.locked}
         />

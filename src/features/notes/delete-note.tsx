@@ -1,22 +1,28 @@
+import { Dispatch } from "react"
+
 import { showDialog } from "components/ui/dialog"
 import { showToast } from "components/ui/toaster"
-import { notesData } from "data/notes"
+import { Note } from "data/notes"
 
-export const deleteNote = (id: string, title: string) =>
+interface DeleteNote {
+  note: Note
+  onDelete: Dispatch<string>
+}
+export const deleteNote = ({ note, onDelete }: DeleteNote) =>
   showDialog({
     title: "Delete note",
     description: (
       <>
         Clicking on &quot;Delete note&quot; will remove all data related to your
-        note <span className="text-highlight">&quot;{title}&quot;</span>. This
-        action cannot be undone.
+        note <span className="text-highlight">&quot;{note.title}&quot;</span>.
+        This action cannot be undone.
       </>
     ),
     confirm: {
       look: "destructive",
       caption: "Delete note",
       onClick: () => {
-        notesData.actions.remove(id)
+        onDelete(note.id)
         showToast({
           kind: "success",
           title: "Deleted Note",
