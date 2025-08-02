@@ -1,34 +1,11 @@
 import { useMemo, useState } from "react"
 
-import { faker } from "@faker-js/faker"
-
-import { Note } from "data/notes"
+import { Note, mockNotes } from "data/notes"
 import { action, argType, Meta, StoryObj } from "lib/storybook"
 
 import { NotesList } from "./notes-list"
 
-faker.seed(1337)
-
-const recentDate = () =>
-  faker.date.recent({ refDate: new Date("2025-01-01") }).valueOf()
-
-let id = 0
-const createNote = (): Note => ({
-  id: (id++).toString(),
-  createdAt: recentDate(),
-  locked: faker.datatype.boolean({ probability: 0.3 }),
-  text: faker.lorem.paragraph({ min: 1, max: 5 }),
-  title: faker.lorem.words({ min: 1, max: 3 }),
-  changedAt: faker.helpers.arrayElement([undefined, recentDate()]),
-})
-
-const notes = [
-  createNote(),
-  createNote(),
-  createNote(),
-  createNote(),
-  createNote(),
-]
+const notes = mockNotes(5)
 
 const StoryWithState: typeof NotesList = ({
   notes: initialNotes,
