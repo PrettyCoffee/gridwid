@@ -36,15 +36,27 @@ export const notesData = createSlice({
   defaultValue: legacyValue ?? ([notesInitialData] as Note[]),
   effects: [indexedDb()],
   reducers: {
-    add: (state, note: Omit<Note, "id" | "createdAt" | "locked">) => [
+    add: (
+      state,
+      note: Omit<Note, "id" | "createdAt" | "locked">,
+      forcedId?: string
+    ) => [
       ...state,
-      { ...note, id: getNextId(), createdAt: Date.now(), locked: false },
+      {
+        ...note,
+        id: forcedId ?? getNextId(),
+        createdAt: Date.now(),
+        locked: false,
+      },
     ],
     edit: (state, id: string, data: Partial<Omit<Note, "id">>) =>
       state.map(note =>
         note.id === id ? { ...note, ...data, changedAt: Date.now() } : note
       ),
-    remove: (state, id: string) => state.filter(note => note.id !== id),
+    remove: (state, id: string) => {
+      const newState = state.filter(note => note.id !== id)
+      return state.length !== newState.length ? newState : state
+    },
   },
 })
 

@@ -9,9 +9,10 @@ import { NotesList } from "features/notes"
 import { useAtomValue } from "lib/yaasl"
 
 export const NotesSidebar = () => {
-  const { params } = useHashRouter()
+  const { setPath, params } = useHashRouter()
   const filteredNotes = useAtomValue(notesSearch)
   const { filter } = useAtomValue(notesSearchData)
+  const activeNoteId = params["id"]
 
   useEffect(() => () => notesSearchData.actions.setFilter(""), [])
 
@@ -23,11 +24,16 @@ export const NotesSidebar = () => {
       actions={[{ icon: Plus, title: "Create new", to: "notes/new" }]}
     >
       <NotesList
-        activeNoteId={params["id"]}
+        activeNoteId={activeNoteId}
         notes={filteredNotes}
         filter={filter}
         onFilterChange={notesSearchData.actions.setFilter}
-        onDelete={notesData.actions.remove}
+        onDelete={noteId => {
+          notesData.actions.remove(noteId)
+          if (noteId === activeNoteId) {
+            setPath("notes")
+          }
+        }}
         onSort={notesData.set}
       />
     </Layout.Side>

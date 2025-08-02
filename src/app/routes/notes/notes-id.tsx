@@ -1,6 +1,5 @@
-import { useEffect, useMemo } from "react"
-
 import { Layout } from "components/layouts"
+import { Button } from "components/ui/button"
 import { NoData } from "components/ui/no-data"
 import { useHashRouter } from "components/utility/hash-router"
 import { Note, notesData } from "data/notes"
@@ -12,38 +11,59 @@ import { vstack } from "utils/styles"
 
 import { NotesSidebar } from "./notes-sidebar"
 
+const MissingNote = ({ noteId }: { noteId: string }) => (
+  <NoData
+    label={
+      <>
+        There is no note with the id "{noteId}".
+        <br />
+        Did you delete it?
+      </>
+    }
+  >
+    <Button look="key" to="notes">
+      Back to overview
+    </Button>
+    <Button
+      look="ghost"
+      onClick={() =>
+        notesData.actions.add({ title: "New Note", text: "" }, noteId)
+      }
+    >
+      Create note with this id
+    </Button>
+  </NoData>
+)
+
 const getNoteById = (notes: Note[], id?: string) =>
   !id ? undefined : notes.find(note => note.id === id)
 
 const NotesIdRoute = () => {
   const { params, setPath } = useHashRouter()
   const notes = useAtomValue(notesData)
-  const noteId = params["id"] ?? ""
-  const currentNote = getNoteById(notes, noteId)
-
-  const note = useMemo(
-    () => notes.find(({ id }) => id === noteId),
-    [noteId, notes]
-  )
-
-  useEffect(() => {
-    if (!currentNote && noteId !== "new") {
-      setPath("notes")
-    }
-  }, [currentNote, noteId, setPath])
+  const activeNoteId = params["id"] ?? ""
+  const currentNote = getNoteById(notes, activeNoteId)
 
   return (
     <Layout.Multiple>
       <NotesSidebar />
       <Layout.Main className="ml-2 pb-2 pl-2">
-        <div className={cn(vstack({}), "mx-auto size-full max-w-6xl flex-1")}>
-          {!note && noteId !== "new" ? (
-            <NoData label="Note does not exist anymore" />
+        <div
+          className={cn(
+            vstack({ justify: "center" }),
+            "mx-auto size-full max-w-6xl flex-1"
+          )}
+        >
+          {!currentNote && activeNoteId !== "new" ? (
+            <MissingNote noteId={activeNoteId} />
           ) : (
             <NoteEditor
-              key={params["id"]}
-              note={note}
-              onDelete={notesData.actions.remove}
+              key={activeNoteId}
+              note={currentNote}
+              onDelete={noteId => {
+                notesData.actions.remove(noteId)
+                setPath("notes")
+              }}
               onSave={(noteId, data) => {
                 if (noteId === "new") {
                   notesData.actions.add(data)
