@@ -29,7 +29,7 @@
     "@radix-ui/react-tooltip": "^1.2.7",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "@yaasl/core": "0.13.0-alpha.2",
+    "@yaasl/core": "^0.13.0-alpha.3",
     "@yaasl/devtools": "^0.13.0-alpha.1",
     "@yaasl/react": "^0.13.0-alpha.1",
     "class-variance-authority": "^0.7.1",

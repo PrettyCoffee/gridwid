@@ -7,6 +7,7 @@ import { Note, notesData } from "data/notes"
 import { NoteEditor } from "features/notes"
 import { useAtomValue } from "lib/yaasl"
 import { cn } from "utils/cn"
+import { getLatestId } from "utils/get-next-id"
 import { vstack } from "utils/styles"
 
 import { NotesSidebar } from "./notes-sidebar"
@@ -46,8 +47,7 @@ const NotesIdRoute = () => {
               onSave={(noteId, data) => {
                 if (noteId === "new") {
                   notesData.actions.add(data)
-                  const id = notesData.get().at(-1)?.id ?? ""
-                  setPath(`notes/${id}`)
+                  setPath(`notes/${getLatestId()}`)
                 } else {
                   notesData.actions.edit(noteId, data)
                 }

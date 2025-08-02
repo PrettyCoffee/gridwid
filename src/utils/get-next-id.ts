@@ -6,6 +6,8 @@ const counter = createAtom({
   effects: [localStorage()],
 })
 
+export const getLatestId = () => counter.get().toString()
+
 export const getNextId = () => {
   counter.set(value => value + 1)
   return counter.get().toString()
