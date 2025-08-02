@@ -41,7 +41,7 @@ const headerSections = {
   `,
 }
 
-const NoteHeaderTitle = ({ locked, title }: Note) =>
+const NoteHeaderTitle = ({ locked, title, id }: Note) =>
   locked ? (
     <h1 className={cn(headerSections.title, "py-1 pl-2.5 text-2xl")}>
       {title}
@@ -51,6 +51,7 @@ const NoteHeaderTitle = ({ locked, title }: Note) =>
       field="title"
       placeholder="Note title"
       className={cn(headerSections.title, "w-full text-2xl")}
+      autoFocus={id === "new"}
     />
   )
 

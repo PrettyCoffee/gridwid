@@ -25,6 +25,7 @@ const inputBorder = cva(
 interface InputProps extends ClassNameProp {
   field: string
   placeholder?: string
+  autoFocus?: boolean
 }
 
 export const EditorTextInput = ({ field, className, ...props }: InputProps) => {
