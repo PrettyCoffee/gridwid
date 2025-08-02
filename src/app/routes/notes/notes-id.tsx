@@ -1,6 +1,7 @@
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 
 import { Layout } from "components/layouts"
+import { NoData } from "components/ui/no-data"
 import { useHashRouter } from "components/utility/hash-router"
 import { Note, notesData } from "data/notes"
 import { NoteEditor } from "features/notes"
@@ -19,6 +20,11 @@ const NotesIdRoute = () => {
   const noteId = params["id"] ?? ""
   const currentNote = getNoteById(notes, noteId)
 
+  const note = useMemo(
+    () => notes.find(({ id }) => id === noteId),
+    [noteId, notes]
+  )
+
   useEffect(() => {
     if (!currentNote && noteId !== "new") {
       setPath("notes")
@@ -30,7 +36,24 @@ const NotesIdRoute = () => {
       <NotesSidebar />
       <Layout.Main className="ml-2 pb-2 pl-2">
         <div className={cn(vstack({}), "mx-auto size-full max-w-6xl flex-1")}>
-          <NoteEditor key={params["id"]} noteId={noteId} />
+          {!note && noteId !== "new" ? (
+            <NoData label="Note does not exist anymore" />
+          ) : (
+            <NoteEditor
+              key={params["id"]}
+              note={note}
+              onDelete={notesData.actions.remove}
+              onSave={(noteId, data) => {
+                if (noteId === "new") {
+                  notesData.actions.add(data)
+                  const id = notesData.get().at(-1)?.id ?? ""
+                  setPath(`notes/${id}`)
+                } else {
+                  notesData.actions.edit(noteId, data)
+                }
+              }}
+            />
+          )}
         </div>
       </Layout.Main>
     </Layout.Multiple>

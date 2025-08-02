@@ -1,13 +1,10 @@
-import { useMemo } from "react"
+import { Dispatch, useMemo } from "react"
 
 import { Divider } from "components/ui/divider"
 import { Editor } from "components/ui/editor"
 import { MDPreview } from "components/ui/md-preview"
-import { NoData } from "components/ui/no-data"
-import { useHashRouter } from "components/utility/hash-router"
 import { ScrollArea } from "components/utility/scroll-area"
-import { Note, notesData } from "data/notes"
-import { useAtomValue } from "lib/yaasl"
+import { Note } from "data/notes"
 import { cn } from "utils/cn"
 import { surface, vstack } from "utils/styles"
 
@@ -35,15 +32,15 @@ const NoteText = ({ locked, text }: Note) =>
   )
 
 interface NoteEditorProps {
-  noteId: string
+  note?: Note
+  onDelete: Dispatch<string>
+  onSave: (id: string, data: Omit<Note, "id">) => void
 }
-export const NoteEditor = ({ noteId }: NoteEditorProps) => {
-  const { setPath } = useHashRouter()
-  const notes = useAtomValue(notesData)
-  const note = useMemo(
-    () => notes.find(({ id }) => id === noteId) ?? emptyNote,
-    [noteId, notes]
-  )
+export const NoteEditor = ({
+  note = emptyNote,
+  onSave,
+  onDelete,
+}: NoteEditorProps) => {
   const state = useMemo(
     () => ({
       title: note.title,
@@ -52,23 +49,12 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
     [note]
   )
 
-  if (note === emptyNote && noteId !== "new")
-    return <NoData label="Note does not exist anymore" />
-
   return (
     <Editor.Provider
       subject="Note"
       state={state}
       validateFields={{ title: Boolean }}
-      setState={state => {
-        if (noteId === "new") {
-          notesData.actions.add(state)
-          const id = notesData.get().at(-1)?.id ?? ""
-          setPath(`notes/${id}`)
-        } else {
-          notesData.actions.edit(note.id, state)
-        }
-      }}
+      setState={state => onSave(note.id, { ...note, ...state })}
     >
       <div
         className={cn(
@@ -79,10 +65,8 @@ export const NoteEditor = ({ noteId }: NoteEditorProps) => {
       >
         <NoteEditorHeader
           note={note}
-          onDelete={notesData.actions.remove}
-          onLockedChange={(id, locked) =>
-            notesData.actions.edit(id, { locked })
-          }
+          onDelete={onDelete}
+          onLockedChange={(id, locked) => onSave(id, { ...note, locked })}
         />
 
         <div className="w-full px-2.5 py-2">
