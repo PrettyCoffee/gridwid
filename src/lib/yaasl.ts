@@ -17,13 +17,10 @@ interface SortOptions<TData> {
 export const autoSort = <TData>({ sortFn }: SortOptions<TData>) => {
   const sortEffect = createEffect<SortOptions<TData>, TData[]>({
     sort: "pre",
+    init: ({ value, options, set }) => {
+      set(value.toSorted(options.sortFn))
+    },
     set: ({ value, options, set }) => {
-      if (!Array.isArray(value)) {
-        throw new Error(
-          "The `autoSort` effect, cannot be used on non-array value atoms."
-        )
-      }
-
       set(value.toSorted(options.sortFn))
     },
   })

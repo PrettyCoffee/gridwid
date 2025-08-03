@@ -27,14 +27,14 @@ export const NotesSidebar = () => {
         activeNoteId={activeNoteId}
         notes={filteredNotes}
         filter={filter}
-        onFilterChange={notesSearchData.actions.setFilter}
+        onSort={data => notesData.set(data)}
+        onFilterChange={filter => notesSearchData.actions.setFilter(filter)}
         onDelete={noteId => {
           notesData.actions.remove(noteId)
           if (noteId === activeNoteId) {
             setPath("notes")
           }
         }}
-        onSort={notesData.set}
       />
     </Layout.Side>
   )
