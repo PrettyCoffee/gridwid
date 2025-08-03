@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { createSelector, createSlice, indexedDb } from "lib/yaasl"
+import { autoSort, createSelector, createSlice, indexedDb } from "lib/yaasl"
 import { Resolve } from "types/util-types"
 import { getNextId } from "utils/get-next-id"
 
@@ -32,10 +32,13 @@ const legacyValue = (() => {
 
 export type Note = Resolve<z.infer<typeof noteSchema>>
 
+const sortByGroups = (a: Note, b: Note) =>
+  !a.group ? -1 : !b.group ? 1 : a.group.localeCompare(b.group)
+
 export const notesData = createSlice({
   name: "notes",
   defaultValue: legacyValue ?? ([notesInitialData] as Note[]),
-  effects: [indexedDb()],
+  effects: [autoSort({ sortFn: sortByGroups }), indexedDb()],
   reducers: {
     add: (
       state,
@@ -50,10 +53,12 @@ export const notesData = createSlice({
         locked: false,
       },
     ],
+
     edit: (state, id: string, data: Partial<Omit<Note, "id">>) =>
       state.map(note =>
         note.id === id ? { ...note, ...data, changedAt: Date.now() } : note
       ),
+
     remove: (state, id: string) => {
       const newState = state.filter(note => note.id !== id)
       return state.length !== newState.length ? newState : state
