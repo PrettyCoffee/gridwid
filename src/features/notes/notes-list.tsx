@@ -5,7 +5,7 @@ import { GripHorizontal, LockKeyhole, Trash } from "lucide-react"
 import { Icon } from "components/ui/icon"
 import { IconButton } from "components/ui/icon-button"
 import { List } from "components/ui/list"
-import { Sortable } from "components/utility/sortable"
+import { Sortable, SortableContextProps } from "components/utility/sortable"
 import { Note } from "data/notes"
 import { deleteNote } from "features/notes/delete-note"
 import { RefProp } from "types/base-props"
@@ -86,7 +86,7 @@ interface NotesListProps {
   notes: Note[]
   activeNoteId?: string
   disableSortable?: boolean
-  onSort: Dispatch<Note[]>
+  onSort: SortableContextProps<Note>["onSort"]
   onDelete: Dispatch<string>
 }
 export const NotesList = ({
@@ -104,7 +104,7 @@ export const NotesList = ({
       {!!group && <div className="py-2 text-text-gentle">{group}</div>}
       <Sortable.Context<Note>
         items={notes}
-        onSort={sort => onSort(sort(notes))}
+        onSort={onSort}
         OverlayItem={({ source }) => (
           <div className="rounded-sm bg-background shade-medium **:bgl-base-transparent! **:bgl-layer-transparent!">
             <ListItem

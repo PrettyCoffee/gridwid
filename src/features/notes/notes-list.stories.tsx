@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { Note, mockNotes } from "data/notes"
+import { mockNotes } from "data/notes"
 import { action, argType, Meta, StoryObj } from "lib/storybook"
 
 import { NotesList } from "./notes-list"
@@ -15,12 +15,12 @@ const StoryWithState: typeof NotesList = ({
 }) => {
   const [notes, setNotes] = useState(initialNotes)
 
-  const handleSort = (notes: Note[]) => {
-    onSort(notes)
-    setNotes(notes)
+  const handleSort: typeof onSort = (sort) => {
+    onSort(sort)
+    setNotes(sort(notes))
   }
 
-  const handleDelete = (id: string) => {
+  const handleDelete: typeof onDelete = (id: string) => {
     onDelete(id)
     setNotes(list => list.filter(note => note.id !== id))
   }

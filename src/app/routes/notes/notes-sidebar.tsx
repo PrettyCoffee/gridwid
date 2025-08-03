@@ -69,8 +69,12 @@ export const NotesSidebar = () => {
               group={group}
               activeNoteId={activeNoteId}
               notes={notes}
-              disableSortable={!!group || !!filter}
-              onSort={(data) => notesData.set(data)}
+              disableSortable={!!filter}
+              onSort={(sort) => {
+                const offset = filteredNotes.findIndex(({ id }) => notes[0]?.id === id)
+                if (offset === -1) return
+                notesData.set(sort(filteredNotes, offset))
+              }}
               onDelete={noteId => {
                 notesData.actions.remove(noteId)
                 if (noteId === activeNoteId) {

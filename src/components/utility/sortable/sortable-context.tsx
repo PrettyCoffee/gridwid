@@ -32,7 +32,7 @@ const getOperationIndex = (source: Draggable | null) => {
 
 export interface SortableContextProps<T extends Sortable> {
   items: T[]
-  onSort: Dispatch<(items: T[]) => T[]>
+  onSort: Dispatch<(items: T[], offset?: number) => T[]>
   OverlayItem: (props: { source: Draggable<T> }) => ReactNode
 }
 
@@ -55,7 +55,9 @@ export const SortableContext = <T extends Sortable>({
     setActive(null)
     const { prev, next } = getOperationIndex(operation.source as Draggable)
     if (prev == null || next == null) return
-    onSort(items => arrayMove(items, prev, next))
+    onSort((items, offset = 0) =>
+      arrayMove(items, prev + offset, next + offset)
+    )
   }
 
   return (
