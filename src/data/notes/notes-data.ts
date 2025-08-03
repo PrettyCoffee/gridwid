@@ -9,6 +9,7 @@ import { notesInitialData } from "./notes-initial-data"
 export const noteSchema = z.object({
   id: z.string(),
   title: z.string(),
+  group: z.optional(z.string()),
   text: z.string(),
   changedAt: z.optional(z.number()),
   createdAt: z.number(),
@@ -78,9 +79,10 @@ export const notesSearchData = createSlice({
 
 const noteFilter = (note: Note, filterText: string) => {
   const title = note.title.toLowerCase()
+  const group = note.group?.toLowerCase() ?? ""
   const text = note.text.toLowerCase()
   const filter = filterText.toLowerCase()
-  return title.includes(filter) || text.includes(filter)
+  return [title, group, text].join("\n").includes(filter)
 }
 
 export const notesSearch = createSelector(

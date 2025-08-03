@@ -45,6 +45,7 @@ export const NoteEditor = ({
     () => ({
       title: note.title,
       text: note.text,
+      group: note.group,
     }),
     [note]
   )
@@ -69,7 +70,7 @@ export const NoteEditor = ({
           onLockedChange={(id, locked) => onSave(id, { ...note, locked })}
         />
 
-        <div className="w-full px-2.5 py-2">
+        <div className="w-full px-2.5 pt-1 pb-2">
           <Divider color="gentle" />
         </div>
 

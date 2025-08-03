@@ -8,20 +8,22 @@ import { IconButton } from "components/ui/icon-button"
 import { Note } from "data/notes"
 import { cn } from "utils/cn"
 import { formatDate } from "utils/format"
+import { hstack } from "utils/styles"
 
 import { deleteNote } from "./delete-note"
 
 const headerSections = {
   root: css`
     display: grid;
-    gap: 0.5rem;
+    gap: 0.25rem;
     grid-template:
       "title actions" auto
-      "subtitle subtitle" auto / 1fr auto;
+      "subtitle group" auto / 1fr auto;
 
     @media (max-width: 800px) {
       grid-template:
         "title" auto
+        "group" auto
         "actions" auto
         "subtitle" auto
         / 1fr auto;
@@ -29,6 +31,9 @@ const headerSections = {
   `,
   title: css`
     grid-area: title;
+  `,
+  group: css`
+    grid-area: group;
   `,
   actions: css`
     grid-area: actions;
@@ -89,9 +94,34 @@ const NoteHeaderActions = ({
   </div>
 )
 
+const NoteHeaderGroup = ({ locked, group }: Note) =>
+  locked ? (
+    <div
+      className={cn(
+        headerSections.group,
+        "w-full max-w-50 truncate px-2.5 py-1 text-text-gentle"
+      )}
+    >
+      {group}
+    </div>
+  ) : (
+    <Editor.TextInput
+      field="group"
+      placeholder="No group"
+      className={cn(
+        headerSections.group,
+        "h-8 w-full max-w-50 [&:not(:where(:hover,:focus-visible))]:text-text-gentle"
+      )}
+    />
+  )
+
 const NoteHeaderMeta = ({ id, changedAt, createdAt }: Note) => (
   <div
-    className={cn(headerSections.subtitle, "pl-2.5 text-sm text-text-gentle")}
+    className={cn(
+      headerSections.subtitle,
+      hstack({ align: "center" }),
+      "h-8 pl-2.5 text-sm text-text-gentle"
+    )}
   >
     #{id}
     {id !== "new" && <> | Created {formatDate(createdAt)}</>}
@@ -114,5 +144,6 @@ export const NoteEditorHeader = ({
       onLockedChange={onLockedChange}
     />
     <NoteHeaderMeta {...note} />
+    <NoteHeaderGroup {...note} />
   </div>
 )
