@@ -5,26 +5,11 @@ import { GripHorizontal, LockKeyhole, Trash } from "lucide-react"
 import { Icon } from "components/ui/icon"
 import { IconButton } from "components/ui/icon-button"
 import { List } from "components/ui/list"
-import { TextInput } from "components/ui/text-input"
-import { ScrollArea } from "components/utility/scroll-area"
 import { Sortable } from "components/utility/sortable"
 import { Note } from "data/notes"
 import { deleteNote } from "features/notes/delete-note"
 import { RefProp } from "types/base-props"
 import { cn } from "utils/cn"
-
-interface SearchBarProps {
-  filter: string
-  onFilterChange: Dispatch<string>
-}
-const SearchBar = ({ filter, onFilterChange }: SearchBarProps) => (
-  <TextInput
-    type="search"
-    placeholder="Filter notes"
-    value={filter}
-    onChange={onFilterChange}
-  />
-)
 
 interface ListElementProps extends RefProp<HTMLLIElement> {
   index: number
@@ -97,58 +82,53 @@ const getNoteById = (notes: Note[], id?: string) =>
   !id ? undefined : notes.find(note => note.id === id)
 
 interface NotesListProps {
+  group: string
   notes: Note[]
-  filter?: string
   activeNoteId?: string
+  disableSortable?: boolean
   onSort: Dispatch<Note[]>
   onDelete: Dispatch<string>
-  onFilterChange: Dispatch<string>
 }
 export const NotesList = ({
+  group,
   notes,
-  filter = "",
   activeNoteId,
+  disableSortable,
   onSort,
   onDelete,
-  onFilterChange,
 }: NotesListProps) => {
   const active = getNoteById(notes, activeNoteId)
 
   return (
-    <>
-      <SearchBar filter={filter} onFilterChange={onFilterChange} />
-
-      <ScrollArea className="-m-1 h-full">
-        <div className="flex-1 overflow-auto p-1">
-          <Sortable.Context<Note>
-            items={notes}
-            onSort={sort => onSort(sort(notes))}
-            OverlayItem={({ source }) => (
-              <div className="rounded-sm bg-background shade-medium **:bgl-base-transparent! **:bgl-layer-transparent!">
-                <ListItem
-                  index={notes.findIndex(note => note.id === source.id)}
-                  note={source.data as Note}
-                  active={source.id === active?.id}
-                  isOverlayItem
-                />
-              </div>
-            )}
-          >
-            <List.Root>
-              {notes.map((note, index) => (
-                <ListItem
-                  key={note.id}
-                  index={index}
-                  note={note}
-                  active={note.id === active?.id}
-                  disableSortable={!!filter}
-                  onDelete={onDelete}
-                />
-              ))}
-            </List.Root>
-          </Sortable.Context>
-        </div>
-      </ScrollArea>
-    </>
+    <div>
+      {!!group && <div className="py-2 text-text-gentle">{group}</div>}
+      <Sortable.Context<Note>
+        items={notes}
+        onSort={sort => onSort(sort(notes))}
+        OverlayItem={({ source }) => (
+          <div className="rounded-sm bg-background shade-medium **:bgl-base-transparent! **:bgl-layer-transparent!">
+            <ListItem
+              index={notes.findIndex(note => note.id === source.id)}
+              note={source.data as Note}
+              active={source.id === active?.id}
+              isOverlayItem
+            />
+          </div>
+        )}
+      >
+        <List.Root>
+          {notes.map((note, index) => (
+            <ListItem
+              key={note.id}
+              index={index}
+              note={note}
+              active={note.id === active?.id}
+              disableSortable={disableSortable}
+              onDelete={onDelete}
+            />
+          ))}
+        </List.Root>
+      </Sortable.Context>
+    </div>
   )
 }

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useState } from "react"
 
 import { Note, mockNotes } from "data/notes"
 import { action, argType, Meta, StoryObj } from "lib/storybook"
@@ -9,23 +9,11 @@ const notes = mockNotes(5)
 
 const StoryWithState: typeof NotesList = ({
   notes: initialNotes,
-  filter: initialFilter,
   onSort,
   onDelete,
-  onFilterChange,
   ...args
 }) => {
   const [notes, setNotes] = useState(initialNotes)
-  const [filter, setFilter] = useState(initialFilter)
-
-  const filteredNotes = useMemo(
-    () =>
-      notes.filter(
-        note =>
-          !filter || note.title.toLowerCase().includes(filter.toLowerCase())
-      ),
-    [filter, notes]
-  )
 
   const handleSort = (notes: Note[]) => {
     onSort(notes)
@@ -37,18 +25,11 @@ const StoryWithState: typeof NotesList = ({
     setNotes(list => list.filter(note => note.id !== id))
   }
 
-  const handleFilterChange = (value: string) => {
-    onFilterChange(value)
-    setFilter(value)
-  }
-
   return (
     <NotesList
       {...args}
-      notes={filteredNotes}
-      filter={filter}
+      notes={notes}
       onSort={handleSort}
-      onFilterChange={handleFilterChange}
       onDelete={handleDelete}
     />
   )
@@ -59,18 +40,18 @@ const meta: Meta<typeof NotesList> = {
   component: NotesList,
   argTypes: {
     notes: argType.disabled(),
-    filter: argType.string(),
     activeNoteId: argType.string(),
+    group: argType.string(),
+    disableSortable: argType.boolean(),
     onDelete: argType.callback(),
-    onFilterChange: argType.callback(),
     onSort: argType.callback(),
   },
   args: {
     notes,
-    filter: "",
+    group: "",
     activeNoteId: notes[1]?.id,
+    disableSortable: false,
     onDelete: action("onDelete"),
-    onFilterChange: action("onFilterChange"),
     onSort: action("onSort"),
   },
   decorators: (Story, { args }) => (
@@ -86,3 +67,4 @@ export default meta
 type Story = StoryObj<typeof NotesList>
 
 export const Default: Story = {}
+export const WithGroup: Story = { args: { group: "Some group" } }
