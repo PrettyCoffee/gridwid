@@ -24,6 +24,7 @@ type Story = StoryObj<typeof AlertBadge>
 const kinds: AlertKind[] = ["error", "info", "success", "warn"]
 
 export const Default: Story = {
+  name: "AlertBadge",
   render: args => (
     <>
       {kinds.map(kind => (

@@ -30,6 +30,7 @@ const items = createRange(0, 20).map(key => ({
 }))
 
 export const Default: Story = {
+  name: "Masonry",
   render: args => (
     <Masonry.Grid {...args}>
       {items.map(({ key, text }) => (

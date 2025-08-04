@@ -36,6 +36,7 @@ export default meta
 type Story = StoryObj<typeof Dialog>
 
 export const Default: Story = {
+  name: "Dialog",
   render: args => (
     <Button
       onClick={() =>

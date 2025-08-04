@@ -23,4 +23,6 @@ export default meta
 
 type Story = StoryObj<typeof Icon>
 
-export const Default: Story = {}
+export const Default: Story = {
+  name: "Icon",
+}

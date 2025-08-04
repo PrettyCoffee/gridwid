@@ -26,6 +26,7 @@ type Story = StoryObj<typeof TitleTooltip>
 const sides = ["top", "right", "left", "bottom"] as const
 
 export const Default: Story = {
+  name: "TitleTooltip",
   render: args => (
     <div
       className={cn(

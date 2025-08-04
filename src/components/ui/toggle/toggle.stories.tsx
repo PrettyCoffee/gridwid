@@ -49,6 +49,7 @@ const ControlledToggle = ({ checked, onChange, ...args }: ToggleProps) => {
 }
 
 export const Default: Story = {
+  name: "Toggle",
   args: {},
   render: args => (
     <StoryWrapper>

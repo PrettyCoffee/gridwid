@@ -73,6 +73,7 @@ const ControlledMdEditor = ({
 }
 
 export const Default: Story = {
+  name: "MDEditor",
   args: {},
   render: args => <ControlledMdEditor {...args} className="max-h-96" />,
 }

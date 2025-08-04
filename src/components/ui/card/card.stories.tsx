@@ -23,6 +23,7 @@ export default meta
 type Story = StoryObj<typeof Card>
 
 export const Default: Story = {
+  name: "Card",
   render: args => (
     <Card {...args} className="max-w-sm">
       <svg

@@ -39,6 +39,7 @@ const Item = ({ icon, ...props }: ListItemProps & IconProp) => (
 )
 
 export const Default: Story = {
+  name: "List",
   render: args => (
     <List.Root className="max-w-64">
       <Item {...args} />

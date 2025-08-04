@@ -25,6 +25,7 @@ export default meta
 type Story = StoryObj<typeof Popover.Root>
 
 export const Default: Story = {
+  name: "Popover",
   args: {},
   render: args => (
     <Popover.Root {...args}>

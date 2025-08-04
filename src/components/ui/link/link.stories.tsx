@@ -24,6 +24,7 @@ export default meta
 type Story = StoryObj<typeof Link>
 
 export const Default: Story = {
+  name: "Link",
   args: { children: "link", to: "" },
   render: args => (
     <>

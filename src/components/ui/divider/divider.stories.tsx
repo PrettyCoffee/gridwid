@@ -22,6 +22,7 @@ export default meta
 type Story = StoryObj<typeof Divider>
 
 export const Default: Story = {
+  name: "Divider",
   render: args => (
     <>
       <Divider {...args} orientation="horizontal" />
