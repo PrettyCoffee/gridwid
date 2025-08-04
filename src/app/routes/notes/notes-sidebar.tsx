@@ -10,22 +10,27 @@ import { Note, notesData, notesSearch, notesSearchData } from "data/notes"
 import { NotesList } from "features/notes"
 import { useAtomValue } from "lib/yaasl"
 
-interface NoteWithIndex extends Note {
-  originalIndex: number
+interface NoteGroup {
+  groupName: string | null
+  indexOffset: number
+  notes: Note[]
 }
 
 const splitNotesByGroups = (notes: Note[]) =>
-  notes.reduce<Record<string, NoteWithIndex[]>>(
-    (notesByGroup, note, originalIndex) => {
-      const group = note.group ?? ""
-      if (!notesByGroup[group]) {
-        notesByGroup[group] = []
-      }
-      notesByGroup[group].push({ ...note, originalIndex })
-      return notesByGroup
-    },
-    {}
-  )
+  notes.reduce<NoteGroup[]>((result, note, index) => {
+    const groupName = note.group ?? null
+
+    const existingGroup = result.find(
+      (item): item is NoteGroup =>
+        "groupName" in item && item.groupName === groupName
+    )
+    if (existingGroup) {
+      existingGroup.notes.push(note)
+    } else {
+      result.push({ groupName, indexOffset: index, notes: [note] })
+    }
+    return result
+  }, [])
 
 interface SearchBarProps {
   filter: string
@@ -44,7 +49,7 @@ export const NotesSidebar = () => {
   const { setPath, params } = useHashRouter()
   const filteredNotes = useAtomValue(notesSearch)
   const { filter } = useAtomValue(notesSearchData)
-  const notesByGroups = splitNotesByGroups(filteredNotes)
+  const groupedNotes = splitNotesByGroups(filteredNotes)
   const activeNoteId = params["id"]
 
   useEffect(() => () => notesSearchData.actions.setFilter(""), [])
@@ -63,18 +68,16 @@ export const NotesSidebar = () => {
 
       <ScrollArea className="-m-1 h-full">
         <div className="flex-1 space-y-2 overflow-auto p-1">
-          {Object.entries(notesByGroups).map(([group, notes]) => (
+          {groupedNotes.map(group => (
             <NotesList
-              key={group}
-              group={group}
+              key={group.groupName}
+              group={group.groupName}
               activeNoteId={activeNoteId}
-              notes={notes}
+              notes={group.notes}
               disableSortable={!!filter}
-              onSort={(sort) => {
-                const offset = filteredNotes.findIndex(({ id }) => notes[0]?.id === id)
-                if (offset === -1) return
-                notesData.set(sort(filteredNotes, offset))
-              }}
+              onSort={sort =>
+                notesData.set(sort(filteredNotes, group.indexOffset))
+              }
               onDelete={noteId => {
                 notesData.actions.remove(noteId)
                 if (noteId === activeNoteId) {

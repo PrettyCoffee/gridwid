@@ -82,7 +82,7 @@ const getNoteById = (notes: Note[], id?: string) =>
   !id ? undefined : notes.find(note => note.id === id)
 
 interface NotesListProps {
-  group: string
+  group?: string | null
   notes: Note[]
   activeNoteId?: string
   disableSortable?: boolean

@@ -15,7 +15,7 @@ const StoryWithState: typeof NotesList = ({
 }) => {
   const [notes, setNotes] = useState(initialNotes)
 
-  const handleSort: typeof onSort = (sort) => {
+  const handleSort: typeof onSort = sort => {
     onSort(sort)
     setNotes(sort(notes))
   }
