@@ -10,14 +10,12 @@ import { cn } from "utils/cn"
 import { hstack, interactive, vstack } from "utils/styles"
 
 import { AutoAnimateHeight } from "../../utility/auto-animate-height"
-import { Divider } from "../divider"
 import { Icon } from "../icon"
 
 const CheckboxLabel = ({
   checked,
   label,
-  subLine,
-}: Pick<CheckboxProps, "checked" | "label" | "subLine">) => {
+}: Pick<CheckboxProps, "checked" | "label">) => {
   const isChecked = checked === true
 
   return (
@@ -38,13 +36,6 @@ const CheckboxLabel = ({
           />
           {label}
         </div>
-
-        {!isChecked && subLine && (
-          <>
-            <Divider color="gentle" className="my-0.5" />
-            <div className="text-xs text-text-gentle">{subLine}</div>
-          </>
-        )}
       </div>
     </AutoAnimateHeight>
   )
@@ -81,15 +72,12 @@ export interface CheckboxProps extends ClassNameProp {
   onCheckedChange: Dispatch<Primitive.CheckedState>
   /** Label of the checkbox */
   label?: ReactNode
-  /** Additional information */
-  subLine?: ReactNode
 }
 
 export const Checkbox = ({
   checked,
   onCheckedChange,
   label,
-  subLine,
   className,
   ...delegated
 }: CheckboxProps) => {
@@ -129,9 +117,7 @@ export const Checkbox = ({
         </Primitive.Indicator>
       </div>
 
-      {label && (
-        <CheckboxLabel checked={checked} label={label} subLine={subLine} />
-      )}
+      {label && <CheckboxLabel checked={checked} label={label} />}
     </Primitive.Root>
   )
 }

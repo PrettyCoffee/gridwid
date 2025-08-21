@@ -1,13 +1,10 @@
 import { PropsWithChildren, useState } from "react"
 
 import { faker } from "@faker-js/faker"
-import { Clock } from "lucide-react"
 
 import { action, argType, Meta, StoryObj } from "lib/storybook"
-import { formatTime } from "utils/format"
 
 import { Checkbox, CheckboxProps } from "./checkbox"
-import { Icon } from "../icon"
 
 faker.seed(1337)
 
@@ -16,7 +13,6 @@ const meta: Meta<typeof Checkbox> = {
   component: Checkbox,
   argTypes: {
     label: argType.string(),
-    subLine: argType.string(),
     checked: argType.enum("radio", {
       true: true,
       false: false,
@@ -37,19 +33,6 @@ type Story = StoryObj<typeof Checkbox>
 
 const StoryWrapper = ({ children }: PropsWithChildren) => (
   <div className="max-w-96 overflow-hidden">{children}</div>
-)
-
-const SubLine = () => (
-  <>
-    <Icon
-      icon={Clock}
-      strokeWidth={3}
-      color="current"
-      size="xs"
-      className="mr-1"
-    />
-    {formatTime(new Date("2025-01-01T13:37:00"))}
-  </>
 )
 
 const ControlledCheckbox = ({
@@ -81,9 +64,9 @@ export const Default: Story = {
   ),
 }
 
-export const WithSubLine: Story = {
+export const MultiLineLabel: Story = {
   args: {
-    subLine: <SubLine />,
+    label: faker.lorem.paragraphs(1),
   },
   render: args => (
     <StoryWrapper>
@@ -94,23 +77,9 @@ export const WithSubLine: Story = {
   ),
 }
 
-export const MultiLineLabel: Story = {
-  args: {
-    label: faker.lorem.paragraphs(1),
-  },
-  render: args => (
-    <StoryWrapper>
-      <ControlledCheckbox {...args} checked />
-      <ControlledCheckbox {...args} checked="indeterminate" />
-      <ControlledCheckbox {...args} checked={false} subLine={<SubLine />} />
-    </StoryWrapper>
-  ),
-}
-
 export const BoxOnly: Story = {
   args: {
     label: undefined,
-    subLine: undefined,
   },
   render: args => (
     <StoryWrapper>
