@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode } from "react"
+import { ChangeEvent, Dispatch } from "react"
 
 import * as Primitive from "@radix-ui/react-checkbox"
 import { css, keyframes } from "goober"
@@ -7,7 +7,7 @@ import { Check, Minus } from "lucide-react"
 import { useRenderState } from "hooks/use-render-state"
 import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"
-import { hstack, interactive, vstack } from "utils/styles"
+import { hstack, interactive } from "utils/styles"
 
 import { AutoAnimateHeight } from "../../utility/auto-animate-height"
 import { Icon } from "../icon"
@@ -20,22 +20,20 @@ const CheckboxLabel = ({
 
   return (
     <AutoAnimateHeight duration={150} className={cn("my-0.5")}>
-      <div className={cn(vstack({}), isChecked && "h-5")}>
-        <div
+      <div
+        className={cn(
+          "relative w-full shrink-0 text-start text-sm",
+          isChecked ? "text-text-gentle line-clamp-1 h-5" : "line-clamp-3"
+        )}
+      >
+        <span
           className={cn(
-            "relative w-full shrink-0 text-start text-sm",
-            isChecked ? "text-text-gentle line-clamp-1" : "line-clamp-3"
+            "absolute top-2.5 h-0.5 w-full rounded-sm bg-text-gentle",
+            "origin-left scale-x-0 transition-transform duration-300 ease-out",
+            isChecked && "scale-x-100 delay-150"
           )}
-        >
-          <span
-            className={cn(
-              "absolute top-2.5 h-0.5 w-full rounded-sm bg-text-gentle",
-              "origin-left scale-x-0 transition-transform duration-300 ease-out",
-              isChecked && "scale-x-100 delay-150"
-            )}
-          />
-          {label}
-        </div>
+        />
+        {label}
       </div>
     </AutoAnimateHeight>
   )
@@ -69,9 +67,9 @@ export interface CheckboxProps extends ClassNameProp {
   /** Checked state of the checkbox */
   checked: Primitive.CheckedState
   /** Handler top be called when clicking the checkbox */
-  onCheckedChange: Dispatch<Primitive.CheckedState>
+  onCheckedChange: Dispatch<boolean>
   /** Label of the checkbox */
-  label?: ReactNode
+  label?: string
 }
 
 export const Checkbox = ({
@@ -119,5 +117,78 @@ export const Checkbox = ({
 
       {label && <CheckboxLabel checked={checked} label={label} />}
     </Primitive.Root>
+  )
+}
+
+const textAreaStyles = css`
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-fill-color: transparent;
+
+  &::placeholder {
+    -webkit-text-fill-color: initial;
+  }
+`
+
+interface CheckboxEditorProps extends CheckboxProps {
+  /** Placeholder to be displayed if label is empty */
+  placeholder: string
+  /** Handler to be called when label is changed */
+  onLabelChange: Dispatch<string>
+}
+export const CheckboxEditor = ({
+  checked,
+  onCheckedChange,
+  label,
+  onLabelChange,
+  placeholder,
+  className,
+}: CheckboxEditorProps) => {
+  const handleLabelChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
+    const start = target.selectionStart
+    const end = target.selectionEnd
+
+    const cleanValue = target.value
+      .replaceAll("\n", "")
+      .replaceAll("  ", " ")
+      .replaceAll(/^\s/g, "")
+    onLabelChange(cleanValue)
+
+    const diff = target.value.length - cleanValue.length
+    setTimeout(() => target.setSelectionRange(start - diff, end - diff), 0)
+  }
+
+  return (
+    <div
+      className={cn(
+        hstack({ align: "center", justify: "stretch" }),
+        "rounded-md border border-stroke-gentle has-[textarea:focus-visible]:border-stroke-focus has-[textarea:hover:not(:focus-visible)]:border-stroke",
+        className
+      )}
+    >
+      <Checkbox checked={checked} onCheckedChange={onCheckedChange} />
+      <div className="max-h-19.5 flex-1 overflow-y-auto" tabIndex={-1}>
+        <div className="relative">
+          <textarea
+            value={label}
+            placeholder={placeholder}
+            onChange={handleLabelChange}
+            className={cn(
+              "absolute inset-0 size-full resize-none px-2 py-2.5 text-sm wrap-anywhere outline-none selection:bg-white/15 selection:text-current",
+              textAreaStyles
+            )}
+          />
+          <div
+            aria-hidden
+            className={cn(
+              "overflow-hidden px-2 py-2.5 text-sm wrap-anywhere",
+              !label && "text-text-gentle"
+            )}
+          >
+            {label || placeholder}
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

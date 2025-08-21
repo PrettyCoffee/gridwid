@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker"
 
 import { action, argType, Meta, StoryObj } from "lib/storybook"
 
-import { Checkbox, CheckboxProps } from "./checkbox"
+import { Checkbox, CheckboxEditor, CheckboxProps } from "./checkbox"
 
 faker.seed(1337)
 
@@ -32,7 +32,7 @@ export default meta
 type Story = StoryObj<typeof Checkbox>
 
 const StoryWrapper = ({ children }: PropsWithChildren) => (
-  <div className="max-w-96 overflow-hidden">{children}</div>
+  <div className="max-w-96 space-y-1">{children}</div>
 )
 
 const ControlledCheckbox = ({
@@ -88,4 +88,29 @@ export const BoxOnly: Story = {
       <ControlledCheckbox {...args} checked={false} />
     </StoryWrapper>
   ),
+}
+
+export const Editor: Story = {
+  args: {},
+  render: args => {
+    const [label, setLabel] = useState("Editable label")
+    const [checked, setChecked] = useState(false)
+    return (
+      <StoryWrapper>
+        <Checkbox
+          checked={checked}
+          label={label}
+          onCheckedChange={setChecked}
+        />
+        <CheckboxEditor
+          {...args}
+          placeholder="Start typing..."
+          checked={checked}
+          onCheckedChange={setChecked}
+          label={label}
+          onLabelChange={setLabel}
+        />
+      </StoryWrapper>
+    )
+  },
 }
