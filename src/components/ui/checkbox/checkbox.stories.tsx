@@ -22,12 +22,12 @@ const meta: Meta<typeof Checkbox> = {
       false: false,
       indeterminate: "indeterminate",
     }),
-    onChange: argType.callback(),
+    onCheckedChange: argType.callback(),
   },
   args: {
     label: "I like ducks and ducks like me!",
     checked: false,
-    onChange: action("onChange"),
+    onCheckedChange: action("onCheckedChange"),
   },
 }
 
@@ -52,15 +52,19 @@ const SubLine = () => (
   </>
 )
 
-const ControlledCheckbox = ({ checked, onChange, ...args }: CheckboxProps) => {
+const ControlledCheckbox = ({
+  checked,
+  onCheckedChange,
+  ...args
+}: CheckboxProps) => {
   const [state, setState] = useState(checked)
   return (
     <Checkbox
       {...args}
       checked={state}
-      onChange={checked => {
+      onCheckedChange={checked => {
         setState(checked)
-        onChange(checked)
+        onCheckedChange(checked)
       }}
     />
   )
