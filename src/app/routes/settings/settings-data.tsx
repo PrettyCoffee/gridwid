@@ -1,4 +1,4 @@
-import { Download, Trash } from "lucide-react"
+import { ArrowDown01, Download, Trash } from "lucide-react"
 import { ZodError } from "zod"
 
 import { Button } from "components/ui/button"
@@ -7,6 +7,7 @@ import { showDialog } from "components/ui/dialog"
 import { FileInput } from "components/ui/file-input/file-input"
 import { showToast } from "components/ui/toaster"
 import { allData, AllData } from "data/all-data"
+import { narrowDownIds } from "data/narrow-down-ids"
 import { cn } from "utils/cn"
 import { hstack, vstack } from "utils/styles"
 
@@ -145,9 +146,48 @@ const DeleteData = () => (
   </Card>
 )
 
+const requestIdNarrowing = () =>
+  showDialog({
+    title: "Narrow down IDs",
+    description:
+      "Do you want to adjust all number IDs to be a sequence? This action cannot be undone.",
+    confirm: {
+      caption: "Replace IDs",
+      onClick: () => {
+        narrowDownIds()
+        showToast({ kind: "success", title: "IDs were replaced" })
+      },
+    },
+    cancel: {
+      caption: "Cancel",
+      look: "flat",
+    },
+  })
+
+const NarrowIds = () => (
+  <Card
+    title="Narrow down IDs"
+    description={
+      <>
+        Narrow down the IDs of your items (e.g. notes) to a sequence of numbers
+        (e.g. ids `1; 5; 10` are turned into `1; 2; 3`).
+        <br />
+        <span className="font-bold text-text">Note: </span>
+        This will only affect number IDs, any other ID (e.g. `md-sheet`) will be
+        ignored.
+      </>
+    }
+  >
+    <Button look="ghost" icon={ArrowDown01} onClick={requestIdNarrowing}>
+      Narrow down IDs
+    </Button>
+  </Card>
+)
+
 const SettingsDataRoute = () => (
   <div className={cn(vstack({ gap: 2 }))}>
     <BackupData />
+    <NarrowIds />
     <DeleteData />
   </div>
 )

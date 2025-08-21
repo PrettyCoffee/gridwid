@@ -1,8 +1,8 @@
 import { z } from "zod"
 
+import { getNextId } from "data/get-next-id"
 import { autoSort, createSelector, createSlice, indexedDb } from "lib/yaasl"
 import { Resolve } from "types/util-types"
-import { getNextId } from "utils/get-next-id"
 
 import { notesInitialData } from "./notes-initial-data"
 
