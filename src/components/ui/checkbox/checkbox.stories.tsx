@@ -1,4 +1,4 @@
-import { PropsWithChildren, useState } from "react"
+import { PropsWithChildren, useReducer, useState } from "react"
 
 import { faker } from "@faker-js/faker"
 
@@ -90,25 +90,44 @@ export const BoxOnly: Story = {
   ),
 }
 
+interface CheckboxState {
+  id: string
+  checked: boolean
+  label: string
+}
 export const Editor: Story = {
   args: {},
   render: args => {
-    const [label, setLabel] = useState("Editable label")
-    const [checked, setChecked] = useState(false)
+    const [checkboxes, update] = useReducer(
+      (state: CheckboxState[], data: Partial<CheckboxState>) =>
+        state.map(item => (item.id !== data.id ? item : { ...item, ...data })),
+      [
+        { id: "1", label: "Dogs are friendly", checked: true },
+        { id: "2", label: "Cats are cute", checked: false },
+        { id: "3", label: "Ducks do quack", checked: false },
+      ]
+    )
     return (
       <StoryWrapper>
+        {checkboxes.map(({ id, label, checked }) => (
+          <CheckboxEditor
+            key={id}
+            {...args}
+            placeholder="Start typing..."
+            checked={checked}
+            onCheckedChange={checked => update({ id, checked })}
+            label={label}
+            onLabelChange={label => update({ id, label })}
+          />
+        ))}
+
+        <div className="pt-2 text-sm">For reference:</div>
         <Checkbox
-          checked={checked}
-          label={label}
-          onCheckedChange={setChecked}
-        />
-        <CheckboxEditor
-          {...args}
-          placeholder="Start typing..."
-          checked={checked}
-          onCheckedChange={setChecked}
-          label={label}
-          onLabelChange={setLabel}
+          checked={!!checkboxes.at(-1)?.checked}
+          label={checkboxes.at(-1)?.label}
+          onCheckedChange={checked =>
+            update({ id: checkboxes.at(-1)?.id, checked })
+          }
         />
       </StoryWrapper>
     )
