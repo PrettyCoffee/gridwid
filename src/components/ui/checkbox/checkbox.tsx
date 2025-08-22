@@ -123,12 +123,14 @@ export const Checkbox = ({
 const textAreaStyles = css`
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent.5;
 
   &::placeholder {
     -webkit-text-fill-color: initial;
   }
 `
+
+const labelStyles = cn("py-2.5 pr-3 pl-2 text-sm wrap-anywhere")
 
 interface CheckboxEditorProps extends CheckboxProps {
   /** Placeholder to be displayed if label is empty */
@@ -163,25 +165,28 @@ export const CheckboxEditor = ({
       className={cn(
         hstack({ align: "center", justify: "stretch" }),
         "rounded-md border border-stroke-gentle has-[textarea:focus-visible]:border-stroke-focus has-[textarea:hover:not(:focus-visible)]:border-stroke",
+        "*:-my-px first:-ml-px last:-mr-px",
         className
       )}
     >
       <Checkbox checked={checked} onCheckedChange={onCheckedChange} />
-      <div className="max-h-19.5 flex-1 overflow-y-auto" tabIndex={-1}>
+      <div className="max-h-20 flex-1 overflow-y-auto" tabIndex={-1}>
         <div className="relative">
           <textarea
             value={label}
             placeholder={placeholder}
             onChange={handleLabelChange}
             className={cn(
-              "absolute inset-0 size-full resize-none px-2 py-2.5 text-sm wrap-anywhere outline-none selection:bg-white/15 selection:text-current",
+              "absolute inset-0 size-full resize-none outline-none selection:bg-white/15 selection:text-current",
+              labelStyles,
               textAreaStyles
             )}
           />
           <div
             aria-hidden
             className={cn(
-              "overflow-hidden px-2 py-2.5 text-sm wrap-anywhere",
+              "overflow-hidden",
+              labelStyles,
               !label && "text-text-gentle"
             )}
           >
