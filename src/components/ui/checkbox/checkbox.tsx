@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch } from "react"
+import { ChangeEvent, Dispatch, useRef } from "react"
 
 import * as Primitive from "@radix-ui/react-checkbox"
 import { css, keyframes } from "goober"
@@ -64,12 +64,14 @@ const checkAnimation = css`
 `
 
 export interface CheckboxProps extends ClassNameProp {
+  /** Label of the checkbox */
+  label?: string
   /** Checked state of the checkbox */
   checked: Primitive.CheckedState
   /** Handler top be called when clicking the checkbox */
   onCheckedChange: Dispatch<boolean>
-  /** Label of the checkbox */
-  label?: string
+  /** Handler to be called when clicking the checkbox two times */
+  onDoubleClick?: () => void
 }
 
 export const Checkbox = ({
@@ -77,20 +79,41 @@ export const Checkbox = ({
   onCheckedChange,
   label,
   className,
+  onDoubleClick,
   ...delegated
 }: CheckboxProps) => {
   const renderState = useRenderState()
+  const timeout = useRef<number[]>([])
+  const hasLabel = label != null
+
+  const handleCheckedChange = (checked: boolean) => {
+    if (!onDoubleClick) {
+      onCheckedChange(checked)
+    } else {
+      timeout.current.push(
+        window.setTimeout(() => onCheckedChange(checked), 200)
+      )
+    }
+  }
+
+  const handleDoubleClick = () => {
+    if (!onDoubleClick) return
+    timeout.current.forEach(window.clearTimeout)
+    timeout.current = []
+    onDoubleClick()
+  }
 
   return (
     <Primitive.Root
       {...delegated}
       checked={checked}
-      onCheckedChange={onCheckedChange}
+      onCheckedChange={handleCheckedChange}
+      onDoubleClick={handleDoubleClick}
       className={cn(
         hstack({ gap: 4, align: "center" }),
         interactive({ look: "flat" }),
         "rounded-md p-2",
-        label ? "min-h-10 w-full pr-3" : "size-10",
+        hasLabel ? "min-h-10 w-full pr-3" : "size-10",
         className
       )}
     >
@@ -115,7 +138,7 @@ export const Checkbox = ({
         </Primitive.Indicator>
       </div>
 
-      {label && <CheckboxLabel checked={checked} label={label} />}
+      {hasLabel && <CheckboxLabel checked={checked} label={label} />}
     </Primitive.Root>
   )
 }
@@ -132,8 +155,8 @@ const textAreaStyles = css`
 
 const labelStyles = cn("py-2.5 pr-3 pl-2 text-sm wrap-anywhere")
 
-interface CheckboxEditorProps extends CheckboxProps {
-  /** Placeholder to be displayed if label is empty */
+interface CheckboxEditorProps extends Omit<CheckboxProps, "onDoubleClick"> {
+  /** Placeholder to be displayed if label "is empty */
   placeholder: string
   /** Handler to be called when label is changed */
   onLabelChange: Dispatch<string>
@@ -145,6 +168,7 @@ export const CheckboxEditor = ({
   onLabelChange,
   placeholder,
   className,
+  ...inputProps
 }: CheckboxEditorProps) => {
   const handleLabelChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
     const start = target.selectionStart
@@ -173,6 +197,7 @@ export const CheckboxEditor = ({
       <div className="max-h-20 flex-1 overflow-y-auto" tabIndex={-1}>
         <div className="relative">
           <textarea
+            {...inputProps}
             value={label}
             placeholder={placeholder}
             onChange={handleLabelChange}
