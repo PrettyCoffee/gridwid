@@ -97,8 +97,12 @@ interface CheckboxState {
   checked: boolean
   label: string
 }
-export const Editor: Story = {
-  args: {},
+export const Editor: StoryObj<typeof CheckboxEditor> = {
+  args: {
+    onBlur: action("onBlur"),
+    onFocus: action("onFocus"),
+    onLabelChange: action("onLabelChange"),
+  },
   render: args => {
     const [checkboxes, update] = useReducer(
       (state: CheckboxState[], data: Partial<CheckboxState>) =>

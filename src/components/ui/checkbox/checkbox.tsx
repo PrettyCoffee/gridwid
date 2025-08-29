@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, useRef } from "react"
+import { ChangeEvent, Dispatch, ForwardedRef, useRef } from "react"
 
 import * as Primitive from "@radix-ui/react-checkbox"
 import { css, keyframes } from "goober"
@@ -160,6 +160,12 @@ interface CheckboxEditorProps extends Omit<CheckboxProps, "onDoubleClick"> {
   placeholder: string
   /** Handler to be called when label is changed */
   onLabelChange: Dispatch<string>
+  /** Handler to be called when the input is focused */
+  onFocus?: () => void
+  /** Handler to be called when the input looses focus */
+  onBlur?: () => void
+  /** Provides access to the rendered html node */
+  textInputRef?: ForwardedRef<HTMLTextAreaElement>
 }
 export const CheckboxEditor = ({
   checked,
@@ -168,6 +174,7 @@ export const CheckboxEditor = ({
   onLabelChange,
   placeholder,
   className,
+  textInputRef,
   ...inputProps
 }: CheckboxEditorProps) => {
   const handleLabelChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
@@ -197,6 +204,7 @@ export const CheckboxEditor = ({
       <div className="max-h-20 flex-1 overflow-y-auto" tabIndex={-1}>
         <div className="relative">
           <textarea
+            ref={textInputRef}
             {...inputProps}
             value={label}
             placeholder={placeholder}
