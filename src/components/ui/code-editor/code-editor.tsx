@@ -156,7 +156,7 @@ export const CodeEditor = ({
     <div
       style={style}
       className={cn(
-        "relative overflow-hidden rounded-sm bg-background p-4 text-left font-mono text-sm font-normal selection:bg-white/15 selection:text-current",
+        "relative overflow-hidden rounded-sm bg-background p-4 text-left font-mono text-sm font-normal selection:text-current",
         prismTheme,
         className
       )}

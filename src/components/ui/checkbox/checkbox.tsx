@@ -210,7 +210,7 @@ export const CheckboxEditor = ({
             placeholder={placeholder}
             onChange={handleLabelChange}
             className={cn(
-              "absolute inset-0 size-full resize-none outline-none selection:bg-white/15 selection:text-current",
+              "absolute inset-0 size-full resize-none outline-none",
               labelStyles,
               textAreaStyles
             )}

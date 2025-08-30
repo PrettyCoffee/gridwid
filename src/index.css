@@ -12,6 +12,10 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  :root input, :root textarea {
+    @apply selection:bg-white/20;
+    @apply selection:text-text-priority;
+  }
   html, body, #root {
     @apply m-0;
     @apply p-0;
