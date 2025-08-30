@@ -18,7 +18,7 @@ const getLocationHash = () => window.location.hash.slice(1)
 
 const setLocationHash = (hash: string) => (window.location.hash = hash)
 
-export const useLocationHash = () => {
+const useLocationHash = () => {
   const [current, setCurrent] = useState(getLocationHash() as RoutePath)
 
   const setPath = useCallback((path: RoutePath) => {

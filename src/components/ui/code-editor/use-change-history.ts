@@ -38,7 +38,7 @@ const hasMajorDiff = (a: string, b: string) => {
   return amountOfChangedWords > 1 ? "Multiple words changed" : false
 }
 
-export interface HistoryItem {
+interface HistoryItem {
   prev?: HistoryItem
   next?: HistoryItem
   value: string

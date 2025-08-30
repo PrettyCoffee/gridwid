@@ -29,7 +29,7 @@ export const themeSchema = z.object({
   accent: z.enum(themeAccentColors),
 })
 
-export type ThemePreferences = Resolve<z.infer<typeof themeSchema>>
+type ThemePreferences = Resolve<z.infer<typeof themeSchema>>
 
 const defaultValue: ThemePreferences = {
   radius: theme.defaultTokens.radius,

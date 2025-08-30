@@ -20,7 +20,7 @@ const Shortcut = ({ keys, description }: Shortcut) => (
   </div>
 )
 
-export interface ShortcutsInfoProps {
+interface ShortcutsInfoProps {
   /** Additional shortcuts, besides the default code editor shortcuts */
   shortcuts?: Shortcut[]
 

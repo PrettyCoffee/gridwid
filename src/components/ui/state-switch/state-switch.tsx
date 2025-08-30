@@ -28,14 +28,14 @@ interface ContextState {
 const { Provider, useRequiredValue } =
   createContext<ContextState>("StateSwitch")
 
-export interface StateSwitchOptionProps extends Required<IconProp> {
+interface StateSwitchOptionProps extends Required<IconProp> {
   /** Label that is describing the state */
   label: string
   /** Value representing the state */
   value: string
 }
 
-export const Option = ({ value, label, icon }: StateSwitchOptionProps) => {
+const Option = ({ value, label, icon }: StateSwitchOptionProps) => {
   const ref = useRef<HTMLButtonElement>(null)
   const { size, current, onChange, setCurrentOptionRef } = useRequiredValue()
 

@@ -55,7 +55,7 @@ export interface ButtonProps
   target?: HTMLAttributeAnchorTarget
 }
 
-const Button = ({
+export const Button = ({
   ref,
   className,
   look = "flat",
@@ -100,5 +100,3 @@ const Button = ({
     </Comp>
   )
 }
-
-export { Button, button }

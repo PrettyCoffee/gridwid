@@ -6,7 +6,7 @@ import { cn } from "utils/cn"
 import { interactive } from "utils/styles"
 
 type AnchorProps = HTMLProps<HTMLAnchorElement>
-export type LinkProps = ClassNameProp &
+type LinkProps = ClassNameProp &
   HashRouterLinkProps &
   DisableProp &
   Pick<AnchorProps, "href" | "target">

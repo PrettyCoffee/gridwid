@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 
 import { useMediaQuery } from "./use-media-query"
 
-export type MountAnimationState =
+type MountAnimationState =
   | "init-open"
   | "to-open"
   | "open"

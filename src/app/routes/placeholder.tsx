@@ -2,7 +2,7 @@ import { useHashRouter } from "components/utility/hash-router"
 import { cn } from "utils/cn"
 import { surface } from "utils/styles"
 
-export const Placeholder = () => {
+const Placeholder = () => {
   const { route, params } = useHashRouter()
   return (
     <div className={cn(surface({ look: "card", size: "lg" }), "font-semibold")}>

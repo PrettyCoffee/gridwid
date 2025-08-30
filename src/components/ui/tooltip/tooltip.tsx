@@ -28,11 +28,10 @@ const Content = ({
 
 const { Root, Trigger, Portal, Provider } = TooltipPrimitive
 
-const Tooltip = {
+export const Tooltip = {
   Root,
   Trigger,
   Content,
   Portal,
   Provider,
 }
-export { Tooltip }

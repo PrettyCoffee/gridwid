@@ -59,11 +59,7 @@ interface MenuProps {
   title: ReactNode
   trigger: ReactNode
 }
-export const Menu = ({
-  title,
-  trigger,
-  children,
-}: PropsWithChildren<MenuProps>) => {
+const Menu = ({ title, trigger, children }: PropsWithChildren<MenuProps>) => {
   const [open, setOpen] = useState(false)
   const animate = useMountAnimation({ open, duration: [300, 200] })
 

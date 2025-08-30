@@ -4,7 +4,7 @@ import { ClassNameProp } from "types/base-props"
 import { cn } from "utils/cn"
 import { surface } from "utils/styles"
 
-export interface CardProps extends ClassNameProp {
+interface CardProps extends ClassNameProp {
   title: ReactNode | string
   description: ReactNode | string
   Headline?: "h2" | "h3"

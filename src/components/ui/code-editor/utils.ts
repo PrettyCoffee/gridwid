@@ -1,5 +1,3 @@
-import { KeyboardEvent } from "react"
-
 import { rehype } from "rehype"
 import type { PluggableList } from "unified"
 
@@ -23,8 +21,3 @@ export const htmlEncode = (text: string) =>
         }) as Record<string, string>
       )[char] ?? char
   )
-
-export const stopPropagation = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-  event.stopPropagation()
-  event.preventDefault()
-}

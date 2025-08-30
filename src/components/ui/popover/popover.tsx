@@ -30,11 +30,9 @@ const PopoverContent = ({
   </PopoverPrimitive.Portal>
 )
 
-const Popover = {
+export const Popover = {
   Root: PopoverPrimitive.Root,
   Trigger: PopoverPrimitive.Trigger,
   Content: PopoverContent,
   Close: PopoverPrimitive.Close,
 }
-
-export { Popover }

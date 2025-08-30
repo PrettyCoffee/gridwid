@@ -216,7 +216,7 @@ const addCopyButton = (pre: HTMLPreElement) => {
   pre.appendChild(button)
 }
 
-export interface MDPreviewProps extends ClassNameProp {
+interface MDPreviewProps extends ClassNameProp {
   value: string
 }
 

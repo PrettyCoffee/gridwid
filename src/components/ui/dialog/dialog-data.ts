@@ -4,7 +4,7 @@ import { createAtom } from "lib/yaasl"
 
 import { ButtonProps } from "../button"
 
-export interface DialogAction {
+interface DialogAction {
   look?: ButtonProps["look"]
   caption?: string
   onClick: () => void
@@ -22,7 +22,7 @@ export const dialogState = createAtom<DialogState | null>({
   defaultValue: null,
 })
 
-export interface DialogProps {
+interface DialogProps {
   title: string
   description: string | JSX.Element
   confirm: DialogAction

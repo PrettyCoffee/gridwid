@@ -13,7 +13,7 @@ import {
 import { Icon } from "../icon"
 import { TitleTooltip } from "../tooltip"
 
-export interface FileInputProps extends ClassNameProp {
+interface FileInputProps extends ClassNameProp {
   label?: string
   alert?: { kind: AlertKind; text: string }
   onChange?: (value: File) => void

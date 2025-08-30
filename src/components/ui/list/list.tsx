@@ -32,7 +32,7 @@ const Item = ({
   </li>
 )
 
-export interface ListItemLabelProps
+interface ListItemLabelProps
   extends ClassNameProp,
     IconProp,
     RefProp<HTMLButtonElement> {
