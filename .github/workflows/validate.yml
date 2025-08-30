@@ -20,6 +20,9 @@ jobs:
       - name: Run linter
         run: bun run lint
 
+      - name: Run knip
+        run: bun run knip:ci
+
       - name: Run tests
         run: bun run test:all
 
