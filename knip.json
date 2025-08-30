@@ -1,0 +1,13 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/main.tsx",
+    "src/**/*.{test,stories}.{ts,tsx}",
+    "eslint.config.mjs",
+    "tailwind/tailwind.config.ts"
+  ],
+  "project": ["./**/*.{ts,tsx,js,mjs}"],
+  "paths": {
+    "*": ["src/*"]
+  }
+}
