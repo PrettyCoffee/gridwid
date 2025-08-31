@@ -63,6 +63,32 @@ const checkAnimation = css`
   animation: 500ms ${wiggle} ease-in-out;
 `
 
+const CheckIndicator = ({ checked }: { checked: Primitive.CheckedState }) => {
+  const renderState = useRenderState()
+  return (
+    <div
+      className={cn(
+        hstack({ align: "center", justify: "center", inline: true }),
+        "size-6 shrink-0 rounded-sm border border-stroke/50 shade-low [:hover>&]:border-stroke"
+      )}
+    >
+      <Primitive.Indicator asChild>
+        <Icon
+          icon={checked === "indeterminate" ? Minus : Check}
+          size="xs"
+          strokeWidth={4}
+          color={checked === "indeterminate" ? "gentle" : "success"}
+          className={cn(
+            checked === true &&
+              renderState.current === "didMount" &&
+              checkAnimation
+          )}
+        />
+      </Primitive.Indicator>
+    </div>
+  )
+}
+
 export interface CheckboxProps extends ClassNameProp {
   /** Label of the checkbox */
   label?: string
@@ -82,7 +108,6 @@ export const Checkbox = ({
   onDoubleClick,
   ...delegated
 }: CheckboxProps) => {
-  const renderState = useRenderState()
   const timeout = useRef<number[]>([])
   const hasLabel = label != null
 
@@ -117,27 +142,7 @@ export const Checkbox = ({
         className
       )}
     >
-      <div
-        className={cn(
-          hstack({ align: "center", justify: "center", inline: true }),
-          "size-6 shrink-0 rounded-sm border border-stroke/50 shade-low [:hover>&]:border-stroke"
-        )}
-      >
-        <Primitive.Indicator asChild>
-          <Icon
-            icon={checked === "indeterminate" ? Minus : Check}
-            size="xs"
-            strokeWidth={4}
-            color={checked === "indeterminate" ? "gentle" : "success"}
-            className={cn(
-              checked === true &&
-                renderState.current === "didMount" &&
-                checkAnimation
-            )}
-          />
-        </Primitive.Indicator>
-      </div>
-
+      <CheckIndicator checked={checked} />
       {hasLabel && <CheckboxLabel checked={checked} label={label} />}
     </Primitive.Root>
   )
@@ -200,7 +205,18 @@ export const CheckboxEditor = ({
         className
       )}
     >
-      <Checkbox checked={checked} onCheckedChange={onCheckedChange} />
+      <Primitive.Root
+        checked={checked}
+        onCheckedChange={onCheckedChange}
+        className={cn(
+          interactive({ look: "flat" }),
+          "size-10 rounded-md p-2",
+          className
+        )}
+      >
+        <CheckIndicator checked={checked} />
+      </Primitive.Root>
+
       <div className="max-h-20 flex-1 overflow-y-auto" tabIndex={-1}>
         <div className="relative">
           <textarea
