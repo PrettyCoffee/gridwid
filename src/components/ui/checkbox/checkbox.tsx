@@ -151,14 +151,16 @@ export const Checkbox = ({
 const textAreaStyles = css`
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  -webkit-text-fill-color: transparent.5;
+  -webkit-text-fill-color: transparent;
 
   &::placeholder {
     -webkit-text-fill-color: initial;
   }
 `
 
-const labelStyles = cn("py-2.5 pr-3 pl-2 text-sm wrap-anywhere")
+const labelStyles = cn(
+  "py-2.5 pr-3 pl-2 text-sm wrap-anywhere whitespace-pre-wrap"
+)
 
 interface CheckboxEditorProps extends Omit<CheckboxProps, "onDoubleClick"> {
   /** Placeholder to be displayed if label "is empty */

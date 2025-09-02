@@ -1,4 +1,11 @@
-import { Dispatch, ForwardedRef, KeyboardEvent, useRef, useState } from "react"
+import {
+  ChangeEvent,
+  Dispatch,
+  ForwardedRef,
+  KeyboardEvent,
+  useRef,
+  useState,
+} from "react"
 
 import * as Primitive from "@radix-ui/react-checkbox"
 import { css, keyframes } from "goober"
@@ -15,14 +22,16 @@ import { Icon } from "../icon"
 const textAreaStyles = css`
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  -webkit-text-fill-color: transparent.5;
+  -webkit-text-fill-color: transparent;
 
   &::placeholder {
     -webkit-text-fill-color: initial;
   }
 `
 
-const labelStyles = cn("py-2.5 pr-3 pl-2 text-sm wrap-anywhere")
+const labelStyles = cn(
+  "py-2.5 pr-3 pl-2 text-sm wrap-anywhere whitespace-pre-wrap"
+)
 
 const Label = ({
   checked,
@@ -70,11 +79,15 @@ const LabelEditor = ({
   onBlur,
 }: LabelEditorProps) => {
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "\n") {
+    if (event.key === "Enter") {
       event.preventDefault()
       onEnterDown?.()
       return
     }
+  }
+
+  const handleLabelChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
+    onLabelChange?.(target.value)
   }
 
   return (
@@ -84,7 +97,7 @@ const LabelEditor = ({
           ref={textInputRef}
           value={label}
           placeholder={placeholder}
-          onChange={({ currentTarget }) => onLabelChange?.(currentTarget.value)}
+          onChange={handleLabelChange}
           onKeyDown={handleKeyDown}
           onBlur={onBlur}
           className={cn(

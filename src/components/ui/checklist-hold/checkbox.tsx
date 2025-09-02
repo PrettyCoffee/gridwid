@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, ForwardedRef } from "react"
+import { ChangeEvent, Dispatch, ForwardedRef, KeyboardEvent } from "react"
 
 import * as Primitive from "@radix-ui/react-checkbox"
 import { css, keyframes } from "goober"
@@ -138,16 +138,18 @@ export const Checkbox = ({
 const textAreaStyles = css`
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  -webkit-text-fill-color: transparent.5;
+  -webkit-text-fill-color: transparent;
 
   &::placeholder {
     -webkit-text-fill-color: initial;
   }
 `
 
-const labelStyles = cn("py-2.5 pr-3 pl-2 text-sm wrap-anywhere")
+const labelStyles = cn(
+  "py-2.5 pr-3 pl-2 text-sm wrap-anywhere whitespace-pre-wrap"
+)
 
-interface CheckboxEditorProps extends Omit<CheckboxProps, "onLongClick"> {
+interface CheckboxEditorProps extends Omit<CheckboxProps, "onDoubleClick"> {
   /** Placeholder to be displayed if label "is empty */
   placeholder: string
   /** Handler to be called when label is changed */
@@ -158,29 +160,29 @@ interface CheckboxEditorProps extends Omit<CheckboxProps, "onLongClick"> {
   onBlur?: () => void
   /** Provides access to the rendered html node */
   textInputRef?: ForwardedRef<HTMLTextAreaElement>
+  onEnterDown?: () => void
 }
 export const CheckboxEditor = ({
   checked,
   onCheckedChange,
   label,
   onLabelChange,
+  onEnterDown,
   placeholder,
   className,
   textInputRef,
   ...inputProps
 }: CheckboxEditorProps) => {
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault()
+      onEnterDown?.()
+      return
+    }
+  }
+
   const handleLabelChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
-    const start = target.selectionStart
-    const end = target.selectionEnd
-
-    const cleanValue = target.value
-      .replaceAll("\n", "")
-      .replaceAll("  ", " ")
-      .replaceAll(/^\s/g, "")
-    onLabelChange(cleanValue)
-
-    const diff = target.value.length - cleanValue.length
-    setTimeout(() => target.setSelectionRange(start - diff, end - diff), 0)
+    onLabelChange(target.value)
   }
 
   return (
@@ -212,6 +214,7 @@ export const CheckboxEditor = ({
             value={label}
             placeholder={placeholder}
             onChange={handleLabelChange}
+            onKeyDown={handleKeyDown}
             className={cn(
               "absolute inset-0 size-full resize-none outline-none",
               labelStyles,

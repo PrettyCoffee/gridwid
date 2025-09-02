@@ -137,6 +137,7 @@ export const Checklist = ({ title, items, onChange }: ChecklistProps) => {
                 onLabelChange={label => handleChange({ id, label })}
                 checked={checked}
                 onCheckedChange={checked => handleChange({ id, checked })}
+                onEnterDown={stopEditing}
               />
             </li>
           ) : (
