@@ -9,7 +9,7 @@ import { Checklist } from "./checklist"
 faker.seed(1337)
 
 const meta: Meta<typeof Checklist> = {
-  title: "UI/Inputs/Checklist (Hold)",
+  title: "UI/Inputs/Checklist/Checklist (Hold)",
   component: Checklist,
   argTypes: {
     items: argType.disabled(),
@@ -32,6 +32,7 @@ export default meta
 type Story = StoryObj<typeof Checklist>
 
 export const Default: Story = {
+  name: "Checklist (Hold)",
   args: {},
   render: args => {
     const [items, setItems] = useState(args.items)
