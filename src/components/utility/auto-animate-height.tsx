@@ -16,18 +16,22 @@ export const AutoAnimateHeight = ({
   delay,
   className,
 }: PropsWithChildren<AnimateHeightProps>) => {
-  const containerRef = useRef<HTMLDivElement | null>(null)
+  const contentRef = useRef<HTMLElement | null>(null)
   const [height, setHeight] = useState<number | "auto">("auto")
 
   useEffect(() => {
-    if (!containerRef.current) return
+    if (!contentRef.current) return
 
     const resizeObserver = new ResizeObserver(entries => {
+      // @ts-expect-error -- keep observedHeight for now
+      // eslint-disable-next-line unused-imports/no-unused-vars -- keep observedHeight for now
       const observedHeight = entries[0]?.contentRect.height ?? 0
-      setHeight(observedHeight)
+
+      const styles = window.getComputedStyle(contentRef.current!)
+      setHeight(Number.parseInt(styles.height))
     })
 
-    resizeObserver.observe(containerRef.current)
+    resizeObserver.observe(contentRef.current)
 
     return () => resizeObserver.disconnect()
   }, [])
@@ -39,7 +43,7 @@ export const AutoAnimateHeight = ({
       animate={{ height }}
       transition={{ duration: duration / 1000, delay }}
     >
-      <Slot ref={containerRef}>{children}</Slot>
+      <Slot ref={contentRef}>{children}</Slot>
     </motion.div>
   )
 }
