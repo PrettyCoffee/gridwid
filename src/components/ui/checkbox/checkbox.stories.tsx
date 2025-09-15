@@ -19,13 +19,11 @@ const meta: Meta<typeof Checkbox> = {
       indeterminate: "indeterminate",
     }),
     onCheckedChange: argType.callback(),
-    onDoubleClick: argType.callback(),
   },
   args: {
     label: "I like ducks and ducks like me!",
     checked: false,
     onCheckedChange: action("onCheckedChange"),
-    onDoubleClick: action("onDoubleClick"),
   },
 }
 

@@ -1,16 +1,15 @@
 import { Dispatch, useState } from "react"
 
-import { Plus } from "lucide-react"
+import { Pen, Plus, X } from "lucide-react"
 
 import { Checkbox, CheckboxEditor, CheckboxProps } from "components/ui/checkbox"
+import { Divider } from "components/ui/divider"
+import { IconButton } from "components/ui/icon-button"
+import { TextInput } from "components/ui/text-input"
 import { AutoAnimateHeight } from "components/utility/auto-animate-height"
 import { cn } from "utils/cn"
 import { createUuid } from "utils/create-uuid"
 import { hstack } from "utils/styles"
-
-import { Divider } from "../divider"
-import { IconButton } from "../icon-button"
-import { TextInput } from "../text-input"
 
 type ChecklistItem = Pick<CheckboxProps, "label" | "checked"> & { id: string }
 
@@ -48,38 +47,41 @@ const AddNewItem = ({ onAdd }: AddNewItemProps) => {
 
 interface ChecklistHeaderProps extends AddNewItemProps {
   title: string
+  setIsEditing: Dispatch<boolean>
+  isEditing: boolean
 }
-const ChecklistHeader = ({ title, onAdd }: ChecklistHeaderProps) => {
-  const [allowAdding, setAllowAdding] = useState(false)
-
-  return (
-    <>
-      <AutoAnimateHeight duration={200} className="-m-1 p-1">
-        <div>
-          <div className={cn(hstack({ align: "center" }), "pb-1 pl-2")}>
-            <span className="flex-1 text-lg">{title}</span>
-            <IconButton
-              icon={Plus}
-              title="Toggle note input"
-              onClick={() => setAllowAdding(!allowAdding)}
-              size="sm"
-              className={cn(
-                "[&_svg]:transition [&_svg]:duration-250 [&_svg]:ease-out",
-                allowAdding && "[&_svg]:rotate-45 [&_svg]:scale-125"
-              )}
-            />
-          </div>
-          {allowAdding && (
-            <div className="pt-1 pb-2">
-              <AddNewItem onAdd={onAdd} />
-            </div>
-          )}
+const ChecklistHeader = ({
+  title,
+  onAdd,
+  isEditing,
+  setIsEditing,
+}: ChecklistHeaderProps) => (
+  <>
+    <AutoAnimateHeight duration={200} className="-m-1 p-1">
+      <div>
+        <div className={cn(hstack({ align: "center" }), "h-8 pb-1 pl-2")}>
+          <span className="flex-1 text-lg">{title}</span>
+          <IconButton
+            icon={isEditing ? X : Pen}
+            title="Toggle editing"
+            onClick={() => setIsEditing(!isEditing)}
+            size="sm"
+            className={cn(
+              !isEditing &&
+                "[[data-checklist]:not(:hover,:focus-within)_&]:hidden"
+            )}
+          />
         </div>
-      </AutoAnimateHeight>
-      <Divider className="my-2" color="gentle" />
-    </>
-  )
-}
+        {isEditing && (
+          <div className="pt-1 pb-2">
+            <AddNewItem onAdd={onAdd} />
+          </div>
+        )}
+      </div>
+    </AutoAnimateHeight>
+    <Divider className="my-2" color="gentle" />
+  </>
+)
 
 interface ChecklistProps {
   title: string
@@ -87,7 +89,7 @@ interface ChecklistProps {
   onChange: Dispatch<ChecklistItem[]>
 }
 export const Checklist = ({ title, items, onChange }: ChecklistProps) => {
-  const [isEditing, setIsEditing] = useState<string>()
+  const [isEditing, setIsEditing] = useState(false)
 
   const handleChange = (data: Partial<ChecklistItem>) => {
     onChange(
@@ -96,33 +98,28 @@ export const Checklist = ({ title, items, onChange }: ChecklistProps) => {
   }
 
   return (
-    <div className={cn()}>
+    <div data-checklist>
       <ChecklistHeader
         title={title}
         onAdd={item => onChange([...items, item])}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
       />
       <ul className="space-y-1">
         {items.map(({ id, label, checked }) =>
-          isEditing === id ? (
+          isEditing ? (
             <li key={id}>
               <CheckboxEditor
-                onBlur={() => setIsEditing(undefined)}
                 placeholder="Start typing..."
                 label={label}
                 onLabelChange={label => handleChange({ id, label })}
                 checked={checked}
                 onCheckedChange={checked => handleChange({ id, checked })}
-                textInputRef={element => {
-                  if (!element) return
-                  element.focus()
-                  element.select()
-                }}
               />
             </li>
           ) : (
             <li key={id}>
               <Checkbox
-                onDoubleClick={() => setIsEditing(id)}
                 label={label}
                 checked={checked}
                 onCheckedChange={checked => handleChange({ id, checked })}

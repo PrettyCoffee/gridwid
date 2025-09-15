@@ -32,6 +32,7 @@ export default meta
 type Story = StoryObj<typeof Checklist>
 
 export const Default: Story = {
+  name: "Checklist",
   args: {},
   render: args => {
     const [items, setItems] = useState(args.items)

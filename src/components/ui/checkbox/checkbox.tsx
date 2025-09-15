@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, ForwardedRef, useRef } from "react"
+import { ChangeEvent, Dispatch, ForwardedRef, KeyboardEvent } from "react"
 
 import * as Primitive from "@radix-ui/react-checkbox"
 import { css, keyframes } from "goober"
@@ -96,8 +96,6 @@ export interface CheckboxProps extends ClassNameProp {
   checked: Primitive.CheckedState
   /** Handler top be called when clicking the checkbox */
   onCheckedChange: Dispatch<boolean>
-  /** Handler to be called when clicking the checkbox two times */
-  onDoubleClick?: () => void
 }
 
 export const Checkbox = ({
@@ -105,35 +103,15 @@ export const Checkbox = ({
   onCheckedChange,
   label,
   className,
-  onDoubleClick,
   ...delegated
 }: CheckboxProps) => {
-  const timeout = useRef<number[]>([])
   const hasLabel = label != null
-
-  const handleCheckedChange = (checked: boolean) => {
-    if (!onDoubleClick) {
-      onCheckedChange(checked)
-    } else {
-      timeout.current.push(
-        window.setTimeout(() => onCheckedChange(checked), 200)
-      )
-    }
-  }
-
-  const handleDoubleClick = () => {
-    if (!onDoubleClick) return
-    timeout.current.forEach(window.clearTimeout)
-    timeout.current = []
-    onDoubleClick()
-  }
 
   return (
     <Primitive.Root
       {...delegated}
       checked={checked}
-      onCheckedChange={handleCheckedChange}
-      onDoubleClick={handleDoubleClick}
+      onCheckedChange={onCheckedChange}
       className={cn(
         hstack({ gap: 4, align: "center" }),
         interactive({ look: "flat" }),
@@ -162,7 +140,7 @@ const labelStyles = cn(
   "py-2.5 pr-3 pl-2 text-sm wrap-anywhere whitespace-pre-wrap"
 )
 
-interface CheckboxEditorProps extends Omit<CheckboxProps, "onDoubleClick"> {
+interface CheckboxEditorProps extends CheckboxProps {
   /** Placeholder to be displayed if label "is empty */
   placeholder: string
   /** Handler to be called when label is changed */
@@ -173,29 +151,30 @@ interface CheckboxEditorProps extends Omit<CheckboxProps, "onDoubleClick"> {
   onBlur?: () => void
   /** Provides access to the rendered html node */
   textInputRef?: ForwardedRef<HTMLTextAreaElement>
+  /** Handler to be called when pressing enter */
+  onEnterDown?: () => void
 }
 export const CheckboxEditor = ({
   checked,
   onCheckedChange,
   label,
   onLabelChange,
+  onEnterDown,
   placeholder,
   className,
   textInputRef,
   ...inputProps
 }: CheckboxEditorProps) => {
-  const handleLabelChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => {
-    const start = target.selectionStart
-    const end = target.selectionEnd
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault()
+      onEnterDown?.()
+      return
+    }
+  }
 
-    const cleanValue = target.value
-      .replaceAll("\n", "")
-      .replaceAll("  ", " ")
-      .replaceAll(/^\s/g, "")
-    onLabelChange(cleanValue)
-
-    const diff = target.value.length - cleanValue.length
-    setTimeout(() => target.setSelectionRange(start - diff, end - diff), 0)
+  const handleLabelChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    onLabelChange(event.target.value)
   }
 
   return (
@@ -226,6 +205,7 @@ export const CheckboxEditor = ({
             {...inputProps}
             value={label}
             placeholder={placeholder}
+            onKeyDown={handleKeyDown}
             onChange={handleLabelChange}
             className={cn(
               "absolute inset-0 size-full resize-none outline-none",
