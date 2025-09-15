@@ -19,7 +19,7 @@ const CheckboxLabel = ({
   const isChecked = checked === true
 
   return (
-    <AutoAnimateHeight duration={150} className={cn("my-0.5")}>
+    <AutoAnimateHeight duration={150}>
       <div
         className={cn(
           "relative w-full shrink-0 text-start text-sm",
@@ -113,15 +113,26 @@ export const Checkbox = ({
       checked={checked}
       onCheckedChange={onCheckedChange}
       className={cn(
-        hstack({ gap: 4, align: "center" }),
+        hstack({ gap: 2, align: "center" }),
         interactive({ look: "flat" }),
-        "rounded-md p-2",
-        hasLabel ? "min-h-10 w-full pr-3" : "size-10",
+        "rounded-md",
+        hasLabel && "w-full",
         className
       )}
     >
-      <CheckIndicator checked={checked} />
-      {hasLabel && <CheckboxLabel checked={checked} label={label} />}
+      <div
+        className={cn(
+          hstack({ align: "center", justify: "center" }),
+          "size-10 shrink-0"
+        )}
+      >
+        <CheckIndicator checked={checked} />
+      </div>
+      {hasLabel && (
+        <div className="my-0.5 py-2 pr-3">
+          <CheckboxLabel checked={checked} label={label} />
+        </div>
+      )}
     </Primitive.Root>
   )
 }
@@ -182,7 +193,7 @@ export const CheckboxEditor = ({
       className={cn(
         hstack({ align: "center", justify: "stretch" }),
         "rounded-md border border-stroke-gentle has-[textarea:focus-visible]:border-stroke-focus has-[textarea:hover:not(:focus-visible)]:border-stroke",
-        "*:-my-px first:-ml-px last:-mr-px",
+        "*:-my-px",
         className
       )}
     >
@@ -191,7 +202,7 @@ export const CheckboxEditor = ({
         onCheckedChange={onCheckedChange}
         className={cn(
           interactive({ look: "flat" }),
-          "size-10 rounded-md p-2",
+          "-ml-px size-10 rounded-md p-2",
           className
         )}
       >

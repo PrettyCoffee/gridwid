@@ -57,29 +57,28 @@ const ChecklistHeader = ({
   setIsEditing,
 }: ChecklistHeaderProps) => (
   <>
-    <AutoAnimateHeight duration={200} className="-m-1 p-1">
-      <div>
-        <div className={cn(hstack({ align: "center" }), "h-8 pb-1 pl-2")}>
-          <span className="flex-1 text-lg">{title}</span>
-          <IconButton
-            icon={isEditing ? X : Pen}
-            title="Toggle editing"
-            onClick={() => setIsEditing(!isEditing)}
-            size="sm"
-            className={cn(
-              !isEditing &&
-                "[[data-checklist]:not(:hover,:focus-within)_&]:hidden"
-            )}
-          />
-        </div>
+    <div className={cn(hstack({ align: "center" }), "h-8 pl-2")}>
+      <span className="flex-1 text-lg">{title}</span>
+      <IconButton
+        icon={isEditing ? X : Pen}
+        title="Toggle editing"
+        onClick={() => setIsEditing(!isEditing)}
+        size="sm"
+        className={cn(
+          !isEditing && "[[data-checklist]:not(:hover,:focus-within)_&]:hidden"
+        )}
+      />
+    </div>
+    <AutoAnimateHeight duration={200} className="-mx-1">
+      <div className="p-1">
         {isEditing && (
-          <div className="pt-1 pb-2">
+          <div className="py-1">
             <AddNewItem onAdd={onAdd} />
           </div>
         )}
       </div>
     </AutoAnimateHeight>
-    <Divider className="my-2" color="gentle" />
+    <Divider className="mb-2" color="gentle" />
   </>
 )
 
