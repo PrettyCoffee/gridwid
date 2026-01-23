@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [tailwind(), react(), viteTsconfigPaths()],
   test: {
     globals: true,
-    environment: "jsdom",
+    environment: "happy-dom",
     setupFiles: "./src/testing/setup-tests.ts",
     exclude: ["**/node_modules/**"],
     coverage: {
