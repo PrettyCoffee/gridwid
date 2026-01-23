@@ -18,7 +18,8 @@ import { TitleTooltip } from "../tooltip"
 type InputProps = HTMLProps<HTMLInputElement>
 
 export interface TextInputProps
-  extends RefProp<HTMLInputElement>,
+  extends
+    RefProp<HTMLInputElement>,
     ClassNameProp,
     DisableProp,
     Pick<InputProps, "placeholder"> {

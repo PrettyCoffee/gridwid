@@ -74,7 +74,8 @@ type NativeTextAreaProps = Pick<
 >
 
 export interface CodeEditorProps
-  extends NativeTextAreaProps,
+  extends
+    NativeTextAreaProps,
     RefProp<HTMLTextAreaElement>,
     ClassNameProp,
     DisableProp {

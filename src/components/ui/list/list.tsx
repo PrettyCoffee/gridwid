@@ -33,9 +33,7 @@ const Item = ({
 )
 
 interface ListItemLabelProps
-  extends ClassNameProp,
-    IconProp,
-    RefProp<HTMLButtonElement> {
+  extends ClassNameProp, IconProp, RefProp<HTMLButtonElement> {
   onClick?: () => void
   to?: RoutePath
   href?: string

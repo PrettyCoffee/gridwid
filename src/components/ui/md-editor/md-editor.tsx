@@ -217,16 +217,15 @@ const MdEditorHeader = ({
   </div>
 )
 
-export interface MDEditorProps
-  extends Omit<
-    CodeEditorProps,
-    | "rehypePlugins"
-    | "language"
-    | "style"
-    | "showLineNumbers"
-    | "hideShortcuts"
-    | "getNewLine"
-  > {
+export interface MDEditorProps extends Omit<
+  CodeEditorProps,
+  | "rehypePlugins"
+  | "language"
+  | "style"
+  | "showLineNumbers"
+  | "hideShortcuts"
+  | "getNewLine"
+> {
   inputClassName?: string
   previewClassName?: string
 }

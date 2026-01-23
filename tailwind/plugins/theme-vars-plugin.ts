@@ -50,7 +50,8 @@ interface GeneralThemeOptions<TTokens> {
   colorPath: ObjDeepPath<TTokens> | ObjDeepPath<TTokens>[]
 }
 interface ThemeConstructorProps<TTokens, TTwTheme>
-  extends Partial<GeneralThemeOptions<TTokens>>,
+  extends
+    Partial<GeneralThemeOptions<TTokens>>,
     CreateThemeVariant<TTokens, TTwTheme> {}
 
 const getCssVar = <TTheme>(prefix: string, path: ObjDeepPath<TTheme>) => {
