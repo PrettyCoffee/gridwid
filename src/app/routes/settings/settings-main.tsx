@@ -11,9 +11,7 @@ import { cn } from "utils/cn"
 import { interactive, surface, vstack } from "utils/styles"
 
 interface BigButtonProps
-  extends Required<IconProp>,
-    ClassNameProp,
-    HashRouterLinkProps {
+  extends Required<IconProp>, ClassNameProp, HashRouterLinkProps {
   label: string
   details?: string[]
 }

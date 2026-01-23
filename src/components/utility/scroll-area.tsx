@@ -12,10 +12,7 @@ import { cn } from "utils/cn"
 import { vstack } from "utils/styles"
 
 interface ScrollAreaProps
-  extends RefProp<HTMLDivElement>,
-    ClassNameProp,
-    AsChildProp,
-    StyleProp {
+  extends RefProp<HTMLDivElement>, ClassNameProp, AsChildProp, StyleProp {
   onScroll?: () => void
   innerClassName?: string
 }

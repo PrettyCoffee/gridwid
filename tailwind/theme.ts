@@ -5,7 +5,7 @@ import { parseColor } from "../src/utils/color"
 
 const parseOklch = (value: string) => {
   const color = parseColor(value)
-  if (!color || color.mode !== "oklch")
+  if (color?.mode !== "oklch")
     throw new Error("This is no oklch color: " + value)
   return color
 }
