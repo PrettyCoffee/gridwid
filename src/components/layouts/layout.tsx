@@ -12,8 +12,8 @@ import { hstack, vstack } from "utils/styles"
 import { IconButton } from "../ui/icon-button"
 
 const Main = ({ children, className }: PropsWithChildren & ClassNameProp) => (
-  <div className={cn(vstack({}), "h-full flex-1 overflow-hidden", className)}>
-    {children}
+  <div className={cn(vstack({}), "h-full flex-1 overflow-auto", className)}>
+    <div className="mx-auto size-full max-w-7xl">{children}</div>
   </div>
 )
 
@@ -92,7 +92,7 @@ const Side = ({ children, back, actions = [], className }: LayoutSideProps) => {
           className={cn(
             vstack({}),
             "absolute top-3 -right-5 rounded-2xl border border-stroke-gentle bg-background-page",
-            "*:rounded-2xl"
+            "[&_:where(button,a)]:size-10 [&_:where(button,a)]:rounded-2xl [&_:where(button,a)_svg]:size-5"
           )}
         >
           {allActions.map(action => (
