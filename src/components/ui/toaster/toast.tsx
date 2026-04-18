@@ -58,23 +58,23 @@ export const Toast = ({
   onClose,
 }: ExtendedToastProps) => {
   const [scope, animate] = useAnimate<HTMLDivElement>()
-  const timeout = useRef<Timer | undefined>(undefined)
+  const timeout = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     animate(enterAnimation(scope.current))
   }, [animate, scope])
 
   const exit = useCallback(async () => {
-    clearTimeout(timeout.current)
+    window.clearTimeout(timeout.current)
     await animate(exitAnimation(scope.current))
     onClose(id)
   }, [animate, id, onClose, scope])
 
   useEffect(() => {
     if (duration) {
-      timeout.current = setTimeout(() => void exit(), duration)
+      timeout.current = window.setTimeout(() => void exit(), duration)
     }
-    return () => clearTimeout(timeout.current)
+    return () => window.clearTimeout(timeout.current)
   }, [duration, exit])
 
   return (

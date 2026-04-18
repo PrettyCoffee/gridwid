@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 
-// eslint-disable-next-line import-x/no-extraneous-dependencies -- installed via rehype-katex
 import "katex/dist/katex.css"
 import { css } from "goober"
 import rehypeKatex from "rehype-katex"

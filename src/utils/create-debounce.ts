@@ -3,7 +3,7 @@ export const createDebounce = (delay: number) => {
 
   const clear = () => {
     if (!timeout) return
-    clearTimeout(timeout)
+    window.clearTimeout(timeout)
     timeout = null
   }
 
