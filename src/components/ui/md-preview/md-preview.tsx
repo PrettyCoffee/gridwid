@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-// eslint-disable-next-line import/no-extraneous-dependencies -- installed via rehype-katex
+// eslint-disable-next-line import-x/no-extraneous-dependencies -- installed via rehype-katex
 import "katex/dist/katex.css"
 import { css } from "goober"
 import rehypeKatex from "rehype-katex"
@@ -243,7 +243,7 @@ export const MDPreview = ({ value = "", className }: MDPreviewProps) => {
         initPreview(element)
       }}
       className={cn(
-        "prose break-words prose-zinc dark:prose-invert",
+        "prose wrap-break-word prose-zinc dark:prose-invert",
         prismTheme,
         markdownStyles,
         className

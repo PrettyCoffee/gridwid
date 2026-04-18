@@ -54,6 +54,7 @@ export const Spinner = ({ size, color, centered, className }: SpinnerProps) => {
     <div
       className={cn(
         "inline-flex place-content-center",
+        // eslint-disable-next-line better-tailwindcss/no-unknown-classes
         centered ? "size-full" : sizes[size ?? "md"],
         className
       )}

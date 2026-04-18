@@ -14,7 +14,7 @@ const inputBorder = cva(
   {
     variants: {
       status: {
-        default: "hover:outline-stroke outline-transparent",
+        default: "outline-transparent hover:outline-stroke",
         editing: "outline-stroke focus-within:outline-stroke-focus",
         error: "outline-alert-error",
       },

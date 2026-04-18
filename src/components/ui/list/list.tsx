@@ -24,7 +24,7 @@ const Item = ({
     className={cn(
       hstack({}),
       active ? "border-highlight/50" : "border-text-gentle/10",
-      "h-10 list-none rounded-sm border bgl-base-b/10 *:h-full *:rounded-none hover:bgl-layer-w/5 [&>:first-child]:rounded-l-sm [&>:last-child]:rounded-e-sm",
+      "h-10 list-none rounded-sm border bgl-base-b/10 *:h-full *:rounded-none *:first:rounded-l-sm *:last:rounded-e-sm hover:bgl-layer-w/5",
       className
     )}
   >

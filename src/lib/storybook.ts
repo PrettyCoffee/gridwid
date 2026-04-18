@@ -8,8 +8,6 @@ import {
   InputType,
 } from "storybook/internal/types"
 
-/* eslint-disable-next-line unicorn/prefer-export-from
-    -- for some reason the transpiled code gets messed up when using export { ... } from "..." */
 export const action = sbAction
 
 type CompOrProps = ComponentType<any> | Record<string, any>

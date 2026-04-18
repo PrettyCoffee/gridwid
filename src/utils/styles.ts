@@ -52,13 +52,13 @@ export const focusWithinOutline = cn(
 export const interactive = cva("cursor-pointer", {
   variants: {
     look: {
-      key: "bgl-base-background-button text-text-button hover:bgl-layer-b/15 active:bgl-layer-b/20",
+      key: "text-text-button bgl-base-background-button hover:bgl-layer-b/15 active:bgl-layer-b/20",
       ghost:
-        "text-text bgl-base-transparent border-stroke-button hover:bgl-layer-w/10 active:bgl-layer-w/15 border",
+        "border border-stroke-button text-text bgl-base-transparent hover:bgl-layer-w/10 active:bgl-layer-w/15",
       flat: "text-text bgl-base-transparent hover:bgl-layer-w/10 active:bgl-layer-w/15",
       link: "text-text-priority underline-offset-4 hover:underline active:opacity-80",
       destructive:
-        "bg-alert-error/5 border-alert-error text-alert-error hover:bg-alert-error/15 active:bg-alert-error/20 border",
+        "border border-alert-error bg-alert-error/5 text-alert-error hover:bg-alert-error/15 active:bg-alert-error/20",
     },
     active: {
       false: "",
@@ -72,7 +72,7 @@ export const interactive = cva("cursor-pointer", {
       active: true,
       disabled: false,
       look: ["ghost", "flat", "link"],
-      className: "text-highlight border-highlight",
+      className: "border-highlight text-highlight",
     },
   ],
   defaultVariants: {
@@ -139,9 +139,9 @@ export const hstack = (props?: StackProps) =>
 export const surface = cva("border", {
   variants: {
     look: {
-      card: "bg-background border-stroke-gentle shade-low rounded-lg",
+      card: "rounded-lg border-stroke-gentle bg-background shade-low",
       overlay:
-        "text-text border-text-gentle/25 bgl-base-b/75 shade-low backdrop-blur-md",
+        "border-text-gentle/25 text-text shade-low backdrop-blur-md bgl-base-b/75",
     },
     size: {
       md: "rounded-md p-2",

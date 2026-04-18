@@ -14,9 +14,11 @@ export default defineConfig(
   globalIgnores(["dist", "node_modules", "!.storybook"]),
 
   {
-    // For some unknown reason vscode detects this rule as "warn", even when being disabled by prettyCozy.tailwind
     rules: {
+      // For some unknown reason vscode detects this rule as "warn", even when being disabled by prettyCozy.tailwind
       "better-tailwindcss/enforce-consistent-line-wrapping": "off",
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/refs": "off",
     },
   },
 
@@ -48,7 +50,7 @@ export default defineConfig(
     name: "situational-rules",
     rules: {
       // activate for temporary testing
-      // "import/no-cycle": "error",
+      // "import-x/no-cycle": "error",
     },
   },
 
@@ -76,14 +78,14 @@ export default defineConfig(
 
   {
     settings: {
-      "import/resolver": {
+      "import-x/resolver": {
         node: {
           paths: ["src"],
         },
       },
     },
     rules: {
-      "import/no-restricted-paths": [
+      "import-x/no-restricted-paths": [
         "error",
         {
           zones: [
@@ -135,14 +137,14 @@ export default defineConfig(
       "**/*.stories.*",
     ],
     rules: {
-      "import/no-extraneous-dependencies": "off",
+      "import-x/no-extraneous-dependencies": "off",
     },
   },
 
   {
     files: ["**/*.test.*", "src/testing/**"],
     rules: {
-      "import/no-extraneous-dependencies": "off",
+      "import-x/no-extraneous-dependencies": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
     },
   },

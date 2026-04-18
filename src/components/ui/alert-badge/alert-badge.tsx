@@ -6,7 +6,7 @@ import { cn } from "utils/cn"
 
 const alertBadge = cva(
   [
-    "inline-bock absolute right-2 top-2 size-2 rounded-full transition-opacity duration-300 ease-in-out",
+    "absolute top-2 right-2 inline-block size-2 rounded-full transition-opacity duration-300 ease-in-out",
     "after:absolute after:inset-0 after:animate-ping after:rounded-full",
   ],
   {

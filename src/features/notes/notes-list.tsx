@@ -38,7 +38,7 @@ const ListItem = ({
         className={cn(
           !isOverlayItem &&
             (isDragging || isDropping) &&
-            "bg-background pointer-events-none **:opacity-0"
+            "pointer-events-none bg-background **:opacity-0"
         )}
       >
         <Sortable.Handle asChild>

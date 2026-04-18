@@ -194,7 +194,7 @@ const MdEditorHeader = ({
     className={cn(
       hstack({ gap: 1, align: "center", justify: "end" }),
       "absolute inset-x-0 top-0 w-full",
-      viewMode === "inline" ? "" : "shade-low border-stroke-gentle border-b p-1"
+      viewMode === "inline" ? "" : "border-b border-stroke-gentle p-1 shade-low"
     )}
   >
     <ShortcutsInfo
@@ -330,7 +330,7 @@ export const MDEditor = ({
           value={value}
           className={cn(
             "px-4",
-            showCode && "border-stroke-gentle ml-4 border-l",
+            showCode && "ml-4 border-l border-stroke-gentle",
             previewClassName
           )}
         />

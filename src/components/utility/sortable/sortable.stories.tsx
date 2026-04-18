@@ -9,7 +9,7 @@ import { cn } from "utils/cn"
 import { createRange } from "utils/create-range"
 import { hstack, vstack } from "utils/styles"
 
-// eslint-disable-next-line import/no-useless-path-segments
+// eslint-disable-next-line import-x/no-useless-path-segments
 import { Sortable, SortableContextProps } from "./index"
 import { Sortable as SortableData } from "./types"
 
@@ -43,7 +43,7 @@ const Item = ({
         className={cn(
           hstack({ align: "center", gap: 2 }),
           "list-none pr-3",
-          isOverlayItem && "bg-background shade-medium w-max rounded-md",
+          isOverlayItem && "w-max rounded-md bg-background shade-medium",
           !isOverlayItem &&
             (isDragging || isDropping) &&
             "pointer-events-none **:opacity-0"
@@ -144,7 +144,7 @@ const NestedItem = ({
         className={cn(
           vstack(),
           "list-none p-2 pr-3",
-          isOverlayItem && "bg-background shade-medium w-max rounded-md",
+          isOverlayItem && "w-max rounded-md bg-background shade-medium",
           !isOverlayItem &&
             (isDragging || isDropping) &&
             "pointer-events-none **:opacity-0"

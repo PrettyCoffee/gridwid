@@ -23,7 +23,7 @@ const CheckboxLabel = ({
       <div
         className={cn(
           "relative w-full shrink-0 text-start text-sm",
-          isChecked ? "text-text-gentle line-clamp-1 h-5" : "line-clamp-3"
+          isChecked ? "line-clamp-1 h-5 text-text-gentle" : "line-clamp-3"
         )}
       >
         <span
