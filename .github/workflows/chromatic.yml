@@ -13,7 +13,7 @@ jobs:
       should_run: ${{ steps.should_run.outputs.should_run }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.3.1
 
       - name: print latest_commit
         run: echo ${{ github.sha }}
@@ -30,17 +30,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.3.1
         with:
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v4.4.0
         with:
-          version: 10
+          version: 10.34.3
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4.4.0
         with:
           node-version: "24.13.0"
           cache: "pnpm"
